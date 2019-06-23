@@ -1,2 +1,3 @@
 theme: jekyll-theme-minimal
-logo: [https://github.com/ai-ts/dnnCompiler/blob/master/misc/dnnCompilerLogo.jpg?raw=true]
+logo: https://github.com/ai-ts/dnnCompiler/blob/master/misc/dnnCompilerLogo.jpg?raw=true
+show_downloads: true
