@@ -6,4 +6,4 @@ This repository is for Generic LLVM based compiler for neural networks with [ONN
 
 ---
 
-![dnn Compiler Architecture](misc/dnnCompilerArch.jpg.jpg)
+![dnn Compiler Architecture](misc/dnnCompilerArch.jpg)
