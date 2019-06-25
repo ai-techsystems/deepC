@@ -6,7 +6,7 @@ dnn Compiler is designed to **enable and perform** deep learning neural networks
 
 dnn Compiler is based on [LLVM compiler tool chain](https://llvm.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
 
-## ➕ Contribute to dnn Compiler 
+## ➕ Contribute
 
 dnn Compiler adopts apache committer model, we aim to create an open source project that is maintained and owned by the community. Checkout the Contributor Guide.
 
