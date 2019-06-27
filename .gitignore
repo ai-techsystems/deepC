@@ -1,0 +1,15 @@
+build/
+
+*.o
+*.so
+*.a
+*.exe
+*.dll
+*.zip
+*.gz
+*.7z
+*.tar
+*.rar
+
+*.log
+
