@@ -1,5 +1,7 @@
 # High level architecture
 
+<img width="600" alt="Architecture" src="../misc/dnnCompilerArch.jpg">
+
 ## Front End
 This part of the design produces [LLVM 8.0 IR](https://releases.llvm.org/8.0.0/docs/LangRef.html) (Internal Representation) 
 without regard to accelerator specific optimization,  which are handled in the back-end support for each device individually.
