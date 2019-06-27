@@ -12,10 +12,32 @@ build and install dnn Compiler locally from source code with following steps
 
 ```
 git clone https://github.com/ai-techsystems/dnnCompiler
-cd dnnc
+cd dnnCompiler
 mkdir build && cd build
 cmake ..
 make
+```
+
+#### Output
+```
+[ 50%] Building CXX object CMakeFiles/dnnc.dir/src/main.cc.o
+[ 66%] Building CXX object CMakeFiles/dnnc.dir/onnx-operators.pb.cc.o
+[ 83%] Building CXX object CMakeFiles/dnnc.dir/onnx.pb.cc.o
+[100%] Linking CXX executable dnnc
+[100%] Built target dnnc
+```
+
+## Usage
+```
+[build]$ wget https://onnxzoo.blob.core.windows.net/models/opset_8/mnist/mnist.tar.gz
+[build]$ tar xvf mnist.tar.gx
+[build]$ ./dnnc
+```
+*Usage:  ./dnnc onnx_model_file*
+```
+[build]$ ./dnnc mnist/model.onnx
+reading CNTK graph from mnist/model.onnx 
+populating graph ...
 ```
 
 ## ➕ Contribute
