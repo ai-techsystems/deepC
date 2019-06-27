@@ -18,7 +18,7 @@ cmake ..
 make
 ```
 
-#### Output
+#### 📜 Output
 ```
 [ 50%] Building CXX object CMakeFiles/dnnc.dir/src/main.cc.o
 [ 66%] Building CXX object CMakeFiles/dnnc.dir/onnx-operators.pb.cc.o
@@ -27,7 +27,7 @@ make
 [100%] Built target dnnc
 ```
 
-## Usage
+## 🏃‍♂️ Usage
 ```
 [build]$ wget https://onnxzoo.blob.core.windows.net/models/opset_8/mnist/mnist.tar.gz
 [build]$ tar xvf mnist.tar.gx
