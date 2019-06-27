@@ -1,5 +1,5 @@
 # dnn Compiler Contributors 
-**Coming soon**
+Rohit Sharma
 
 ## Mentors
 
