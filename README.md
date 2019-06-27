@@ -14,5 +14,7 @@ dnn Compiler adopts apache committer model, we aim to create an open source proj
 ## 🙏 Acknowledgement 
 We acknowledge the efforts predecessor projects like [LLVM](https://llvm.org/), [ONNX](https://onnx.ai/) etc. to make this project a reality.
 
+**🚧 Project Under Development.** Stay tuned. We plan to release the first version in the third quarter of 2019. 
+
 ---
 
