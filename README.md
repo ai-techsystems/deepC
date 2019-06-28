@@ -11,7 +11,7 @@ dnn Compiler is based on [LLVM compiler tool chain](https://llvm.org/) and [open
 
 Main component of **dnn Compiler** has been designed to represent and optimize the common deep learning networks in high level graph IR and to transform the computation graph to minimize memory utilization, optimize data layout and fuse computation patterns for different hardware backends.
 
-<img width="600" alt="Architecture" src="misc/dnnCompilerArch.jpg">
+<img width="800" alt="Architecture" src="misc/dnnCompilerArch.jpg">
 
 Read more at [high level design document](docs/highLevelDesign.md) 
 
