@@ -7,13 +7,18 @@ dnn Compiler is designed to **enable and perform** deep learning neural networks
 
 dnn Compiler is based on [LLVM compiler tool chain](https://llvm.org/) and [openAcc](https://www.openacc.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
 
-## Design
+## 📝 Design
 
 Main component of **dnn Compiler** has been designed to represent and optimize the common deep learning networks in high level graph IR and to transform the computation graph to minimize memory utilization, optimize data layout and fuse computation patterns for different hardware backends.
 
 <img width="600" alt="Architecture" src="misc/dnnCompilerArch.jpg">
 
 Read more at [high level design document](docs/highLevelDesign.md) 
+
+## PreRequisites
+
+* [ONNX](https://github.com/onnx/onnx#installation)
+* [LLVM](https://apt.llvm.org)
 
 ## ⚙ Installation
 build and install dnn Compiler locally from source code with following steps
