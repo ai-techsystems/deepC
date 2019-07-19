@@ -13,3 +13,9 @@ build/
 
 *.log
 
+*.cflags
+*.cxxflags
+*.config
+*.creator
+*.files
+*.includes
