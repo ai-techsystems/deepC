@@ -1,5 +1,4 @@
-from onnx import proto3_pb2 as pb
-import sys
+from onnx_proto import proto3_pb2 as pb
 
 def get_node_symbol(node):
 	symbol = ""
