@@ -1,3 +1,7 @@
+#Tested for Python 3
+#Add all .onnx files to a folder in the current working directory called "testcases"
+#Output symbol tables will be present in folder called "output"
+
 import os
 from parser import *
 
