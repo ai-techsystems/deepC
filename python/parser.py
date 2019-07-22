@@ -1,4 +1,5 @@
-from onnx_proto import proto3_pb2 as pb
+import onnx
+import sys
 
 def get_node_symbol(node):
 	symbol = ""
@@ -16,13 +17,13 @@ def get_node_symbol(node):
 	symbol += ']\n'
 
 	for attr in node.attribute:
-		symbol += 'Attr\n'
-		symbol += '\t"' + node.name + '/' + attr.name + '"\n'
-		symbol += '\t[ '
+		symbol += '\tAttr\n'
+		symbol += '\t\t"' + node.name + '/' + attr.name + '"\n'
+		symbol += '\t\t[ '
 
-		if attr.type == pb.AttributeProto.INT:
+		if attr.type == onnx.AttributeProto.INT:
 			symbol += str(attr.i)
-		elif attr.type == pb.AttributeProto.INTS:
+		elif attr.type == onnx.AttributeProto.INTS:
 			symbol += '['
 			for index, num in enumerate(attr.ints):
 				symbol += str(num)
@@ -74,31 +75,23 @@ def get_initializer_symbol(initializer):
 	symbol += '\n'
 	return symbol
 
+def parse(onnx_filename, output_file):
+	model = onnx.load(onnx_filename)
 
-# currently discarding elem_type information on node attributes, input/output, and initializers
-# in initializers, not totally sure about how to handle dim_param if it is not unknown, so currently just printing it (if they are all unknown, then can mark with -1)
-# not sure whether metadata and version info should be included as symbols
+	graph = model.graph
+	nodes = graph.node
+	
+	print("writing to", output_file)
+	f = open(output_file, "w")
+	for node in nodes:
+		f.write(get_node_symbol(node))
 
-model = pb.ModelProto()
-with open("model.onnx", "rb") as f:
-	model.ParseFromString(f.read())
-	# print(model)
+	for i in graph.input:
+		f.write(get_io_symbol(i, True))
 
-graph = model.graph
-nodes = graph.node
+	for o in graph.output:
+		f.write(get_io_symbol(o, False))
 
-
-f = open("symboltable.txt", "w")
-for node in nodes:
-	f.write(get_node_symbol(node))
-
-for i in graph.input:
-	f.write(get_io_symbol(i, True))
-
-for o in graph.output:
-	f.write(get_io_symbol(o, False))
-
-for initl in graph.initializer:
-	f.write(get_initializer_symbol(initl))
-
-f.close()
+	for initl in graph.initializer:
+		f.write(get_initializer_symbol(initl))
+	f.close()
