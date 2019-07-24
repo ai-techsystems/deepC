@@ -80,19 +80,19 @@ Initalizers:
 Example:
 ========
 Conv
-	"conv2d/Conv2D"
-	[ ["conv2d/Conv2D__23:0"] ["conv2d/Conv2D__25:0"] ]
-	[ ["conv2d/Conv2D:0"] ]
-Attr
-  "conv2d/Conv2d/dilations"
-  [ [1, 1] ]
-Attr
-  "conv2d/Conv2d/strides"
-  [ [1, 1] ]
-Attr
-  "conv2d/Conv2d/kernel_shape"
-  [ [2, 2] ]
-
+  "conv2d/Conv2D"
+  [ ["conv2d/Conv2D__23:0"] ["conv2d/Conv2D__25:0"] ]
+  [ ["conv2d/Conv2D:0"] ]
+  Attr
+    "conv2d/Conv2d/dilations"
+    [ [1, 1] ]
+  Attr
+    "conv2d/Conv2d/strides"
+    [ [1, 1] ]
+  Attr
+    "conv2d/Conv2d/kernel_shape"
+    [ [2, 2] ]
+  
 Input
   "Placeholder:0"
   [ -1, 4, 4, 1 ]
