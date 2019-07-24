@@ -30,6 +30,15 @@ def get_node_symbol(node):
 				if index != len(attr.ints) - 1:
 					symbol += ', '
 			symbol += ']'
+		elif attr.type == onnx.AttributeProto.FLOAT:
+			symbol += str(attr.f)
+		elif attr.type == onnx.AttributeProto.FLOATS:
+			symbol += '['
+			for index, num in enumerate(attr.floats):
+				symbol += str(num)
+				if index != len(attr.floats) - 1:
+					symbol += ', '
+			symbol += ']'
 		symbol += ' ]\n'
 
 	symbol += '\n'
@@ -75,7 +84,7 @@ def get_initializer_symbol(initializer):
 	symbol += '\n'
 	return symbol
 
-def parse(onnx_filename, output_file):
+def parse(onnx_filename, output_file, onnx_output_file=None):
 	model = onnx.load(onnx_filename)
 
 	graph = model.graph
@@ -94,4 +103,16 @@ def parse(onnx_filename, output_file):
 
 	for initl in graph.initializer:
 		f.write(get_initializer_symbol(initl))
+
 	f.close()
+
+
+	if onnx_output_file is not None:
+		with open(onnx_output_file, "w") as f:
+			f.write(str(model))
+
+if __name__ == "__main__":
+	if len(sys.argv) >= 4:
+		parse(sys.argv[1], sys.argv[2], sys.argv[3])
+	else:
+		parse(sys.argv[1], sys.argv[2])
