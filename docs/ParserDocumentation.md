@@ -1,8 +1,4 @@
-# AITS DNNC Documentation
-
-![alt_text](https://raw.githubusercontent.com/ai-techsystems/dnnCompiler/master/misc/dnnCompilerLogo.jpg "image_tooltip")
-
-# Module 1: x to symbol table
+# Parser: x to symbol table
 
 
 ## Overview
