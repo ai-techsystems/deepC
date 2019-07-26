@@ -1,0 +1,16 @@
+Softmax
+	""
+	[ ["input"] ]
+	[ ["1"] ]
+	Attr
+		"/axis"
+		[ 0 ]
+
+Input
+	"input"
+	[ 6 ]
+
+Output
+	"1"
+	[ 6 ]
+

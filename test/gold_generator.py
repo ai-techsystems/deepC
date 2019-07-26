@@ -27,12 +27,14 @@
 #Output symbol tables will be present in folder called "output"
 
 import os, sys
-
 sys.path.append('../python/')
-from parser import parse
+from onnx_parser import parse
 
 testcase_dir = "./pytorch-to-onnx/testcases/"
-output_dir = "pytorch-to-onnx/gold_files/"
+output_dir = "./pytorch-to-onnx/gold_files/"
+
+if not os.path.isdir(output_dir):
+	os.system('mkdir -p ' + output_dir)
 
 testcases = []
 for r, d, f in os.walk(testcase_dir):

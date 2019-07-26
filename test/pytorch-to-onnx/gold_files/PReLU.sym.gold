@@ -1,0 +1,22 @@
+PRelu
+	""
+	[ ["input"] ["weight"] ]
+	[ ["2"] ]
+
+Input
+	"input"
+	[ 2 ]
+
+Input
+	"weight"
+	[ 1 ]
+
+Output
+	"2"
+	[ 2 ]
+
+Initializer
+	"weight"
+	[ 1 ]
+	[ b'\x00\x00\x80>' ]
+
