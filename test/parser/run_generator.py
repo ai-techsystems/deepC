@@ -114,7 +114,7 @@ for operator in operators.keys():
 
 	if 'is_module' in operators[operator]:
 		is_module = operators[operator]['is_module']
-		file = onnx_generator.generate_py_file(operator, output_string, test_input_string, init, is_module)
+		file = onnx_generator.generate_py_file(operator, output_string, test_input_string, init=init, is_module=is_module)
 	else:
-		file = onnx_generator.generate_py_file(operator, output_string, test_input_string, init)
+		file = onnx_generator.generate_py_file(operator, output_string, test_input_string, init=init)
 	os.system("python " + file)
