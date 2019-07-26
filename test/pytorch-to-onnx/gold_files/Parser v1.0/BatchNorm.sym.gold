@@ -1,0 +1,80 @@
+Unsqueeze
+	""
+	[ ["input"] ]
+	[ ["6"] ]
+	Attr
+		"/axes"
+		[ [2] ]
+
+BatchNormalization
+	""
+	[ ["6"] ["weight"] ["bias"] ["running_mean"] ["running_var"] ]
+	[ ["7"] ]
+	Attr
+		"/epsilon"
+		[ 9.999999747378752e-06 ]
+	Attr
+		"/momentum"
+		[ 0.8999999761581421 ]
+
+Squeeze
+	""
+	[ ["7"] ]
+	[ ["8"] ]
+	Attr
+		"/axes"
+		[ [2] ]
+
+Input
+	"input"
+	[ 3, 6 ]
+
+Input
+	"weight"
+	[ 6 ]
+
+Input
+	"bias"
+	[ 6 ]
+
+Input
+	"running_mean"
+	[ 6 ]
+
+Input
+	"running_var"
+	[ 6 ]
+
+Input
+	"num_batches_tracked"
+	[  ]
+
+Output
+	"8"
+	[ 3, 6 ]
+
+Initializer
+	"bias"
+	[ 6 ]
+	[ b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' ]
+
+Initializer
+	"num_batches_tracked"
+	[  ]
+	[ b'\x00\x00\x00\x00\x00\x00\x00\x00' ]
+
+Initializer
+	"running_mean"
+	[ 6 ]
+	[ b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' ]
+
+Initializer
+	"running_var"
+	[ 6 ]
+	[ b'\x00\x00\x80?\x00\x00\x80?\x00\x00\x80?\x00\x00\x80?\x00\x00\x80?\x00\x00\x80?' ]
+
+Initializer
+	"weight"
+	[ 6 ]
+	[ b"\xfaJ\x1d?\x1b\x98d?\x1ctF?$=\x1d?\x92\x06\x98>'\x8e[?" ]
+

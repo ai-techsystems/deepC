@@ -1,0 +1,16 @@
+ReduceMean
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/keepdims"
+		[ 0 ]
+
+Input
+	"0"
+	[ 1, 5 ]
+
+Output
+	"1"
+	[  ]
+
