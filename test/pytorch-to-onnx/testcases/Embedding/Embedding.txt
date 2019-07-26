@@ -1,0 +1,65 @@
+node {
+  input: "weight"
+  input: "input"
+  output: "2"
+  op_type: "Gather"
+}
+name: "torch-jit-export"
+initializer {
+  dims: 10
+  dims: 3
+  data_type: 1
+  name: "weight"
+  raw_data: "\271\321\300?\204\374;\275\033P\300\275\3318\004\277\265W\026\277if\003\300\342\257\010\300\377\343\010=\312/\031\276\313VV\277\325\275\247<\271\365\260>5\342\364\275\207\254\372\276e\342\203?\t\022\315\276\343mw\2770h\006?\354\250\032\277:7k\277\337\247L?a\021\243>\216\201\027?a\031\256>\010\323\277\277\330\355\251?}\033E\277;%m\277H\305>\277\322\352:\277"
+}
+input {
+  name: "input"
+  type {
+    tensor_type {
+      elem_type: 7
+      shape {
+        dim {
+          dim_value: 2
+        }
+        dim {
+          dim_value: 4
+        }
+      }
+    }
+  }
+}
+input {
+  name: "weight"
+  type {
+    tensor_type {
+      elem_type: 1
+      shape {
+        dim {
+          dim_value: 10
+        }
+        dim {
+          dim_value: 3
+        }
+      }
+    }
+  }
+}
+output {
+  name: "2"
+  type {
+    tensor_type {
+      elem_type: 1
+      shape {
+        dim {
+          dim_value: 2
+        }
+        dim {
+          dim_value: 4
+        }
+        dim {
+          dim_value: 3
+        }
+      }
+    }
+  }
+}

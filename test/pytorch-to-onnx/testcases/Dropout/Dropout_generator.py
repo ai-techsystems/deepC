@@ -1,3 +1,4 @@
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -19,30 +20,20 @@
 # This file is part of DNN compiler maintained at 
 # https://github.com/ai-techsystems/dnnCompiler
 #
-# Author: Ravit Sharma
-# Date: July 22, 2019
+# Author:
+# Date:
 
-#Tested for Python 3
-#Add all .onnx files to a folder in the current working directory called "testcases"
-#Output symbol tables will be present in folder called "output"
+import torch.onnx
+import torch.nn as nn
+import numpy as np
+import onnx
 
-import os, sys
+onnx_filename = "./testcases/Dropout/Dropout.onnx"
+text_filename = "./testcases/Dropout/Dropout.txt"
 
-sys.path.append('../python/')
-from parser import parse
-
-testcase_dir = "./pytorch-to-onnx/testcases/"
-output_dir = "pytorch-to-onnx/gold_files/"
-
-testcases = []
-for r, d, f in os.walk(testcase_dir):
-	for filename in f:
-		path = r + '/' + filename		
-		if ".onnx" in filename:
-			testcases.append(path)
-
-for onnx_testcase in testcases:
-	name = onnx_testcase.split('/')[-1][:-5]
-	print(name)
-	output_filename = output_dir + name + ".sym" + ".gold"
-	parse(onnx_testcase, output_filename)
+model = torch.nn.Dropout(p=0.3)
+test_input = torch.full([4, 4], 3)
+torch.onnx.export(model, test_input, onnx_filename)
+with open(text_filename, 'w') as f:
+	model = onnx.load(onnx_filename)
+	f.write(str(model.graph))

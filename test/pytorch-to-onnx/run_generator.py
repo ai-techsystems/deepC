@@ -29,7 +29,8 @@ Each operator requires an output_string and test_input_string, other arguments d
 Example ops are provided, although they are not the complete set of PyTorch ops supported by ONNX.
 '''
 
-import automate
+import onnx_generator
+import os
 
 operators = {}
 
@@ -59,11 +60,7 @@ operators['ConstantPad2d'] = {'output_string': 'torch.nn.ConstantPad2d(2, 4.5)',
 operators['Dropout'] = {'output_string': 'torch.nn.Dropout(p=0.3)', 'test_input_string': 'torch.full([4, 4], 3)', 'is_module': True}
 
 
-import os
 for operator in operators.keys():
-	if not os.path.isdir(operator):
-		os.system("mkdir " + operator)
-
 	output_string = operators[operator]['output_string']
 	test_input_string = operators[operator]['test_input_string']
 	
@@ -73,7 +70,7 @@ for operator in operators.keys():
 
 	if 'is_module' in operators[operator]:
 		is_module = operators[operator]['is_module']
-		file = automate.generate_py_file(operator, output_string, test_input_string, init, is_module)
+		file = onnx_generator.generate_py_file(operator, output_string, test_input_string, init, is_module)
 	else:
-		file = automate.generate_py_file(operator, output_string, test_input_string, init)
+		file = onnx_generator.generate_py_file(operator, output_string, test_input_string, init)
 	os.system("python " + file)

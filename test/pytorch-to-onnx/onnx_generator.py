@@ -48,6 +48,8 @@ with open(text_filename, 'w') as f:
 
 '''
 
+import os
+
 def add_license(input_str):
   license = '''
 # Licensed to the Apache Software Foundation (ASF) under one
@@ -79,10 +81,14 @@ def add_license(input_str):
 def generate_py_file(operator_name, output_string, test_input_string, init=None, is_module=False):
   #operator_name --> onnx_filename, text_filename, class name
   #input_string --> test_input
-  py_file_name = './' + operator_name + '/' + operator_name + '_generator.py'
+
+  test_dirname = 'testcases'
+  op_dirname = './' + test_dirname + '/' + operator_name + '/' 
+
+  py_file_name = op_dirname + operator_name + '_generator.py'
   
-  onnx_filename = './' + operator_name + '/' + operator_name + '.onnx'
-  text_filename = './' + operator_name + '/' + operator_name + '.txt'
+  onnx_filename = op_dirname + operator_name + '.onnx'
+  text_filename = op_dirname + operator_name + '.txt'
   
   py_file = add_license('')
   
@@ -115,7 +121,10 @@ def generate_py_file(operator_name, output_string, test_input_string, init=None,
   py_file += '\tmodel = onnx.load(onnx_filename)\n'
   py_file += '\tf.write(str(model.graph))'
   
-  with open (py_file_name, 'w') as f:
+  if not os.path.isdir(op_dirname):
+    os.system("mkdir -p " + op_dirname)
+
+  with open(py_file_name, 'w') as f:
     f.write(py_file)
   
   return py_file_name

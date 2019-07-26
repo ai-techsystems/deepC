@@ -1,3 +1,4 @@
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -19,30 +20,27 @@
 # This file is part of DNN compiler maintained at 
 # https://github.com/ai-techsystems/dnnCompiler
 #
-# Author: Ravit Sharma
-# Date: July 22, 2019
+# Author:
+# Date:
 
-#Tested for Python 3
-#Add all .onnx files to a folder in the current working directory called "testcases"
-#Output symbol tables will be present in folder called "output"
+import torch.onnx
+import torch.nn as nn
+import numpy as np
+import onnx
 
-import os, sys
+onnx_filename = "./testcases/mean/mean.onnx"
+text_filename = "./testcases/mean/mean.txt"
 
-sys.path.append('../python/')
-from parser import parse
+class Net(nn.Module):
+	def __init__(self):
+		super(Net, self).__init__()
+	def forward(self, x):
+		output = torch.mean(x)
+		return output
 
-testcase_dir = "./pytorch-to-onnx/testcases/"
-output_dir = "pytorch-to-onnx/gold_files/"
-
-testcases = []
-for r, d, f in os.walk(testcase_dir):
-	for filename in f:
-		path = r + '/' + filename		
-		if ".onnx" in filename:
-			testcases.append(path)
-
-for onnx_testcase in testcases:
-	name = onnx_testcase.split('/')[-1][:-5]
-	print(name)
-	output_filename = output_dir + name + ".sym" + ".gold"
-	parse(onnx_testcase, output_filename)
+model = Net()
+test_input = torch.randn(1, 5)
+torch.onnx.export(model, test_input, onnx_filename)
+with open(text_filename, 'w') as f:
+	model = onnx.load(onnx_filename)
+	f.write(str(model.graph))
