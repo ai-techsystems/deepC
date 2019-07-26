@@ -174,3 +174,5 @@ operators = {}
 
 
 ### Testing Phase 2: Converting test cases to .sym.gold files
+
+Using a https://github.com/ai-techsystems/dnnCompiler/blob/master/test/gold_generator.py, we converted the testcases for unit operators to gold standard files (.sym.gold) for future testing.
