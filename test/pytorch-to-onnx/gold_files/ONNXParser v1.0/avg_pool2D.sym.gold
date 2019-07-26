@@ -1,0 +1,36 @@
+Pad
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/mode"
+		[  ]
+	Attr
+		"/pads"
+		[ [0, 0, 0, 0, 0, 0, 0, 0] ]
+	Attr
+		"/value"
+		[ 0.0 ]
+
+AveragePool
+	""
+	[ ["1"] ]
+	[ ["2"] ]
+	Attr
+		"/kernel_shape"
+		[ [5, 5] ]
+	Attr
+		"/pads"
+		[ [0, 0, 0, 0] ]
+	Attr
+		"/strides"
+		[ [5, 5] ]
+
+Input
+	"0"
+	[ 32, 3, 28, 28 ]
+
+Output
+	"2"
+	[ 32, 3, 5, 5 ]
+

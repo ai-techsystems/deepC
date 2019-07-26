@@ -1,0 +1,23 @@
+Split
+	""
+	[ ["tensor"] ]
+	[ ["1"] ["2"] ]
+	Attr
+		"/axis"
+		[ 0 ]
+	Attr
+		"/split"
+		[ [5, 5] ]
+
+Input
+	"tensor"
+	[ 10, 3 ]
+
+Output
+	"1"
+	[ 5, 3 ]
+
+Output
+	"2"
+	[ 5, 3 ]
+

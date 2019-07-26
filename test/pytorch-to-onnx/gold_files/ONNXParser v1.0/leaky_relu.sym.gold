@@ -1,0 +1,16 @@
+LeakyRelu
+	""
+	[ ["input"] ]
+	[ ["1"] ]
+	Attr
+		"/alpha"
+		[ 0.009999999776482582 ]
+
+Input
+	"input"
+	[ 2 ]
+
+Output
+	"1"
+	[ 2 ]
+
