@@ -1,0 +1,16 @@
+Elu
+	""
+	[ ["input"] ]
+	[ ["1"] ]
+	Attr
+		"/alpha"
+		[ 1.0 ]
+
+Input
+	"input"
+	[ 10 ]
+
+Output
+	"1"
+	[ 10 ]
+
