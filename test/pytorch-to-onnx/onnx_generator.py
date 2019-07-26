@@ -19,8 +19,8 @@
 # This file is part of DNN compiler maintained at 
 # https://github.com/ai-techsystems/dnnCompiler
 #
-# Author:
-# Date:
+# Author: Ravit Sharma
+# Date: July 24, 2019
 
 '''
 #Example for acos operator
