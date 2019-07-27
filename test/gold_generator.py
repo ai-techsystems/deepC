@@ -30,8 +30,8 @@ import os, sys
 sys.path.append('../python/')
 from onnx_parser import parse
 
-testcase_dir = "./pytorch-to-onnx/testcases/"
-output_dir = "./pytorch-to-onnx/gold_files/"
+testcase_dir = "./parser/testcases/"
+output_dir = "./parser/gold_files/ONNXParser v1.0"
 
 if not os.path.isdir(output_dir):
 	os.system('mkdir -p ' + output_dir)
