@@ -30,6 +30,8 @@ mkdir build && cd build
 cmake ..
 make
 ```
+**Note:** If you are facing issues while installation, **[click here](misc/detailedInstallationGuide.md)** to know if that problem already has a solution.
+
 
 #### 📜 Output
 ```
