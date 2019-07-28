@@ -10,8 +10,11 @@ find_package(Protobuf REQUIRED)
 # check if protobuf was found
 if(PROTOBUF_FOUND)
     message ("protobuf found")
+
 else()
-    message (FATAL_ERROR "Cannot find Protobuf")
+    message ("Cannot find Protobuf.Installing Protobuf..")
+    execute_process(COMMAND chmod +x ../protobuf_install.sh)
+    execute_process(COMMAND ../protobuf_install.sh)
 endif()
 
 # Generate the .h and .cxx files
