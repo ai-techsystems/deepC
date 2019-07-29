@@ -22,9 +22,7 @@ def create_testcase (op_name, inputs, outputs, nodes):
 #
 # This file is part of DNN compiler maintained at 
 # https://github.com/ai-techsystems/dnnCompiler
-#
-# Author:
-# Date:\n\n'''
+\n\n'''
 	
 	py_file += 'import os, sys\n\n'
 	py_file += 'os.system("pip3 install onnx")\n'
