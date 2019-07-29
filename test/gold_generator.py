@@ -30,21 +30,19 @@ import os, sys
 sys.path.append('../python/')
 from onnx_parser import parse
 
-testcase_dir = "./parser/testcases/"
-output_dir = "./parser/gold_files/ONNXParser v1.0"
+def generate_gold(testcase_dir, output_dir):
+	if not os.path.isdir(output_dir):
+		os.system('mkdir -p ' + output_dir)
 
-if not os.path.isdir(output_dir):
-	os.system('mkdir -p ' + output_dir)
+	testcases = []
+	for r, d, f in os.walk(testcase_dir):
+		for filename in f:
+			path = r + '/' + filename		
+			if ".onnx" in filename:
+				testcases.append(path)
 
-testcases = []
-for r, d, f in os.walk(testcase_dir):
-	for filename in f:
-		path = r + '/' + filename		
-		if ".onnx" in filename:
-			testcases.append(path)
-
-for onnx_testcase in testcases:
-	name = onnx_testcase.split('/')[-1][:-5]
-	print(name)
-	output_filename = output_dir + name + ".sym" + ".gold"
-	parse(onnx_testcase, output_filename)
+	for onnx_testcase in testcases:
+		name = onnx_testcase.split('/')[-1][:-5]
+		print(name)
+		output_filename = output_dir + name + ".sym" + ".gold"
+		parse(onnx_testcase, output_filename)
