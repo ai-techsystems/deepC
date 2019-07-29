@@ -29,7 +29,7 @@ Each operator requires an output_string and test_input_string, other arguments d
 Example ops are provided, although they are not the complete set of PyTorch ops supported by ONNX.
 '''
 
-import onnx_generator
+import generator
 import os
 
 operators = {}
