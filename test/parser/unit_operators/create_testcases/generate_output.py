@@ -1,6 +1,6 @@
 import os
 
-def create_testcase (op_name, inputs, outputs, nodes):
+def create_testcase (op_name, inputs, outputs, nodes, declarations=[]):
 	py_file = '''
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -29,12 +29,13 @@ def create_testcase (op_name, inputs, outputs, nodes):
 	py_file += 'sys.path.append("../../../../python/parser")\n'
 	py_file += 'from onnx_parser import *\n\n'
 	py_file += 'op_name = \'' + op_name + '\'\n\n'
-	
+	py_file += 'inputs = ' + inputs + '\n'
+	py_file += 'outputs = ' + outputs + '\n'
+	for declaration in declarations:
+		py_file += declaration + '\n'
 	py_file += 'nodes = []\n'
 	for node in nodes:
 		py_file+='nodes.append(' + node + ')\n'
-	py_file += 'inputs = ' + inputs + '\n'
-	py_file += 'outputs = ' + outputs + '\n'
 	py_file += 'graph = helper.make_graph(nodes, op_name+"_graph", inputs, outputs)\n'
 	py_file += 'opset = (OperatorSetIdProto(version=11),)\n'
 	py_file += 'model = helper.make_model(graph, opset_imports=opset)\n'

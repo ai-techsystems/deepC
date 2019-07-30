@@ -10,4 +10,7 @@ operators['Sigmoid'] = {
 
 for operator in operators.keys():
 	operator_info = operators[operator]
-	create_testcase(operator, operator_info['inputs'], operator_info['outputs'], operator_info['nodes'])
+	declarations = []
+	if 'declarations' in operators[operator].keys():
+		declarations = operators[operator]['declarations']
+	create_testcase(operator, operator_info['inputs'], operator_info['outputs'], operator_info['nodes'], declarations)

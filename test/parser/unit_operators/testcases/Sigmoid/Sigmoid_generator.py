@@ -23,19 +23,19 @@
 
 import os, sys
 
-os.system("pip3 install onnx")
 from onnx import *
-sys.path.append("../../../python/parser")
+sys.path.append("../../../../python/parser")
 from onnx_parser import *
 
 op_name = 'Sigmoid'
 
-nodes = []
-nodes.append(helper.make_node("Sigmoid", ["0"], ["1"]))
 inputs = [helper.make_tensor_value_info("0", TensorProto.FLOAT, (2, 3, 4))]
 outputs = [helper.make_tensor_value_info("1", TensorProto.FLOAT, (2, 3, 4))]
+nodes = []
+nodes.append(helper.make_node("Sigmoid", ["0"], ["1"]))
 graph = helper.make_graph(nodes, op_name+"_graph", inputs, outputs)
-model = helper.make_model(graph)
+opset = (OperatorSetIdProto(version=11),)
+model = helper.make_model(graph, opset_imports=opset)
 onnx.checker.check_model(model)
 t_prefix = "../testcases/" + op_name + "/" + op_name
 g_prefix = "../gold_files/" + op_name
