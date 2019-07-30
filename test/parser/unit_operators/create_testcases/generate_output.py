@@ -25,9 +25,8 @@ def create_testcase (op_name, inputs, outputs, nodes):
 \n\n'''
 	
 	py_file += 'import os, sys\n\n'
-	py_file += 'os.system("pip3 install onnx")\n'
 	py_file += 'from onnx import *\n'
-	py_file += 'sys.path.append("../../../python/parser")\n'
+	py_file += 'sys.path.append("../../../../python/parser")\n'
 	py_file += 'from onnx_parser import *\n\n'
 	py_file += 'op_name = \'' + op_name + '\'\n\n'
 	
@@ -37,7 +36,8 @@ def create_testcase (op_name, inputs, outputs, nodes):
 	py_file += 'inputs = ' + inputs + '\n'
 	py_file += 'outputs = ' + outputs + '\n'
 	py_file += 'graph = helper.make_graph(nodes, op_name+"_graph", inputs, outputs)\n'
-	py_file += 'model = helper.make_model(graph)\n'
+	py_file += 'opset = (OperatorSetIdProto(version=11),)\n'
+	py_file += 'model = helper.make_model(graph, opset_imports=opset)\n'
 	py_file += 'onnx.checker.check_model(model)\n'
 	py_file += 't_prefix = "../testcases/" + op_name + "/" + op_name\n'
 	py_file += 'g_prefix = "../gold_files/" + op_name\n'
