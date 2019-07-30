@@ -103,7 +103,18 @@ def get_initializer_symbol(initializer):
 			symbol += ', '
 	symbol += ' ]\n'
 
-	symbol += '\t[ ' + str(initializer.raw_data) + ' ]\n'
+	float_data_types = [1, 14] # data_type values which store data in the float_data field (including complex)
+	int32_data_types = [2, 3, 4, 5, 6, 9, 10] # data_type values which store data in int32_data
+	int64_data_types = [7] # data_type values which store data in int64_data
+	
+	if initializer.raw_data != b'': # if the raw_data field is not empty
+		symbol += '\t[ ' + str(initializer.raw_data) + ' ]\n'
+	elif initializer.data_type in float_data_types:
+		symbol += '\t[ ' + str(initializer.float_data) + ' ]\n'
+	elif initializer.data_type in int32_data_types:
+		symbol += '\t[ ' + str(initializer.int32_data) + ' ]\n'
+	elif initializer.data_type in int64_data_types:
+		symbol += '\t[ ' + str(initializer.int64_data) + ' ]\n'
 
 	symbol += '\n'
 	return symbol
