@@ -11,6 +11,8 @@ for model_name in models.keys():
 	dummy_input = models[model_name]['dummy_input']
 	
 	py_file = '''
+# Copyright 2018 The DNNC Authors. All Rights Reserved.
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
