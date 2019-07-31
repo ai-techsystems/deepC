@@ -20,111 +20,50 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
+#include "tensor.h"
+#include <iostream>
 
-#pragma once
+//#define DNNC_TENSOR_TEST 1
+#ifdef DNNC_TENSOR_TEST
+using namespace dnnc;
 
-#include <assert.h>
-#include <stdlib.h>     /* malloc, free, rand */
-#include <vector>
-#include <string>
-
-namespace dnnc {
-	typedef size_t INDEX;
-	typedef size_t DIMENSION;
-
-	// Tensor with arbitrary dimension.
-	template <typename T>
-	class tensor {
-	private:
-		// NO default constructor, because makes no sense for tensors.
-		tensor() {}
-	protected:
-		std::vector<DIMENSION> _shape;
-		T* _mem_layout; // TODO: converrt it into object of layout class to accomodate tiling.
-
-		T* getMemory()
-		{
-			_mem_layout = static_cast<T*>(malloc(size() * sizeof(T)));
-			assert(_mem_layout);
-			return _mem_layout;
-		}
-	public:
-		// tensor constructor with arbitrary dimension
-		tensor(std::vector<DIMENSION> dimn)
-		{
-			_shape = dimn;
-			_mem_layout = getMemory(size());
-		}
-		tensor(DIMENSION x, DIMENSION y = 0, DIMENSION z = 0, DIMENSION w = 0)
-		{
-			_shape.push_back(x);
-			if (y)
-				_shape.push_back(y);
-			if (z)
-				_shape.push_back(z);
-			if (w)
-				_shape.push_back(w);
-			_mem_layout = getMemory();
-		}
-		~tensor()
-		{
-			if (_mem_layout)
-				free(_mem_layout);
-		}
-
-		// public methods
-		const DIMENSION size() const
-		{
-			DIMENSION sz = 1;
-			for (size_t i = 0; i < _shape.size(); i++)
-				sz = sz * _shape[i];
-			return sz;
-		}
-		const std::vector<DIMENSION> shape() const
-		{
-			return _shape;
-		}
-		// flat index, unsafe method
-		T& operator[](const INDEX& index) const
-		{
-			assert(index < size());
-			return _mem_layout[index];
-		}
-
-		T& operator() (std::vector<INDEX>& indices) const
-		{
-			INDEX index = 0;
-			for (size_t i = 0; i < indices.size(); i++)
-			{
-				DIMENSION dsz = 1;
-				for (size_t j = i + 1; j < _shape.size(); j++)
-					dsz *= _shape[j];
-				index += indices[i] * dsz;
-			}
-			return _mem_layout[index];
-		}
-		T& operator()(const INDEX x = 0, const INDEX y = 0,
-			const INDEX z = 0, const INDEX w = 0) const
-		{
-			std::vector<INDEX> indices;
-			indices.push_back(x);
-			if (_shape.size() > 1)
-				indices.push_back(y);
-			if (_shape.size() > 2)
-				indices.push_back(z);
-			if (_shape.size() > 3)
-				indices.push_back(w);
-
-			return this->operator()(indices);
-		}
-		bool empty()
-		{
-			return size() == 0;
-		}
-		std::string toProto() // return proto string
-		{}
-		void toEigen()
-		{}
-
-	};
+template <typename T>
+void print_tensor(tensor<T>& v) {
+	for (size_t i = 0; i < v.size(); i++) 
+		std::cout << v[i] << "@" << i << " ";
+	std::cout << "\n";
 }
+
+template <typename T>
+void type_test()
+{
+	tensor<T> t1(2, 3, 4, 5);
+
+	for (size_t i = 0; i < 120; i++)
+		t1[i] = static_cast<T>(i + 120);
+
+	std::cout << "size " << t1.size() << std::endl;
+	const std::vector<DIMENSION> shape = t1.shape();
+	std::cout << "shape (";
+	for (size_t i = 0; i < shape.size(); i++)
+		std::cout << shape[i] << ", ";
+	std::cout << ")\n";
+
+	std::cout << t1[0] << std::endl; // print first element
+	std::cout << t1(1, 2, 3, 4) << std::endl; // print last element
+	print_tensor(t1);
+}
+
+int main()
+{
+	type_test<short>();
+	type_test <int8_t>();
+	type_test <int16_t>();
+	type_test <int32_t>();
+	type_test <int64_t>();
+	type_test<float_t>();
+	type_test<double_t>();
+	// need tests for float11_t, float16_t and float64_t
+	return 0;
+}
+#endif
