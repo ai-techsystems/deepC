@@ -24,7 +24,8 @@
 #pragma once
 
 #include <assert.h>
-#include <stdlib.h>     /* malloc, free, rand */
+#include <stdlib.h>    // malloc, free
+#include <memory>     // shared_ptr
 #include <vector>
 #include <string>
 
@@ -122,7 +123,10 @@ namespace dnnc {
 			return size() == 0;
 		}
 		std::string toProto() // return proto string
-		{}
+		{
+      std::string tensor_proto = "";
+			return tensor_proto;
+		}
 		void toEigen()
 		{}
 

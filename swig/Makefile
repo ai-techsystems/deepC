@@ -26,15 +26,19 @@ OBJ_DIR=./obj
 LIB_DIR=./lib
 LIB=$(LIB_DIR)/libdnnc.so
 
+PYTHON=/usr/bin/python3
+PYMOD=_dnnc.so
+
+LN_S=ln -s
 SWIG=/usr/bin/swig
 SWIG_FLAGS=-python -c++
 INCLUDES= -I/usr/include/python3.6m -I../include
-GCC=/usr/bin/gcc
-CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC
+GCC=/usr/bin/g++
+CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG
 LD=/usr/bin/ld
-LD_FLAGS=-shared -lusb
+LD_FLAGS=-shared 
 
-all:$(LIB)
+all:$(LIB) VERIFY
 
 SWIG_MODULES=dnnc.i
 SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)
@@ -49,10 +53,14 @@ $(OBJECTS): $(SWIG_CPPS) $(CPP_SRCS)
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || mkdir $(LIB_DIR) 
-	$(LD) $(LD_FLAGS) $< -o $@
+	$(GCC) $(LD_FLAGS) $< -o $@
+	$(LN_S) $@ $(PYMOD)
+
+VERIFY:
+	$(PYTHON) -c "import dnnc"
 
 clean:
-	\rm -fr $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp *.py *.pyc
+	\rm -fr $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp *.py *.pyc $(PYMOD)
 
 .DEFAULT: all
 .PHONY: print_vars
