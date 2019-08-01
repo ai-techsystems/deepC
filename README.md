@@ -19,8 +19,8 @@ Read more at [high level design document](docs/highLevelDesign.md)
 
 * [ONNX](https://github.com/onnx/onnx#installation)
 * [LLVM](https://apt.llvm.org)
-* [Python 3.6] (https://www.python.org/downloads/release/python-360/)
-* [SWIG] (http://www.swig.org/survey.html)
+* [Python 3.6](https://www.python.org/downloads/release/python-360/)
+* [SWIG](http://www.swig.org/survey.html)
 
 ## ⚙ Installation
 build and install dnn Compiler locally from source code with following steps
