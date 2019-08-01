@@ -27,11 +27,11 @@
 %{
 #include "tensor.h"
 extern std::shared_ptr<dnnc::tensor<float> > \
-        make_tensor(dnnc::DIMENSION x,     dnnc::DIMENSION y = 0,  \
-                    dnnc::DIMENSION z = 0, dnnc::DIMENSION w = 0) ;
+        make_tensor(size_t x,     size_t y = 0,  \
+                    size_t z = 0, size_t w = 0) ;
 %}
 
 extern std::shared_ptr<dnnc::tensor<float> >
-        make_tensor(dnnc::DIMENSION x,     dnnc::DIMENSION y = 0, 
-                    dnnc::DIMENSION z = 0, dnnc::DIMENSION w = 0) ;
+        make_tensor(size_t x,     size_t y = 0, 
+                    size_t z = 0, size_t w = 0) ;
 

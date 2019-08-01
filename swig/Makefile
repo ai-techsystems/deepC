@@ -31,8 +31,8 @@ PYMOD=_dnnc.so
 
 LN_S=ln -s
 SWIG=/usr/bin/swig
-SWIG_FLAGS=-python -c++
-INCLUDES= -I/usr/include/python3.6m -I../include
+SWIG_FLAGS=-python -c++ -Wall
+INCLUDES= -I/usr/include/python3.6 -I../include
 GCC=/usr/bin/g++
 CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG
 LD=/usr/bin/ld
@@ -47,17 +47,18 @@ $(SWIG_CPPS):$(SWIG_MODULES)
 
 CPP_SRCS=$(SWIG_CPPS) dnnc_api.cpp
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
-$(OBJECTS): $(SWIG_CPPS) $(CPP_SRCS)
+$(OBJ_DIR)/%.o:%.cpp
 	test -d $(OBJ_DIR) || mkdir $(OBJ_DIR) 
+	@echo "compiling $<"
 	$(GCC) $(CPP_FLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || mkdir $(LIB_DIR) 
-	$(GCC) $(LD_FLAGS) $< -o $@
+	$(GCC) $(LD_FLAGS) $(OBJECTS) -o $@
 	$(LN_S) $@ $(PYMOD)
 
 VERIFY:
-	$(PYTHON) -c "import dnnc"
+	$(PYTHON) -c "import dnnc; a=dnnc.make_tensor(2,3,4,5)"
 
 clean:
 	\rm -fr $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp *.py *.pyc $(PYMOD)
@@ -66,6 +67,6 @@ clean:
 .PHONY: print_vars
 
 print_vars:
-	echo $(SWIG_CPPS)
-	echo $(CPP_SRCS)
-	echo $(OBJECTS)
+	@echo $(SWIG_CPPS)
+	@echo $(CPP_SRCS)
+	@echo $(OBJECTS)

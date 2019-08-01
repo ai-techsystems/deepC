@@ -21,13 +21,11 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #include "tensor.h"
-#include <memory>
-
 
 using namespace dnnc;
 std::shared_ptr<dnnc::tensor<float> >
-make_tensor(DIMENSION x,     DIMENSION y = 0, 
-            DIMENSION z = 0, DIMENSION w = 0)
+make_tensor(size_t x,     size_t y = 0, 
+            size_t z = 0, size_t w = 0)
 {
   return std::make_shared< tensor<float> > (x, y, z, w) ;
 }
