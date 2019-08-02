@@ -1,4 +1,6 @@
 
+# Copyright 2018 The DNNC Authors. All Rights Reserved.
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -24,7 +26,7 @@
 import os, sys
 
 from onnx import *
-sys.path.append("../../../../python/parser")
+sys.path.append(".." + os.sep + ".." + os.sep + ".." + os.sep + ".." + os.sep + "python" + os.sep + "parser")
 from onnx_parser import *
 
 op_name = 'Sigmoid'
@@ -37,7 +39,7 @@ graph = helper.make_graph(nodes, op_name+"_graph", inputs, outputs)
 opset = (OperatorSetIdProto(version=11),)
 model = helper.make_model(graph, opset_imports=opset)
 onnx.checker.check_model(model)
-t_prefix = "../testcases/" + op_name + "/" + op_name
-g_prefix = "../gold_files/" + op_name
+t_prefix = ".." + os.sep + "testcases" + os.sep  + op_name + os.sep + op_name
+g_prefix = ".." + os.sep + "gold_files" + os.sep + op_name
 onnx.save(model, t_prefix+".onnx")
 parse(t_prefix+".onnx", g_prefix+".sym", onnx_output_file=t_prefix+".txt")
