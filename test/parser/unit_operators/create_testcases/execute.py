@@ -25,11 +25,18 @@
 from generate_output import *
 
 operators = {}
-
-operators['Sigmoid'] = {
-'nodes':['helper.make_node("Sigmoid", ["0"], ["1"])'],
-'inputs':'[helper.make_tensor_value_info("0", TensorProto.FLOAT, (2, 3, 4))]',
-'outputs':'[helper.make_tensor_value_info("1", TensorProto.FLOAT, (2, 3, 4))]'
+'''
+operators['Constant'] = {
+	'nodes':['helper.make_node("Constant", [], ["1"], value = onnx.helper.make_tensor(name="const_tensor", data_type=onnx.TensorProto.FLOAT, dims=values.shape, vals=values.flatten().astype(float)))'],
+	'inputs':'[]',
+	'outputs':'[helper.make_tensor_value_info("1", TensorProto.FLOAT, (5,5))]',
+	'declarations':['values=np.random.randn(5, 5).astype(np.float32)']
+}
+'''
+operators['BitShift'] = {
+	'nodes':['helper.make_node("BitShift", ["A","B"], ["C"], direction="LEFT")'],
+	'inputs':'[helper.make_tensor_value_info("A", TensorProto.INT64, (2, 3, 4)),helper.make_tensor_value_info("B", TensorProto.INT64, (2, 3, 4))]',
+	'outputs':'[helper.make_tensor_value_info("C", TensorProto.INT64, (2, 3, 4))]'
 }
 
 for operator in operators.keys():
@@ -37,4 +44,7 @@ for operator in operators.keys():
 	declarations = []
 	if 'declarations' in operators[operator].keys():
 		declarations = operators[operator]['declarations']
+	node_params = []
+	if 'node_params' in operators[operator].keys():
+		node_params = operators[operator]['node_params']
 	create_testcase(operator, operator_info['inputs'], operator_info['outputs'], operator_info['nodes'], declarations)

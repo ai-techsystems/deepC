@@ -1,7 +1,7 @@
 import os
 separator = os.path.sep
 
-def create_testcase (op_name, inputs, outputs, nodes, declarations=[]):
+def create_testcase (op_name, inputs, outputs, nodes, declarations):
 	py_file = '''
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -26,6 +26,7 @@ def create_testcase (op_name, inputs, outputs, nodes, declarations=[]):
 \n\n'''
 	
 	py_file += 'import os, sys\n\n'
+	py_file += 'import numpy as np\n'
 	py_file += 'separator = os.path.sep\n\n'
 
 	py_file += 'from onnx import *\n'
