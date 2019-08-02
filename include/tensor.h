@@ -36,12 +36,14 @@ namespace dnnc {
 	// Tensor with arbitrary dimension.
 	template <typename T>
 	class tensor {
+
 	private:
 		// NO default constructor, because makes no sense for tensors.
 		tensor() {} 
+
 	protected:
 		std::vector<DIMENSION> _shape;
-		T* _mem_layout; // TODO: converrt it into object of layout class to accomodate tiling.
+		T* _mem_layout; // TODO: convert it into object of layout class to accomodate tiling.
 
 		T* getMemory()
 		{
