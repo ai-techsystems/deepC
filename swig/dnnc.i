@@ -28,7 +28,7 @@
 %include <std_vector.i>
 %include <std_shared_ptr.i>
 %include <exception.i>
-%include <tensor.h>
+%include <core/tensor.h>
 %exception
 {
  try
@@ -50,7 +50,7 @@
 }
 %module dnnc
 %{
-#include <tensor.h>
+#include <core/tensor.h>
 extern dnnc::tensor<float>  \
         make_tensor(size_t x,     size_t y = 0,  \
                     size_t z = 0, size_t w = 0) ;

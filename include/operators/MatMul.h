@@ -21,7 +21,6 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
-#include "tensor.h"
 #include "operators/baseOperator.h"
 
 namespace dnnc {

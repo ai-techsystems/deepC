@@ -20,7 +20,7 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-#include "tensor.h"
+#include "core/tensor.h"
 #include <iostream>
 #include <stdint.h>
 #include <float.h>

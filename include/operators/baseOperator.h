@@ -22,7 +22,7 @@
 //
 #pragma once
 #include <memory>
-#include "tensor.h"
+#include "core/tensor.h"
 
 namespace dnnc {
   enum OPCODE {
