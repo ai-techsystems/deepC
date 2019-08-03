@@ -43,6 +43,10 @@ ifneq (,$(findstring $(DEBUG),yY))
 CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG -g
 endif
 
+ifneq (,$(findstring $(LMCHECK),yY))
+CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG -g -lmcheck
+endif
+
 ifneq (,$(findstring $(PROF),yY))
 CPP_FLAGS=-pg -Wall -std=c++14 -fPIC 
 endif
