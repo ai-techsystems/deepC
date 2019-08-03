@@ -22,6 +22,8 @@
 //
 #include "tensor.h"
 #include <iostream>
+#include <stdint.h>
+#include <float.h>
 
 //#define DNNC_TENSOR_TEST 1
 #ifdef DNNC_TENSOR_TEST
@@ -37,10 +39,12 @@ void print_tensor(tensor<T>& v) {
 template <typename T>
 void type_test()
 {
-	tensor<T> t1(2, 3, 4, 5);
+	size_t x1=2, x2=3, x3=4, x4=5;
+	tensor<T> t1(x1, x2);
 
-	for (size_t i = 0; i < 120; i++)
-		t1[i] = static_cast<T>(i + 120);
+	size_t sz = x1*x2;
+	for (size_t i = 0; i < sz; i++)
+		t1[i] = static_cast<T>(i + sz);
 
 	std::cout << "size " << t1.size() << std::endl;
 	const std::vector<DIMENSION> shape = t1.shape();
@@ -56,13 +60,13 @@ void type_test()
 
 int main()
 {
-	type_test<short>();
-	type_test <int8_t>();
-	type_test <int16_t>();
-	type_test <int32_t>();
-	type_test <int64_t>();
-	type_test<float_t>();
-	type_test<double_t>();
+	std::cout << "short------\n"; type_test<short>();
+	std::cout << "int8_t------\n"; type_test <int8_t>();
+	std::cout << "int16_t------\n"; type_test <int16_t>();
+	std::cout << "int32_t------\n"; type_test <int32_t>();
+	std::cout << "int64_t------\n"; type_test <int64_t>();
+	std::cout << "float------\n"; type_test<float>();
+	std::cout << "double------\n"; type_test<double>();
 	// need tests for float11_t, float16_t and float64_t
 	return 0;
 }

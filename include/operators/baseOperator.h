@@ -21,7 +21,8 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
-#include <tensor.h>
+#include <memory>
+#include "tensor.h"
 
 namespace dnnc {
   enum OPCODE {

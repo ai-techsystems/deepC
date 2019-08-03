@@ -23,11 +23,14 @@
 
 #pragma once
 
-#include <assert.h>
+#ifndef SWIGPYTHON
+#include <typeinfo>
 #include <stdlib.h>    // malloc, free
-#include <memory>     // shared_ptr
 #include <vector>
 #include <string>
+#include <stdexcept>
+#endif
+#include "datatypes.h"
 
 namespace dnnc {
 	typedef size_t INDEX;
@@ -38,47 +41,66 @@ namespace dnnc {
 	class tensor {
 
 	private:
-		// NO default constructor, because makes no sense for tensors.
-		tensor() {} 
 
 	protected:
 		std::vector<DIMENSION> _shape;
-		T* _mem_layout; // TODO: convert it into object of layout class to accomodate tiling.
+		T* _mem_layout; // TODO: convert it into object of layout class to accomodate tiling and reference counting.
 
-		T* getMemory()
+		T* getMemory(size_t sz)
 		{
-			_mem_layout = static_cast<T*>(malloc(size() * sizeof(T)));
-			assert(_mem_layout);
+			_mem_layout = sz ? 
+#ifndef SWIGPYTHON
+			    static_cast<T*> ( malloc(sizeof(T)*sz) ) :
+#else
+			    new T [sz] :
+#endif
+                0x0;
+			if (sz && !_mem_layout)
+				throw std::bad_alloc();
 			return _mem_layout;
 		}
+        void init() {
+            if ( _shape.size() == 0 )
+#ifndef SWIGPYTHON
+                throw std::invalid_argument("tensor with no shape.");
+#endif
+			_mem_layout = getMemory(size());
+        }
 	public:
 		// tensor constructor with arbitrary dimension
-		tensor(std::vector<DIMENSION> dimn)
+		tensor(std::vector<DIMENSION> dimn) : _mem_layout(0x0)
 		{
 			_shape = dimn;
-			_mem_layout = getMemory(size());
+            init();
 		}
-		tensor(DIMENSION x, DIMENSION y = 0, DIMENSION z = 0, DIMENSION w = 0)
+		tensor( DIMENSION x = 0, DIMENSION y = 0, 
+				DIMENSION z = 0, DIMENSION w = 0) : _mem_layout(0x0)
 		{
-			_shape.push_back(x);
-			if (y)
-				_shape.push_back(y);
-			if (z)
-				_shape.push_back(z);
-			if (w)
-				_shape.push_back(w);
-			_mem_layout = getMemory();
+			if ( x ) {
+				_shape.push_back(x);
+				if (y)
+					_shape.push_back(y);
+				if (z)
+					_shape.push_back(z);
+				if (w)
+					_shape.push_back(w);
+			}
+            init();
 		}
 		~tensor()
 		{
-			if (_mem_layout)
-				free(_mem_layout);
+#ifndef SWIGPYTHON
+            if ( _mem_layout )
+                free(_mem_layout);
+#else
+			delete [] _mem_layout;
+#endif
 		}
 
 		// public methods
 		const DIMENSION size() const
 		{
-			DIMENSION sz = 1;
+			DIMENSION sz = _shape.size() ? 1 : 0;
 			for (size_t i = 0; i < _shape.size(); i++)
 				sz = sz * _shape[i];
 			return sz;
@@ -90,7 +112,9 @@ namespace dnnc {
 		// flat index, unsafe method
 		T& operator[](const INDEX& index) const
 		{
-			assert(index < size());
+			if (index >= size())
+				throw std::out_of_range ("illegal tensor index.");
+
 			return _mem_layout[index];
 		}
 
@@ -104,7 +128,7 @@ namespace dnnc {
 					dsz *= _shape[j];
 				index += indices[i] * dsz;
 			}
-			return _mem_layout[index];
+			return this->operator[](index);
 		}
 		T& operator()(const INDEX x = 0, const INDEX y = 0,
 			const INDEX z = 0, const INDEX w = 0) const
@@ -119,6 +143,10 @@ namespace dnnc {
 				indices.push_back(w);
 
 			return this->operator()(indices);
+		}
+		std::string dtype()
+		{
+			return dtype_str[typeid(T).name()[0]-'a'];
 		}
 		bool empty()
 		{

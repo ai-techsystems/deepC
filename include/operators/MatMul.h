@@ -21,6 +21,7 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
+#include "tensor.h"
 #include "operators/baseOperator.h"
 
 namespace dnnc {
@@ -29,7 +30,13 @@ namespace dnnc {
     protected:
     public:
       MatMul() : baseOperator<T>(opMatMul)
-    {
-    }
+      {
+      }
+      tensor<T> 
+      compute(tensor<T>& a, tensor<T>& b)
+      {
+        tensor<T> result;
+        return result;
+      }
   };
 }

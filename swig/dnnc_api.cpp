@@ -21,12 +21,22 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #include "tensor.h"
+#include "operators/MatMul.h"
 
 using namespace dnnc;
-std::shared_ptr<dnnc::tensor<float> >
+
+dnnc::tensor<float>
 make_tensor(size_t x,     size_t y = 0, 
             size_t z = 0, size_t w = 0)
 {
-  return std::make_shared< tensor<float> > (x, y, z, w) ;
+  return tensor<float> (x, y, z, w) ;
+}
+
+dnnc::tensor<float>
+MatMul(dnnc::tensor<float>& a, 
+       dnnc::tensor<float>& b)
+{
+  dnnc::MatMul<float> op ;
+  return op.compute(a, b);
 }
 

@@ -32,25 +32,35 @@ PYMOD=_dnnc.so
 LN_S=ln -s
 SWIG=/usr/bin/swig
 SWIG_FLAGS=-python -c++ -Wall
-INCLUDES= -I/usr/include/python3.6 -I../include
+DNNC_INCLUDES=-I../include
+PY_INCLUDES= -I/usr/include/python3.6
 GCC=/usr/bin/g++
-CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG
+CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC 
 LD=/usr/bin/ld
 LD_FLAGS=-shared 
+
+ifneq (,$(findstring $(DEBUG),yY))
+CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG -g
+endif
+
+ifneq (,$(findstring $(PROF),yY))
+CPP_FLAGS=-pg -Wall -std=c++14 -fPIC 
+endif
+
 
 all:$(LIB) VERIFY
 
 SWIG_MODULES=dnnc.i
 SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)
 $(SWIG_CPPS):$(SWIG_MODULES)
-	$(SWIG) $(SWIG_FLAGS) -o $@ $<
+	$(SWIG) $(SWIG_FLAGS) $(DNNC_INCLUDES) -o $@ $<
 
 CPP_SRCS=$(SWIG_CPPS) dnnc_api.cpp
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
 	test -d $(OBJ_DIR) || mkdir $(OBJ_DIR) 
 	@echo "compiling $<"
-	$(GCC) $(CPP_FLAGS) $(INCLUDES) -c $< -o $@
+	$(GCC) $(CPP_FLAGS) $(PY_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || mkdir $(LIB_DIR) 
@@ -61,7 +71,7 @@ VERIFY:
 	$(PYTHON) -c "import dnnc; a=dnnc.make_tensor(2,3,4,5)"
 
 clean:
-	\rm -fr $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp *.py *.pyc $(PYMOD)
+	\rm -fr $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc.py dnnc.pyc $(PYMOD) __pycache__
 
 .DEFAULT: all
 .PHONY: print_vars

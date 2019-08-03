@@ -22,16 +22,42 @@
 //
 // dnnc.i
 //
+#define MODE DEBUG
 
+%include <std_string.i>
+%include <std_vector.i>
+%include <std_shared_ptr.i>
+%include <exception.i>
+%include <tensor.h>
+%exception
+{
+ try
+ {
+   $action
+ }
+ catch (const std::runtime_error& e) {
+   SWIG_exception(SWIG_RuntimeError, e.what());
+ } 
+ catch (const std::invalid_argument& e) {
+   SWIG_exception(SWIG_ValueError, e.what());
+ }
+ catch (const std::out_of_range& e) {
+   SWIG_exception(SWIG_IndexError, e.what());
+ }
+ catch (...) { 
+   SWIG_exception(SWIG_RuntimeError, "unknown exception");
+ }
+}
 %module dnnc
 %{
-#include "tensor.h"
-extern std::shared_ptr<dnnc::tensor<float> > \
+#include <tensor.h>
+extern dnnc::tensor<float>  \
         make_tensor(size_t x,     size_t y = 0,  \
                     size_t z = 0, size_t w = 0) ;
 %}
+%template(FLOAT_TENSOR) dnnc::tensor<float>;
 
-extern std::shared_ptr<dnnc::tensor<float> >
+extern dnnc::tensor<float>
         make_tensor(size_t x,     size_t y = 0, 
                     size_t z = 0, size_t w = 0) ;
 
