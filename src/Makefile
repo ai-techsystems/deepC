@@ -28,7 +28,7 @@ CORE:
 	cd core; make; cd ..
 
 OPERATORS:
-	cd operators; mak; cd ..
+	cd operators; make; cd ..
 
 clean:
 	cd core;      make clean; cd ..
