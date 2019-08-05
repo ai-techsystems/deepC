@@ -32,7 +32,7 @@ PYMOD=_dnnc.so
 LN_S=ln -s
 SWIG=/usr/bin/swig
 SWIG_FLAGS=-python -c++ -Wall
-DNNC_INCLUDES= -I../include -I../../eigen-eigen-323c052e1731
+DNNC_INCLUDES= -I../include -I../packages/eigen-eigen-323c052e1731
 PY_INCLUDES= -I/usr/include/python3.6
 GCC=/usr/bin/g++
 CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC 
