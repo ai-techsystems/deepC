@@ -23,55 +23,61 @@
 
 #pragma once
 
+#include "core/macros.h"
+#include "core/datatypes.h"
+
 #ifndef SWIGPYTHON
 #include <typeinfo>
-#include <stdlib.h>    // malloc, free
+#include <stdlib.h>	// malloc, free
 #include <vector>
 #include <string>
 #include <stdexcept>
 #endif
-#include "datatypes.h"
+#include <random>
 
 namespace dnnc {
 	typedef size_t INDEX;
 	typedef size_t DIMENSION;
 
-	// Tensor with arbitrary dimension.
+	template <typename T> class baseOperator ;
+
+	// Tensor with arbitrary rank.
 	template <typename T>
 	class tensor {
-
-	private:
+		friend class baseOperator<T> ;
 
 	protected:
 		std::vector<DIMENSION> _shape;
 		T* _mem_layout; // TODO: convert it into object of layout class to accomodate tiling and reference counting.
 
+		//////////// protected methods /////////////////
 		T* getMemory(size_t sz)
 		{
-			_mem_layout = sz ? 
-#ifndef SWIGPYTHON
-			    static_cast<T*> ( malloc(sizeof(T)*sz) ) :
-#else
-			    new T [sz] :
-#endif
-                0x0;
+			_mem_layout = sz ?  static_cast<T*> ( malloc(sizeof(T)*sz) ) : 0x0;
 			if (sz && !_mem_layout)
 				throw std::bad_alloc();
 			return _mem_layout;
 		}
-        void init() {
-            if ( _shape.size() == 0 )
+		void init() {
+			size_t msize = size() ; // memory size
+			if ( rank() == 0 )
 #ifndef SWIGPYTHON
-                throw std::invalid_argument("tensor with no shape.");
+				throw std::invalid_argument("tensor with no shape.");
 #endif
-			_mem_layout = getMemory(size());
-        }
+			_mem_layout = getMemory(msize);
+
+			// initilize with uniform distribution.
+			std::default_random_engine generator ;
+			std::uniform_real_distribution<double> distribution(0, 255);
+			for (size_t i=0; i<msize; i++) 
+				_mem_layout[i] = static_cast<T>(distribution(generator));
+		}
 	public:
 		// tensor constructor with arbitrary dimension
 		tensor(std::vector<DIMENSION> dimn) : _mem_layout(0x0)
 		{
 			_shape = dimn;
-            init();
+			init();
 		}
 		tensor( DIMENSION x = 0, DIMENSION y = 0, 
 				DIMENSION z = 0, DIMENSION w = 0) : _mem_layout(0x0)
@@ -85,25 +91,26 @@ namespace dnnc {
 				if (w)
 					_shape.push_back(w);
 			}
-            init();
+			init();
 		}
 		~tensor()
 		{
-#ifndef SWIGPYTHON
-            if ( _mem_layout )
-                free(_mem_layout);
-#else
-			delete [] _mem_layout;
-#endif
+			if ( _mem_layout )
+				free(_mem_layout);
 		}
 
 		// public methods
+
 		const DIMENSION size() const
 		{
-			DIMENSION sz = _shape.size() ? 1 : 0;
-			for (size_t i = 0; i < _shape.size(); i++)
+			DIMENSION sz = rank() ? 1 : 0;
+			for (size_t i = 0; i < rank(); i++)
 				sz = sz * _shape[i];
 			return sz;
+		}
+		const DIMENSION rank() const
+		{
+			return _shape.size();
 		}
 		const std::vector<DIMENSION> shape() const
 		{
@@ -124,7 +131,7 @@ namespace dnnc {
 			for (size_t i = 0; i < indices.size(); i++)
 			{
 				DIMENSION dsz = 1;
-				for (size_t j = i + 1; j < _shape.size(); j++)
+				for (size_t j = i + 1; j < rank(); j++)
 					dsz *= _shape[j];
 				index += indices[i] * dsz;
 			}
@@ -135,11 +142,11 @@ namespace dnnc {
 		{
 			std::vector<INDEX> indices;
 			indices.push_back(x);
-			if (_shape.size() > 1)
+			if (rank() > 1)
 				indices.push_back(y);
-			if (_shape.size() > 2)
+			if (rank() > 2)
 				indices.push_back(z);
-			if (_shape.size() > 3)
+			if (rank() > 3)
 				indices.push_back(w);
 
 			return this->operator()(indices);
@@ -154,11 +161,8 @@ namespace dnnc {
 		}
 		std::string toProto() // return proto string
 		{
-      std::string tensor_proto = "";
+		std::string tensor_proto = "";
 			return tensor_proto;
 		}
-		void toEigen()
-		{}
-
 	};
 }

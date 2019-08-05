@@ -21,16 +21,19 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #include "core/tensor.h"
+
 #include <iostream>
 #include <stdint.h>
 #include <float.h>
 
-//#define DNNC_TENSOR_TEST 1
-#ifdef DNNC_TENSOR_TEST
 using namespace dnnc;
 
+//#define DNNC_TENSOR_TEST 1
+#ifdef DNNC_TENSOR_TEST
+
 template <typename T>
-void print_tensor(tensor<T>& v) {
+void print_tensor(tensor<T>& v) 
+{
 	for (size_t i = 0; i < v.size(); i++) 
 		std::cout << v[i] << "@" << i << " ";
 	std::cout << "\n";
@@ -40,7 +43,7 @@ template <typename T>
 void type_test()
 {
 	size_t x1=2, x2=3, x3=4, x4=5;
-	tensor<T> t1(x1, x2);
+	tensor<T> t1(x1, x2, x3, x4);
 
 	size_t sz = x1*x2;
 	for (size_t i = 0; i < sz; i++)
@@ -60,6 +63,7 @@ void type_test()
 
 int main()
 {
+
 	std::cout << "short------\n"; type_test<short>();
 	std::cout << "int8_t------\n"; type_test <int8_t>();
 	std::cout << "int16_t------\n"; type_test <int16_t>();
@@ -68,6 +72,7 @@ int main()
 	std::cout << "float------\n"; type_test<float>();
 	std::cout << "double------\n"; type_test<double>();
 	// need tests for float11_t, float16_t and float64_t
+	//
 	return 0;
 }
 #endif

@@ -20,17 +20,10 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-#pragma once
-#include "operators/baseOperator.h"
 
-namespace dnnc {
-  template <typename T>
-  class MatMul : public baseOperator<T> {
-    protected:
-    public:
-      MatMul() : baseOperator<T>(opMatMul)
-      {}
-      tensor<T> 
-      compute(tensor<T>& a, tensor<T>& b);
-  };
-}
+#pragma once
+
+#define _USE_EIGEN 1
+
+#define TENSOR_DIMENSIONS_EQUAL(t1, t2) { t1.size() == t2.size() }
+

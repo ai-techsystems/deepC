@@ -21,6 +21,83 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #include "operators/baseOperator.h"
+#include "core/tensor.h"
+
+
+#include <iostream>
+
+namespace dnnc {
+	template<typename T>
+	T*
+	baseOperator<T>::tensorMem(tensor<T>& t)
+	{
+		return t._mem_layout;
+	}
+}
+
+
+//#define DNNC_OPERATOR_TEST 1
+#ifdef DNNC_OPERATOR_TEST
+
+namespace dnnc {
+template <typename T>
+class fakeOperatorTest : public baseOperator<T> {
+	public:
+	fakeOperatorTest() : baseOperator<T>(opAbs) 
+	{}
+	void
+	testEigenMatrix(tensor<T> t)
+	{
+		if ( t.rank() == 1 )
+		{
+			DNNC_EIGEN_VECTOR(eigenVector, t) ;
+			std::cout << eigenVector << "\n";
+		} 
+		else if ( t.rank() == 2 ) 
+		{
+			DNNC_EIGEN_MATRIX(eigenMatrix, t) ;
+			std::cout << eigenMatrix << "\n";
+		} 
+		else if ( t.size() == 3 ) 
+		{
+			DNNC_EIGEN_TENSOR(eigenTensor, t) ;
+			//std::cout << eigenTensor << "\n";
+		} 
+		else if ( t.size() == 4 ) 
+		{
+			DNNC_EIGEN_TENSOR4D(eigenTensor4D, t) ;
+			//std::cout << eigenTensor4D << "\n";
+		}
+
+		return ;
+	}
+};
+}
 
 using namespace dnnc;
 
+int main()
+{
+	tensor<float>  tf(3,4); 
+	fakeOperatorTest<float>  fotf; 
+	fotf.testEigenMatrix(tf);
+
+	tensor<double>  td(3,4); 
+	fakeOperatorTest<double>  fotd; 
+	fotd.testEigenMatrix(td);
+
+	tensor<int>  ti(3,4); 
+	fakeOperatorTest<int>  foti; 
+	foti.testEigenMatrix(ti);
+
+	tensor<float>  tf1(2,3,4,5); 
+	fakeOperatorTest<float>  fotf1; 
+	fotf1.testEigenMatrix(tf1);
+
+	tensor<double>  td1(3,4,6,7); 
+	fakeOperatorTest<double>  fotd1; 
+	fotd1.testEigenMatrix(td1);
+
+	return 0;
+}
+#endif

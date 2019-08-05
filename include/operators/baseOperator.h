@@ -21,10 +21,12 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
+#include <vector>
 #include <memory>
-#include "core/tensor.h"
+#include "operators/macros.h"
 
 namespace dnnc {
+  
   enum OPCODE {
       opAbs = 1,
       opAcos,
@@ -167,13 +169,15 @@ namespace dnnc {
       opXor
   };
 
+  template <typename T> class tensor ;
+
   // operator attributes
   struct opAttributes {
     // it'll be a map of key-value pair, that
     // operators will customize for their needs.
   };
 
-	template <typename T>
+  template <typename T>
   class baseOperator 
   {
     protected:
@@ -182,9 +186,11 @@ namespace dnnc {
       std::vector<std::shared_ptr<tensor<T> > > _m_inputs ;
       std::vector<std::shared_ptr<tensor<T> > > _m_outputs ;
 
+	  T* tensorMem(tensor<T>& t) ; 
     public:
-      baseOperator(OPCODE op, opAttributes* attr=0x0) : _op(op), _m_attrs(attr) 
-    {}
+      baseOperator(OPCODE op, opAttributes* attr=0x0) : 
+		  _op(op), _m_attrs(attr) 
+      {}
       void addInput(std::shared_ptr<tensor<T> > in) 
       {
         _m_inputs.push_back(in);

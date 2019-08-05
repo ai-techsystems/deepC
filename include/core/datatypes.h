@@ -47,7 +47,7 @@ namespace dnnc {
 		DNNC_VARIANT = 23,
 	} DNNC_DataType;
 
-	static std::string dtype_str[] = { \
+	static const char* dtype_str[] = { \
 		"int8_t", /* a */
 		"", /* b */
 		"char", /* c */
