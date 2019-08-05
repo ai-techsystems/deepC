@@ -1,0 +1,16 @@
+SpaceToDepth
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/blocksize"
+		[ 2 ]
+
+Input
+	"0"
+	[ 1, 1, 4, 6 ]
+
+Output
+	"1"
+	[ 1, 4, 2, 3 ]
+

@@ -1,0 +1,29 @@
+Slice
+	""
+	[ ["data"] ["starts"] ["ends"] ["axes"] ["steps"] ]
+	[ ["output"] ]
+
+Input
+	"data"
+	[ 2, 3, 4 ]
+
+Input
+	"starts"
+	[ 2, 3, 4 ]
+
+Input
+	"ends"
+	[ 2, 3, 4 ]
+
+Input
+	"axes"
+	[ 2, 3, 4 ]
+
+Input
+	"steps"
+	[ 2, 3, 4 ]
+
+Output
+	"output"
+	[ 2, 3, 4 ]
+

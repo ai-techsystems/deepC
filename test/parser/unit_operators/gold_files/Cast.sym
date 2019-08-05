@@ -1,0 +1,16 @@
+Cast
+	""
+	[ ["input"] ]
+	[ ["output"] ]
+	Attr
+		"/to"
+		[ 1 ]
+
+Input
+	"input"
+	[ 2, 3, 4 ]
+
+Output
+	"output"
+	[ 2, 3, 4 ]
+

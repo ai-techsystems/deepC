@@ -1,0 +1,155 @@
+ir_version: 5
+graph {
+  node {
+    input: "0"
+    output: "1"
+    op_type: "If"
+    attribute {
+      name: "else_branch"
+      g {
+        node {
+          input: "0"
+          input: "2"
+          output: "1"
+          op_type: "And"
+        }
+        name: "graph"
+        input {
+          name: "0"
+          type {
+            tensor_type {
+              elem_type: 9
+              shape {
+                dim {
+                  dim_value: 1
+                }
+              }
+            }
+          }
+        }
+        input {
+          name: "2"
+          type {
+            tensor_type {
+              elem_type: 9
+              shape {
+                dim {
+                  dim_value: 1
+                }
+              }
+            }
+          }
+        }
+        output {
+          name: "1"
+          type {
+            tensor_type {
+              elem_type: 9
+              shape {
+                dim {
+                  dim_value: 1
+                }
+              }
+            }
+          }
+        }
+      }
+      type: GRAPH
+    }
+    attribute {
+      name: "then_branch"
+      g {
+        node {
+          input: "0"
+          input: "2"
+          output: "1"
+          op_type: "And"
+        }
+        name: "graph"
+        input {
+          name: "0"
+          type {
+            tensor_type {
+              elem_type: 9
+              shape {
+                dim {
+                  dim_value: 1
+                }
+              }
+            }
+          }
+        }
+        input {
+          name: "2"
+          type {
+            tensor_type {
+              elem_type: 9
+              shape {
+                dim {
+                  dim_value: 1
+                }
+              }
+            }
+          }
+        }
+        output {
+          name: "1"
+          type {
+            tensor_type {
+              elem_type: 9
+              shape {
+                dim {
+                  dim_value: 1
+                }
+              }
+            }
+          }
+        }
+      }
+      type: GRAPH
+    }
+  }
+  name: "If_graph"
+  input {
+    name: "0"
+    type {
+      tensor_type {
+        elem_type: 9
+        shape {
+          dim {
+            dim_value: 1
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "2"
+    type {
+      tensor_type {
+        elem_type: 9
+        shape {
+          dim {
+            dim_value: 1
+          }
+        }
+      }
+    }
+  }
+  output {
+    name: "1"
+    type {
+      tensor_type {
+        elem_type: 9
+        shape {
+          dim {
+            dim_value: 1
+          }
+        }
+      }
+    }
+  }
+}
+opset_import {
+  version: 11
+}

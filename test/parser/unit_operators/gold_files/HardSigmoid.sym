@@ -1,0 +1,19 @@
+HardSigmoid
+	""
+	[ ["X"] ]
+	[ ["Y"] ]
+	Attr
+		"/alpha"
+		[ 0.20000000298 ]
+	Attr
+		"/beta"
+		[ 0.20000000298 ]
+
+Input
+	"X"
+	[ 2, 3 ]
+
+Output
+	"Y"
+	[ 2, 3 ]
+

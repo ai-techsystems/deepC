@@ -1,0 +1,29 @@
+BatchNormalization
+	""
+	[ ["x"] ["s"] ["bias"] ["mean"] ["var"] ]
+	[ ["y"] ]
+
+Input
+	"x"
+	[ 2, 3 ]
+
+Input
+	"s"
+	[ 1, 2 ]
+
+Input
+	"bias"
+	[ 1, 2 ]
+
+Input
+	"mean"
+	[ 1, 2 ]
+
+Input
+	"var"
+	[ 1, 2 ]
+
+Output
+	"1"
+	[ 2, 3 ]
+

@@ -1,0 +1,12 @@
+Constant
+	""
+	[ ]
+	[ ["1"] ]
+	Attr
+		"/value"
+		[  ]
+
+Output
+	"1"
+	[ 5, 5 ]
+

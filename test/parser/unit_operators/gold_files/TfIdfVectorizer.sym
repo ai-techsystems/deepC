@@ -1,0 +1,34 @@
+TfIdfVectorizer
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/max_gram_length"
+		[ 2 ]
+	Attr
+		"/max_skip_count"
+		[ 0 ]
+	Attr
+		"/min_gram_length"
+		[ 2 ]
+	Attr
+		"/mode"
+		[  ]
+	Attr
+		"/ngram_counts"
+		[ [0, 4] ]
+	Attr
+		"/ngram_indexes"
+		[ [0, 1, 2, 3, 4, 5, 6] ]
+	Attr
+		"/pool_int64s"
+		[ [2, 3, 5, 4, 5, 6, 7, 8, 6, 7] ]
+
+Input
+	"0"
+	[ 2, 6 ]
+
+Output
+	"1"
+	[ 2, 7 ]
+

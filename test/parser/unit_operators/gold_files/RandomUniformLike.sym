@@ -1,0 +1,22 @@
+RandomUniformLike
+	""
+	[ ["x"] ]
+	[ ["y"] ]
+	Attr
+		"/dtype"
+		[ 1 ]
+	Attr
+		"/high"
+		[ 1.0 ]
+	Attr
+		"/low"
+		[ 0.0 ]
+
+Input
+	"x"
+	[ 1, 2 ]
+
+Output
+	"y"
+	[ 1, 2 ]
+

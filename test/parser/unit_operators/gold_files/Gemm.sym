@@ -1,0 +1,33 @@
+Gemm
+	""
+	[ ["A"] ["B"] ["C"] ]
+	[ ["Y"] ]
+	Attr
+		"/alpha"
+		[ 1.22000002861 ]
+	Attr
+		"/beta"
+		[ 5.30000019073 ]
+	Attr
+		"/transA"
+		[ 1 ]
+	Attr
+		"/transB"
+		[ 0 ]
+
+Input
+	"A"
+	[ 5, 3 ]
+
+Input
+	"B"
+	[ 5, 3 ]
+
+Input
+	"C"
+	[ 3, 3 ]
+
+Output
+	"Y"
+	[ 3, 3 ]
+

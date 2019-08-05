@@ -1,0 +1,23 @@
+If
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/else_branch"
+		[  ]
+	Attr
+		"/then_branch"
+		[  ]
+
+Input
+	"0"
+	[ 1 ]
+
+Input
+	"2"
+	[ 1 ]
+
+Output
+	"1"
+	[ 1 ]
+

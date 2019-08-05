@@ -1,0 +1,23 @@
+ConvTranspose
+	""
+	[ ["0"] ["1"] ]
+	[ ["2"] ]
+	Attr
+		"/dilations"
+		[ [1, 1] ]
+	Attr
+		"/kernel_shape"
+		[ [3, 3] ]
+
+Input
+	"0"
+	[ 1, 1, 3, 3 ]
+
+Input
+	"1"
+	[ 1, 2, 3, 3 ]
+
+Output
+	"2"
+	[ 1, 2, 5, 5 ]
+

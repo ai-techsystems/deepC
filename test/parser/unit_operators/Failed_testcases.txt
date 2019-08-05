@@ -1,0 +1,16 @@
+Unsqueeze
+	onnx.onnx_cpp2py_export.checker.ValidationError: Attribute 'axes' is expected to have field 'ints'
+Round
+	onnx.onnx_cpp2py_export.checker.ValidationError: No Op registered for Round with domain_version of 11
+CumSum
+	onnx.onnx_cpp2py_export.checker.ValidationError: No Op registered for CumSum with domain_version of 11
+Upsample
+	onnx.onnx_cpp2py_export.checker.ValidationError: Op registered for Upsample is depracted in domain_version of 11
+RandomUniform
+	onnx.onnx_cpp2py_export.checker.ValidationError: Node () has input size 1 not in range [min=0, max=0]
+BitShift
+	onnx.onnx_cpp2py_export.checker.ValidationError: No Op registered for BitShift with domain_version of 11
+RandomNormal
+	Context: Bad node spec: input: "x" output: "y" op_type: "RandomNormal" attribute { name: "mean" f: 0 type: FLOAT } attribute { name: "scale" f: 1 type: FLOAT }
+Split
+	onnx.onnx_cpp2py_export.checker.ValidationError: Graph must be in single static assignment (SSA) form, however '1' has been used as output names multiple times.

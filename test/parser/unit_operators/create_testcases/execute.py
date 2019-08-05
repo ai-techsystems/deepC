@@ -186,7 +186,8 @@ operators['CumSum'] = {
 'nodes':['helper.make_node("CumSum", ["0"], ["1"])'],
 'inputs':'[helper.make_tensor_value_info("0", TensorProto.FLOAT, (5,))]',
 'outputs':'[helper.make_tensor_value_info("1", TensorProto.FLOAT, (5,))]'
-} # ONNX doesn’t seem to recognize opset 11 operators, even though they are listed on the operator page
+}
+# ONNX doesn't seem to recognize opset 11 operators, even though they are listed on the operator page
 
 operators['DepthToSpace'] = {
 'nodes':['helper.make_node("DepthToSpace", ["0"], ["1"], blocksize=2)'],
@@ -821,7 +822,7 @@ operators['Unsqueeze'] = {
 
 operators['Sum'] = {
 'nodes':['helper.make_node("Sum", ["0", "1"], ["3"])'],
-'inputs':'[helper.make_tensor_value_info("0", TensorProto.FLOAT, (4,3,2)), helper.make_tensor_value_info("1", TensorProto.FLOAT, (4,3,2))', 
+'inputs':'[helper.make_tensor_value_info("0", TensorProto.FLOAT, (4,3,2)), helper.make_tensor_value_info("1", TensorProto.FLOAT, (4,3,2))]', 
 'outputs':'[helper.make_tensor_value_info("3", TensorProto.FLOAT, (4,3,2))]'
 }
 
@@ -856,7 +857,7 @@ operators['TopK'] = {
 }
 
 operators['Split'] = {
-'nodes':[' helper.make_node("Split", ["0"], ["1","2"]), axis=1 '],
+'nodes':[' helper.make_node("Split", ["0"], ["1","2"], axis=1) '],
 'inputs':'[helper.make_tensor_value_info("0", TensorProto.FLOAT, (2,6)), helper.make_tensor_value_info("1", TensorProto.FLOAT, (2,3))]',
 'outputs':'[helper.make_tensor_value_info("2", TensorProto.FLOAT, (2,3))]'
 }

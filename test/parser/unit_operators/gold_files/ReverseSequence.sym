@@ -1,0 +1,23 @@
+ReverseSequence
+	""
+	[ ["0"] ["1"] ]
+	[ ["2"] ]
+	Attr
+		"/batch_axis"
+		[ 1 ]
+	Attr
+		"/time_axis"
+		[ 0 ]
+
+Input
+	"0"
+	[ 4, 4 ]
+
+Input
+	"1"
+	[ 4 ]
+
+Output
+	"2"
+	[ 4, 4 ]
+

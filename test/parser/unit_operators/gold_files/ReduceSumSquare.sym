@@ -1,0 +1,16 @@
+ReduceSumSquare
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/keepdims"
+		[ 1 ]
+
+Input
+	"0"
+	[ 3, 2, 2 ]
+
+Output
+	"1"
+	[ 1, 1, 1 ]
+

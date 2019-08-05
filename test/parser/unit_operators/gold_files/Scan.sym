@@ -1,0 +1,27 @@
+Scan
+	""
+	[ ["initial"] ["x"] ]
+	[ ["y"] ["z"] ]
+	Attr
+		"/body"
+		[  ]
+	Attr
+		"/num_scan_inputs"
+		[ 1 ]
+
+Input
+	"initial"
+	[ 1, 2 ]
+
+Input
+	"x"
+	[ 1, 3, 2 ]
+
+Output
+	"y"
+	[ 1, 2 ]
+
+Output
+	"z"
+	[ 1, 3, 2 ]
+

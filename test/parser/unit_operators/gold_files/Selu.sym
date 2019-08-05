@@ -1,0 +1,19 @@
+Selu
+	""
+	[ ["x"] ]
+	[ ["y"] ]
+	Attr
+		"/alpha"
+		[ 2.0 ]
+	Attr
+		"/gamma"
+		[ 3.0 ]
+
+Input
+	"x"
+	[ 1, 3 ]
+
+Output
+	"y"
+	[ 1, 3 ]
+

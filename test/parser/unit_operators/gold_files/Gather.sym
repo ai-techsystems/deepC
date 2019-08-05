@@ -1,0 +1,20 @@
+Gather
+	""
+	[ ["data"] ["indices"] ]
+	[ ["y"] ]
+	Attr
+		"/axis"
+		[ 0 ]
+
+Input
+	"data"
+	[ 3, 2 ]
+
+Input
+	"indices"
+	[ 2, 2 ]
+
+Output
+	"y"
+	[ 2, 2, 2 ]
+

@@ -1,0 +1,19 @@
+ArgMin
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/axis"
+		[ 0 ]
+	Attr
+		"/keepdims"
+		[ 1 ]
+
+Input
+	"0"
+	[ 2, 3, 4 ]
+
+Output
+	"1"
+	[ 2, 3, 4 ]
+

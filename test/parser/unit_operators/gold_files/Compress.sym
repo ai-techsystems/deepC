@@ -1,0 +1,20 @@
+Compress
+	""
+	[ ["input"] ["condition"] ]
+	[ ["output"] ]
+	Attr
+		"/axis"
+		[ 1 ]
+
+Input
+	"input"
+	[ 2, 3, 4 ]
+
+Input
+	"condition"
+	[ 2, 3, 4 ]
+
+Output
+	"output"
+	[ 2, 3, 4 ]
+
