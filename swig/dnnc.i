@@ -24,11 +24,6 @@
 //
 #define MODE DEBUG
 
-%include <std_string.i>
-%include <std_vector.i>
-%include <std_shared_ptr.i>
-%include <exception.i>
-%include <core/tensor.h>
 %exception
 {
  try
@@ -49,6 +44,11 @@
  }
 }
 %module dnnc
+%include <std_string.i>
+%include <std_vector.i>
+%include <std_shared_ptr.i>
+%include <exception.i>
+%include <core/tensor.h>
 %{
 #include <core/tensor.h>
 extern dnnc::tensor<float>  \
@@ -57,7 +57,9 @@ extern dnnc::tensor<float>  \
 extern dnnc::tensor<float>  \
         multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 %}
-%template(FLOAT_TENSOR) dnnc::tensor<float>;
+%template(iTensor) dnnc::tensor<int>;
+%template(fTensor) dnnc::tensor<float>;
+%template(dTensor) dnnc::tensor<double>;
 
 extern dnnc::tensor<float>
         make_tensor(size_t x,     size_t y = 0, 

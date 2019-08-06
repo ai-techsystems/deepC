@@ -185,6 +185,7 @@ namespace dnnc {
   {
     protected:
       OPCODE             _op;
+      std::string        _name;
       opAttributes*      _m_attrs ;
       std::vector<std::shared_ptr<tensor<T> > > _m_inputs ;
       std::vector<std::shared_ptr<tensor<T> > > _m_outputs ;
@@ -194,8 +195,8 @@ namespace dnnc {
 		  return t._mem_layout;
 	  }
     public:
-      baseOperator(OPCODE op, opAttributes* attr=0x0) : 
-		  _op(op), _m_attrs(attr) 
+      baseOperator(OPCODE op, std::string name="", opAttributes* attr=0x0) : 
+		  _op(op), _name(name), _m_attrs(attr) 
       {}
       void addInput(std::shared_ptr<tensor<T> > in) 
       {

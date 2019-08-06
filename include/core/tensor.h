@@ -159,7 +159,7 @@ namespace dnnc {
 		{
 			return _shape;
 		}
-		void reshape(const std::vector<size_t>& new_shape)
+		void reshape(std::vector<size_t>& new_shape)
 		{
 			//ensure new_shape is same size as original shape
 			if (new_shape.size() != _shape.size())

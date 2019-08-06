@@ -21,6 +21,6 @@ __pycache__/
 *.files
 *.includes
 
+swig/dnnc.py*
 swig/dnnc.py
-swig/dnnc.pyc
 swig/dnnc_swig.cpp

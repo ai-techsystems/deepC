@@ -35,7 +35,7 @@ int main() {
 	tensor<float> a(2,3); a.load(d1);
 	tensor<float> b(3,2); b.load(d2);
 
-	MatMul<float> m;
+	MatMul<float> m("localOpName", 0x0);
 	auto result = m.compute(a, b);
 
 	std::cout << result ;

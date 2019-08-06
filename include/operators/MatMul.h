@@ -22,6 +22,7 @@
 //
 #pragma once
 #include "operators/baseOperator.h"
+#include <string>
 
 using namespace Eigen;
 
@@ -30,7 +31,8 @@ namespace dnnc {
   class MatMul : public baseOperator<T> {
     protected:
     public:
-      MatMul() : baseOperator<T>(opMatMul)
+      MatMul(std::string name="opMatMul", opAttributes* attrs=0x0) : 
+	     baseOperator<T>(opMatMul, name, attrs)
       {}
 	  // NOT GOOD to return by value
       tensor<T> 
@@ -44,13 +46,13 @@ namespace dnnc {
 		  
 		  tensor<T> result(a.shape()[0], b.shape()[1]); 
 		  
-		  DNNC_EIGEN_MATRIX(eigenMatrix1, a) ; 
-		  DNNC_EIGEN_MATRIX(eigenMatrix2, b) ; 
-		  
-		  Matrix<T, Dynamic, Dynamic> eResult = eigenMatrix1 * eigenMatrix2 ; 
+		  DNNC_EIGEN_MATRIX(eigenMatrixA, a) ; 
+		  DNNC_EIGEN_MATRIX(eigenMatrixB, b) ; 
+
+		  Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA * eigenMatrixB ; 
 		  
 		  result.load( eResult.data() ); 
-		  
+
 		  return result;
 	  }
   };
