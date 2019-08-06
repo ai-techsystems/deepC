@@ -23,6 +23,8 @@
 #pragma once
 #include "operators/baseOperator.h"
 
+using namespace Eigen;
+
 namespace dnnc {
   template <typename T>
   class MatMul : public baseOperator<T> {
@@ -30,7 +32,26 @@ namespace dnnc {
     public:
       MatMul() : baseOperator<T>(opMatMul)
       {}
+	  // NOT GOOD to return by value
       tensor<T> 
-      compute(tensor<T>& a, tensor<T>& b);
+      compute(tensor<T>& a, tensor<T>& b)
+	  {
+		  if ( a.rank() != 2 || b.rank() != 2 ) 
+			  throw std::invalid_argument("invalid tensor rank."); 
+
+		  if ( a.shape()[1] != b.shape()[0] )
+			  throw std::invalid_argument("tensor dimenions not appropriate for multiplication operator."); 
+		  
+		  tensor<T> result(a.shape()[0], b.shape()[1]); 
+		  
+		  DNNC_EIGEN_MATRIX(eigenMatrix1, a) ; 
+		  DNNC_EIGEN_MATRIX(eigenMatrix2, b) ; 
+		  
+		  Matrix<T, Dynamic, Dynamic> eResult = eigenMatrix1 * eigenMatrix2 ; 
+		  
+		  result.load( eResult.data() ); 
+		  
+		  return result;
+	  }
   };
 }

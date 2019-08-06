@@ -21,22 +21,27 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #include "operators/MatMul.h"
-#include <Eigen/Dense>
-#include "operators/macros.h"
 
 using namespace dnnc ;
 using namespace Eigen;
 
-// use eigen library to compute matrix multiplication here.
-//
-template <typename T>
-tensor<T> 
-MatMul<T>::compute(tensor<T>& a, tensor<T>& b)
-{
-	tensor<T> result; 
-	Matrix<T, Dynamic, Dynamic> eM1;
-	Matrix<T, Dynamic, Dynamic> eM2;
-	Matrix<T, Dynamic, Dynamic> eResult = eM1 * eM2 ;
-	return result;
+//#define DNNC_MATMUL_TEST 1
+#ifdef DNNC_MATMUL_TEST 
+#include <iostream>
+
+int main() {
+	float d1[6] = {1., 2., 3., 4., 5., 6.};
+	float d2[6] = {1., 2., 3., 4., 5., 6.};
+	tensor<float> a(2,3); a.load(d1);
+	tensor<float> b(3,2); b.load(d2);
+
+	MatMul<float> m;
+	auto result = m.compute(a, b);
+
+	std::cout << result ;
+	std::cout << "\n" ;
+
+	return 0;
 }
 
+#endif

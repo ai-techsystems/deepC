@@ -22,12 +22,13 @@
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
+# CORE must be first, all others depend on CORE
 all:CORE OPERATORS
 
 CORE:
 	cd core; make; cd ..
 
-OPERATORS:
+OPERATORS: CORE
 	cd operators; make; cd ..
 
 clean:

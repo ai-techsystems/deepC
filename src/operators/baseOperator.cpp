@@ -21,23 +21,10 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #include "operators/baseOperator.h"
-#include "core/tensor.h"
-
-
-#include <iostream>
-
-namespace dnnc {
-	template<typename T>
-	T*
-	baseOperator<T>::tensorMem(tensor<T>& t)
-	{
-		return t._mem_layout;
-	}
-}
-
 
 //#define DNNC_OPERATOR_TEST 1
 #ifdef DNNC_OPERATOR_TEST
+#include <iostream>
 
 namespace dnnc {
 template <typename T>
@@ -46,7 +33,7 @@ class fakeOperatorTest : public baseOperator<T> {
 	fakeOperatorTest() : baseOperator<T>(opAbs) 
 	{}
 	void
-	testEigenMatrix(tensor<T> t)
+	testEigenMatrix(tensor<T>& t)
 	{
 		if ( t.rank() == 1 )
 		{

@@ -32,6 +32,7 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <iostream>
 #endif
 #include <random>
 
@@ -47,6 +48,7 @@ namespace dnnc {
 		friend class baseOperator<T> ;
 
 	protected:
+		//////////// protected members /////////////////
 		std::vector<DIMENSION> _shape;
 		T* _mem_layout; // TODO: convert it into object of layout class to accomodate tiling and reference counting.
 
@@ -93,10 +95,51 @@ namespace dnnc {
 			}
 			init();
 		}
+		tensor (const tensor& other)
+		{
+			_shape = other._shape ;
+			_mem_layout = getMemory(size());
+			for (size_t i=0; i<size(); i++) 
+				_mem_layout[i] = other._mem_layout[i] ;
+		}
+		tensor& operator=(const tensor& other)
+		{ 
+		 	// Gracefully handle self assignment
+			if (this == &other) 
+				return *this;
+
+			_shape = other._shape ;
+			_mem_layout = getMemory(size());
+			for (size_t i=0; i<size(); i++) 
+				_mem_layout[i] = other._mem_layout[i] ;
+
+			return *this ;
+		}
 		~tensor()
 		{
 			if ( _mem_layout )
 				free(_mem_layout);
+		}
+
+		// WARNING: Make sure data being loaded has same size as tensor.
+		void load(T* data) {
+			if ( !data )
+				return ;
+			for(size_t i=0; i<size(); i++)
+				_mem_layout[i] = data[i];
+		}
+		friend std::ostream& operator<<(std::ostream& os, const tensor<T>& t)
+		{
+			for (size_t i=0; i<t.size(); i++)
+				os << t._mem_layout[i] << ' ' ;
+			return os;
+		}
+		std::string to_string()
+		{
+			std::string str ;
+			for (size_t i=0; i<size(); i++)
+				str += std::to_string(_mem_layout[i]) + (i==size()-1?"":" ");
+			return str;
 		}
 
 		// public methods
@@ -159,10 +202,11 @@ namespace dnnc {
 		{
 			return size() == 0;
 		}
-		std::string toProto() // return proto string
+		std::string to_proto() // return proto string
 		{
-		std::string tensor_proto = "";
+			std::string tensor_proto = "";
 			return tensor_proto;
 		}
 	};
 }
+

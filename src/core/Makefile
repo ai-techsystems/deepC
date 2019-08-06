@@ -22,7 +22,8 @@
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
-MODULE=$(shell $(CURDIR))
+#MODULE=$(shell ${CURDIR})
+MODULE=core
 OBJ_DIR=./obj
 LIB_DIR=./lib
 LIB=$(LIB_DIR)/lib$(MODULE).so
@@ -53,5 +54,6 @@ clean:
 .PHONY: print_vars
 
 print_vars:
+	@echo $(MODULE)
 	@echo $(CPP_SRCS)
 	@echo $(OBJECTS)

@@ -25,6 +25,11 @@
 #include <memory>
 #include "operators/macros.h"
 
+// we're forced to include tensor.h here, because of limitation on
+// template instantiations to generate complete definition of the 
+// operator. This breaks principle of modularity along with my heart. :-/
+#include "core/tensor.h" 
+
 namespace dnnc {
   
   enum OPCODE {
@@ -169,8 +174,6 @@ namespace dnnc {
       opXor
   };
 
-  template <typename T> class tensor ;
-
   // operator attributes
   struct opAttributes {
     // it'll be a map of key-value pair, that
@@ -186,7 +189,10 @@ namespace dnnc {
       std::vector<std::shared_ptr<tensor<T> > > _m_inputs ;
       std::vector<std::shared_ptr<tensor<T> > > _m_outputs ;
 
-	  T* tensorMem(tensor<T>& t) ; 
+	  T* tensorMem(tensor<T>& t)
+	  {
+		  return t._mem_layout;
+	  }
     public:
       baseOperator(OPCODE op, opAttributes* attr=0x0) : 
 		  _op(op), _m_attrs(attr) 

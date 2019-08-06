@@ -22,7 +22,7 @@
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
-all:SWIG SRC
+all:SRC SWIG
 
 SWIG:
 	cd swig/; make; cd ..

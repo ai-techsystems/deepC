@@ -24,7 +24,7 @@
 
 OBJ_DIR=./obj
 LIB_DIR=./lib
-LIB=$(LIB_DIR)/libdnncOperators.so
+LIB=$(LIB_DIR)/liboperators.so
 
 INCLUDES= -I../../include -I../../packages/eigen-eigen-323c052e1731
 GCC=/usr/bin/g++

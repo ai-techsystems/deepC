@@ -54,10 +54,13 @@
 extern dnnc::tensor<float>  \
         make_tensor(size_t x,     size_t y = 0,  \
                     size_t z = 0, size_t w = 0) ;
+extern dnnc::tensor<float>  \
+        multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 %}
 %template(FLOAT_TENSOR) dnnc::tensor<float>;
 
 extern dnnc::tensor<float>
         make_tensor(size_t x,     size_t y = 0, 
                     size_t z = 0, size_t w = 0) ;
-
+extern dnnc::tensor<float>  \
+        multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;

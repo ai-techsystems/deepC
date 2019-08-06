@@ -25,18 +25,18 @@
 
 using namespace dnnc;
 
-dnnc::tensor<float>
+tensor<float>
 make_tensor(size_t x,     size_t y = 0, 
             size_t z = 0, size_t w = 0)
 {
   return tensor<float> (x, y, z, w) ;
 }
 
-dnnc::tensor<float>
-MatMul(dnnc::tensor<float>& a, 
-       dnnc::tensor<float>& b)
+tensor<float>
+multiply(tensor<float>& a, 
+         tensor<float>& b)
 {
-  dnnc::MatMul<float> op ;
+  MatMul<float> op ;
   return op.compute(a, b);
 }
 
