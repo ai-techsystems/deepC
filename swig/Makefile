@@ -72,7 +72,7 @@ $(LIB):$(OBJECTS)
 	$(LN_S) $@ $(PYMOD)
 
 VERIFY:
-	$(PYTHON) -c "import dnnc; a=dnnc.make_tensor(2,3,4,5)"
+	$(PYTHON) ../test/swig/basic.py
 
 clean:
 	\rm -fr $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc.py dnnc.pyc $(PYMOD) __pycache__
