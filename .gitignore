@@ -20,3 +20,7 @@ __pycache__/
 *.creator
 *.files
 *.includes
+
+swig/dnnc.py
+swig/dnnc.pyc
+swig/dnnc_swig.cpp
