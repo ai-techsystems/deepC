@@ -159,6 +159,16 @@ namespace dnnc {
 		{
 			return _shape;
 		}
+		void reshape(const std::vector<size_t>& new_shape)
+		{
+			//ensure new_shape is same size as original shape
+			if (new_shape.size() != _shape.size())
+				throw "new size does not match existing tensor size";
+			//ensure vector is of proper data type
+			//ensure vector has length between 1 and 4, inclusive
+
+			_shape = new_shape;
+		}
 		// flat index, unsafe method
 		T& operator[](const INDEX& index) const
 		{
