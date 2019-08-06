@@ -7,6 +7,7 @@ This is a tutorial for adding new operator implementation in C++ using Eigen and
 3. Compile and run test file
 4. Modify swig files
 5. Test operator from Python interface
+6. Add basic python test in test/swig/basic.py
 6. Create pull request on Github
 
 
