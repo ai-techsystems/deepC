@@ -2,4 +2,5 @@
 
 
 
-[![Watch the video](misc/howToAddNewOperators.JPG)](https://www.youtube.com/watch?v=2CITO2SEAfE)
+
+[<img src="https://img.youtube.com/vi/2CITO2SEAfE/maxresdefault.jpg" width="100%">](https://youtu.be/2CITO2SEAfE)
