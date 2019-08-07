@@ -20,31 +20,28 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-#include "core/tensor.h"
-#include "operators/MatMul.h"
 #include "operators/Add.h"
 
-using namespace dnnc;
+using namespace dnnc ;
+using namespace Eigen;
 
-tensor<float>
-make_tensor(size_t x,     size_t y = 0, 
-            size_t z = 0, size_t w = 0)
-{
-  return tensor<float> (x, y, z, w) ;
+//#define DNNC_ADD_TEST 1
+#ifdef DNNC_ADD_TEST 
+#include <iostream>
+
+int main() {
+	float d1[6] = {1., 2., 3., 4., 5., 6.};
+	float d2[6] = {1., 2., 3., 4., 5., 6.};
+	tensor<float> a(2,3); a.load(d1);
+	tensor<float> b(2,3); b.load(d2);
+
+	Add<float> m("localOpName", 0x0);
+	auto result = m.compute(a, b);
+
+	std::cout << result ;
+	std::cout << "\n" ;
+
+	return 0;
 }
 
-tensor<float>
-multiply(tensor<float>& a, 
-         tensor<float>& b)
-{
-  MatMul<float> op ;
-  return op.compute(a, b);
-}
-
-tensor<float>
-add(tensor<float>& a, 
-         tensor<float>& b)
-{
-  Add<float> op ;
-  return op.compute(a, b);
-}
+#endif

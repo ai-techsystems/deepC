@@ -20,31 +20,37 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-#include "core/tensor.h"
-#include "operators/MatMul.h"
-#include "operators/Add.h"
+#pragma once
+#include "operators/baseOperator.h"
+#include <string>
 
-using namespace dnnc;
+using namespace Eigen;
 
-tensor<float>
-make_tensor(size_t x,     size_t y = 0, 
-            size_t z = 0, size_t w = 0)
-{
-  return tensor<float> (x, y, z, w) ;
-}
+namespace dnnc {
+  template <typename T>
+  class Add : public baseOperator<T> {
+    protected:
+    public:
+      Add(std::string name="opAdd", opAttributes* attrs=0x0) : 
+	     baseOperator<T>(opAdd, name, attrs)
+      {}
+	  // NOT GOOD to return by value
+      tensor<T> 
+      compute(tensor<T>& a, tensor<T>& b)
+	  {
+		  if (a.shape() != b.shape())
+			  throw std::invalid_argument("tensor dimenions not appropriate for add operator."); 
+		  
+		  tensor<T> result(a.shape()[0], a.shape()[1]); 
+		  
+		  DNNC_EIGEN_MATRIX(eigenMatrixA, a) ; 
+		  DNNC_EIGEN_MATRIX(eigenMatrixB, b) ; 
 
-tensor<float>
-multiply(tensor<float>& a, 
-         tensor<float>& b)
-{
-  MatMul<float> op ;
-  return op.compute(a, b);
-}
+		  Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA + eigenMatrixB ; 
+		  
+		  result.load( eResult.data() ); 
 
-tensor<float>
-add(tensor<float>& a, 
-         tensor<float>& b)
-{
-  Add<float> op ;
-  return op.compute(a, b);
+		  return result;
+	  }
+  };
 }
