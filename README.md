@@ -28,8 +28,6 @@ build and install dnn Compiler locally from source code with following steps
 ```
 git clone https://github.com/ai-techsystems/dnnCompiler.git 
 cd dnnCompiler
-mkdir build && cd build
-cmake ..
 make
 ```
 
