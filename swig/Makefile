@@ -69,7 +69,7 @@ $(OBJ_DIR)/%.o:%.cpp
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || mkdir $(LIB_DIR) 
 	$(GCC) $(LD_FLAGS) $(OBJECTS) -o $@
-	$(LN_S) $@ $(PYMOD)
+	$(LN_S) -f $@ $(PYMOD)
 
 VERIFY:
 	$(PYTHON) ../test/swig/basic.py

@@ -185,8 +185,13 @@ namespace dnnc {
 				newLength = newLength * new_shape[i];
 
 			//ensure new_shape is same length as original length
+			if ( newLength == 0 )
+				throw std::invalid_argument("new reshape length can't be zero.");
 			if ( newLength != length() )
-				throw "new reshape length does not match tensor\'s length";
+			{
+				std::string msg = "new reshape length " + std::to_string(newLength) + " does not match tensor\'s length" + std::to_string(length()) + ".\n";
+				throw std::invalid_argument("new reshape length does not match tensor\'s length");
+			}
 
 			_shape = new_shape;
 		}

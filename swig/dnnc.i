@@ -43,12 +43,20 @@
    SWIG_exception(SWIG_RuntimeError, "unknown exception");
  }
 }
+
 %module dnnc
 %include <std_string.i>
 %include <std_vector.i>
 %include <std_shared_ptr.i>
 %include <exception.i>
 %include <core/tensor.h>
+
+%inline %{
+typedef long unsigned int size_t;
+%}
+namespace std {
+  %template(ivec) vector<size_t>;
+}
 %{
 #include <core/tensor.h>
 extern dnnc::tensor<float>  \
