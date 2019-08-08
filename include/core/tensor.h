@@ -27,7 +27,6 @@
 #include "core/datatypes.h"
 
 #ifndef SWIGPYTHON
-#include <typeinfo>
 #include <stdlib.h>	// malloc, free
 #include <vector>
 #include <string>
@@ -49,40 +48,50 @@ namespace dnnc {
 
 	protected:
 		//////////// protected members /////////////////
-		std::vector<DIMENSION> _shape;
-		T* _mem_layout; // TODO: convert it into object of layout class to accomodate tiling and reference counting.
+		size_t*                _ref ;
+		std::string            _name ;
+		std::vector<DIMENSION> _shape ;
+		T* _mem_layout; // TODO: add tiling.
 
 		//////////// protected methods /////////////////
 		T* getMemory(size_t sz)
 		{
 			_mem_layout = sz ?  static_cast<T*> ( malloc(sizeof(T)*sz) ) : 0x0;
-			if (sz && !_mem_layout)
+			_ref = static_cast<size_t*>( malloc(sizeof(size_t)) );
+			if ((sz && !_mem_layout) || !_ref)
 				throw std::bad_alloc();
 			return _mem_layout;
 		}
-		void init() {
-			size_t msize = size() ; // memory size
+		// only constructors  call init method
+		void init()
+		{
+			size_t msize = length() ; // flat array length
 			if ( rank() == 0 )
 #ifndef SWIGPYTHON
 				throw std::invalid_argument("tensor with no shape.");
 #endif
 			_mem_layout = getMemory(msize);
 
-			// initilize with uniform distribution.
-			std::default_random_engine generator ;
-			std::uniform_real_distribution<double> distribution(0, 255);
-			for (size_t i=0; i<msize; i++) 
+			*_ref  = 1 ; // init reference count.
+			// initilize with normal distribution.
+			std::default_random_engine generator;
+			std::normal_distribution<double> distribution(127.5, 20.0);
+			for (size_t i=0; i<msize; i++)
 				_mem_layout[i] = static_cast<T>(distribution(generator));
 		}
+
 	public:
 		// tensor constructor with arbitrary dimension
-		tensor(std::vector<DIMENSION> dimn) : _mem_layout(0x0)
+		tensor(std::vector<DIMENSION> dimn, std::string n="") : 
+			_name(n), _mem_layout(0x0)
 		{
 			_shape = dimn;
 			init();
 		}
 		tensor( DIMENSION x = 0, DIMENSION y = 0, 
-				DIMENSION z = 0, DIMENSION w = 0) : _mem_layout(0x0)
+				DIMENSION z = 0, DIMENSION w = 0,
+				std::string n="") : 
+			_name(n), _mem_layout(0x0)
 		{
 			if ( x ) {
 				_shape.push_back(x);
@@ -97,10 +106,11 @@ namespace dnnc {
 		}
 		tensor (const tensor& other)
 		{
+			_ref = other._ref ;
+			_name = other._name ;
 			_shape = other._shape ;
-			_mem_layout = getMemory(size());
-			for (size_t i=0; i<size(); i++) 
-				_mem_layout[i] = other._mem_layout[i] ;
+			_mem_layout = other._mem_layout;
+			(*_ref)++;
 		}
 		tensor& operator=(const tensor& other)
 		{ 
@@ -108,43 +118,52 @@ namespace dnnc {
 			if (this == &other) 
 				return *this;
 
+			_ref = other._ref ;
+			_name = other._name ;
 			_shape = other._shape ;
-			_mem_layout = getMemory(size());
-			for (size_t i=0; i<size(); i++) 
-				_mem_layout[i] = other._mem_layout[i] ;
+			_mem_layout = other._mem_layout;
+			(*_ref)++;
 
 			return *this ;
 		}
 		~tensor()
 		{
-			if ( _mem_layout )
+			--(*_ref) ;
+			if ( *_ref == 0 && _mem_layout )
+			{
+				free(_ref) ;
 				free(_mem_layout);
+			}
 		}
 
 		// WARNING: Make sure data being loaded has same size as tensor.
 		void load(T* data) {
 			if ( !data )
 				return ;
-			for(size_t i=0; i<size(); i++)
+			for(size_t i=0; i<length(); i++)
 				_mem_layout[i] = data[i];
 		}
 		friend std::ostream& operator<<(std::ostream& os, const tensor<T>& t)
 		{
-			for (size_t i=0; i<t.size(); i++)
+			if (t._name.size())
+				os << t._name << "=" ;
+			for (size_t i=0; i<t.length(); i++)
 				os << t._mem_layout[i] << ' ' ;
 			return os;
 		}
 		std::string to_string()
 		{
 			std::string str ;
-			for (size_t i=0; i<size(); i++)
-				str += std::to_string(_mem_layout[i]) + (i==size()-1?"":" ");
+			if (_name.size())
+				str += _name + "=" ;
+			for (size_t i=0; i<length(); i++)
+				str += std::to_string(_mem_layout[i]) + (i==length()-1?"":" ");
 			return str;
 		}
 
 		// public methods
 
-		const DIMENSION size() const
+		const DIMENSION length() const
 		{
 			DIMENSION sz = rank() ? 1 : 0;
 			for (size_t i = 0; i < rank(); i++)
@@ -161,18 +180,20 @@ namespace dnnc {
 		}
 		void reshape(std::vector<size_t>& new_shape)
 		{
-			//ensure new_shape is same size as original shape
-			if (new_shape.size() != _shape.size())
-				throw "new size does not match existing tensor size";
-			//ensure vector is of proper data type
-			//ensure vector has length between 1 and 4, inclusive
+			DIMENSION newLength = new_shape.size() ? 1 : 0;
+			for (size_t i = 0; i < new_shape.size(); i++)
+				newLength = newLength * new_shape[i];
+
+			//ensure new_shape is same length as original length
+			if ( newLength != length() )
+				throw "new reshape length does not match tensor\'s length";
 
 			_shape = new_shape;
 		}
 		// flat index, unsafe method
 		T& operator[](const INDEX& index) const
 		{
-			if (index >= size())
+			if (index >= length())
 				throw std::out_of_range ("illegal tensor index.");
 
 			return _mem_layout[index];
@@ -210,7 +231,7 @@ namespace dnnc {
 		}
 		bool empty()
 		{
-			return size() == 0;
+			return length() == 0;
 		}
 		std::string to_proto() // return proto string
 		{

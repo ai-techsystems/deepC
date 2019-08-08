@@ -45,12 +45,12 @@ class fakeOperatorTest : public baseOperator<T> {
 			DNNC_EIGEN_MATRIX(eigenMatrix, t) ;
 			std::cout << eigenMatrix << "\n";
 		} 
-		else if ( t.size() == 3 ) 
+		else if ( t.rank() == 3 ) 
 		{
 			DNNC_EIGEN_TENSOR(eigenTensor, t) ;
 			//std::cout << eigenTensor << "\n";
 		} 
-		else if ( t.size() == 4 ) 
+		else if ( t.rank() == 4 ) 
 		{
 			DNNC_EIGEN_TENSOR4D(eigenTensor4D, t) ;
 			//std::cout << eigenTensor4D << "\n";

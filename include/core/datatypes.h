@@ -22,8 +22,13 @@
 
 #pragma once
 
+#include <typeinfo>
+#include <string>
+
 namespace dnnc {
+	// enum for target machine.
 	typedef enum DNNC_DataType {
+		DNNC_NOTYPE=0,
 		DNNC_FLOAT = 1,
 		DNNC_DOUBLE = 2,
 		DNNC_INT32 = 3,
@@ -49,7 +54,7 @@ namespace dnnc {
 
 	static const char* dtype_str[] = { \
 		"int8_t", /* a */
-		"", /* b */
+		"bool", /* b */
 		"char", /* c */
 		"double", /* d */
 		"long double", /* e */
