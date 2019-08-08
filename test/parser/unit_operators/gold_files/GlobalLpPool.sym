@@ -1,0 +1,16 @@
+GlobalLpPool
+	""
+	[ ["x"] ]
+	[ ["y"] ]
+	Attr
+		"/p"
+		[ 3 ]
+
+Input
+	"x"
+	[ 2, 3, 4, 5 ]
+
+Output
+	"y"
+	[ 2, 3, 1, 1 ]
+

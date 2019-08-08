@@ -1,0 +1,16 @@
+LogSoftmax
+	""
+	[ ["x"] ]
+	[ ["y"] ]
+	Attr
+		"/axis"
+		[ 1 ]
+
+Input
+	"x"
+	[ 2, 3 ]
+
+Output
+	"y"
+	[ 2, 3 ]
+

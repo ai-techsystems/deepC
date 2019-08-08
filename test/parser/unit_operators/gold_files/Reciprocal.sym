@@ -1,0 +1,13 @@
+Reciprocal
+	""
+	[ ["X"] ]
+	[ ["Y"] ]
+
+Input
+	"X"
+	[ 1, 2 ]
+
+Output
+	"Y"
+	[ 2, 3 ]
+

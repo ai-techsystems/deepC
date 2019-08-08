@@ -1,0 +1,73 @@
+ir_version: 5
+graph {
+  node {
+    input: "x"
+    output: "y"
+    op_type: "Pad"
+    attribute {
+      name: "mode"
+      s: "constant"
+      type: STRING
+    }
+    attribute {
+      name: "pads"
+      ints: 0
+      ints: 0
+      ints: 1
+      ints: 3
+      ints: 0
+      ints: 0
+      ints: 2
+      ints: 4
+      type: INTS
+    }
+  }
+  name: "Pad_graph"
+  input {
+    name: "x"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 3
+          }
+          dim {
+            dim_value: 4
+          }
+          dim {
+            dim_value: 5
+          }
+        }
+      }
+    }
+  }
+  output {
+    name: "y"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 3
+          }
+          dim {
+            dim_value: 7
+          }
+          dim {
+            dim_value: 12
+          }
+        }
+      }
+    }
+  }
+}
+opset_import {
+  version: 11
+}

@@ -5,7 +5,7 @@
 
 dnn Compiler is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like FPGAs, eFPGAs and other embedded devices like risc-V, raspberry-pi and others.
 
-dnn Compiler is based on [LLVM compiler tool chain](https://llvm.org/) and [openAcc](https://www.openacc.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
+dnn Compiler is ahead of time compiler producing optimized executable based on [LLVM compiler tool chain](https://llvm.org/) and [openAcc](https://www.openacc.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
 
 ## 📝 Design
 
@@ -19,6 +19,8 @@ Read more at [high level design document](docs/highLevelDesign.md)
 
 * [ONNX](https://github.com/onnx/onnx#installation)
 * [LLVM](https://apt.llvm.org)
+* [Python 3.6](https://www.python.org/downloads/release/python-360/)
+* [SWIG 3.0](http://www.swig.org/survey.html)
 
 ## ⚙ Installation
 build and install dnn Compiler locally from source code with following steps
@@ -26,8 +28,6 @@ build and install dnn Compiler locally from source code with following steps
 ```
 git clone https://github.com/ai-techsystems/dnnCompiler.git 
 cd dnnCompiler
-mkdir build && cd build
-cmake ..
 make
 ```
 

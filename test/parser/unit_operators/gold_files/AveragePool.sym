@@ -1,0 +1,16 @@
+AveragePool
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/kernel_shape"
+		[ [2, 2] ]
+
+Input
+	"0"
+	[ 1, 3, 32, 32 ]
+
+Output
+	"1"
+	[ 1, 3, 31, 31 ]
+

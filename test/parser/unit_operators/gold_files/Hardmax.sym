@@ -1,0 +1,16 @@
+Hardmax
+	""
+	[ ["X"] ]
+	[ ["Y"] ]
+	Attr
+		"/axis"
+		[ 1 ]
+
+Input
+	"X"
+	[ 2, 3 ]
+
+Output
+	"Y"
+	[ 2, 3 ]
+

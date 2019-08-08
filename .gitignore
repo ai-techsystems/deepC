@@ -1,4 +1,5 @@
 build/
+__pycache__/
 
 *.o
 *.so
@@ -19,3 +20,7 @@ build/
 *.creator
 *.files
 *.includes
+
+swig/dnnc.py*
+swig/dnnc.py
+swig/dnnc_swig.cpp

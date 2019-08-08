@@ -1,0 +1,41 @@
+QLinearMatMul
+	""
+	[ ["a"] ["a_scale"] ["a_zero_point"] ["b"] ["b_scale"] ["b_zero_point"] ["y_scale"] ["y_zero_point"] ]
+	[ ["y"] ]
+
+Input
+	"a"
+	[ 2, 3, 4 ]
+
+Input
+	"a_scale"
+	[ 2, 3, 4 ]
+
+Input
+	"a_zero_point"
+	[ 2, 3, 4 ]
+
+Input
+	"b"
+	[ 2, 3, 4 ]
+
+Input
+	"b_scale"
+	[ 2, 3, 4 ]
+
+Input
+	"b_zero_point"
+	[ 2, 3, 4 ]
+
+Input
+	"y_scale"
+	[ 2, 3, 4 ]
+
+Input
+	"y_zero_point"
+	[ 2, 3, 4 ]
+
+Output
+	"y"
+	[ 2, 3, 4 ]
+

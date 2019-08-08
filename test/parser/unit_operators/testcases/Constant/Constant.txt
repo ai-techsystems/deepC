@@ -1,0 +1,62 @@
+ir_version: 5
+graph {
+  node {
+    output: "1"
+    op_type: "Constant"
+    attribute {
+      name: "value"
+      t {
+        dims: 5
+        dims: 5
+        data_type: 1
+        float_data: 0.0305165201426
+        float_data: -0.408093720675
+        float_data: -2.97268986702
+        float_data: -1.52228367329
+        float_data: 2.30591487885
+        float_data: -0.266926229
+        float_data: -1.28686749935
+        float_data: 0.953172147274
+        float_data: -0.385073155165
+        float_data: 0.278892427683
+        float_data: 1.11532306671
+        float_data: -0.89013260603
+        float_data: -0.262054353952
+        float_data: 0.14523498714
+        float_data: -0.219980180264
+        float_data: -0.946077227592
+        float_data: 1.75152862072
+        float_data: -0.58385425806
+        float_data: 0.460420668125
+        float_data: 0.208022728562
+        float_data: -0.141163155437
+        float_data: 0.233643889427
+        float_data: -0.285797506571
+        float_data: -0.697757124901
+        float_data: -0.758460462093
+        name: "const_tensor"
+      }
+      type: TENSOR
+    }
+  }
+  name: "Constant_graph"
+  output {
+    name: "1"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 5
+          }
+          dim {
+            dim_value: 5
+          }
+        }
+      }
+    }
+  }
+}
+opset_import {
+  version: 11
+}

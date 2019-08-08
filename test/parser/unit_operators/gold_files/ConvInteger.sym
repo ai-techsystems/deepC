@@ -1,0 +1,23 @@
+ConvInteger
+	""
+	[ ["0"] ["1"] ]
+	[ ["2"] ]
+	Attr
+		"/dilations"
+		[ [1, 1] ]
+	Attr
+		"/kernel_shape"
+		[ [3, 3] ]
+
+Input
+	"0"
+	[ 1, 1, 6, 6 ]
+
+Input
+	"1"
+	[ 1, 1, 3, 3 ]
+
+Output
+	"2"
+	[ 1, 1, 4, 4 ]
+

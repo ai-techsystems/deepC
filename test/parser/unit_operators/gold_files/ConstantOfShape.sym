@@ -1,0 +1,16 @@
+ConstantOfShape
+	""
+	[ ["0"] ]
+	[ ["1"] ]
+	Attr
+		"/value"
+		[  ]
+
+Input
+	"0"
+	[ 2, 3, 4 ]
+
+Output
+	"1"
+	[ 2, 3, 4 ]
+

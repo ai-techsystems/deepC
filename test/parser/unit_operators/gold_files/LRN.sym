@@ -1,0 +1,25 @@
+LRN
+	""
+	[ ["x"] ]
+	[ ["y"] ]
+	Attr
+		"/alpha"
+		[ 9.99999974738e-05 ]
+	Attr
+		"/beta"
+		[ 0.75 ]
+	Attr
+		"/bias"
+		[ 1.0 ]
+	Attr
+		"/size"
+		[ 3 ]
+
+Input
+	"x"
+	[ 2, 3, 4, 5 ]
+
+Output
+	"y"
+	[ 2, 3, 4, 5 ]
+

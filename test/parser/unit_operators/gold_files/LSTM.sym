@@ -1,0 +1,30 @@
+LSTM
+	""
+	[ ["x"] ["w"] ["r"] ]
+	[ ["y"] ]
+	Attr
+		"/activations"
+		[  ]
+	Attr
+		"/direction"
+		[  ]
+	Attr
+		"/hidden_size"
+		[ 3 ]
+
+Input
+	"x"
+	[ 3, 3, 2 ]
+
+Input
+	"w"
+	[ 1, 12, 2 ]
+
+Input
+	"r"
+	[ 1, 12, 3 ]
+
+Output
+	"y"
+	[ 3, 1, 3, 3 ]
+

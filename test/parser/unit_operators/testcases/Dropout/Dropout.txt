@@ -1,0 +1,43 @@
+ir_version: 5
+graph {
+  node {
+    input: "0"
+    output: "1"
+    op_type: "Dropout"
+    attribute {
+      name: "ratio"
+      f: 0.300000011921
+      type: FLOAT
+    }
+  }
+  name: "Dropout_graph"
+  input {
+    name: "0"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 4
+          }
+        }
+      }
+    }
+  }
+  output {
+    name: "1"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 4
+          }
+        }
+      }
+    }
+  }
+}
+opset_import {
+  version: 11
+}

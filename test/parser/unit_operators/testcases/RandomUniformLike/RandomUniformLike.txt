@@ -1,0 +1,59 @@
+ir_version: 5
+graph {
+  node {
+    input: "x"
+    output: "y"
+    op_type: "RandomUniformLike"
+    attribute {
+      name: "dtype"
+      i: 1
+      type: INT
+    }
+    attribute {
+      name: "high"
+      f: 1.0
+      type: FLOAT
+    }
+    attribute {
+      name: "low"
+      f: 0.0
+      type: FLOAT
+    }
+  }
+  name: "RandomUniformLike_graph"
+  input {
+    name: "x"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 2
+          }
+        }
+      }
+    }
+  }
+  output {
+    name: "y"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 1
+          }
+          dim {
+            dim_value: 2
+          }
+        }
+      }
+    }
+  }
+}
+opset_import {
+  version: 11
+}

@@ -1,0 +1,19 @@
+ReduceLogSumExp
+	""
+	[ ["D"] ]
+	[ ["R"] ]
+	Attr
+		"/axes"
+		[ [0] ]
+	Attr
+		"/keepdims"
+		[ 1 ]
+
+Input
+	"D"
+	[ 1, 2, 3 ]
+
+Output
+	"R"
+	[ 1, 2, 3 ]
+

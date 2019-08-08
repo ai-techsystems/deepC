@@ -1,0 +1,19 @@
+IsInf
+	""
+	[ ["X"] ]
+	[ ["Y"] ]
+	Attr
+		"/detect_negative"
+		[ 1 ]
+	Attr
+		"/detect_positive"
+		[ 1 ]
+
+Input
+	"X"
+	[ 1 ]
+
+Output
+	"Y"
+	[ 1 ]
+

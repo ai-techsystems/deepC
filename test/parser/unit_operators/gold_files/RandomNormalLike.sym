@@ -1,0 +1,19 @@
+RandomNormalLike
+	""
+	[ ["x"] ]
+	[ ["y"] ]
+	Attr
+		"/mean"
+		[ 0.0 ]
+	Attr
+		"/scale"
+		[ 1.0 ]
+
+Input
+	"x"
+	[ 1, 2 ]
+
+Output
+	"y"
+	[ 1, 2 ]
+

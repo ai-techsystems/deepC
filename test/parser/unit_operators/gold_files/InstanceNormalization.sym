@@ -1,0 +1,24 @@
+InstanceNormalization
+	""
+	[ ["x"] ["s"] ["bias"] ]
+	[ ["y"] ]
+	Attr
+		"/epsilon"
+		[ 9.99999974738e-06 ]
+
+Input
+	"x"
+	[ 3, 4, 2, 2 ]
+
+Input
+	"s"
+	[ 3 ]
+
+Input
+	"bias"
+	[ 3 ]
+
+Output
+	"y"
+	[ 3, 4, 2, 2 ]
+

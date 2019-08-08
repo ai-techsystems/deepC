@@ -1,0 +1,41 @@
+QLinearConv
+	""
+	[ ["x"] ["x_scale"] ["x_zero_point"] ["w"] ["w_scale"] ["w_zero_point"] ["y_scale"] ["y_zero_point"] ]
+	[ ["y"] ]
+
+Input
+	"x"
+	[ 2, 3, 4 ]
+
+Input
+	"x_scale"
+	[ 2, 3, 4 ]
+
+Input
+	"x_zero_point"
+	[ 2, 3, 4 ]
+
+Input
+	"w"
+	[ 2, 3, 4 ]
+
+Input
+	"w_scale"
+	[ 2, 3, 4 ]
+
+Input
+	"w_zero_point"
+	[ 2, 3, 4 ]
+
+Input
+	"y_scale"
+	[ 2, 3, 4 ]
+
+Input
+	"y_zero_point"
+	[ 2, 3, 4 ]
+
+Output
+	"y"
+	[ 2, 3, 4 ]
+
