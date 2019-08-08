@@ -26,7 +26,7 @@ Read more at [high level design document](docs/highLevelDesign.md)
 build and install dnn Compiler locally from source code with following steps
 
 ### ⭕ Ubuntu 18.04
-You can install ubuntu18.04 on windows [Watch HowTo video here](https://www.youtube.com/watch?v=QbmRXJJKsvs).
+You can install ubuntu18.04 on windows [Watch HowTo video here](https://www.youtube.com/watch?v=QbmRXJJKsvs) or [Google it](https://www.google.com/search?q=how+to+setup+ubuntu+on+virtualbox&oq=how+to+setup+ubuntu+on+virtual+box)
 
 Follow the steps to install pre-requisites
 ```
