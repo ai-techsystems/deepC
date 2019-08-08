@@ -25,6 +25,12 @@ Read more at [high level design document](docs/highLevelDesign.md)
 ## ⚙ Installation
 build and install dnn Compiler locally from source code with following steps
 
+## Ubuntu 18.04
+```
+sudo apt-get install clang clang-8 llvm-8 llvm-8-dev libprotobuf-dev protobuf-compiler \
+    cmake graphviz libpng-dev wget opencl-headers libgoogle-glog-dev
+```
+
 ```
 git clone https://github.com/ai-techsystems/dnnCompiler.git 
 cd dnnCompiler
