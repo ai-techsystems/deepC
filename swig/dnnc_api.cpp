@@ -21,30 +21,21 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #include "core/tensor.h"
-#include "operators/MatMul.h"
 #include "operators/Add.h"
+#include "operators/MatMul.h"
 
 using namespace dnnc;
 
-tensor<float>
-make_tensor(size_t x,     size_t y = 0, 
-            size_t z = 0, size_t w = 0)
-{
-  return tensor<float> (x, y, z, w) ;
+tensor<float> make_tensor(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
+  return tensor<float>(x, y, z, w);
 }
 
-tensor<float>
-multiply(tensor<float>& a, 
-         tensor<float>& b)
-{
-  MatMul<float> op ;
+tensor<float> multiply(tensor<float> &a, tensor<float> &b) {
+  MatMul<float> op;
   return op.compute(a, b);
 }
 
-tensor<float>
-add(tensor<float>& a, 
-         tensor<float>& b)
-{
-  Add<float> op ;
+tensor<float> add(tensor<float> &a, tensor<float> &b) {
+  Add<float> op;
   return op.compute(a, b);
 }

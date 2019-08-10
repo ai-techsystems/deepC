@@ -22,26 +22,28 @@
 //
 #include "operators/Add.h"
 
-using namespace dnnc ;
+using namespace dnnc;
 using namespace Eigen;
 
 //#define DNNC_ADD_TEST 1
-#ifdef DNNC_ADD_TEST 
+#ifdef DNNC_ADD_TEST
 #include <iostream>
 
 int main() {
-	float d1[6] = {1., 2., 3., 4., 5., 6.};
-	float d2[6] = {1., 2., 3., 4., 5., 6.};
-	tensor<float> a(2,3); a.load(d1);
-	tensor<float> b(2,3); b.load(d2);
+  float d1[6] = {1., 2., 3., 4., 5., 6.};
+  float d2[6] = {1., 2., 3., 4., 5., 6.};
+  tensor<float> a(2, 3);
+  a.load(d1);
+  tensor<float> b(2, 3);
+  b.load(d2);
 
-	Add<float> m("localOpName", 0x0);
-	auto result = m.compute(a, b);
+  Add<float> m("localOpName", 0x0);
+  auto result = m.compute(a, b);
 
-	std::cout << result ;
-	std::cout << "\n" ;
+  std::cout << result;
+  std::cout << "\n";
 
-	return 0;
+  return 0;
 }
 
 #endif

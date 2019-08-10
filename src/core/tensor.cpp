@@ -22,59 +22,62 @@
 //
 #include "core/tensor.h"
 
+#include <float.h>
 #include <iostream>
 #include <stdint.h>
-#include <float.h>
 
 using namespace dnnc;
 
 //#define DNNC_TENSOR_TEST 1
 #ifdef DNNC_TENSOR_TEST
 
-template <typename T>
-void print_tensor(tensor<T>& v) 
-{
-	for (size_t i = 0; i < v.length(); i++) 
-		std::cout << std::to_string(v[i]) << "@" << i << " ";
-	std::cout << "\n";
+template <typename T> void print_tensor(tensor<T> &v) {
+  for (size_t i = 0; i < v.length(); i++)
+    std::cout << std::to_string(v[i]) << "@" << i << " ";
+  std::cout << "\n";
 }
 
-template <typename T>
-void type_test()
-{
-	std::cout << "==================================\n";
-	size_t x1=2, x2=3, x3=4, x4=5;
-	tensor<T> t1(x1, x2, x3, x4);
+template <typename T> void type_test() {
+  std::cout << "==================================\n";
+  size_t x1 = 2, x2 = 3, x3 = 4, x4 = 5;
+  tensor<T> t1(x1, x2, x3, x4);
 
-	size_t sz = x1*x2;
-	for (size_t i = 0; i < sz; i++)
-		t1[i] = static_cast<T>(i + sz);
+  size_t sz = x1 * x2;
+  for (size_t i = 0; i < sz; i++)
+    t1[i] = static_cast<T>(i + sz);
 
-	std::cout << "size " << t1.length() << std::endl;
-	const std::vector<DIMENSION> shape = t1.shape();
-	std::cout << "shape (";
-	for (size_t i = 0; i < shape.size(); i++)
-		std::cout << shape[i] << ", ";
-	std::cout << ")\n";
+  std::cout << "size " << t1.length() << std::endl;
+  const std::vector<DIMENSION> shape = t1.shape();
+  std::cout << "shape (";
+  for (size_t i = 0; i < shape.size(); i++)
+    std::cout << shape[i] << ", ";
+  std::cout << ")\n";
 
-	std::cout << std::to_string(t1[0]) << std::endl; // print first element
-	std::cout << std::to_string(t1(1, 2, 3, 4)) << std::endl; // print last element
-	print_tensor(t1);
-	std::cout << "==================================\n";
+  std::cout << std::to_string(t1[0]) << std::endl; // print first element
+  std::cout << std::to_string(t1(1, 2, 3, 4))
+            << std::endl; // print last element
+  print_tensor(t1);
+  std::cout << "==================================\n";
 }
 
-int main()
-{
+int main() {
 
-	std::cout << "short------\n"; type_test<short>();
-	std::cout << "int8_t------\n"; type_test <int8_t>();
-	std::cout << "int16_t------\n"; type_test <int16_t>();
-	std::cout << "int32_t------\n"; type_test <int32_t>();
-	std::cout << "int64_t------\n"; type_test <int64_t>();
-	std::cout << "float------\n"; type_test<float>();
-	std::cout << "double------\n"; type_test<double>();
-	// need tests for float11_t, float16_t and float64_t
-	//
-	return 0;
+  std::cout << "short------\n";
+  type_test<short>();
+  std::cout << "int8_t------\n";
+  type_test<int8_t>();
+  std::cout << "int16_t------\n";
+  type_test<int16_t>();
+  std::cout << "int32_t------\n";
+  type_test<int32_t>();
+  std::cout << "int64_t------\n";
+  type_test<int64_t>();
+  std::cout << "float------\n";
+  type_test<float>();
+  std::cout << "double------\n";
+  type_test<double>();
+  // need tests for float11_t, float16_t and float64_t
+  //
+  return 0;
 }
 #endif

@@ -32,28 +32,25 @@ using namespace Eigen;
 // the top of memory allocated in class tensor.
 // They help in keeping the memory footprint small.
 
-// check out Eigen documentation 
+// check out Eigen documentation
 // "Interfacing with raw buffers: the Map class"
 // https://eigen.tuxfamily.org/dox/group__TutorialMapClass.html
 
-// NOTE: These macros are valid only on classes inherited 
+// NOTE: These macros are valid only on classes inherited
 // from baseOperator.
 
-#define DNNC_EIGEN_VECTOR(var, t) \
-    Map<Matrix<T, 1, Dynamic> > \
-        var(this->tensorMem(t), t.shape()[0]) ;
+#define DNNC_EIGEN_VECTOR(var, t)                                              \
+  Map<Matrix<T, 1, Dynamic>> var(this->tensorMem(t), t.shape()[0]);
 
-#define DNNC_EIGEN_MATRIX(var, t) \
-    Map<Matrix<T, Dynamic, Dynamic> > \
-        var(this->tensorMem(t), t.shape()[0], t.shape()[1]) ;
+#define DNNC_EIGEN_MATRIX(var, t)                                              \
+  Map<Matrix<T, Dynamic, Dynamic>> var(this->tensorMem(t), t.shape()[0],       \
+                                       t.shape()[1]);
 
-#define DNNC_EIGEN_TENSOR(var, t) \
-    TensorMap<Tensor<T, 3, RowMajor> > \
-        var(this->tensorMem(t), t.shape()[0], t.shape()[1], \
-			t.shape()[2]) ;
+#define DNNC_EIGEN_TENSOR(var, t)                                              \
+  TensorMap<Tensor<T, 3, RowMajor>> var(this->tensorMem(t), t.shape()[0],      \
+                                        t.shape()[1], t.shape()[2]);
 
-#define DNNC_EIGEN_TENSOR4D(var, t) \
-    TensorMap<Tensor<T, 4, RowMajor> > \
-        var(this->tensorMem(t), t.shape()[0], t.shape()[1], \
-			t.shape()[2], t.shape()[3]) ;
-
+#define DNNC_EIGEN_TENSOR4D(var, t)                                            \
+  TensorMap<Tensor<T, 4, RowMajor>> var(this->tensorMem(t), t.shape()[0],      \
+                                        t.shape()[1], t.shape()[2],            \
+                                        t.shape()[3]);

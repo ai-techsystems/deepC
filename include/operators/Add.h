@@ -27,30 +27,27 @@
 using namespace Eigen;
 
 namespace dnnc {
-  template <typename T>
-  class Add : public baseOperator<T> {
-    protected:
-    public:
-      Add(std::string name="opAdd", opAttributes* attrs=0x0) : 
-	     baseOperator<T>(opAdd, name, attrs)
-      {}
-	  // NOT GOOD to return by value
-      tensor<T> 
-      compute(tensor<T>& a, tensor<T>& b)
-	  {
-		  if (a.shape() != b.shape())
-			  throw std::invalid_argument("tensor dimenions not appropriate for add operator."); 
-		  
-		  tensor<T> result(a.shape()[0], a.shape()[1]); 
-		  
-		  DNNC_EIGEN_MATRIX(eigenMatrixA, a) ; 
-		  DNNC_EIGEN_MATRIX(eigenMatrixB, b) ; 
+template <typename T> class Add : public baseOperator<T> {
+protected:
+public:
+  Add(std::string name = "opAdd", opAttributes *attrs = 0x0)
+      : baseOperator<T>(opAdd, name, attrs) {}
+  // NOT GOOD to return by value
+  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for add operator.");
 
-		  Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA + eigenMatrixB ; 
-		  
-		  result.load( eResult.data() ); 
+    tensor<T> result(a.shape()[0], a.shape()[1]);
 
-		  return result;
-	  }
-  };
-}
+    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    DNNC_EIGEN_MATRIX(eigenMatrixB, b);
+
+    Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA + eigenMatrixB;
+
+    result.load(eResult.data());
+
+    return result;
+  }
+};
+} // namespace dnnc

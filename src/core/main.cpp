@@ -21,19 +21,21 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include <iostream>
-#include <fstream>
 #include "core/tensor.h"
+#include <fstream>
+#include <iostream>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   // Verify that the version of the library that we linked against is
   // compatible with the version of the headers we compiled against.
 
   if (argc != 2) {
-    std::cerr << "Usage:  " << argv[0] << " onnx_model_file" << "\n";
+    std::cerr << "Usage:  " << argv[0] << " onnx_model_file"
+              << "\n";
     return -1;
   }
-  std::cout << "DNNC is under development. Check back in Sep 2019 for full release.\n";
+  std::cout << "DNNC is under development. Check back in Sep 2019 for full "
+               "release.\n";
 
   return 0;
 }

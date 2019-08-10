@@ -27,33 +27,30 @@
 using namespace Eigen;
 
 namespace dnnc {
-  template <typename T>
-  class MatMul : public baseOperator<T> {
-    protected:
-    public:
-      MatMul(std::string name="opMatMul", opAttributes* attrs=0x0) : 
-	     baseOperator<T>(opMatMul, name, attrs)
-      {}
-	  // NOT GOOD to return by value
-      tensor<T> 
-      compute(tensor<T>& a, tensor<T>& b)
-	  {
-		  if ( a.rank() != 2 || b.rank() != 2 ) 
-			  throw std::invalid_argument("invalid tensor rank."); 
+template <typename T> class MatMul : public baseOperator<T> {
+protected:
+public:
+  MatMul(std::string name = "opMatMul", opAttributes *attrs = 0x0)
+      : baseOperator<T>(opMatMul, name, attrs) {}
+  // NOT GOOD to return by value
+  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
+    if (a.rank() != 2 || b.rank() != 2)
+      throw std::invalid_argument("invalid tensor rank.");
 
-		  if ( a.shape()[1] != b.shape()[0] )
-			  throw std::invalid_argument("tensor dimenions not appropriate for multiplication operator."); 
-		  
-		  tensor<T> result(a.shape()[0], b.shape()[1]); 
-		  
-		  DNNC_EIGEN_MATRIX(eigenMatrixA, a) ; 
-		  DNNC_EIGEN_MATRIX(eigenMatrixB, b) ; 
+    if (a.shape()[1] != b.shape()[0])
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for multiplication operator.");
 
-		  Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA * eigenMatrixB ; 
-		  
-		  result.load( eResult.data() ); 
+    tensor<T> result(a.shape()[0], b.shape()[1]);
 
-		  return result;
-	  }
-  };
-}
+    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    DNNC_EIGEN_MATRIX(eigenMatrixB, b);
+
+    Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA * eigenMatrixB;
+
+    result.load(eResult.data());
+
+    return result;
+  }
+};
+} // namespace dnnc
