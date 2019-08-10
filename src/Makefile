@@ -26,14 +26,14 @@
 all:CORE OPERATORS
 
 CORE:
-	cd core; make; cd ..
+	$(MAKE) -C core
 
 OPERATORS: CORE
-	cd operators; make; cd ..
+	$(MAKE) -C operators
 
 clean:
-	cd core;      make clean; cd ..
-	cd operators; make clean; cd ..
+	$(MAKE) -C core clean
+	$(MAKE) -C operators clean
 
 .PHONY: print_vars
 

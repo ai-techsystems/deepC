@@ -29,6 +29,7 @@ LIB=$(LIB_DIR)/libdnnc.so
 PYTHON=/usr/bin/python3
 PYMOD=_dnnc.so
 
+MKDIR_P=mkdir -p
 LN_S=ln -s
 SWIG=/usr/bin/swig
 SWIG_FLAGS=-python -c++ -Wall
@@ -62,12 +63,12 @@ $(SWIG_CPPS):$(SWIG_MODULES)
 CPP_SRCS=$(SWIG_CPPS) dnnc_api.cpp
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
-	test -d $(OBJ_DIR) || mkdir $(OBJ_DIR) 
+	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
 	@echo "compiling $<"
 	$(GCC) $(CPP_FLAGS) $(PY_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
 
 $(LIB):$(OBJECTS)
-	test -d $(LIB_DIR) || mkdir $(LIB_DIR) 
+	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
 	$(GCC) $(LD_FLAGS) $(OBJECTS) -o $@
 	$(LN_S) -f $@ $(PYMOD)
 

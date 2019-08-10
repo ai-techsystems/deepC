@@ -22,6 +22,7 @@
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
+MKDIR_P=mkdir -p
 OBJ_DIR=./obj
 LIB_DIR=./lib
 LIB=$(LIB_DIR)/liboperators.so
@@ -37,12 +38,12 @@ all:$(LIB)
 CPP_SRCS=$(wildcard *.cpp)
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
-	test -d $(OBJ_DIR) || mkdir $(OBJ_DIR) 
+	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
 	@echo "compiling $<"
 	$(GCC) $(CPP_FLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIB):$(OBJECTS)
-	test -d $(LIB_DIR) || mkdir $(LIB_DIR) 
+	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
 	$(GCC) $(LD_FLAGS) $(OBJECTS) -o $@
 
 clean:

@@ -27,15 +27,15 @@ all:FORMAT SRC SWIG
 FORMAT:
 	find include src swig -name \*.h -print0 -o -name \*.cpp -print0 -o -name \*py -print0 | xargs -0 -P8 -n1 clang-format -i
 
-SWIG:
-	cd swig/; make; cd ..
+SWIG: SRC
+	$(MAKE) -C swig
 
 SRC:
-	cd src/; make; cd ..
+	$(MAKE) -C src
 
 clean:
-	cd swig/; make clean; cd ..
-	cd src/;  make clean; cd ..
+	$(MAKE) -C swig clean
+	$(MAKE) -C src  clean
 
 .PHONY: print_vars
 
