@@ -193,6 +193,11 @@ protected:
 public:
   baseOperator(OPCODE op, std::string name = "", opAttributes *attr = 0x0)
       : _op(op), _name(name), _m_attrs(attr) {}
+  void compute(void);
+  tensor<T> compute(tensor<T> in1);
+  tensor<T> compute(tensor<T> &in1);
+  tensor<T> compute(tensor<T> in1, tensor<T> in2);
+  tensor<T> compute(tensor<T> &in1, tensor<T> &in2);
   void addInput(std::shared_ptr<tensor<T>> in) { _m_inputs.push_back(in); }
   void addOutput(std::shared_ptr<tensor<T>> out) { _m_inputs.push_back(out); }
 };

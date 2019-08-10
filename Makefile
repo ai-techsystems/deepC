@@ -22,7 +22,10 @@
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
-all:SRC SWIG
+all:FORMAT SRC SWIG
+
+FORMAT:
+	find include src swig -name \*.h -print0 -o -name \*.cpp -print0 -o -name \*py -print0 | xargs -0 -P8 -n1 clang-format -i
 
 SWIG:
 	cd swig/; make; cd ..
