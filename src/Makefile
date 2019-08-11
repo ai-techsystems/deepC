@@ -23,6 +23,8 @@
 #
 
 # CORE must be first, all others depend on CORE
+MAKEFLAGS += -j8
+
 all:CORE OPERATORS
 
 CORE:

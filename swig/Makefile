@@ -22,6 +22,8 @@
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
+MAKEFLAGS += -j1
+
 OBJ_DIR=./obj
 LIB_DIR=./lib
 LIB=$(LIB_DIR)/libdnnc.so
