@@ -32,10 +32,46 @@ template <typename T> class Hardmax : public baseOperator<T> {
 public:
   Hardmax(std::string name = "opHardmax", opAttributes *attrs = 0x0)
       : baseOperator<T>(opHardmax, name, attrs) {}
+      tensor<T>
+      compute(tensor<T>& a,int axis=0)
+      {
+      tensor<T> result(a.shape()[0], a.shape()[1]);
+      Eigen::MatrixXf::Index max_index;
+      DNNC_EIGEN_MATRIX(eigenMatrix1, a) ;
+      
+      if(!axis)
+      {
+        for(int i=0;i<int(a.shape()[0]);i++)
+        {
+          eigenMatrix1.row(i).maxCoeff(&max_index);
+          for(int j=0;j<int(a.shape()[1]);j++)
+          {
+            if(j==max_index)
+              eigenMatrix1(i,j)=1;
+            else
+              eigenMatrix1(i,j)=0;
+          }
+        }
+      }
+      else
+      {
+        for(int j=0;j<int(a.shape()[1]);j++)
+        {
+          eigenMatrix1.col(j).maxCoeff(&max_index);
+          for(int i=0;i<int(a.shape()[0]);i++)
+          {
+            if(i==max_index)
+              eigenMatrix1(i,j)=1;
+            else
+              eigenMatrix1(i,j)=0;
+          }
+        }
+      }
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrix1 ;
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
-};
+      result.load( eResult.data() );
+
+      return result;
+      }
+    };
 } // namespace dnnc

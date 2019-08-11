@@ -32,10 +32,24 @@ template <typename T> class IsNaN : public baseOperator<T> {
 public:
   IsNaN(std::string name = "opIsNaN", opAttributes *attrs = 0x0)
       : baseOperator<T>(opIsNaN, name, attrs) {}
+      static bool Is_NAN(T x) {
+         if(std::isnan(x))
+           return true;
+         else
+           return false;
+       }
+      // NOT GOOD to return by value
+      tensor<bool>
+      compute(tensor<T>& a)
+      {
+      tensor<bool> result(a.shape()[0], a.shape()[1]);
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
+      DNNC_EIGEN_MATRIX(eigenMatrix1, a) ;
+
+      Matrix<bool, Dynamic, Dynamic> eResult=eigenMatrix1.unaryExpr(&Is_NAN);
+      result.load( eResult.data() );
+
+      return result;
+      }
 };
 } // namespace dnnc

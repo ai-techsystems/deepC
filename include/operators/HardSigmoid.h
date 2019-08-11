@@ -24,7 +24,7 @@
 #pragma once
 #include "operators/baseOperator.h"
 #include <string>
-
+#include <typeinfo>
 using namespace Eigen;
 
 namespace dnnc {
@@ -32,10 +32,33 @@ template <typename T> class HardSigmoid : public baseOperator<T> {
 public:
   HardSigmoid(std::string name = "opHardSigmoid", opAttributes *attrs = 0x0)
       : baseOperator<T>(opHardSigmoid, name, attrs) {}
+      static bool compare()
+      {
+        return ( (typeid(T) == typeid(float))||(typeid(T) == typeid(double)) );
+      }
+      static T Hard_Sigmoid(T x,float& alpha,float& beta)
+      {
+        T temp=T(alpha * x + beta);
+        temp = (1<temp) ? 1 : temp;
+        temp = (0>temp) ? 0 : temp;
+        return temp;
+      }
+      // NOT GOOD to return by value
+      tensor<T>
+      compute(tensor<T>& a,float& alpha,float& beta)
+      {
+      if(!compare() )
+          throw std::invalid_argument("Constrain input and output types to float tensors.");
+      tensor<T> result(a.shape()[0], a.shape()[1]);
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
-};
+      DNNC_EIGEN_MATRIX(eigenMatrix1, a) ;
+      //max(0, min(1, alpha * x + beta))
+      auto c0 = std::bind(Hard_Sigmoid, std::placeholders::_1, alpha,beta);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrix1.unaryExpr(c0) ;
+
+      result.load( eResult.data() );
+
+      return result;
+      }
+    };
 } // namespace dnnc

@@ -32,10 +32,33 @@ template <typename T> class IsInf : public baseOperator<T> {
 public:
   IsInf(std::string name = "opIsInf", opAttributes *attrs = 0x0)
       : baseOperator<T>(opIsInf, name, attrs) {}
+      static bool Is_INF(T x,int detect_negative,int detect_positive) {
+         if( std::isinf(x) )
+         {
+           if( (x<0)&&(detect_negative) )
+            return true;
+           else if( (x>0)&&(detect_positive) )
+            return true;
+           else
+            return false;
+         }
+         else
+           return false;
+       }
+      // NOT GOOD to return by value
+      tensor<bool>
+      compute(tensor<T>& a,int detect_negative=1,int detect_positive=1)
+      {
+      tensor<bool> result(a.shape()[0], a.shape()[1]);
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
+      DNNC_EIGEN_MATRIX(eigenMatrix1, a) ;
+
+      auto c0 = std::bind(Is_INF, std::placeholders::_1, detect_negative,detect_positive);
+
+      Matrix<bool, Dynamic, Dynamic> eResult=eigenMatrix1.unaryExpr(c0);
+      result.load( eResult.data() );
+
+      return result;
+      }
 };
 } // namespace dnnc

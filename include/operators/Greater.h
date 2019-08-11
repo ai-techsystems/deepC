@@ -32,10 +32,25 @@ template <typename T> class Greater : public baseOperator<T> {
 public:
   Greater(std::string name = "opGreater", opAttributes *attrs = 0x0)
       : baseOperator<T>(opGreater, name, attrs) {}
+      static bool comp(T x,T y)
+      {
+        return x>y;
+      }
+      tensor<bool>
+      compute(tensor<T>& a,tensor<T>& b)
+    {
+      if (a.shape() != b.shape())
+        throw std::invalid_argument("tensor dimenions not appropriate for Greater operator.");
+      tensor<bool> result(a.shape()[0], a.shape()[1]);
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
-};
-} // namespace dnnc
+      DNNC_EIGEN_MATRIX(eigenMatrix1, a) ;
+      DNNC_EIGEN_MATRIX(eigenMatrix2, b) ;
+
+      Matrix<bool, Dynamic, Dynamic> eResult = eigenMatrix1.binaryExpr(eigenMatrix2,&comp) ;
+
+      result.load( eResult.data() );
+
+      return result;
+    }
+  };
+}// namespace dnnc

@@ -1,4 +1,4 @@
-// Copyright 2018 The AITS DNNC Authors.All Rights Reserved.
+  // Copyright 2018 The AITS DNNC Authors.All Rights Reserved.
 //
 // Licensed to the Apache Software Foundation(ASF) under one
 // or more contributor license agreements.See the NOTICE file
@@ -32,31 +32,23 @@
  }
  catch (const std::runtime_error& e) {
    SWIG_exception(SWIG_RuntimeError, e.what());
- } 
+ }
  catch (const std::invalid_argument& e) {
    SWIG_exception(SWIG_ValueError, e.what());
  }
  catch (const std::out_of_range& e) {
    SWIG_exception(SWIG_IndexError, e.what());
  }
- catch (...) { 
+ catch (...) {
    SWIG_exception(SWIG_RuntimeError, "unknown exception");
  }
 }
-
 %module dnnc
 %include <std_string.i>
 %include <std_vector.i>
 %include <std_shared_ptr.i>
 %include <exception.i>
 %include <core/tensor.h>
-
-%inline %{
-typedef long unsigned int size_t;
-%}
-namespace std {
-  %template(ivec) vector<size_t>;
-}
 %{
 #include <core/tensor.h>
 extern dnnc::tensor<float>  \
@@ -66,15 +58,27 @@ extern dnnc::tensor<float>  \
         multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         add(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
+extern dnnc::tensor<float>  \
+        identity(dnnc::tensor<float>& a) ;
+extern dnnc::tensor<bool>  \
+        isnan(dnnc::tensor<float>& a) ;        
+extern dnnc::tensor<bool>  \
+        greater(dnnc::tensor<float>& a,dnnc::tensor<float>& b) ;
 %}
 %template(iTensor) dnnc::tensor<int>;
 %template(fTensor) dnnc::tensor<float>;
 %template(dTensor) dnnc::tensor<double>;
 
 extern dnnc::tensor<float>
-        make_tensor(size_t x,     size_t y = 0, 
+        make_tensor(size_t x,     size_t y = 0,
                     size_t z = 0, size_t w = 0) ;
 extern dnnc::tensor<float>  \
         multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         add(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
+extern dnnc::tensor<float>  \
+        identity(dnnc::tensor<float>& a) ;
+extern dnnc::tensor<bool>  \
+        isnan(dnnc::tensor<float>& a) ;
+extern dnnc::tensor<bool>  \
+        greater(dnnc::tensor<float>& a,dnnc::tensor<float>& b) ;
