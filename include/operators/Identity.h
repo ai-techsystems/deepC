@@ -33,9 +33,18 @@ public:
   Identity(std::string name = "opIdentity", opAttributes *attrs = 0x0)
       : baseOperator<T>(opIdentity, name, attrs) {}
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
+      tensor<T>
+      compute(tensor<T>& a)
+    {
+      /*tensor<T> result(a.shape()[0], a.shape()[1]);
+
+      DNNC_EIGEN_MATRIX(eigenMatrixA, a) ;
+
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA ;
+
+      result.load( eResult.data() );*/
+
+      return a;
+    }
 };
 } // namespace dnnc

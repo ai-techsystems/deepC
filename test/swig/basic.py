@@ -12,6 +12,6 @@ add = dnnc.add(t1,t1)
 
 t3 = dnnc.make_tensor(2,3,4)
 #print("old shape", t1.shape())
-new_shape = dnnc.ivec([2,12])
-t3.reshape(new_shape)
+#new_shape = dnnc.ivec([2,12])
+#@t3.reshape(new_shape)
 #print("new shape", t1.shape())

@@ -32,10 +32,9 @@ template <typename T> class Log : public baseOperator<T> {
 public:
   Log(std::string name = "opLog", opAttributes *attrs = 0x0)
       : baseOperator<T>(opLog, name, attrs) {}
-
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
+      void compute(void) {
+        // CHANGE return-type and args
+        // AND ADD YOUR FUNCTIONAL CODE HERE
+      }
 };
 } // namespace dnnc

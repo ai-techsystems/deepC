@@ -23,7 +23,9 @@
 #include "core/tensor.h"
 #include "operators/Add.h"
 #include "operators/MatMul.h"
-
+#include "operators/Identity.h"
+#include "operators/IsNaN.h"
+#include "operators/Greater.h"
 using namespace dnnc;
 
 tensor<float> make_tensor(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
@@ -38,4 +40,16 @@ tensor<float> multiply(tensor<float> &a, tensor<float> &b) {
 tensor<float> add(tensor<float> &a, tensor<float> &b) {
   Add<float> op;
   return op.compute(a, b);
+}
+tensor<float> identity(tensor<float> &a) {
+  Identity<float> op;
+  return op.compute(a);
+}
+tensor<bool> isnan(tensor<float> &a) {
+  IsNaN<float> op;
+  return op.compute(a);
+}
+tensor<bool> greater(tensor<float> &a,tensor<float> &b) {
+  Greater<float> op;
+  return op.compute(a,b);
 }

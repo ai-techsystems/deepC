@@ -32,10 +32,24 @@ template <typename T> class LeakyRelu : public baseOperator<T> {
 public:
   LeakyRelu(std::string name = "opLeakyRelu", opAttributes *attrs = 0x0)
       : baseOperator<T>(opLeakyRelu, name, attrs) {}
+      static T Leaky_Relu(T x,float alpha){
+        if(x<0)
+          return T(alpha*x);
+        else
+          return x;
+      }
+      tensor<T>
+      compute(tensor<T>& a,float& alpha)
+      {
+      tensor<T> result(a.shape()[0], a.shape()[1]);
+      DNNC_EIGEN_MATRIX(eigenMatrix1, a) ;
+      //f(x) = alpha * x for x < 0, f(x) = x for x >= 0
+      auto c0 = std::bind(Leaky_Relu, std::placeholders::_1, alpha);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrix1.unaryExpr(c0); ;
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
+      result.load( eResult.data() );
+
+      return result;
+      }
 };
 } // namespace dnnc
