@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class LSTM : public baseOperator<T> {
+  //  LSTM attributes
 public:
-  LSTM(std::string name = "opLSTM", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opLSTM, name, attrs) {}
+  LSTM(std::string name = "opLSTM") : baseOperator<T>(opLSTM, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

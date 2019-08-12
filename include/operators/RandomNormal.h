@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class RandomNormal : public baseOperator<T> {
+  //  RandomNormal attributes
 public:
-  RandomNormal(std::string name = "opRandomNormal", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opRandomNormal, name, attrs) {}
+  RandomNormal(std::string name = "opRandomNormal")
+      : baseOperator<T>(opRandomNormal, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

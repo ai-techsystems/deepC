@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class If : public baseOperator<T> {
+  //  If attributes
 public:
-  If(std::string name = "opIf", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opIf, name, attrs) {}
+  If(std::string name = "opIf") : baseOperator<T>(opIf, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class NonMaxSuppression : public baseOperator<T> {
+  //  NonMaxSuppression attributes
 public:
-  NonMaxSuppression(std::string name = "opNonMaxSuppression",
-                    opAttributes *attrs = 0x0)
-      : baseOperator<T>(opNonMaxSuppression, name, attrs) {}
+  NonMaxSuppression(std::string name = "opNonMaxSuppression")
+      : baseOperator<T>(opNonMaxSuppression, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

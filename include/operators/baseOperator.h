@@ -174,31 +174,110 @@ enum OPCODE {
   opXor
 };
 
-// operator attributes
-struct opAttributes {
-  // it'll be a map of key-value pair, that
-  // operators will customize for their needs.
+enum OPATTR {
+  attr_activation_alpha = 1,
+  attr_activation_beta,
+  attr_activations,
+  attr_alpha,
+  attr_auto_pad,
+  attr_axes,
+  attr_axis,
+  attr_batch_axis,
+  attr_beta,
+  attr_bias,
+  attr_blocksize,
+  attr_body,
+  attr_case_change_action,
+  attr_ceil_mode,
+  attr_center_point_box,
+  attr_clip,
+  attr_count_include_pad,
+  attr_detect_negative,
+  attr_detect_positive,
+  attr_dilations,
+  attr_direction,
+  attr_dtype,
+  attr_else_branch,
+  attr_epsilon,
+  attr_exclusive,
+  attr_fmod,
+  attr_gamma,
+  attr_group,
+  attr_hidden_size,
+  attr_high,
+  attr_input_forget,
+  attr_is_case_sensitive,
+  attr_k,
+  attr_keepdims,
+  attr_kernel_shape,
+  attr_lambd,
+  attr_larges,
+  attr_linear_before_reset,
+  attr_locale,
+  attr_low,
+  attr_max_gram_length,
+  attr_max_skip_count,
+  attr_mean,
+  attr_min_gram_length,
+  attr_mode,
+  attr_momentum,
+  attr_ngram_counts,
+  attr_ngram_indexes,
+  attr_num_scan_inputs,
+  attr_output_height,
+  attr_output_padding,
+  attr_output_shape,
+  attr_output_width,
+  attr_p,
+  attr_pads,
+  attr_perm,
+  attr_pool_int64s,
+  attr_pool_strings,
+  attr_pooled_shape,
+  attr_ratio,
+  attr_reverse,
+  attr_sample_size,
+  attr_sampling_ratio,
+  attr_scale,
+  attr_scan_input_axes,
+  attr_scan_input_directions,
+  attr_scan_output_axes,
+  attr_scan_output_directions,
+  attr_seed,
+  attr_shape,
+  attr_size,
+  attr_sorted,
+  attr_spatial_scale,
+  attr_split,
+  attr_stopwords,
+  attr_storage_order,
+  attr_strides,
+  attr_then_branch,
+  attr_time_axis,
+  attr_to,
+  attr_transa,
+  attr_transb,
+  attr_value,
+  attr_weights
 };
 
 template <typename T> class baseOperator {
 protected:
   OPCODE _op;
   std::string _name;
-  opAttributes *_m_attrs;
-  std::vector<std::shared_ptr<tensor<T>>> _m_inputs;
-  std::vector<std::shared_ptr<tensor<T>>> _m_outputs;
 
   T *tensorMem(tensor<T> &t) { return t._mem_layout; }
 
 public:
-  baseOperator(OPCODE op, std::string name = "", opAttributes *attr = 0x0)
-      : _op(op), _name(name), _m_attrs(attr) {}
+  baseOperator(OPCODE op, std::string name = "") : _op(op), _name(name) {}
+
+  template <typename attrType>
+  bool getAttribute(OPATTR attrName, attrType &obj);
+
   void compute(void);
   tensor<T> compute(tensor<T> in1);
   tensor<T> compute(tensor<T> &in1);
   tensor<T> compute(tensor<T> in1, tensor<T> in2);
   tensor<T> compute(tensor<T> &in1, tensor<T> &in2);
-  void addInput(std::shared_ptr<tensor<T>> in) { _m_inputs.push_back(in); }
-  void addOutput(std::shared_ptr<tensor<T>> out) { _m_inputs.push_back(out); }
 };
 } // namespace dnnc

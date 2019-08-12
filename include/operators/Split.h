@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Split : public baseOperator<T> {
+  //  Split attributes
 public:
-  Split(std::string name = "opSplit", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opSplit, name, attrs) {}
+  Split(std::string name = "opSplit") : baseOperator<T>(opSplit, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

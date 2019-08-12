@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Mean : public baseOperator<T> {
+  //  Mean attributes
 public:
-  Mean(std::string name = "opMean", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opMean, name, attrs) {}
+  Mean(std::string name = "opMean") : baseOperator<T>(opMean, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

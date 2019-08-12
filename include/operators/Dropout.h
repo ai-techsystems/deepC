@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Dropout : public baseOperator<T> {
+  //  Dropout attributes
 public:
-  Dropout(std::string name = "opDropout", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opDropout, name, attrs) {}
+  Dropout(std::string name = "opDropout") : baseOperator<T>(opDropout, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

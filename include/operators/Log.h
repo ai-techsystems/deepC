@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Log : public baseOperator<T> {
+  //  Log attributes
 public:
-  Log(std::string name = "opLog", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opLog, name, attrs) {}
+  Log(std::string name = "opLog") : baseOperator<T>(opLog, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

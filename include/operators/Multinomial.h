@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Multinomial : public baseOperator<T> {
+  //  Multinomial attributes
 public:
-  Multinomial(std::string name = "opMultinomial", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opMultinomial, name, attrs) {}
+  Multinomial(std::string name = "opMultinomial")
+      : baseOperator<T>(opMultinomial, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

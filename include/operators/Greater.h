@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Greater : public baseOperator<T> {
+  //  Greater attributes
 public:
-  Greater(std::string name = "opGreater", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opGreater, name, attrs) {}
+  Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

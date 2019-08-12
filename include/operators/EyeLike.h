@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class EyeLike : public baseOperator<T> {
+  //  EyeLike attributes
 public:
-  EyeLike(std::string name = "opEyeLike", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opEyeLike, name, attrs) {}
+  EyeLike(std::string name = "opEyeLike") : baseOperator<T>(opEyeLike, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ReduceProd : public baseOperator<T> {
+  //  ReduceProd attributes
 public:
-  ReduceProd(std::string name = "opReduceProd", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opReduceProd, name, attrs) {}
+  ReduceProd(std::string name = "opReduceProd")
+      : baseOperator<T>(opReduceProd, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

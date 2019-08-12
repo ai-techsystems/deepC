@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Not : public baseOperator<T> {
+  //  Not attributes
 public:
-  Not(std::string name = "opNot", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opNot, name, attrs) {}
+  Not(std::string name = "opNot") : baseOperator<T>(opNot, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

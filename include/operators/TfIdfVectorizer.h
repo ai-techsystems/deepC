@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class TfIdfVectorizer : public baseOperator<T> {
+  //  TfIdfVectorizer attributes
 public:
-  TfIdfVectorizer(std::string name = "opTfIdfVectorizer",
-                  opAttributes *attrs = 0x0)
-      : baseOperator<T>(opTfIdfVectorizer, name, attrs) {}
+  TfIdfVectorizer(std::string name = "opTfIdfVectorizer")
+      : baseOperator<T>(opTfIdfVectorizer, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

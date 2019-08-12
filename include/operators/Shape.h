@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Shape : public baseOperator<T> {
+  //  Shape attributes
 public:
-  Shape(std::string name = "opShape", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opShape, name, attrs) {}
+  Shape(std::string name = "opShape") : baseOperator<T>(opShape, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

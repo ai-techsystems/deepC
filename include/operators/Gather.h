@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Gather : public baseOperator<T> {
+  //  Gather attributes
 public:
-  Gather(std::string name = "opGather", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opGather, name, attrs) {}
+  Gather(std::string name = "opGather") : baseOperator<T>(opGather, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

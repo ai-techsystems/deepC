@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ConvInteger : public baseOperator<T> {
+  //  ConvInteger attributes
 public:
-  ConvInteger(std::string name = "opConvInteger", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opConvInteger, name, attrs) {}
+  ConvInteger(std::string name = "opConvInteger")
+      : baseOperator<T>(opConvInteger, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

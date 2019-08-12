@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ThresholdedRelu : public baseOperator<T> {
+  //  ThresholdedRelu attributes
 public:
-  ThresholdedRelu(std::string name = "opThresholdedRelu",
-                  opAttributes *attrs = 0x0)
-      : baseOperator<T>(opThresholdedRelu, name, attrs) {}
+  ThresholdedRelu(std::string name = "opThresholdedRelu")
+      : baseOperator<T>(opThresholdedRelu, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

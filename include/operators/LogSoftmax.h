@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class LogSoftmax : public baseOperator<T> {
+  //  LogSoftmax attributes
 public:
-  LogSoftmax(std::string name = "opLogSoftmax", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opLogSoftmax, name, attrs) {}
+  LogSoftmax(std::string name = "opLogSoftmax")
+      : baseOperator<T>(opLogSoftmax, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class BitShift : public baseOperator<T> {
+  //  BitShift attributes
 public:
-  BitShift(std::string name = "opBitShift", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opBitShift, name, attrs) {}
+  BitShift(std::string name = "opBitShift")
+      : baseOperator<T>(opBitShift, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

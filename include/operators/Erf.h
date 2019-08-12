@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Erf : public baseOperator<T> {
+  //  Erf attributes
 public:
-  Erf(std::string name = "opErf", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opErf, name, attrs) {}
+  Erf(std::string name = "opErf") : baseOperator<T>(opErf, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

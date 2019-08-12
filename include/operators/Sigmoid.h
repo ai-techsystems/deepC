@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Sigmoid : public baseOperator<T> {
+  //  Sigmoid attributes
 public:
-  Sigmoid(std::string name = "opSigmoid", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opSigmoid, name, attrs) {}
+  Sigmoid(std::string name = "opSigmoid") : baseOperator<T>(opSigmoid, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

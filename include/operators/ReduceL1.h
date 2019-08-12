@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ReduceL1 : public baseOperator<T> {
+  //  ReduceL1 attributes
 public:
-  ReduceL1(std::string name = "opReduceL1", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opReduceL1, name, attrs) {}
+  ReduceL1(std::string name = "opReduceL1")
+      : baseOperator<T>(opReduceL1, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ReduceMax : public baseOperator<T> {
+  //  ReduceMax attributes
 public:
-  ReduceMax(std::string name = "opReduceMax", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opReduceMax, name, attrs) {}
+  ReduceMax(std::string name = "opReduceMax")
+      : baseOperator<T>(opReduceMax, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

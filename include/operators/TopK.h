@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class TopK : public baseOperator<T> {
+  //  TopK attributes
 public:
-  TopK(std::string name = "opTopK", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opTopK, name, attrs) {}
+  TopK(std::string name = "opTopK") : baseOperator<T>(opTopK, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

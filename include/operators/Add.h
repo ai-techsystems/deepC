@@ -30,8 +30,7 @@ namespace dnnc {
 template <typename T> class Add : public baseOperator<T> {
 protected:
 public:
-  Add(std::string name = "opAdd", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opAdd, name, attrs) {}
+  Add(std::string name = "opAdd") : baseOperator<T>(opAdd, name) {}
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a, tensor<T> &b) {
     if (a.shape() != b.shape())

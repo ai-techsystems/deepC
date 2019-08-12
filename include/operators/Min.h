@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Min : public baseOperator<T> {
+  //  Min attributes
 public:
-  Min(std::string name = "opMin", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opMin, name, attrs) {}
+  Min(std::string name = "opMin") : baseOperator<T>(opMin, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class DequantizeLinear : public baseOperator<T> {
+  //  DequantizeLinear attributes
 public:
-  DequantizeLinear(std::string name = "opDequantizeLinear",
-                   opAttributes *attrs = 0x0)
-      : baseOperator<T>(opDequantizeLinear, name, attrs) {}
+  DequantizeLinear(std::string name = "opDequantizeLinear")
+      : baseOperator<T>(opDequantizeLinear, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

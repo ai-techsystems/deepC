@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Compress : public baseOperator<T> {
+  //  Compress attributes
 public:
-  Compress(std::string name = "opCompress", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opCompress, name, attrs) {}
+  Compress(std::string name = "opCompress")
+      : baseOperator<T>(opCompress, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

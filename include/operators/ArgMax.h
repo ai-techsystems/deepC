@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ArgMax : public baseOperator<T> {
+  //  ArgMax attributes
 public:
-  ArgMax(std::string name = "opArgMax", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opArgMax, name, attrs) {}
+  ArgMax(std::string name = "opArgMax") : baseOperator<T>(opArgMax, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

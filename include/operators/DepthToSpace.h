@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class DepthToSpace : public baseOperator<T> {
+  //  DepthToSpace attributes
 public:
-  DepthToSpace(std::string name = "opDepthToSpace", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opDepthToSpace, name, attrs) {}
+  DepthToSpace(std::string name = "opDepthToSpace")
+      : baseOperator<T>(opDepthToSpace, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

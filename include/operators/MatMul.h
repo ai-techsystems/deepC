@@ -30,8 +30,7 @@ namespace dnnc {
 template <typename T> class MatMul : public baseOperator<T> {
 protected:
 public:
-  MatMul(std::string name = "opMatMul", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opMatMul, name, attrs) {}
+  MatMul(std::string name = "opMatMul") : baseOperator<T>(opMatMul, name) {}
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a, tensor<T> &b) {
     if (a.rank() != 2 || b.rank() != 2)

@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ReduceSumSquare : public baseOperator<T> {
+  //  ReduceSumSquare attributes
 public:
-  ReduceSumSquare(std::string name = "opReduceSumSquare",
-                  opAttributes *attrs = 0x0)
-      : baseOperator<T>(opReduceSumSquare, name, attrs) {}
+  ReduceSumSquare(std::string name = "opReduceSumSquare")
+      : baseOperator<T>(opReduceSumSquare, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

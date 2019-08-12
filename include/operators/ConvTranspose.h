@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ConvTranspose : public baseOperator<T> {
+  //  ConvTranspose attributes
 public:
-  ConvTranspose(std::string name = "opConvTranspose", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opConvTranspose, name, attrs) {}
+  ConvTranspose(std::string name = "opConvTranspose")
+      : baseOperator<T>(opConvTranspose, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

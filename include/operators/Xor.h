@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Xor : public baseOperator<T> {
+  //  Xor attributes
 public:
-  Xor(std::string name = "opXor", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opXor, name, attrs) {}
+  Xor(std::string name = "opXor") : baseOperator<T>(opXor, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

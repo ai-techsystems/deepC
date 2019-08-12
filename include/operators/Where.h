@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Where : public baseOperator<T> {
+  //  Where attributes
 public:
-  Where(std::string name = "opWhere", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opWhere, name, attrs) {}
+  Where(std::string name = "opWhere") : baseOperator<T>(opWhere, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

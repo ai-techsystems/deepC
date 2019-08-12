@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Pad : public baseOperator<T> {
+  //  Pad attributes
 public:
-  Pad(std::string name = "opPad", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opPad, name, attrs) {}
+  Pad(std::string name = "opPad") : baseOperator<T>(opPad, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

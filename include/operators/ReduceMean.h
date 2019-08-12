@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ReduceMean : public baseOperator<T> {
+  //  ReduceMean attributes
 public:
-  ReduceMean(std::string name = "opReduceMean", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opReduceMean, name, attrs) {}
+  ReduceMean(std::string name = "opReduceMean")
+      : baseOperator<T>(opReduceMean, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

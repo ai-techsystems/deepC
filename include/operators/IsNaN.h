@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class IsNaN : public baseOperator<T> {
+  //  IsNaN attributes
 public:
-  IsNaN(std::string name = "opIsNaN", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opIsNaN, name, attrs) {}
+  IsNaN(std::string name = "opIsNaN") : baseOperator<T>(opIsNaN, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

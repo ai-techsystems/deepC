@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Shrink : public baseOperator<T> {
+  //  Shrink attributes
 public:
-  Shrink(std::string name = "opShrink", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opShrink, name, attrs) {}
+  Shrink(std::string name = "opShrink") : baseOperator<T>(opShrink, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

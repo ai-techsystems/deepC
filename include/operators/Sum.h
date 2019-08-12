@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Sum : public baseOperator<T> {
+  //  Sum attributes
 public:
-  Sum(std::string name = "opSum", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opSum, name, attrs) {}
+  Sum(std::string name = "opSum") : baseOperator<T>(opSum, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

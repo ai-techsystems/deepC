@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class QuantizeLinear : public baseOperator<T> {
+  //  QuantizeLinear attributes
 public:
-  QuantizeLinear(std::string name = "opQuantizeLinear",
-                 opAttributes *attrs = 0x0)
-      : baseOperator<T>(opQuantizeLinear, name, attrs) {}
+  QuantizeLinear(std::string name = "opQuantizeLinear")
+      : baseOperator<T>(opQuantizeLinear, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

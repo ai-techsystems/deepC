@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Softplus : public baseOperator<T> {
+  //  Softplus attributes
 public:
-  Softplus(std::string name = "opSoftplus", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opSoftplus, name, attrs) {}
+  Softplus(std::string name = "opSoftplus")
+      : baseOperator<T>(opSoftplus, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

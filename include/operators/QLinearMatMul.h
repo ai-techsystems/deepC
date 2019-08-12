@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class QLinearMatMul : public baseOperator<T> {
+  //  QLinearMatMul attributes
 public:
-  QLinearMatMul(std::string name = "opQLinearMatMul", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opQLinearMatMul, name, attrs) {}
+  QLinearMatMul(std::string name = "opQLinearMatMul")
+      : baseOperator<T>(opQLinearMatMul, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

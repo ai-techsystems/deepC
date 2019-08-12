@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Elu : public baseOperator<T> {
+  //  Elu attributes
 public:
-  Elu(std::string name = "opElu", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opElu, name, attrs) {}
+  Elu(std::string name = "opElu") : baseOperator<T>(opElu, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class RoiAlign : public baseOperator<T> {
+  //  RoiAlign attributes
 public:
-  RoiAlign(std::string name = "opRoiAlign", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opRoiAlign, name, attrs) {}
+  RoiAlign(std::string name = "opRoiAlign")
+      : baseOperator<T>(opRoiAlign, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

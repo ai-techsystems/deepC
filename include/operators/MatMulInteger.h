@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class MatMulInteger : public baseOperator<T> {
+  //  MatMulInteger attributes
 public:
-  MatMulInteger(std::string name = "opMatMulInteger", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opMatMulInteger, name, attrs) {}
+  MatMulInteger(std::string name = "opMatMulInteger")
+      : baseOperator<T>(opMatMulInteger, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

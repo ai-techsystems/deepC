@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Equal : public baseOperator<T> {
+  //  Equal attributes
 public:
-  Equal(std::string name = "opEqual", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opEqual, name, attrs) {}
+  Equal(std::string name = "opEqual") : baseOperator<T>(opEqual, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

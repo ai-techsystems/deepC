@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ConstantOfShape : public baseOperator<T> {
+  //  ConstantOfShape attributes
 public:
-  ConstantOfShape(std::string name = "opConstantOfShape",
-                  opAttributes *attrs = 0x0)
-      : baseOperator<T>(opConstantOfShape, name, attrs) {}
+  ConstantOfShape(std::string name = "opConstantOfShape")
+      : baseOperator<T>(opConstantOfShape, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class QLinearConv : public baseOperator<T> {
+  //  QLinearConv attributes
 public:
-  QLinearConv(std::string name = "opQLinearConv", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opQLinearConv, name, attrs) {}
+  QLinearConv(std::string name = "opQLinearConv")
+      : baseOperator<T>(opQLinearConv, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Loop : public baseOperator<T> {
+  //  Loop attributes
 public:
-  Loop(std::string name = "opLoop", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opLoop, name, attrs) {}
+  Loop(std::string name = "opLoop") : baseOperator<T>(opLoop, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

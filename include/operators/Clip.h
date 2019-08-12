@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Clip : public baseOperator<T> {
+  //  Clip attributes
 public:
-  Clip(std::string name = "opClip", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opClip, name, attrs) {}
+  Clip(std::string name = "opClip") : baseOperator<T>(opClip, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

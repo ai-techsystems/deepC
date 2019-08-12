@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Sign : public baseOperator<T> {
+  //  Sign attributes
 public:
-  Sign(std::string name = "opSign", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opSign, name, attrs) {}
+  Sign(std::string name = "opSign") : baseOperator<T>(opSign, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

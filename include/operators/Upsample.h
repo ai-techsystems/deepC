@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Upsample : public baseOperator<T> {
+  //  Upsample attributes
 public:
-  Upsample(std::string name = "opUpsample", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opUpsample, name, attrs) {}
+  Upsample(std::string name = "opUpsample")
+      : baseOperator<T>(opUpsample, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

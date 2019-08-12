@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Slice : public baseOperator<T> {
+  //  Slice attributes
 public:
-  Slice(std::string name = "opSlice", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opSlice, name, attrs) {}
+  Slice(std::string name = "opSlice") : baseOperator<T>(opSlice, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class LpNormalization : public baseOperator<T> {
+  //  LpNormalization attributes
 public:
-  LpNormalization(std::string name = "opLpNormalization",
-                  opAttributes *attrs = 0x0)
-      : baseOperator<T>(opLpNormalization, name, attrs) {}
+  LpNormalization(std::string name = "opLpNormalization")
+      : baseOperator<T>(opLpNormalization, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

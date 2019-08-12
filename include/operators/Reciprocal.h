@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Reciprocal : public baseOperator<T> {
+  //  Reciprocal attributes
 public:
-  Reciprocal(std::string name = "opReciprocal", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opReciprocal, name, attrs) {}
+  Reciprocal(std::string name = "opReciprocal")
+      : baseOperator<T>(opReciprocal, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

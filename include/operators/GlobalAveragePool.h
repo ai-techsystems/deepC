@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class GlobalAveragePool : public baseOperator<T> {
+  //  GlobalAveragePool attributes
 public:
-  GlobalAveragePool(std::string name = "opGlobalAveragePool",
-                    opAttributes *attrs = 0x0)
-      : baseOperator<T>(opGlobalAveragePool, name, attrs) {}
+  GlobalAveragePool(std::string name = "opGlobalAveragePool")
+      : baseOperator<T>(opGlobalAveragePool, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

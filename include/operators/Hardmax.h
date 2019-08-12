@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Hardmax : public baseOperator<T> {
+  //  Hardmax attributes
 public:
-  Hardmax(std::string name = "opHardmax", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opHardmax, name, attrs) {}
+  Hardmax(std::string name = "opHardmax") : baseOperator<T>(opHardmax, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

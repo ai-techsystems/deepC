@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Round : public baseOperator<T> {
+  //  Round attributes
 public:
-  Round(std::string name = "opRound", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opRound, name, attrs) {}
+  Round(std::string name = "opRound") : baseOperator<T>(opRound, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

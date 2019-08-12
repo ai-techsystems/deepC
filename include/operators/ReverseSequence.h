@@ -29,10 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class ReverseSequence : public baseOperator<T> {
+  //  ReverseSequence attributes
 public:
-  ReverseSequence(std::string name = "opReverseSequence",
-                  opAttributes *attrs = 0x0)
-      : baseOperator<T>(opReverseSequence, name, attrs) {}
+  ReverseSequence(std::string name = "opReverseSequence")
+      : baseOperator<T>(opReverseSequence, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

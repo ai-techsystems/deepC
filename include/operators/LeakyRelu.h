@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class LeakyRelu : public baseOperator<T> {
+  //  LeakyRelu attributes
 public:
-  LeakyRelu(std::string name = "opLeakyRelu", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opLeakyRelu, name, attrs) {}
+  LeakyRelu(std::string name = "opLeakyRelu")
+      : baseOperator<T>(opLeakyRelu, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

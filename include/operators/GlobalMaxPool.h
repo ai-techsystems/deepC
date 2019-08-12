@@ -29,9 +29,12 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class GlobalMaxPool : public baseOperator<T> {
+  //  GlobalMaxPool attributes
 public:
-  GlobalMaxPool(std::string name = "opGlobalMaxPool", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opGlobalMaxPool, name, attrs) {}
+  GlobalMaxPool(std::string name = "opGlobalMaxPool")
+      : baseOperator<T>(opGlobalMaxPool, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args

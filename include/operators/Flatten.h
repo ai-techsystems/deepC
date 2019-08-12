@@ -29,9 +29,11 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Flatten : public baseOperator<T> {
+  //  Flatten attributes
 public:
-  Flatten(std::string name = "opFlatten", opAttributes *attrs = 0x0)
-      : baseOperator<T>(opFlatten, name, attrs) {}
+  Flatten(std::string name = "opFlatten") : baseOperator<T>(opFlatten, name) {}
+
+  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void compute(void) {
     // CHANGE return-type and args
