@@ -66,6 +66,8 @@ extern dnnc::tensor<float>  \
         multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         add(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
+extern dnnc::tensor<float>  \
+        thresholded_relu(dnnc::tensor<float>& input);
 %}
 %template(iTensor) dnnc::tensor<int>;
 %template(fTensor) dnnc::tensor<float>;
@@ -78,3 +80,5 @@ extern dnnc::tensor<float>  \
         multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         add(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
+extern dnnc::tensor<float>  \
+        thresholded_relu(dnnc::tensor<float>& input);

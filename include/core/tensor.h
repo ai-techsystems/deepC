@@ -157,6 +157,7 @@ public:
       sz = sz * _shape[i];
     return sz;
   }
+  std::string name() const { return _name; }
   const DIMENSION rank() const { return _shape.size(); }
   const std::vector<DIMENSION> shape() const { return _shape; }
   void reshape(std::vector<size_t> &new_shape) {

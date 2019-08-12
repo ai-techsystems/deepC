@@ -30,5 +30,13 @@ using namespace Eigen;
 #include <iostream>
 int main() {
   // ADD YOUR TEST CODE HERE
+  float data[9] = {0.1, 0.2, 1.3, 4.5, 0.5, 0.6, 1.2, 1.2, 1.2};
+  tensor<float> fTensor(3, 3);
+  fTensor.load(data);
+
+  ThresholdedRelu<float> m("localOpName");
+  auto result = m.compute(fTensor);
+
+  std::cout << result << "\n";
 }
 #endif

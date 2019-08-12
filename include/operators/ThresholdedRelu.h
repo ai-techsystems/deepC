@@ -30,15 +30,26 @@ using namespace Eigen;
 namespace dnnc {
 template <typename T> class ThresholdedRelu : public baseOperator<T> {
   //  ThresholdedRelu attributes
+  float alpha = 1.0; // alpha's default value.
 public:
   ThresholdedRelu(std::string name = "opThresholdedRelu")
       : baseOperator<T>(opThresholdedRelu, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  bool getAttribute(OPATTR attrName, int &obj) {
+    if (attrName == attr_alpha) {
+      obj = alpha;
+      return true;
+    }
+    return false;
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<T> compute(tensor<T> &input) {
+    // create a new copy of input.
+    tensor<T> result(input.shape(), input.name());
+    for (size_t i = 0; i < input.length(); i++)
+      result[i] = input[i] > alpha ? input[i] : 0.0;
+
+    return result;
   }
 };
 } // namespace dnnc

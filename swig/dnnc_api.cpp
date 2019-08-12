@@ -23,6 +23,7 @@
 #include "core/tensor.h"
 #include "operators/Add.h"
 #include "operators/MatMul.h"
+#include "operators/ThresholdedRelu.h"
 
 using namespace dnnc;
 
@@ -38,4 +39,9 @@ tensor<float> multiply(tensor<float> &a, tensor<float> &b) {
 tensor<float> add(tensor<float> &a, tensor<float> &b) {
   Add<float> op;
   return op.compute(a, b);
+}
+
+tensor<float> thresholded_relu(tensor<float> &input) {
+  ThresholdedRelu<float> op;
+  return op.compute(input);
 }

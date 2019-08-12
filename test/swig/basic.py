@@ -15,3 +15,7 @@ t3 = dnnc.make_tensor(2,3,4)
 new_shape = dnnc.ivec([2,12])
 t3.reshape(new_shape)
 #print("new shape", t1.shape())
+
+#t4 = dnnc.thresholded_relu(t1);
+#print("relu", t4.to_string())
+
