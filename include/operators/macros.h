@@ -46,11 +46,14 @@ using namespace Eigen;
   Map<Matrix<T, Dynamic, Dynamic>> var(this->tensorMem(t), t.shape()[0],       \
                                        t.shape()[1]);
 
-#define DNNC_EIGEN_TENSOR(var, t)                                              \
-  TensorMap<Tensor<T, 3, RowMajor>> var(this->tensorMem(t), t.shape()[0],      \
-                                        t.shape()[1], t.shape()[2]);
+#define DNNC_EIGEN_TENSOR Tensor<T, 3>
 
-#define DNNC_EIGEN_TENSOR4D(var, t)                                            \
-  TensorMap<Tensor<T, 4, RowMajor>> var(this->tensorMem(t), t.shape()[0],      \
-                                        t.shape()[1], t.shape()[2],            \
-                                        t.shape()[3]);
+#define DNNC_EIGEN_TENSOR_MAP(var, t)                                          \
+  TensorMap<Tensor<T, 3>> var(this->tensorMem(t), t.shape()[0], t.shape()[1],  \
+                              t.shape()[2]);
+
+#define DNNC_EIGEN_TENSOR4D Tensor<T, 4>
+
+#define DNNC_EIGEN_TENSOR4D_MAP(var, t)                                        \
+  TensorMap<Tensor<T, 4>> var(this->tensorMem(t), t.shape()[0], t.shape()[1],  \
+                              t.shape()[2], t.shape()[3]);

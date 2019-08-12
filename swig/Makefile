@@ -43,7 +43,7 @@ LD=/usr/bin/ld
 LD_FLAGS=-shared 
 
 ifneq (,$(findstring $(DEBUG),yY))
-CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG -g
+CPP_FLAGS=-Wall -std=c++14 -fPIC -D_DEBUG -g
 endif
 
 ifneq (,$(findstring $(LMCHECK),yY))

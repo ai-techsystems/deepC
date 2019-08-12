@@ -43,6 +43,18 @@ int main() {
   std::cout << result;
   std::cout << "\n";
 
+#define DNNC_HIGHRANK_SUPPORT
+  float i1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+  float i2[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+  dnnc::tensor<float> c(2, 2, 2);
+  c.load(i1);
+  dnnc::tensor<float> d(2, 2, 2);
+  d.load(i2);
+  MatMul<float> m1("localfloat", 0x0);
+  dnnc::tensor<float> iresult = m1.compute(c, d);
+
+  std::cout << iresult << "\n";
+
   return 0;
 }
 
