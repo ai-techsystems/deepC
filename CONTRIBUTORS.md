@@ -4,12 +4,12 @@
 Rohit Sharma
 
 ## Lead Developers
-Colin Lu
-Ravit Sharma
+1. Colin Lu
+1. Ravit Sharma
 
 ## Mentors
-Gunjan Nandy
-Nalin Shani
+1. Gunjan Nandy
+1. Nalin Shani
 
 ## Committers
 
