@@ -37,7 +37,7 @@ int main() {
   tensor<float> b(3, 2);
   b.load(d2);
 
-  MatMul<float> m("localOpName", 0x0);
+  MatMul<float> m("localOpName");
   auto result = m.compute(a, b);
 
   std::cout << result;
@@ -50,7 +50,7 @@ int main() {
   c.load(i1);
   dnnc::tensor<float> d(2, 2, 2);
   d.load(i2);
-  MatMul<float> m1("localfloat", 0x0);
+  MatMul<float> m1("localfloat");
   dnnc::tensor<float> iresult = m1.compute(c, d);
 
   std::cout << iresult << "\n";
