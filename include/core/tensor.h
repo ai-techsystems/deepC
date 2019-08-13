@@ -171,11 +171,13 @@ public:
       std::string msg = "new reshape length " + std::to_string(newLength) +
                         " does not match tensor\'s length" +
                         std::to_string(length()) + ".\n";
-      throw std::invalid_argument(
-          "new reshape length does not match tensor\'s length");
+      throw std::invalid_argument(msg);
     }
 
     _shape = new_shape;
+  }
+  void broadcast(unsigned int n) {
+    // INCREASE the rank by duplicating last axis.
   }
   // flat index, unsafe method
   T &operator[](const INDEX &index) const {
