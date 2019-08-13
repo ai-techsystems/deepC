@@ -63,8 +63,8 @@ protected:
   // only constructors  call init method
   void init() {
     size_t msize = length(); // flat array length
-    if (rank() == 0)
 #ifndef SWIGPYTHON
+    if (rank() == 0)
       throw std::invalid_argument("tensor with no shape.");
 #endif
     _mem_layout = getMemory(msize);
