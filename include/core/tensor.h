@@ -177,8 +177,12 @@ public:
 
     _shape = new_shape;
   }
-  void broadcast(unsigned int n) {
-    // INCREASE the rank by duplicating last axis.
+  // reference: https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
+  bool broadcast(const tensor<T> &other) {
+    // TODO:
+    // 1. uni-directional broadcasting
+    // 2. multi-directional broadcasting
+    return true;
   }
   // flat index, unsafe method
   T &operator[](const INDEX &index) const {
