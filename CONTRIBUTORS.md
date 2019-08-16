@@ -4,8 +4,7 @@
 Rohit Sharma
 
 ## Lead Developers
-1. Colin Lu
-1. Ravit Sharma
+
 
 ## Mentors
 1. Gunjan Nandy
@@ -16,3 +15,5 @@ Rohit Sharma
 ## Reviewers
 
 ## Full List of Contributors
+1. Colin Lu
+1. Ravit Sharma
