@@ -19,3 +19,7 @@ t3.reshape(new_shape)
 #t4 = dnnc.thresholded_relu(t1);
 #print("relu", t4.to_string())
 
+#replace first few values in tensor with new values.
+data = dnnc.fvec([1.0, 2.0, 3.0, 4.0])
+t3.load(data)
+#print(t3.to_string())

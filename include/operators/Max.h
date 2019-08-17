@@ -32,9 +32,10 @@ namespace dnnc {
 template <typename T> class Max : public baseOperator<T> {
   //  Max attributes
   T maxEl(std::vector<T> &v) {
-    T max=0;
-    if ( v.size() == 0 )
-        throw std::invalid_argument("Max operator requires non-zero size vector.") ;
+    T max = 0;
+    if (v.size() == 0)
+      throw std::invalid_argument(
+          "Max operator requires non-zero size vector.");
 
     for (size_t i = 0; i < v.size(); i++)
       max = i == 0 ? v[0] : (v[i] > max ? v[i] : max);
@@ -52,9 +53,9 @@ public:
     // 3. create a result tensor with this new shape
     // 4. broadcast other tensors to result vector.
 
-    if ( inputs.size() == 0 )
-    { 
-      throw std::invalid_argument("Max operator requires non-zero size input vector.") ;
+    if (inputs.size() == 0) {
+      throw std::invalid_argument(
+          "Max operator requires non-zero size input vector.");
       return tensor<T>(0);
     }
 

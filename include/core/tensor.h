@@ -126,7 +126,11 @@ public:
     }
   }
 
-  // WARNING: Make sure data being loaded has same size as tensor.
+  void load(std::vector<T> data) {
+    size_t sz = length();
+    for (size_t i = 0; i < data.size() && i < sz; i++)
+      _mem_layout[i] = data[i];
+  }
   void load(T *data) {
     if (!data)
       return;
