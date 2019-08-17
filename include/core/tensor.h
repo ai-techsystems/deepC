@@ -63,8 +63,8 @@ protected:
   // only constructors  call init method
   void init() {
     size_t msize = length(); // flat array length
-    if (rank() == 0)
 #ifndef SWIGPYTHON
+    if (rank() == 0)
       throw std::invalid_argument("tensor with no shape.");
 #endif
     _mem_layout = getMemory(msize);
@@ -126,7 +126,11 @@ public:
     }
   }
 
-  // WARNING: Make sure data being loaded has same size as tensor.
+  void load(std::vector<T> data) {
+    size_t sz = length();
+    for (size_t i = 0; i < data.size() && i < sz; i++)
+      _mem_layout[i] = data[i];
+  }
   void load(T *data) {
     if (!data)
       return;
@@ -177,8 +181,12 @@ public:
 
     _shape = new_shape;
   }
-  void broadcast(unsigned int n) {
-    // INCREASE the rank by duplicating last axis.
+  // reference: https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
+  bool broadcast(const tensor<T> &other) {
+    // TODO:
+    // 1. uni-directional broadcasting
+    // 2. multi-directional broadcasting
+    return true;
   }
   // flat index, unsafe method
   T &operator[](const INDEX &index) const {

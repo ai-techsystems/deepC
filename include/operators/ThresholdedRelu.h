@@ -31,12 +31,21 @@ namespace dnnc {
 template <typename T> class ThresholdedRelu : public baseOperator<T> {
   //  ThresholdedRelu attributes
   float alpha = 1.0; // alpha's default value.
+  int beta = 1;
+
 public:
   ThresholdedRelu(std::string name = "opThresholdedRelu")
       : baseOperator<T>(opThresholdedRelu, name) {}
 
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, float &obj) {
     if (attrName == attr_alpha) {
+      obj = alpha;
+      return true;
+    }
+    return false;
+  }
+  bool getAttribute(OPATTR attrName, int &obj) {
+    if (attrName == attr_beta) {
       obj = alpha;
       return true;
     }

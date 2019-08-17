@@ -49,30 +49,42 @@ public:
 
       result.load(eResult.data());
       return result;
-#ifdef DNNC_HIGHRANK_SUPPORT
     } else if ((a.rank() == 3)) {
 
-      if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[1])) {
+      if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[2])) {
         throw std::invalid_argument(
             "tensor dimenions not appropriate for multiplication operator.");
       }
 
-      tensor<T> result(a.shape()[0], a.shape()[1], b.shape()[2]);
+      tensor<T> result(a.shape()[0], b.shape()[1], b.shape()[2]);
 
       DNNC_EIGEN_TENSOR_MAP(eigenTensorA, a);
       DNNC_EIGEN_TENSOR_MAP(eigenTensorB, b);
 
-      array<IndexPair<long>, 2> dims = {IndexPair<long>(1, 0),
-                                        IndexPair<long>(2, 1)};
+      Tensor<T,3> eResult(a.shape()[0], b.shape()[1], b.shape()[2]);
 
-      auto eResult = static_cast<DNNC_EIGEN_TENSOR>(
-          eigenTensorA.contract(eigenTensorB, dims));
+      for (size_t i = 0; i < a.shape()[2]; i++) {
+	Tensor<T,2> eigenTensorChipA = eigenTensorA.chip(i,2);
+	Tensor<T,2> eigenTensorChipB = eigenTensorB.chip(i,2);
+	
+	auto eigenMatrixA  = Map<Matrix<T, Dynamic, Dynamic>>(eigenTensorChipA.data(), 
+								 a.shape()[0], 
+								 a.shape()[1]);
+	auto eigenMatrixB  = Map<Matrix<T, Dynamic, Dynamic>>(eigenTensorChipB.data(), 
+								 b.shape()[0], 
+								 b.shape()[1]);
+        Matrix<T, Dynamic, Dynamic> eigenMatMulAB = eigenMatrixA * eigenMatrixB;
+
+	eResult.chip(i, 2) = TensorMap<Tensor<T, 2>>(eigenMatMulAB.data(), 
+							    a.shape()[0], 							    
+							    b.shape()[1]);
+      }
 
       result.load(eResult.data());
       return result;
 
     } else if ((a.rank() == 4)) {
-
+#ifdef DNNC_HIGHRANK_SUPPORT
       if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[1]) ||
           (a.shape()[3] != b.shape()[2])) {
         throw std::invalid_argument(

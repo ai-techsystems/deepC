@@ -45,6 +45,7 @@
 }
 
 %module dnnc
+%include "typemaps.i"
 %include <std_string.i>
 %include <std_vector.i>
 %include <std_shared_ptr.i>
@@ -56,6 +57,7 @@ typedef long unsigned int size_t;
 %}
 namespace std {
   %template(ivec) vector<size_t>;
+  %template(fvec) vector<float>;
 }
 %{
 #include <core/tensor.h>
