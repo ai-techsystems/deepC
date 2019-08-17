@@ -23,3 +23,28 @@ t3.reshape(new_shape)
 data = dnnc.fvec([1.0, 2.0, 3.0, 4.0])
 t3.load(data)
 #print(t3.to_string())
+
+
+
+def test_multiply(a,b):
+    c = dnnc.multiply(a, b)
+    #print(c.to_string())
+
+
+#3D MatMul Test1
+a = dnnc.make_tensor(2, 2, 2)
+b = dnnc.make_tensor(2, 2, 2)
+adata = dnnc.fvec([1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0])
+bdata = dnnc.fvec([8.0,7.0,6.0,5.0,4.0,3.0,2.0,1.0])
+a.load(adata)
+b.load(bdata)
+test_multiply(a,b)
+
+#3D MatMul Test2
+a = dnnc.make_tensor(2, 3, 2)
+b = dnnc.make_tensor(3, 2, 2)
+adata = dnnc.fvec([1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0])
+bdata = dnnc.fvec([12.0,11.0,10.0,9.0,8.0,7.0,6.0,5.0,4.0,3.0,2.0,1.0])
+a.load(adata)
+b.load(bdata)
+test_multiply(a,b)
