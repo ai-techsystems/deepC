@@ -1,7 +1,7 @@
 # dnn Compiler Contributors 
 
 ## Architect
-Rohit Sharma
+**Rohit Sharma**
 
 ## Lead Developers
 
@@ -11,6 +11,9 @@ Rohit Sharma
 1. Nalin Shani
 
 ## Committers
+1. Hrishikesh
+1. Nikhil Tiwari
+1. Vishal Yadav
 
 ## Reviewers
 
