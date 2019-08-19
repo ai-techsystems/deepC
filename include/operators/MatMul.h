@@ -50,7 +50,8 @@ public:
       result.load(eResult.data());
       return result;
     } else if ((a.rank() == 3)) {
-
+      // dnnc (& eigen) are column major whereas numpy is row major and requires:
+      // a.shape()[0] == b.shape()[0] && a.shape()[2] == b.shape()[1]
       if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[2])) {
         throw std::invalid_argument(
             "tensor dimenions not appropriate for multiplication operator.");

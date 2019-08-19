@@ -28,7 +28,7 @@ t3.load(data)
 
 def test_multiply(a,b):
     c = dnnc.multiply(a, b)
-    #print(c.to_string())
+    #print(c)
 
 
 #3D MatMul Test1
