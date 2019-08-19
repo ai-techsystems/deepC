@@ -32,9 +32,7 @@ using namespace dnnc;
 #ifdef DNNC_TENSOR_TEST
 
 template <typename T> void print_tensor(tensor<T> &v) {
-  for (size_t i = 0; i < v.length(); i++)
-    std::cout << std::to_string(v[i]) << "@" << i << " ";
-  std::cout << "\n";
+  std::cout << v << "\n";
 }
 
 template <typename T> void type_test() {

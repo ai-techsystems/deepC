@@ -140,85 +140,102 @@ public:
   friend std::ostream &operator<<(std::ostream &os, const tensor<T> &t) {
     if (t._name.size())
       os << t._name << "=";
-    for (size_t i = 0; i < t.length(); i++)
-      os << t._mem_layout[i] << ' ';
+    os << t.to_string();
     return os;
   }
 
-  std::string to_string() {
-    std::string str;  
+  std::string to_string() const {
+    std::string str;
 #define DNNC_MAX_SHOW 30
-    if ((rank() == 1) || ((rank() == 2) && (_shape[0]==1))) {  
+    if ((rank() == 1) || ((rank() == 2) && (_shape[0] == 1))) {
       if (_name.size())
-	str = _name + "=\n";
+        str = _name + "=\n";
       str += "[";
       for (size_t i = 0; i < length(); i++) {
-	if (i != 0) str += " ";
-	str +=  std::to_string(_mem_layout[i]);
-	if (i > DNNC_MAX_SHOW) {
-	  str += "...\n";
-	  break;
-	}
-	if (i < (length()-1)) str +=  "\n";
+        if (i != 0)
+          str += " ";
+        str += std::to_string(_mem_layout[i]);
+        if (i > DNNC_MAX_SHOW) {
+          str += "...\n";
+          break;
+        }
+        if (i < (length() - 1))
+          str += "\n";
       }
       str += "]\n";
     } else if (rank() == 2) {
       if (_name.size())
-	str = _name + "=\n";
+        str = _name + "=\n";
       for (size_t i = 0; i < _shape[0]; i++) {
-	str += "  [";
-	for (size_t j = 0; j < _shape[1]; j++) {
-	  size_t index = i + _shape[0]*j;
-	  str += std::to_string(_mem_layout[index]) + " ";
-	  if ( j > DNNC_MAX_SHOW) {
-	    str += "...";
-	    break;
-	  }
-	}
-	if ( i > DNNC_MAX_SHOW) {
-	  str += "...";
-	  break;
-	}
-	str += "]\n";
-      }  
-    } else if (rank() == 3) {    
+        str += "  [";
+        for (size_t j = 0; j < _shape[1]; j++) {
+          size_t index = i + _shape[0] * j;
+          str += std::to_string(_mem_layout[index]) + " ";
+          if (j > DNNC_MAX_SHOW) {
+            str += "...";
+            break;
+          }
+        }
+        if (i > DNNC_MAX_SHOW) {
+          str += "...";
+          break;
+        }
+        str += "]\n";
+      }
+    } else if (rank() == 3) {
       for (size_t k = 0; k < _shape[2]; k++) {
-	if (_name.size())
-	  str += _name + "[" +  std::to_string(k) + "]=\n";
-	str += "[\n" ;
-	for (size_t i = 0; i < _shape[0]; i++) {
-	  str += "  [";
-	  for (size_t j = 0; j < _shape[1]; j++) {
-	    size_t index = i + _shape[0]*j + _shape[0]*_shape[1]*k;
-	    str += std::to_string(_mem_layout[index]) + " ";
-	    if ( j > DNNC_MAX_SHOW) {
-	      str += "...";
-	      break;
-	    }
-	  }
-	  if ( i > DNNC_MAX_SHOW) {
-	    str += "...";
-	    break;
-	  }
-	  str += "]\n";
-	}
-	str += "]\n";
-	if ( k > DNNC_MAX_SHOW) {
-	  str += "...\n";
-	  break;
-	}
+        if (_name.size())
+          str += _name + "[" + std::to_string(k) + "]=\n";
+        str += "[\n";
+        for (size_t i = 0; i < _shape[0]; i++) {
+          str += "  [";
+          for (size_t j = 0; j < _shape[1]; j++) {
+            size_t index = i + _shape[0] * j + _shape[0] * _shape[1] * k;
+            str += std::to_string(_mem_layout[index]) + " ";
+            if (j > DNNC_MAX_SHOW) {
+              str += "...";
+              break;
+            }
+          }
+          if (i > DNNC_MAX_SHOW) {
+            str += "...";
+            break;
+          }
+          str += "]\n";
+        }
+        str += "]\n";
+        if (k > DNNC_MAX_SHOW) {
+          str += "...\n";
+          break;
+        }
       }
     } else {
-      str = "Not yet supported\n";
+      // For now, print it like a vector for tensor with rank higher than 3
+      // TODO: support rank 4 tensors as well.
+      if (_name.size())
+        str = _name + "=\n";
+      str += "[";
+      for (size_t i = 0; i < length(); i++) {
+        if (i != 0)
+          str += " ";
+        str += std::to_string(_mem_layout[i]);
+        if (i > DNNC_MAX_SHOW) {
+          str += "...\n";
+          break;
+        }
+        if (i < (length() - 1))
+          str += "\n";
+      }
+      str += "]\n";
     }
-   
+
     return str;
   }
 
-  char  *__str__ () { 
+  char *__str__() {
     std::string str = to_string();
-    char *result = (char *) malloc(str.size()+1);
-    for (size_t i = 0; i < str.size(); i++) 
+    char *result = (char *)malloc(str.size() + 1);
+    for (size_t i = 0; i <= str.size(); i++)
       result[i] = str.at(i);
 
     return result;
@@ -271,15 +288,16 @@ public:
     INDEX index = 0;
     // column-major:Loc(A[i][j][k])= base+w((i-x)+d0*d1(k-z)+d0*(j-y))
     if (rank() == 3) {
-      index = indices[0] + _shape[0]*indices[1] + _shape[0]*_shape[1]*indices[2];
+      index = indices[0] + _shape[0] * indices[1] +
+              _shape[0] * _shape[1] * indices[2];
     } else if (rank() == 2) {
-      index = indices[0] + _shape[0]*indices[1];
+      index = indices[0] + _shape[0] * indices[1];
     } else {
       for (size_t i = 0; i < indices.size(); i++) {
-	DIMENSION dsz = 1;
-	for (size_t j = i + 1; j < rank(); j++)
-	  dsz *= _shape[j];
-	index += indices[i] * dsz;
+        DIMENSION dsz = 1;
+        for (size_t j = i + 1; j < rank(); j++)
+          dsz *= _shape[j];
+        index += indices[i] * dsz;
       }
     }
     return this->operator[](index);
