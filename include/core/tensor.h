@@ -38,6 +38,7 @@
 namespace dnnc {
 typedef size_t INDEX;
 typedef size_t DIMENSION;
+enum INIT_TYPE { INIT_NONE = 0, INIT_RANDOM, INIT_ZERO, INIT_ONE };
 
 template <typename T> class baseOperator;
 
@@ -48,9 +49,9 @@ template <typename T> class tensor {
 protected:
   //////////// protected members /////////////////
   size_t *_ref;
+  T *_mem_layout; // TODO: add tiling.
   std::string _name;
   std::vector<DIMENSION> _shape;
-  T *_mem_layout; // TODO: add tiling.
 
   //////////// protected methods /////////////////
   T *getMemory(size_t sz) {
@@ -61,7 +62,7 @@ protected:
     return _mem_layout;
   }
   // only constructors  call init method
-  void init() {
+  void init(INIT_TYPE fill = INIT_NONE) {
     size_t msize = length(); // flat array length
 #ifndef SWIGPYTHON
     if (rank() == 0)
@@ -71,22 +72,33 @@ protected:
 
     *_ref = 1; // init reference count.
     // initilize with normal distribution.
-    std::default_random_engine generator;
-    std::normal_distribution<double> distribution(127.5, 20.0);
-    for (size_t i = 0; i < msize; i++)
-      _mem_layout[i] = static_cast<T>(distribution(generator));
+    if (fill == INIT_NONE) {
+      ; // no fill
+    } else if (fill == INIT_RANDOM) {
+      std::default_random_engine generator;
+      std::normal_distribution<double> distribution(127.5, 20.0);
+      for (size_t i = 0; i < msize; i++)
+        _mem_layout[i] = static_cast<T>(distribution(generator));
+    } else if (fill == INIT_ZERO) {
+      for (size_t i = 0; i < msize; i++)
+        _mem_layout[i] = static_cast<T>(0);
+    } else if (fill == INIT_ONE) {
+      for (size_t i = 0; i < msize; i++)
+        _mem_layout[i] = static_cast<T>(1);
+    }
   }
 
 public:
   // tensor constructor with arbitrary dimension
-  tensor(std::vector<DIMENSION> dimn, std::string n = "")
-      : _name(n), _mem_layout(0x0) {
+  tensor(std::vector<DIMENSION> dimn, std::string n = "",
+         INIT_TYPE fill = INIT_NONE)
+      : _ref(0x0), _mem_layout(0x0), _name(n) {
     _shape = dimn;
-    init();
+    init(fill);
   }
   tensor(DIMENSION x = 0, DIMENSION y = 0, DIMENSION z = 0, DIMENSION w = 0,
-         std::string n = "")
-      : _name(n), _mem_layout(0x0) {
+         std::string n = "", INIT_TYPE fill = INIT_NONE)
+      : _ref(0x0), _mem_layout(0x0), _name(n) {
     if (x) {
       _shape.push_back(x);
       if (y)
@@ -96,7 +108,7 @@ public:
       if (w)
         _shape.push_back(w);
     }
-    init();
+    init(fill);
   }
   tensor(const tensor &other) {
     _ref = other._ref;
@@ -146,81 +158,84 @@ public:
   }
 
   std::string to_string() {
-    std::string str;  
+    std::string str = "";
 #define DNNC_MAX_SHOW 30
-    if ((rank() == 1) || ((rank() == 2) && (_shape[0]==1))) {  
+    if ((rank() == 1) || ((rank() == 2) && (_shape[0] == 1))) {
       if (_name.size())
-	str = _name + "=\n";
+        str = _name + "=\n";
       str += "[";
       for (size_t i = 0; i < length(); i++) {
-	if (i != 0) str += " ";
-	str +=  std::to_string(_mem_layout[i]);
-	if (i > DNNC_MAX_SHOW) {
-	  str += "...\n";
-	  break;
-	}
-	if (i < (length()-1)) str +=  "\n";
+        if (i != 0)
+          str += " ";
+        str += std::to_string(_mem_layout[i]);
+        if (i > DNNC_MAX_SHOW) {
+          str += "...\n";
+          break;
+        }
+        if (i < (length() - 1))
+          str += "\n";
       }
       str += "]\n";
     } else if (rank() == 2) {
       if (_name.size())
-	str = _name + "=\n";
+        str = _name + "=\n";
       for (size_t i = 0; i < _shape[0]; i++) {
-	str += "  [";
-	for (size_t j = 0; j < _shape[1]; j++) {
-	  size_t index = i + _shape[0]*j;
-	  str += std::to_string(_mem_layout[index]) + " ";
-	  if ( j > DNNC_MAX_SHOW) {
-	    str += "...";
-	    break;
-	  }
-	}
-	if ( i > DNNC_MAX_SHOW) {
-	  str += "...";
-	  break;
-	}
-	str += "]\n";
-      }  
-    } else if (rank() == 3) {    
+        str += "  [";
+        for (size_t j = 0; j < _shape[1]; j++) {
+          size_t index = i + _shape[0] * j;
+          str += std::to_string(_mem_layout[index]) + " ";
+          if (j > DNNC_MAX_SHOW) {
+            str += "...";
+            break;
+          }
+        }
+        if (i > DNNC_MAX_SHOW) {
+          str += "...";
+          break;
+        }
+        str += "]\n";
+      }
+    } else if (rank() == 3) {
       for (size_t k = 0; k < _shape[2]; k++) {
-	if (_name.size())
-	  str += _name + "[" +  std::to_string(k) + "]=\n";
-	str += "[\n" ;
-	for (size_t i = 0; i < _shape[0]; i++) {
-	  str += "  [";
-	  for (size_t j = 0; j < _shape[1]; j++) {
-	    size_t index = i + _shape[0]*j + _shape[0]*_shape[1]*k;
-	    str += std::to_string(_mem_layout[index]) + " ";
-	    if ( j > DNNC_MAX_SHOW) {
-	      str += "...";
-	      break;
-	    }
-	  }
-	  if ( i > DNNC_MAX_SHOW) {
-	    str += "...";
-	    break;
-	  }
-	  str += "]\n";
-	}
-	str += "]\n";
-	if ( k > DNNC_MAX_SHOW) {
-	  str += "...\n";
-	  break;
-	}
+        if (_name.size())
+          str += _name + "[" + std::to_string(k) + "]=\n";
+        str += "[\n";
+        for (size_t i = 0; i < _shape[0]; i++) {
+          str += "  [";
+          for (size_t j = 0; j < _shape[1]; j++) {
+            size_t index = i + _shape[0] * j + _shape[0] * _shape[1] * k;
+            str += std::to_string(_mem_layout[index]) + " ";
+            if (j > DNNC_MAX_SHOW) {
+              str += "...";
+              break;
+            }
+          }
+          if (i > DNNC_MAX_SHOW) {
+            str += "...";
+            break;
+          }
+          str += "]\n";
+        }
+        str += "]\n";
+        if (k > DNNC_MAX_SHOW) {
+          str += "...\n";
+          break;
+        }
       }
     } else {
       str = "Not yet supported\n";
     }
-   
+
     return str;
   }
 
-  char  *__str__ () { 
+  char *__str__() {
     std::string str = to_string();
-    char *result = (char *) malloc(str.size()+1);
-    for (size_t i = 0; i < str.size(); i++) 
+    size_t sz = str.size();
+    char *result = (char *)malloc(sz + 1);
+    for (size_t i = 0; i < sz; i++)
       result[i] = str.at(i);
-
+    result[sz] = '\0';
     return result;
   }
 
@@ -271,15 +286,16 @@ public:
     INDEX index = 0;
     // column-major:Loc(A[i][j][k])= base+w((i-x)+d0*d1(k-z)+d0*(j-y))
     if (rank() == 3) {
-      index = indices[0] + _shape[0]*indices[1] + _shape[0]*_shape[1]*indices[2];
+      index = indices[0] + _shape[0] * indices[1] +
+              _shape[0] * _shape[1] * indices[2];
     } else if (rank() == 2) {
-      index = indices[0] + _shape[0]*indices[1];
+      index = indices[0] + _shape[0] * indices[1];
     } else {
       for (size_t i = 0; i < indices.size(); i++) {
-	DIMENSION dsz = 1;
-	for (size_t j = i + 1; j < rank(); j++)
-	  dsz *= _shape[j];
-	index += indices[i] * dsz;
+        DIMENSION dsz = 1;
+        for (size_t j = i + 1; j < rank(); j++)
+          dsz *= _shape[j];
+        index += indices[i] * dsz;
       }
     }
     return this->operator[](index);

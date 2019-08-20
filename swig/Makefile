@@ -47,7 +47,7 @@ CPP_FLAGS=-Wall -std=c++14 -fPIC -g
 endif
 
 ifneq (,$(findstring $(LMCHECK),yY))
-CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG -g -lmcheck
+CPP_FLAGS=-Wall -std=c++14 -fPIC -D_DEBUG -g -lmcheck
 endif
 
 ifneq (,$(findstring $(PROF),yY))
@@ -62,7 +62,8 @@ SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)
 $(SWIG_CPPS):$(SWIG_MODULES)
 	$(SWIG) $(SWIG_FLAGS) $(DNNC_INCLUDES) -o $@ $<
 
-CPP_SRCS=$(SWIG_CPPS) dnnc_api.cpp
+#CPP_SRCS=$(SWIG_CPPS) dnnc_api.cpp
+CPP_SRCS=$(SWIG_CPPS) $(wildcard *.cpp)
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
 	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
