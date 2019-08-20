@@ -152,13 +152,12 @@ public:
   friend std::ostream &operator<<(std::ostream &os, const tensor<T> &t) {
     if (t._name.size())
       os << t._name << "=";
-    for (size_t i = 0; i < t.length(); i++)
-      os << t._mem_layout[i] << ' ';
+    os << t.to_string();
     return os;
   }
 
-  std::string to_string() {
-    std::string str = "";
+  std::string to_string() const {
+    std::string str;
 #define DNNC_MAX_SHOW 30
     if ((rank() == 1) || ((rank() == 2) && (_shape[0] == 1))) {
       if (_name.size())
@@ -223,7 +222,23 @@ public:
         }
       }
     } else {
-      str = "Not yet supported\n";
+      // For now, print it like a vector for tensor with rank higher than 3
+      // TODO: support rank 4 tensors as well.
+      if (_name.size())
+        str = _name + "=\n";
+      str += "[";
+      for (size_t i = 0; i < length(); i++) {
+        if (i != 0)
+          str += " ";
+        str += std::to_string(_mem_layout[i]);
+        if (i > DNNC_MAX_SHOW) {
+          str += "...\n";
+          break;
+        }
+        if (i < (length() - 1))
+          str += "\n";
+      }
+      str += "]\n";
     }
 
     return str;
@@ -233,7 +248,7 @@ public:
     std::string str = to_string();
     size_t sz = str.size();
     char *result = (char *)malloc(sz + 1);
-    for (size_t i = 0; i < sz; i++)
+    for (size_t i = 0; i <= str.size(); i++)
       result[i] = str.at(i);
     result[sz] = '\0';
     return result;
