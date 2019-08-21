@@ -27,7 +27,7 @@ OBJ_DIR=./obj
 LIB_DIR=./lib
 LIB=$(LIB_DIR)/liboperators.so
 
-INCLUDES= -I../../include -I../../packages/eigen-eigen-323c052e1731
+INCLUDES= -I../../include -isystem ../../packages/eigen-eigen-323c052e1731
 GCC=/usr/bin/g++
 CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG
 LD=/usr/bin/ld

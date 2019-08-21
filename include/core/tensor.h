@@ -149,12 +149,14 @@ public:
     for (size_t i = 0; i < length(); i++)
       _mem_layout[i] = data[i];
   }
+#ifndef SWIGPYTHON
   friend std::ostream &operator<<(std::ostream &os, const tensor<T> &t) {
     if (t._name.size())
       os << t._name << "=";
     os << t.to_string();
     return os;
   }
+#endif
 
   std::string to_string() const {
     std::string str;

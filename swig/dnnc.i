@@ -50,6 +50,8 @@
    SWIG_exception(SWIG_RuntimeError, "unknown exception");
  }
 }
+%ignore *::operator=;
+%ignore *::operator[];
 
 %module dnnc
 %include "typemaps.i"
