@@ -35,10 +35,24 @@ public:
   MatMul(std::string name = "opMatMul") : baseOperator<T>(opMatMul, name) {}
   tensor<T> compute(tensor<T> &a, tensor<T> &b) {
 
-    if ((a.rank() == 1) || (a.rank() == 2)) {
-      if (a.shape()[1] != b.shape()[0])
+    if (a.rank() != b.rank())
+      a.broadcast(b);
+
+    if ((a.rank() == 1 && b.rank() == 1)) {
+      if (a.length() != b.length())
         throw std::invalid_argument(
-            "tensor dimenions not appropriate for multiplication operator.");
+            "vector dimensions not appropriate for multiplication operator.");
+
+      tensor<T> result(1);
+      result[0] = 0.0;
+      for (size_t i = 0; i < a.length(); i++)
+        result[0] += a[i] * b[i];
+
+      return result;
+    } else if (a.rank() == 2 && b.rank() == 2) {
+      if (a.shape()[1] != b.shape()[0])
+        throw std::invalid_argument("matrix dimensions not appropriate for 2D "
+                                    "multiplication operator.");
 
       tensor<T> result(a.shape()[0], b.shape()[1]);
 
@@ -50,31 +64,30 @@ public:
       result.load(eResult.data());
       return result;
     } else if ((a.rank() == 3)) {
-      // dnnc (& eigen) are column major whereas numpy is row major and
-      // requires: a.shape()[0] == b.shape()[0] && a.shape()[2] == b.shape()[1]
-      if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[2])) {
-        throw std::invalid_argument(
-            "tensor dimenions not appropriate for multiplication operator.");
+      if ((a.shape()[2] != b.shape()[1]) || (a.shape()[0] != b.shape()[0])) {
+        throw std::invalid_argument("tensor dimensions not appropriate for 3D "
+                                    "multiplication operator.");
       }
 
-      tensor<T> result(a.shape()[0], b.shape()[1], b.shape()[2]);
+      tensor<T> result(a.shape()[0], a.shape()[1], b.shape()[2]);
 
       DNNC_EIGEN_TENSOR_MAP(eigenTensorA, a);
       DNNC_EIGEN_TENSOR_MAP(eigenTensorB, b);
 
-      Tensor<T, 3> eResult(a.shape()[0], b.shape()[1], b.shape()[2]);
+      Tensor<T, 3, RowMajor> eResult(a.shape()[0], a.shape()[1], b.shape()[2]);
 
-      for (size_t i = 0; i < a.shape()[2]; i++) {
-        Tensor<T, 2> eigenTensorChipA = eigenTensorA.chip(i, 2);
-        Tensor<T, 2> eigenTensorChipB = eigenTensorB.chip(i, 2);
+      for (size_t i = 0; i < a.shape()[0]; i++) {
+        Tensor<T, 2, RowMajor> eigenTensorChipA = eigenTensorA.chip(i, 0);
+        Tensor<T, 2, RowMajor> eigenTensorChipB = eigenTensorB.chip(i, 0);
 
-        auto eigenMatrixA = Map<Matrix<T, Dynamic, Dynamic>>(
-            eigenTensorChipA.data(), a.shape()[0], a.shape()[1]);
-        auto eigenMatrixB = Map<Matrix<T, Dynamic, Dynamic>>(
-            eigenTensorChipB.data(), b.shape()[0], b.shape()[1]);
-        Matrix<T, Dynamic, Dynamic> eigenMatMulAB = eigenMatrixA * eigenMatrixB;
+        auto eigenMatrixA = Map<Matrix<T, Dynamic, Dynamic, RowMajor>>(
+            eigenTensorChipA.data(), a.shape()[1], a.shape()[2]);
+        auto eigenMatrixB = Map<Matrix<T, Dynamic, Dynamic, RowMajor>>(
+            eigenTensorChipB.data(), b.shape()[1], b.shape()[2]);
+        Matrix<T, Dynamic, Dynamic, RowMajor> eigenMatMulAB =
+            eigenMatrixA * eigenMatrixB;
 
-        eResult.chip(i, 2) = TensorMap<Tensor<T, 2>>(
+        eResult.chip(i, 0) = TensorMap<Tensor<T, 2, RowMajor>>(
             eigenMatMulAB.data(), a.shape()[0], b.shape()[1]);
       }
 
