@@ -19,7 +19,7 @@ DNNC supports upto 4D tensors in the beta release
 >>> a=dc.arange(5)
 >>> print(a)
 [0.000000 1.000000 2.000000 3.000000 4.000000]
->>>
+
 >>> # create 2D arrary from python list
 >>> a=dc.array([[10,11,12],[20,21,22]])
 >>> a.shape()
@@ -58,7 +58,7 @@ a.eigen_to_numpy(  a.load(            a.shape(           a.transpose(
 >>> print(y)
 [[484.000000 594.000000]
  [914.000000 1124.000000]]
->>>
+
 >>> # Other DNNC APIs
 >>> dc.<tab><tab>
 dc.add(                          dc.matmul(
