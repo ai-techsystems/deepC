@@ -362,10 +362,9 @@ public:
                         std::to_string(length()) + ".\n";
       throw std::invalid_argument(msg);
     }
-    tensor<T> result(new_shape);
-    result.load(_mem_layout);
+    _shape = new_shape;
 
-    return result;
+    return *this;
   }
   tensor<T> flatten() {
     std::vector<size_t> new_shape;

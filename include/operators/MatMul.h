@@ -64,7 +64,6 @@ public:
 
       result.load(eResult.data());
       return result;
-#ifdef DNNC_HIGHRANK_SUPPORT
     } else if ((a.rank() == 3)) {
       if ((a.shape()[2] != b.shape()[1]) || (a.shape()[0] != b.shape()[0])) {
         throw std::invalid_argument("tensor dimensions not appropriate for 3D "
@@ -90,12 +89,12 @@ public:
             eigenMatrixA * eigenMatrixB;
 
         eResult.chip(i, 0) = TensorMap<Tensor<T, 2, RowMajor>>(
-            eigenMatMulAB.data(), a.shape()[0], b.shape()[1]);
+            eigenMatMulAB.data(), a.shape()[1], b.shape()[2]);
       }
 
       result.load(eResult.data());
       return result;
-
+#ifdef DNNC_HIGHRANK_SUPPORT
     } else if ((a.rank() == 4)) {
       if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[1]) ||
           (a.shape()[3] != b.shape()[2])) {
