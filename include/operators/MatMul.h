@@ -59,10 +59,12 @@ public:
       DNNC_EIGEN_MATRIX(eigenMatrixA, a);
       DNNC_EIGEN_MATRIX(eigenMatrixB, b);
 
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA * eigenMatrixB;
+      Matrix<T, Dynamic, Dynamic, RowMajor> eResult =
+          eigenMatrixA * eigenMatrixB;
 
       result.load(eResult.data());
       return result;
+#ifdef DNNC_HIGHRANK_SUPPORT
     } else if ((a.rank() == 3)) {
       if ((a.shape()[2] != b.shape()[1]) || (a.shape()[0] != b.shape()[0])) {
         throw std::invalid_argument("tensor dimensions not appropriate for 3D "
@@ -95,7 +97,6 @@ public:
       return result;
 
     } else if ((a.rank() == 4)) {
-#ifdef DNNC_HIGHRANK_SUPPORT
       if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[1]) ||
           (a.shape()[3] != b.shape()[2])) {
         throw std::invalid_argument(
