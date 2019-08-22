@@ -27,3 +27,5 @@
 
 #define TENSOR_DIMENSIONS_EQUAL(t1, t2)                                        \
   { t1.size() == t2.size() }
+
+#define DNNC_TENSOR_MAX_EL 30

@@ -40,20 +40,21 @@ using namespace Eigen;
 // from baseOperator.
 
 #define DNNC_EIGEN_VECTOR(var, t)                                              \
-  Map<Matrix<T, 1, Dynamic>> var(this->tensorMem(t), t.shape()[0]);
+  Map<Matrix<T, 1, Dynamic, RowMajor>> var(this->tensorMem(t), t.shape()[0]);
 
 #define DNNC_EIGEN_MATRIX(var, t)                                              \
-  Map<Matrix<T, Dynamic, Dynamic>> var(this->tensorMem(t), t.shape()[0],       \
-                                       t.shape()[1]);
+  Map<Matrix<T, Dynamic, Dynamic, RowMajor>> var(this->tensorMem(t),           \
+                                                 t.shape()[0], t.shape()[1]);
 
-#define DNNC_EIGEN_TENSOR Tensor<T, 3>
+#define DNNC_EIGEN_TENSOR Tensor<T, 3, RowMajor>
 
 #define DNNC_EIGEN_TENSOR_MAP(var, t)                                          \
-  TensorMap<Tensor<T, 3>> var(this->tensorMem(t), t.shape()[0], t.shape()[1],  \
-                              t.shape()[2]);
+  TensorMap<DNNC_EIGEN_TENSOR> var(this->tensorMem(t), t.shape()[0],           \
+                                   t.shape()[1], t.shape()[2]);
 
 #define DNNC_EIGEN_TENSOR4D Tensor<T, 4>
 
-#define DNNC_EIGEN_TENSOR4D_MAP(var, t)                                        \
-  TensorMap<Tensor<T, 4>> var(this->tensorMem(t), t.shape()[0], t.shape()[1],  \
-                              t.shape()[2], t.shape()[3]);
+#define DNNC_EIGEN_TENSOR4D_MAP(var, t, RowMajor)                              \
+  TensorMap<DNNC_EIGEN_TENSOR4D> var(this->tensorMem(t), t.shape()[0],         \
+                                     t.shape()[1], t.shape()[2],               \
+                                     t.shape()[3]);

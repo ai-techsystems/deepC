@@ -20,18 +20,120 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
+#include <Python.h>
+
 #include "core/tensor.h"
 #include "operators/Add.h"
 #include "operators/MatMul.h"
 #include "operators/ThresholdedRelu.h"
 
+extern std::vector<float> listTupleToVector_Float(PyObject *);
+extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
+
 using namespace dnnc;
 
-tensor<float> make_tensor(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
-  return tensor<float>(x, y, z, w);
+tensor<float> array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
+  return tensor<float>(x, y, z, w, "", dnnc::INIT_RANDOM);
 }
 
-tensor<float> multiply(tensor<float> &a, tensor<float> &b) {
+tensor<float> empty(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
+  return tensor<float>(x, y, z, w, "", dnnc::INIT_NONE);
+}
+
+tensor<float> zeros(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
+  return tensor<float>(x, y, z, w, "", dnnc::INIT_ZERO);
+}
+
+tensor<float> ones(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
+  return tensor<float>(x, y, z, w, "", dnnc::INIT_ONE);
+}
+
+tensor<float> random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
+  return tensor<float>(x, y, z, w, "", dnnc::INIT_RANDOM);
+}
+
+tensor<float> reshape(tensor<float> &tensorObj, PyObject *newShape) {
+  if (PyLong_Check(newShape)) {
+    std::vector<size_t> nShape;
+    auto newShapeMember = PyLong_AsLong(newShape);
+    nShape.push_back(static_cast<size_t>(newShapeMember));
+    if (nShape[0] <= 0)
+      throw std::logic_error("reshape integer must have positive value.\n");
+
+    tensor<float> result = tensorObj.reshape(nShape);
+    return result;
+  } else if (PyTuple_Check(newShape)) {
+    auto vShape = listTupleToVector_SizeT(newShape);
+    for (size_t i = 0; i < vShape.size(); i++)
+      if (vShape[i] <= 0)
+        throw std::logic_error("reshape tupel must have positive elements.\n");
+
+    tensor<float> result = tensorObj.reshape(vShape);
+    return result;
+  }
+  return tensorObj;
+}
+
+tensor<float> array(PyObject *objects) {
+  if (!PyList_Check(objects))
+    throw std::logic_error("array expects list to create array.\n");
+
+  Py_ssize_t sz = PyList_Size(objects);
+  if (!sz)
+    throw std::logic_error("array expects list of non-zero size.\n");
+
+  PyObject *a_list = PyList_GetItem(objects, 0);
+  if (PyList_Check(a_list)) {
+    // 2D: dc.array(([1,2],[10,20]]);
+    // Py_ssize_t sz = PyList_Size(a_list);
+    std::vector<size_t> vDims;
+    std::vector<float> vContents;
+    for (Py_ssize_t i = 0; i < sz; i++) {
+      std::vector<float> aVec =
+          listTupleToVector_Float(PyList_GetItem(objects, i));
+      vDims.push_back(aVec.size());
+      vContents.insert(vContents.end(), aVec.begin(), aVec.end());
+    }
+    // make sure VDims are consistent.
+    for (size_t i = 1; i < vDims.size(); i++) {
+      if (vDims[0] != vDims[i])
+        throw std::logic_error(
+            "2D array expects list of lists with same size.");
+    }
+    // fill it as row major data.
+    tensor<float> result(vDims.size(), vDims[0]);
+    result.load(vContents);
+    return result;
+  } else {
+    // 1D: dc.array([2,3,4])
+    std::vector<float> aVec = listTupleToVector_Float(objects);
+    tensor<float> result(aVec.size());
+    result.load(aVec);
+    return result;
+  }
+  return tensor<float>();
+}
+
+tensor<float> arange(size_t stop, size_t start = 0, size_t step = 1) {
+  // swap if the range is invalid.
+  if (stop < start) {
+    size_t tmp = start;
+    start = stop;
+    stop = tmp;
+  }
+  if (stop == start)
+    throw std::logic_error("arange expects stop arg more than start.\n");
+
+  std::vector<float> vContents;
+  for (size_t i = start; i < stop; i = i + step)
+    vContents.push_back(static_cast<float>(i));
+
+  tensor<float> result(vContents.size());
+  result.load(vContents);
+  return result;
+}
+
+tensor<float> matmul(tensor<float> &a, tensor<float> &b) {
   MatMul<float> op;
   return op.compute(a, b);
 }

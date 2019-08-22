@@ -35,7 +35,8 @@ MKDIR_P=mkdir -p
 LN_S=ln -s
 SWIG=/usr/bin/swig
 SWIG_FLAGS=-python -c++ -Wall
-DNNC_INCLUDES= -I../include -I../packages/eigen-eigen-323c052e1731
+EIGEN_INCLUDES=-isystem ../packages/eigen-eigen-323c052e1731
+DNNC_INCLUDES= -I../include 
 PY_INCLUDES= -I/usr/include/python3.6
 GCC=/usr/bin/g++
 CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC 
@@ -47,7 +48,7 @@ CPP_FLAGS=-Wall -std=c++14 -fPIC -g
 endif
 
 ifneq (,$(findstring $(LMCHECK),yY))
-CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG -g -lmcheck
+CPP_FLAGS=-Wall -std=c++14 -fPIC -D_DEBUG -g -lmcheck
 endif
 
 ifneq (,$(findstring $(PROF),yY))
@@ -62,12 +63,13 @@ SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)
 $(SWIG_CPPS):$(SWIG_MODULES)
 	$(SWIG) $(SWIG_FLAGS) $(DNNC_INCLUDES) -o $@ $<
 
-CPP_SRCS=$(SWIG_CPPS) dnnc_api.cpp
+#CPP_SRCS=$(SWIG_CPPS) dnnc_api.cpp
+CPP_SRCS=$(SWIG_CPPS) $(wildcard *.cpp)
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
 	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
 	@echo "compiling $<"
-	$(GCC) $(CPP_FLAGS) $(PY_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
+	$(GCC) $(CPP_FLAGS) $(PY_INCLUDES) $(DNNC_INCLUDES) $(EIGEN_INCLUDES) -c $< -o $@
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
