@@ -261,20 +261,29 @@ enum OPATTR {
   attr_weights
 };
 
-template <typename T> class baseOperator {
+class opratorID {
 protected:
   OPCODE _op;
   std::string _name;
 
+public:
+  opratorID(OPCODE op, std::string name = "") : _op(op), _name(name) {}
+  OPCODE code() { return _op; }
+  virtual std::string name() { return _name; }
+};
+
+template <typename T> class baseOperator : public opratorID {
+protected:
   T *tensorMem(tensor<T> &t) { return t._mem_layout; }
 
+  // this is prohibited.
+  void compute(void);
 public:
-  baseOperator(OPCODE op, std::string name = "") : _op(op), _name(name) {}
+  baseOperator(OPCODE op, std::string name = "") : opratorID(op, name) {}
 
   template <typename attrType>
   bool getAttribute(OPATTR attrName, attrType &obj);
 
-  void compute(void);
   tensor<T> compute(tensor<T> in1);
   tensor<T> compute(tensor<T> &in1);
   tensor<T> compute(tensor<T> in1, tensor<T> in2);

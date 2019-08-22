@@ -20,10 +20,9 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-
 #pragma once
 
 #define _USE_EIGEN 1
 
-#define TENSOR_DIMENSIONS_EQUAL(t1, t2)                                        \
-  { t1.size() == t2.size() }
+#define TENSOR_DIMENSIONS_EQUAL(t1, t2) { t1.size() == t2.size() }
+
