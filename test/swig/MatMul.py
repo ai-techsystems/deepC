@@ -19,9 +19,7 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 
-import os,sys
-DNNC_ROOT='/home/amd/speedygazelle/dnncompiler'
-sys.path.append(os.path.abspath(DNNC_ROOT+os.path.sep+'swig'));
+from . import common; # DNNC path setup
 
 import dnnc as dc
 import numpy as np
