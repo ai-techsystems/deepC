@@ -90,7 +90,7 @@ dc.iTensor(                      dc.fTensor(
 dc.thresholded_relu(
 ```
 
-## Operator MatMul Example 
+## Writing a unit test for Operator MatMul 
 
 ```
 import dnnc as dc
