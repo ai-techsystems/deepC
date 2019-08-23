@@ -44,7 +44,7 @@ DNNC supports upto 4D tensors in the beta release
 
 **Matrix Multiplication**
 
-'''
+```
 >>> a=dc.array([[10,11,12],[20,21,22]])                  # create 'a' 2x3 matrix 
 >>> b=dc.array([[10,11,12],[20,21,22]])                  # create 'b' 2x3 matrix 
 >>> dc.reshape(b,(3,2))                                  # reshape matrix 'b' to 3x2
