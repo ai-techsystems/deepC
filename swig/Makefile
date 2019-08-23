@@ -23,38 +23,11 @@
 #
 
 MAKEFLAGS += -j1
+include ../Makefile.common
 
-OBJ_DIR=./obj
-LIB_DIR=./lib
 LIB=$(LIB_DIR)/libdnnc.so
 
-PYTHON=/usr/bin/python3
 PYMOD=_dnnc.so
-
-MKDIR_P=mkdir -p
-LN_S=ln -s
-SWIG=/usr/bin/swig
-SWIG_FLAGS=-python -c++ -Wall
-EIGEN_INCLUDES=-isystem ../packages/eigen-eigen-323c052e1731
-DNNC_INCLUDES= -I../include 
-PY_INCLUDES= -I/usr/include/python3.6
-GCC=/usr/bin/g++
-CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC 
-LD=/usr/bin/ld
-LD_FLAGS=-shared 
-
-ifneq (,$(findstring $(DEBUG),yY))
-CPP_FLAGS=-Wall -std=c++14 -fPIC -g
-endif
-
-ifneq (,$(findstring $(LMCHECK),yY))
-CPP_FLAGS=-Wall -std=c++14 -fPIC -D_DEBUG -g -lmcheck
-endif
-
-ifneq (,$(findstring $(PROF),yY))
-CPP_FLAGS=-pg -Wall -std=c++14 -fPIC 
-endif
-
 
 all:$(LIB) VERIFY
 
@@ -63,7 +36,6 @@ SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)
 $(SWIG_CPPS):$(SWIG_MODULES)
 	$(SWIG) $(SWIG_FLAGS) $(DNNC_INCLUDES) -o $@ $<
 
-#CPP_SRCS=$(SWIG_CPPS) dnnc_api.cpp
 CPP_SRCS=$(SWIG_CPPS) $(wildcard *.cpp)
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
@@ -80,7 +52,7 @@ VERIFY:
 	$(PYTHON) ../test/swig/basic.py
 
 clean:
-	\rm -fr $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc.py dnnc.pyc $(PYMOD) __pycache__
+	$(RM_F) $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc.py dnnc.pyc $(PYMOD) __pycache__
 
 .DEFAULT: all
 .PHONY: print_vars

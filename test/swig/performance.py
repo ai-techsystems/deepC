@@ -19,12 +19,12 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 
-import os,sys
-DNNC_ROOT='/home/amd/speedygazelle/dnncompiler'
-sys.path.append(os.path.abspath(DNNC_ROOT+os.path.sep+'swig'));
+import common
 
-import dnnc as dc
 import numpy as np
+import tensorflow as tf
+import dnnc as dc
+
 import time
 
 class NPMatMul():
@@ -37,7 +37,7 @@ class NPMatMul():
         np_a = np.reshape(self.np_a, (self.N, self.N))
         np_b = np.reshape(self.np_b, (self.N, self.N))
 
-        npr = np.add(np_a, np_b);
+        npr = np.matmul(np_a, np_b);
 
 class DCMatMul():
     def __init__(self, n):
@@ -49,23 +49,40 @@ class DCMatMul():
         dc_a = dc.reshape(self.dc_a, (self.N, self.N))
         dc_b = dc.reshape(self.dc_b, (self.N, self.N))
 
-        dcr = dc.add(dc_a, dc_b);
+        dcr = dc.matmul(dc_a, dc_b);
 
+class TFMatMul():
+    def __init__(self, n):
+        tf.enable_eager_execution()
+        self.N = n
+        self.tf_a = tf.get_variable("tf_a", initializer=tf.random_uniform([n, n], dtype=tf.float32))
+        self.tf_b = tf.get_variable("tf_b", initializer=tf.random_uniform([n, n], dtype=tf.float32))
+
+    def MatMul3D (self):
+        tfr = tf.matmul(self.tf_a, self.tf_b)
+
+def fmt(n):
+    return "{0:.2g}".format(n)
 
 if __name__ == '__main__':
     N=200
 
-    for N in [20, 50, 100, 500, 1000, 2000, 5000, 10000]:
+    print ("Matrix(NxN) DC NP TF DC/NP DC/TF")
+    for N in [20, 50, 200, 500, 2000, 5000]:
         nmpy = NPMatMul(N);
         start = time.time()
         nmpy.MatMul3D();
         np_time = time.time()-start
 
+        tfmm = TFMatMul(N);
         start = time.time()
-        dmat = DCMatMul(N);
+        tfmm.MatMul3D();
+        tf_time = time.time()-start;
+
+        dcmm = DCMatMul(N);
         start = time.time()
-        dmat.MatMul3D();
+        dcmm.MatMul3D();
         dc_time = time.time()-start;
 
+        print (N, fmt(dc_time), fmt(np_time), fmt(tf_time), fmt(dc_time/np_time), fmt(dc_time/tf_time))
 
-        print (N, np_time, dc_time, int(dc_time/np_time))
