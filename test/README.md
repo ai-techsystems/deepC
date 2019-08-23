@@ -14,22 +14,26 @@ DNNC supports upto 4D tensors in the beta release
 
 ```
 >>> import dnnc as dc
->>>
->>> # create a vector of 5 elements
->>> a=dc.arange(5)
+
+>>> a=dc.arange(5) ;                                     # create a vector of 5 elements
 >>> print(a)
 [0.000000 1.000000 2.000000 3.000000 4.000000]
+>>> a[1]                                                 # print second element of the array.
+1.0
+>>> a[1] = 100.1                                         # assign second element a new value 100.1
+>>> print(a)                                             # print and check new value.
+[0.000000 100.099998 2.000000 3.000000 4.000000]
 
->>> # create 2D arrary from python list
->>> a=dc.array([[10,11,12],[20,21,22]])
->>> a.shape()
+
+>>> a=dc.array([[10,11,12],[20,21,22]])                  # create 2D arrary from python list
+>>> a.shape()                                            # check shape.
 (2, 3)
->>> print(a)
+>>> print(a)                                             # print 2D arrary.
 [[10.000000 11.000000 12.000000]
  [12.000000 20.000000 21.000000]]
 
->>> # reshape 2x3 matrix to 3x2 matrix
->>> a=a.reshape(dc.ivec([3,2]))
+
+>>> a.reshape(dc.ivec([3,2]))                            # reshape 2x3 matrix to 3x2 matrix
 >>> a.shape()
 (3, 2)
 >>> print(a)
