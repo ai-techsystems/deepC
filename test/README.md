@@ -40,6 +40,21 @@ DNNC supports upto 4D tensors in the beta release
 [[10.000000 11.000000]
  [20.000000 21.000000]
  [0.000000 0.000000]]
+```
+
+**Matrix Multiplication**
+
+'''
+>>> a=dc.array([[10,11,12],[20,21,22]])                  # create 'a' 2x3 matrix 
+>>> b=dc.array([[10,11,12],[20,21,22]])                  # create 'b' 2x3 matrix 
+>>> dc.reshape(b,(3,2))                                  # reshape matrix 'b' to 3x2
+>>> b.shape()
+(3, 2)
+>>> y=dc.matmul(a,b)                                     # multiply 'a' and 'b'.
+>>> print(y)
+[[484.000000 594.000000]
+ [914.000000 1124.000000]]
+
 
 >>>
 >>> # Other tensor functions availiable
@@ -54,7 +69,7 @@ a.eigen_to_numpy(  a.load(            a.shape(           a.transpose(
 ### DNNC APIs
 
 ``` 
->>> 
+>>> a=dc.array([[10,11,12],[20,21,22]])
 >>> b=dc.reshape(a,(3,2))
 >>> b.shape()
 (3, 2)
