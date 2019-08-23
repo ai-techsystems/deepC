@@ -137,6 +137,10 @@ public:
     }
   }
 
+  inline void load(const T& data, size_t i, size_t j=0,
+          size_t k=0, size_t l=0) {
+      this->operator()(i,j,k,l) = data;
+  }
   void load(std::vector<T> data) {
     size_t sz = length();
     for (size_t i = 0; i < data.size() && i < sz; i++)
@@ -386,20 +390,25 @@ public:
   }
   // flat index, unsafe method
   T &operator[](const INDEX &index) const {
-    if (index >= length())
-      throw std::out_of_range("illegal tensor index.");
+    if (index >= length()) {
+      std::string msg = "illegal tensor index " + std::to_string(index) + ".";
+      throw std::out_of_range(msg.c_str());
+    }
 
     return _mem_layout[index];
   }
 
   T &operator()(std::vector<INDEX> &indices) const {
     INDEX index = 0;
-    // column-major:Loc(A[i][j][k])= base+w((i-x)+d0*d1(k-z)+d0*(j-y))
-    if (rank() == 3) {
-      index = indices[0] + _shape[0] * indices[1] +
-              _shape[0] * _shape[1] * indices[2];
+    if (rank() == 4) {
+      index = indices[0] * _shape[1] * _shape[2] * _shape[3] +
+              indices[1] * _shape[2] * _shape[3] + indices[2] * _shape[3] + indices[3];
+    } else if (rank() == 3) {
+      index = indices[0] * _shape[1] * _shape[2] + indices[1] * _shape[2] + indices[2];
     } else if (rank() == 2) {
-      index = indices[0] + _shape[0] * indices[1];
+      index = indices[0] * _shape[1] + indices[1];
+    } else if (rank() == 1) {
+      index = indices[0];
     } else {
       for (size_t i = 0; i < indices.size(); i++) {
         DIMENSION dsz = 1;

@@ -87,9 +87,17 @@ extern dnnc::tensor<float> ones(size_t x, size_t y = 0, size_t z = 0, size_t w =
 extern dnnc::tensor<float> random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
 extern dnnc::tensor<float> reshape(dnnc::tensor<float>&, PyObject*) ;
 %}
-%extend dnnc::tensor<T> {
-  T __getitem__(size_t i) {
-    return (*$self)[i];
+%feature("python:slot", "mp_subscript", functype="binaryfunc") dnnc::tensor::__getitem__;
+%feature("python:slot", "mp_ass_subscript", functype="objobjargproc") dnnc::tensor::__setitem__;
+
+%extend dnnc::tensor {
+  const T& __getitem__(int i, int j=0, int k=0, int l=0) { 
+      const T& item = $self->operator()(i,j,k,l); 
+      return item;  
+  }
+  void __setitem__(int i, const T& data) {
+      $self->load(data, i);
+      return ;
   }
 }
 %template(iTensor) dnnc::tensor<int>;
