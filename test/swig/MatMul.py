@@ -19,7 +19,7 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 
-from . import common; # DNNC path setup
+import common; # DNNC path setup
 
 import dnnc as dc
 import numpy as np
