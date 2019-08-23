@@ -137,9 +137,9 @@ public:
     }
   }
 
-  inline void load(const T& data, size_t i, size_t j=0,
-          size_t k=0, size_t l=0) {
-      this->operator()(i,j,k,l) = data;
+  inline void load(const T &data, size_t i, size_t j = 0, size_t k = 0,
+                   size_t l = 0) {
+    this->operator()(i, j, k, l) = data;
   }
   void load(std::vector<T> data) {
     size_t sz = length();
@@ -402,9 +402,11 @@ public:
     INDEX index = 0;
     if (rank() == 4) {
       index = indices[0] * _shape[1] * _shape[2] * _shape[3] +
-              indices[1] * _shape[2] * _shape[3] + indices[2] * _shape[3] + indices[3];
+              indices[1] * _shape[2] * _shape[3] + indices[2] * _shape[3] +
+              indices[3];
     } else if (rank() == 3) {
-      index = indices[0] * _shape[1] * _shape[2] + indices[1] * _shape[2] + indices[2];
+      index = indices[0] * _shape[1] * _shape[2] + indices[1] * _shape[2] +
+              indices[2];
     } else if (rank() == 2) {
       index = indices[0] * _shape[1] + indices[1];
     } else if (rank() == 1) {
