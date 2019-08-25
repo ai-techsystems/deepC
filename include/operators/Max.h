@@ -24,20 +24,58 @@
 #pragma once
 #include "operators/baseOperator.h"
 #include <string>
+#include <vector>
 
 using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Max : public baseOperator<T> {
   //  Max attributes
+  T maxEl(std::vector<T> &v) {
+    T max = 0;
+    if (v.size() == 0)
+      throw std::invalid_argument(
+          "Max operator requires non-zero size vector.");
+
+    for (size_t i = 0; i < v.size(); i++)
+      max = i == 0 ? v[0] : (v[i] > max ? v[i] : max);
+    return max;
+  }
+
 public:
   Max(std::string name = "opMax") : baseOperator<T>(opMax, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(std::vector<tensor<T>> inputs) {
+    // TODO: broadcasting requirements.
+    // 1. find the tensors with largest rank
+    // 2. determine shape with largest dimension of each rank among largest rank
+    // tensors found in step1.
+    // 3. create a result tensor with this new shape
+    // 4. broadcast other tensors to result vector.
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    if (inputs.size() == 0) {
+      throw std::invalid_argument(
+          "Max operator requires non-zero size input vector.");
+      return tensor<T>(0);
+    }
+
+    // for now check every shape is equal and creaet result tensor.
+    for (size_t i = 1; i < inputs.size(); i++)
+      if (inputs[0].shape() != inputs[i].shape())
+        throw std::invalid_argument(
+            "Max operator requires tensors with equal shape.");
+
+    tensor<T> result(inputs[0].shape());
+
+    // compute element wise max
+    for (size_t i = 0; i < result.length(); i++) {
+      std::vector<T> elVector;
+      for (size_t j = 0; j < inputs.size(); j++)
+        elVector.push_back(inputs[j][i]);
+
+      result[i] = maxEl(elVector);
+    }
+    return result;
   }
 };
 } // namespace dnnc

@@ -31,7 +31,6 @@ template <typename T> class Add : public baseOperator<T> {
 protected:
 public:
   Add(std::string name = "opAdd") : baseOperator<T>(opAdd, name) {}
-  // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a, tensor<T> &b) {
     if (a.shape() != b.shape())
       throw std::invalid_argument(
@@ -39,12 +38,8 @@ public:
 
     tensor<T> result(a.shape()[0], a.shape()[1]);
 
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-    DNNC_EIGEN_MATRIX(eigenMatrixB, b);
-
-    Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA + eigenMatrixB;
-
-    result.load(eResult.data());
+    for (size_t i = 0; i < a.length(); i++)
+      result[i] = a[i] + b[i];
 
     return result;
   }

@@ -278,6 +278,7 @@ protected:
 
   // this is prohibited.
   void compute(void);
+
 public:
   baseOperator(OPCODE op, std::string name = "") : opratorID(op, name) {}
 

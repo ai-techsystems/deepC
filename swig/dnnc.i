@@ -39,12 +39,22 @@
  catch (const std::out_of_range& e) {
    SWIG_exception(SWIG_IndexError, e.what());
  }
+ catch (const std::logic_error& e) {
+   SWIG_exception(SWIG_IndexError, e.what());
+ }
+ catch (const std::bad_alloc& e) {
+   PyErr_NoMemory();
+   SWIG_exception(SWIG_MemoryError, e.what());
+ }
  catch (...) { 
    SWIG_exception(SWIG_RuntimeError, "unknown exception");
  }
 }
+%ignore *::operator=;
+%ignore *::operator[];
 
 %module dnnc
+%include "typemaps.i"
 %include <std_string.i>
 %include <std_vector.i>
 %include <std_shared_ptr.i>
@@ -56,29 +66,49 @@ typedef long unsigned int size_t;
 %}
 namespace std {
   %template(ivec) vector<size_t>;
+  %template(fvec) vector<float>;
 }
 %{
 #include <core/tensor.h>
 extern dnnc::tensor<float>  \
-        make_tensor(size_t x,     size_t y = 0,  \
-                    size_t z = 0, size_t w = 0) ;
+        array(size_t x,     size_t y = 0,  \
+              size_t z = 0, size_t w = 0) ;
 extern dnnc::tensor<float>  \
-        multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
+        matmul(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         add(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         thresholded_relu(dnnc::tensor<float>& input);
+extern dnnc::tensor<float> array(PyObject*);
+extern dnnc::tensor<float> arange(size_t stop, size_t start=0, size_t step=1);
+extern dnnc::tensor<float> empty(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
+extern dnnc::tensor<float> zeros(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
+extern dnnc::tensor<float> ones(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
+extern dnnc::tensor<float> random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
+extern dnnc::tensor<float> reshape(dnnc::tensor<float>&, PyObject*) ;
 %}
+%extend dnnc::tensor<T> {
+  T __getitem__(size_t i) {
+    return (*$self)[i];
+  }
+}
 %template(iTensor) dnnc::tensor<int>;
 %template(fTensor) dnnc::tensor<float>;
 %template(dTensor) dnnc::tensor<double>;
 
 extern dnnc::tensor<float>
-        make_tensor(size_t x,     size_t y = 0, 
-                    size_t z = 0, size_t w = 0) ;
+        array(size_t x,     size_t y = 0, 
+              size_t z = 0, size_t w = 0) ;
 extern dnnc::tensor<float>  \
-        multiply(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
+        matmul(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         add(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         thresholded_relu(dnnc::tensor<float>& input);
+extern dnnc::tensor<float> array(PyObject* objects);
+extern dnnc::tensor<float> arange(size_t stop, size_t start=0, size_t step=1);
+extern dnnc::tensor<float> empty(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
+extern dnnc::tensor<float> zeros(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
+extern dnnc::tensor<float> ones(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
+extern dnnc::tensor<float> random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
+extern dnnc::tensor<float> reshape(dnnc::tensor<float>&, PyObject*) ;
