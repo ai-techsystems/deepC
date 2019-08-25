@@ -59,14 +59,21 @@ protected:
   //////////// protected methods /////////////////
   T *getMemory(size_t sz) {
     _mem_layout = sz ? static_cast<T *>(malloc(sizeof(T) * sz)) : 0x0;
-    if ((sz && !_mem_layout) || !_ref)
+    if ((sz && !_mem_layout))
       throw std::bad_alloc();
     return _mem_layout;
   }
+  void init_ref() {
+    _ref = static_cast<size_t *>(malloc(sizeof(size_t)));
+    if (!_ref)
+      throw std::bad_alloc();
+    *_ref = 1; // init reference count.
+  }
+
   // only constructors  call init method
   void init(INIT_TYPE fill = INIT_NONE) {
-    _ref = static_cast<size_t *>(malloc(sizeof(size_t)));
-    *_ref = 1; // init reference count.
+
+    init_ref();
 
     size_t msize = length(); // flat array length
     if (rank() == 0 || msize == 0)
@@ -93,12 +100,17 @@ protected:
   }
 
 public:
-  // tensor constructor with arbitrary dimension
+  // tensor constructor with arbitrary dimension up to 4.
+
+  // CTOR 1: Use this contructor with shape vector and to initialize
+  //         with zero, one, or random numbers.
   tensor(std::vector<DIMENSION> dimn, std::string n = "",
          INIT_TYPE fill = INIT_NONE)
       : _ref(0x0), _mem_layout(0x0), _name(n), _shape(dimn) {
     init(fill);
   }
+  // CTOR 1a: Use this contructor with upto 4 dimensions to initialize with
+  //          zero, one, or random numbers.
   tensor(DIMENSION x = 0, DIMENSION y = 0, DIMENSION z = 0, DIMENSION w = 0,
          std::string n = "", INIT_TYPE fill = INIT_NONE)
       : _ref(0x0), _mem_layout(0x0), _name(n) {
@@ -112,6 +124,17 @@ public:
         _shape.push_back(w);
     }
     init(fill);
+  }
+  // USE WITH CAUTION.
+  // CTOR 2: Use this contructor to handover the externally allocated and
+  // initialized
+  //         memory to tensor.
+  // This object will own the memory passed to it and free it in the destructor.
+  // This exists solely for performance reasons.
+  tensor(T *data, std::vector<DIMENSION> dimn, std::string n = "")
+      : _ref(0x0), _mem_layout(data), _name(n), _shape(dimn) {
+    assert(sizeof(data) == length());
+    init_ref();
   }
   tensor(const tensor &other) {
     _ref = other._ref;
