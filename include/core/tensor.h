@@ -33,6 +33,7 @@
 #include <string>
 #include <vector>
 #endif
+#include <assert.h>
 #include <random>
 
 namespace dnnc {
@@ -41,6 +42,8 @@ typedef size_t DIMENSION;
 enum INIT_TYPE { INIT_NONE = 0, INIT_RANDOM, INIT_ZERO, INIT_ONE };
 
 template <typename T> class baseOperator;
+template <typename T> class tensor;
+template <typename T> static tensor<T> NULL_TENSOR;
 
 // Tensor with arbitrary rank.
 template <typename T> class tensor {
@@ -64,10 +67,10 @@ protected:
   // only constructors  call init method
   void init(INIT_TYPE fill = INIT_NONE) {
     size_t msize = length(); // flat array length
-#ifndef SWIGPYTHON
-    if (rank() == 0)
-      throw std::invalid_argument("tensor with no shape.");
-#endif
+    if (rank() == 0 || msize == 0)
+      return;
+    // throw std::invalid_argument("tensor with no shape.");
+
     _mem_layout = getMemory(msize);
 
     *_ref = 1; // init reference count.
@@ -130,8 +133,9 @@ public:
     return *this;
   }
   ~tensor() {
-    --(*_ref);
-    if (*_ref == 0 && _mem_layout) {
+    if (_ref)
+      --(*_ref);
+    if (_ref && *_ref == 0 && _mem_layout) {
       free(_ref);
       free(_mem_layout);
     }
@@ -147,7 +151,7 @@ public:
       _mem_layout[i] = data[i];
   }
   void load(T *data) {
-    if (!data)
+    if (!data || isnull())
       return;
     for (size_t i = 0; i < length(); i++)
       _mem_layout[i] = data[i];
@@ -163,7 +167,9 @@ public:
 
   std::string to_string(const size_t max_el = DNNC_TENSOR_MAX_EL) const {
     std::string str = _name.size() ? _name + "=" : "";
-    if ((rank() == 1) || ((rank() == 2) && (_shape[0] == 1))) {
+    if (rank() == 0) {
+      str += "null tensor";
+    } else if ((rank() == 1) || ((rank() == 2) && (_shape[0] == 1))) {
       str += "\n[";
       size_t i = 0;
       for (i = 0; i < length() && i < max_el; i++)
@@ -338,7 +344,8 @@ public:
     return result;
   }
   const std::vector<T> data() const {
-    return std::vector<T>(_mem_layout, _mem_layout + length());
+    return isnull() ? std::vector<T>()
+                    : std::vector<T>(_mem_layout, _mem_layout + length());
   }
 
   // public methods
@@ -365,12 +372,14 @@ public:
                         " does not match tensor\'s original length " +
                         std::to_string(length()) + ".\n";
       throw std::invalid_argument(msg);
+    } else {
+      _shape = new_shape;
     }
-    _shape = new_shape;
-
     return *this;
   }
   tensor<T> flatten() {
+    if (isnull())
+      return NULL_TENSOR<T>;
     std::vector<size_t> new_shape;
     new_shape.push_back(length());
 
@@ -379,20 +388,16 @@ public:
 
     return result;
   }
+  bool isnull() const { return _ref == 0x0 && _mem_layout == 0x0; }
   // TODO:
   void transpose() {}
-  // reference: https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
-  bool broadcast(const tensor<T> &other) {
-    // TODO:
-    // 1. uni-directional broadcasting
-    // 2. multi-directional broadcasting
-    return true;
-  }
   // flat index, unsafe method
   T &operator[](const INDEX &index) const {
-    if (index >= length()) {
-      std::string msg = "illegal tensor index " + std::to_string(index) + ".";
+    if (isnull() || index >= length()) {
+      std::string msg = "illegal tensor index " + std::to_string(index);
+      msg += isnull() ? "on null tensor." : ".";
       throw std::out_of_range(msg.c_str());
+      assert(msg.c_str()); // crash and burn.
     }
 
     return _mem_layout[index];
@@ -442,5 +447,6 @@ public:
     std::string tensor_proto = "";
     return tensor_proto;
   }
+
 }; // class tensor
 } // namespace dnnc
