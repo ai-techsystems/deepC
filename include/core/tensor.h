@@ -59,13 +59,15 @@ protected:
   //////////// protected methods /////////////////
   T *getMemory(size_t sz) {
     _mem_layout = sz ? static_cast<T *>(malloc(sizeof(T) * sz)) : 0x0;
-    _ref = static_cast<size_t *>(malloc(sizeof(size_t)));
     if ((sz && !_mem_layout) || !_ref)
       throw std::bad_alloc();
     return _mem_layout;
   }
   // only constructors  call init method
   void init(INIT_TYPE fill = INIT_NONE) {
+    _ref = static_cast<size_t *>(malloc(sizeof(size_t)));
+    *_ref = 1; // init reference count.
+
     size_t msize = length(); // flat array length
     if (rank() == 0 || msize == 0)
       return;
@@ -73,7 +75,6 @@ protected:
 
     _mem_layout = getMemory(msize);
 
-    *_ref = 1; // init reference count.
     // initilize with normal distribution.
     if (fill == INIT_NONE) {
       ; // no fill
@@ -388,7 +389,7 @@ public:
 
     return result;
   }
-  bool isnull() const { return _ref == 0x0 && _mem_layout == 0x0; }
+  bool isnull() const { return _mem_layout == 0x0; }
   // TODO:
   void transpose() {}
   // flat index, unsafe method
