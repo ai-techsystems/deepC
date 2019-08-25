@@ -27,6 +27,7 @@
 #include <stdint.h>
 
 using namespace dnnc;
+template <typename T> tensor<T> NULL_TENSOR;
 
 //#define DNNC_TENSOR_TEST 1
 #ifdef DNNC_TENSOR_TEST

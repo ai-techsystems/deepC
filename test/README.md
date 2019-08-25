@@ -14,31 +14,37 @@ DNNC supports upto 4D tensors in the beta release
 
 ```
 >>> import dnnc as dc
->>>
->>> # create a vector of 5 elements
->>> a=dc.arange(5)
+
+>>> a=dc.arange(5) ;                                     # create a vector of 5 elements
 >>> print(a)
 [0.000000 1.000000 2.000000 3.000000 4.000000]
+>>> a[1]                                                 # print second element of the array.
+1.0
+>>> a[1] = 100.1                                         # assign second element a new value 100.1
+>>> print(a)                                             # print and check new value.
+[0.000000 100.099998 2.000000 3.000000 4.000000]
 
->>> # create 2D arrary from python list
->>> a=dc.array([[10,11,12],[20,21,22]])
->>> a.shape()
+
+>>> a=dc.array([[10,11,12],[20,21,22]])                  # create 2D arrary from python list
+>>> a.shape()                                            # check shape.
 (2, 3)
->>> print(a)
+>>> print(a)                                             # print 2D arrary.
 [[10.000000 11.000000 12.000000]
  [12.000000 20.000000 21.000000]]
 
->>> # reshape 2x3 matrix to 3x2 matrix
->>> a=a.reshape(dc.ivec([3,2]))
+
+>>> a.reshape(dc.ivec([3,2]))                            # reshape 2x3 matrix to 3x2 matrix
 >>> a.shape()
 (3, 2)
 >>> print(a)
 [[10.000000 11.000000]
  [20.000000 21.000000]
  [0.000000 0.000000]]
+```
 
->>>
->>> # Other tensor functions availiable
+
+**Other tensor functions**
+```
 >>> a.<tab><tab>
 a.broadcast(       a.empty(           a.name(            a.this             
 a.data(            a.flatten(         a.rank(            a.to_proto(        
@@ -49,17 +55,23 @@ a.eigen_to_numpy(  a.load(            a.shape(           a.transpose(
 
 ### DNNC APIs
 
-``` 
->>> 
->>> b=dc.reshape(a,(3,2))
+**Matrix Multiplication Example**
+
+```
+>>> a=dc.array([[10,11,12],[20,21,22]])                  # create 'a' 2x3 matrix 
+>>> b=dc.array([[10,11,12],[20,21,22]])                  # create 'b' 2x3 matrix 
+>>> dc.reshape(b,(3,2))                                  # reshape matrix 'b' to 3x2
 >>> b.shape()
 (3, 2)
->>> y=dc.matmul(a,b)
+>>> y=dc.matmul(a,b)                                     # multiply 'a' and 'b'.
 >>> print(y)
 [[484.000000 594.000000]
  [914.000000 1124.000000]]
+ ```
+ 
+**Other DNNC APIs**
 
->>> # Other DNNC APIs
+```
 >>> dc.<tab><tab>
 dc.add(                          dc.matmul(
 dc.arange(                       dc.ones(
@@ -71,7 +83,7 @@ dc.iTensor(                      dc.fTensor(
 dc.thresholded_relu(
 ```
 
-## Operator MatMul Example 
+## Writing a unit test for Operator MatMul 
 
 ```
 import dnnc as dc
