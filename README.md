@@ -50,12 +50,12 @@ make
 ```
 find include src swig -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
 make -C src
-make[1]: Entering directory '/home/amd/dnnCompiler/src'
+make[1]: Entering directory 'dnnCompiler/src'
 make -C core
-make[2]: Entering directory '/home/amd/dnnCompiler/src/core'
+make[2]: Entering directory 'dnnCompiler/src/core'
 compiling broadcast.cpp
-/usr/bin/g++ -O3 -Wall -std=c++14 -fPIC -march=native -msse2 -isystem \
-    ./packages/eigen-eigen-323c052e1731 -I/home/amd/dnnCompiler/include \
+/usr/bin/g++ -O3 -Wall -std=c++14 -fPIC -march=native -msse2 
+    -isystem ./packages/eigen-eigen-323c052e1731 -I./include \
     -c broadcast.cpp -o obj/broadcast.o
 compiling tensor.cpp
 ...
