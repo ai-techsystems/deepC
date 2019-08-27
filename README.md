@@ -7,7 +7,7 @@ dnn Compiler is designed to **enable and perform** deep learning neural networks
 
 dnn Compiler is ahead of time compiler producing optimized executable based on [LLVM compiler tool chain](https://llvm.org/) and [openAcc](https://www.openacc.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
 
-## Why another compiler?
+## 🕵️‍♂️ Why another compiler❔
 Small formfactor devides like microcontrollers are extremely common. They are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable. 
 
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
@@ -20,7 +20,7 @@ Main component of **dnn Compiler** has been designed to represent and optimize t
 
 Read more at [high level design document](docs/highLevelDesign.md) 
 
-## PreRequisites
+## 💧 PreRequisites
 
 * [ONNX](https://github.com/onnx/onnx#installation)
 * [LLVM](https://apt.llvm.org)
@@ -48,11 +48,19 @@ make
 
 #### 📜 Output
 ```
-[ 50%] Building CXX object CMakeFiles/dnnc.dir/src/main.cc.o
-[ 66%] Building CXX object CMakeFiles/dnnc.dir/onnx-operators.pb.cc.o
-[ 83%] Building CXX object CMakeFiles/dnnc.dir/onnx.pb.cc.o
-[100%] Linking CXX executable dnnc
-[100%] Built target dnnc
+find include src swig -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
+make -C src
+make[1]: Entering directory '/home/amd/dnnCompiler/src'
+make -C core
+make[2]: Entering directory '/home/amd/dnnCompiler/src/core'
+compiling broadcast.cpp
+/usr/bin/g++ -O3 -Wall -std=c++14 -fPIC -march=native -msse2 -isystem /home/amd/dnnCompiler/packages/eigen-eigen-323c052e1731 -I/home/amd/dnnCompiler/include  -c broadcast.cpp -o obj/broadcast.o
+compiling tensor.cpp
+...
+...
+/usr/bin/g++ -shared  ./obj/dnnc_swig.o ./obj/dnnc_pyutils.o ./obj/dnnc_api.o -o lib/libdnnc.so
+ln -s -f lib/libdnnc.so _dnnc.so
+/usr/bin/python3 ../test/swig/basic.py
 ```
 
 ## 🏃‍♂️ Usage
