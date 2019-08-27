@@ -54,7 +54,7 @@ make[1]: Entering directory 'dnnCompiler/src'
 make -C core
 make[2]: Entering directory 'dnnCompiler/src/core'
 compiling broadcast.cpp
-/usr/bin/g++ -O3 -Wall -std=c++14 -fPIC -march=native -msse2 
+/usr/bin/g++ -O3 -Wall -std=c++14 -fPIC -march=native -msse2 \
     -isystem ./packages/eigen-eigen-323c052e1731 -I./include \
     -c broadcast.cpp -o obj/broadcast.o
 compiling tensor.cpp
