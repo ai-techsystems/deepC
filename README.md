@@ -7,10 +7,6 @@ dnn Compiler is designed to **enable and perform** deep learning neural networks
 
 dnn Compiler is ahead of time compiler producing optimized executable based on [LLVM compiler tool chain](https://llvm.org/) and [openAcc](https://www.openacc.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
 
-## 🕵️‍♂️ Why another compiler❔
-Small formfactor devides like microcontrollers are extremely common. They are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable. 
-
-By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
 
 ## 📝 Design
 
@@ -78,6 +74,8 @@ reading CNTK graph from mnist/model.onnx
 populating graph ...
 ```
 
+---
+
 ## ➕ Contribute
 
 dnn Compiler adopts apache committer model, we aim to create an open source project that is maintained and owned by the community. Checkout the Contributor Guide.
@@ -85,7 +83,12 @@ dnn Compiler adopts apache committer model, we aim to create an open source proj
 ## 🙏 Acknowledgement 
 We acknowledge the efforts predecessor projects like [LLVM](https://llvm.org/), [ONNX](https://onnx.ai/) etc. to make this project a reality.
 
-
 ---
+
+## 🕵️‍♂️ Why another compiler❔
+dnnCompiler is targeted towards devices with small formfactor like microcontrollers, which are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable. 
+
+By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
+
 
 **🚧 Project Under Development.** *Stay tuned. We plan to release the first version in the third quarter of 2019.*
