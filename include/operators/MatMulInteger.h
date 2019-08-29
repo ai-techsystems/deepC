@@ -37,9 +37,6 @@ public:
 
   tensor<int> compute(tensor<T> &a, tensor<T> &b) {
 
-    if (a.rank() != b.rank())
-      a.broadcast(b);
-
     if ((a.rank() == 1 && b.rank() == 1)) {
       if (a.length() != b.length())
         throw std::invalid_argument(
