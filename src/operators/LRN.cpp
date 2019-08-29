@@ -37,7 +37,7 @@ int main() {
   // float beta = 0.75;
   // float bias = 1.0;
   int size = 0;
-  LRN<float> m(size,"localOpName");
+  LRN<float> m(size, "localOpName");
   std::cout << a << "\n";
   auto result = m.compute(a);
 

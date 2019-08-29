@@ -133,7 +133,6 @@ public:
   // This exists solely for performance reasons.
   tensor(T *data, std::vector<DIMENSION> dimn, std::string n = "")
       : _ref(0x0), _mem_layout(data), _name(n), _shape(dimn) {
-    assert(sizeof(data) == length());
     init_ref();
   }
   tensor(const tensor &other) {
@@ -206,7 +205,7 @@ public:
         str += i ? "\n [" : "[";
         size_t j = 0;
         for (j = 0; j < _shape[1] && j < max_el; j++) {
-          size_t index = i * _shape[0] + j;
+          size_t index = i * _shape[1] + j;
           str += (j ? " " : "") + std::to_string(_mem_layout[index]);
         }
         str += (j == max_el ? "...]" : "]");

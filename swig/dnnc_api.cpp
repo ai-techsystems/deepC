@@ -34,6 +34,18 @@
 #include "operators/Flatten.h"
 #include "operators/Floor.h"
 #include "operators/Gemm.h"
+#include "operators/GlobalAveragePool.h"
+#include "operators/GlobalLpPool.h"
+#include "operators/GlobalMaxPool.h"
+#include "operators/Greater.h"
+#include "operators/HardSigmoid.h"
+#include "operators/Hardmax.h"
+#include "operators/Identity.h"
+#include "operators/InstanceNormalization.h"
+#include "operators/IsInf.h"
+#include "operators/IsNaN.h"
+#include "operators/LRN.h"
+#include "operators/LeakyRelu.h"
 #include "operators/Less.h"
 #include "operators/Log.h"
 #include "operators/LogSoftmax.h"
@@ -44,18 +56,6 @@
 #include "operators/Min.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
-#include "operators/GlobalAveragePool.h"
-#include "operators/GlobalLpPool.h"
-#include "operators/GlobalMaxPool.h"
-#include "operators/Greater.h"
-#include "operators/Hardmax.h"
-#include "operators/HardSigmoid.h"
-#include "operators/Identity.h"
-#include "operators/IsInf.h"
-#include "operators/IsNaN.h"
-#include "operators/LeakyRelu.h"
-#include "operators/InstanceNormalization.h"
-#include "operators/LRN.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -173,7 +173,8 @@ tensor<float> add(tensor<float> &a, tensor<float> &b) {
   return op.compute(a, b);
 }
 
-tensor<float> dequantize_linear(tensor<float> &a, tensor<float> &b, tensor<float> &c) {
+tensor<float> dequantize_linear(tensor<float> &a, tensor<float> &b,
+                                tensor<float> &c) {
   DequantizeLinear<float> op;
   return op.compute(a, b, c);
 }
@@ -183,8 +184,8 @@ tensor<float> div(tensor<float> &a, tensor<float> &b) {
   return op.compute(a, b);
 }
 
-tensor<float> elu(tensor<float> &a, float alpha=1.0) {
-  Elu<float> op("localOpName",alpha);
+tensor<float> elu(tensor<float> &a, float alpha = 1.0) {
+  Elu<float> op("localOpName", alpha);
   return op.compute(a);
 }
 
@@ -203,13 +204,13 @@ tensor<float> exp(tensor<float> &a) {
   return op.compute(a);
 }
 
-tensor<float> eye_like(tensor<float> &a, int k=0) {
-  EyeLike<float> op("localOpName",k);
+tensor<float> eye_like(tensor<float> &a, int k = 0) {
+  EyeLike<float> op("localOpName", k);
   return op.compute(a);
 }
 
-tensor<float> flatten(tensor<float> &a, int axis=1) {
-  Flatten<float> op("localOpName",axis);
+tensor<float> flatten(tensor<float> &a, int axis = 1) {
+  Flatten<float> op("localOpName", axis);
   return op.compute(a);
 }
 
@@ -218,9 +219,11 @@ tensor<float> floor(tensor<float> &a) {
   return op.compute(a);
 }
 
-tensor<float> gemm(tensor<float>& a , tensor<float>& b , tensor<float>& c , float alpha = 1.0 , float beta = 1.0 , int transA = 0 , int transB = 0 ) {
-  Gemm<float> op("localOpName",alpha,beta,transA,transB);
-  return op.compute(a,b,c);
+tensor<float> gemm(tensor<float> &a, tensor<float> &b, tensor<float> &c,
+                   float alpha = 1.0, float beta = 1.0, int transA = 0,
+                   int transB = 0) {
+  Gemm<float> op("localOpName", alpha, beta, transA, transB);
+  return op.compute(a, b, c);
 }
 
 tensor<float> thresholded_relu(tensor<float> &input) {
@@ -262,60 +265,63 @@ tensor<float> global_average_pool(tensor<float> &input) {
   return op.compute(input);
 }
 
-tensor<float> global_lp_pool(tensor<float> & a,int p=2) {
-  GlobalLpPool<float> op("localOpName",p) ;
+tensor<float> global_lp_pool(tensor<float> &a, int p = 2) {
+  GlobalLpPool<float> op("localOpName", p);
   return op.compute(a);
 }
 
-tensor<float> global_max_pool(tensor<float>& a) {
+tensor<float> global_max_pool(tensor<float> &a) {
   GlobalMaxPool<float> op;
   return op.compute(a);
 }
 
-tensor<bool> greater(tensor<float>& a, tensor<float> &b) {
+tensor<bool> greater(tensor<float> &a, tensor<float> &b) {
   Greater<float> op;
-  return op.compute(a,b);
+  return op.compute(a, b);
 }
 
-tensor<float> hardmax(tensor<float>& a,int axis=0) {
-  Hardmax<float> op("localOpName",axis);
+tensor<float> hardmax(tensor<float> &a, int axis = 0) {
+  Hardmax<float> op("localOpName", axis);
   return op.compute(a);
 }
 
-tensor<float> hardsigmoid(tensor<float>& a,float alpha = 0.2,float beta = 0.5) {
-  HardSigmoid<float> op("localOpName",alpha,beta);
+tensor<float> hardsigmoid(tensor<float> &a, float alpha = 0.2,
+                          float beta = 0.5) {
+  HardSigmoid<float> op("localOpName", alpha, beta);
   return op.compute(a);
 }
 
-tensor<float> identity(tensor<float>& a) {
+tensor<float> identity(tensor<float> &a) {
   Identity<float> op;
   return op.compute(a);
 }
 
-tensor<bool> isinf(tensor<float>&a,int detect_positive=1,int detect_negative=1) {
-  IsInf<float> op("localOpName",detect_positive,detect_negative);
+tensor<bool> isinf(tensor<float> &a, int detect_positive = 1,
+                   int detect_negative = 1) {
+  IsInf<float> op("localOpName", detect_positive, detect_negative);
   return op.compute(a);
 }
 
-tensor<bool> isnan(tensor<float>&a) {
+tensor<bool> isnan(tensor<float> &a) {
   IsNaN<float> op;
   return op.compute(a);
 }
 
-tensor<float> leakyrelu(tensor<float>& a,float alpha = 0.01) {
-  LeakyRelu<float> op("localOpName",alpha);
+tensor<float> leakyrelu(tensor<float> &a, float alpha = 0.01) {
+  LeakyRelu<float> op("localOpName", alpha);
   return op.compute(a);
 }
 
-tensor<float> instancenormalization(tensor<float>& input,tensor<float>& scale,tensor<float>& B,float epsilon=1e-5) {
-  InstanceNormalization<float> op("localOpName",epsilon);
-  return op.compute(input,scale,B);
+tensor<float> instancenormalization(tensor<float> &input, tensor<float> &scale,
+                                    tensor<float> &B, float epsilon = 1e-5) {
+  InstanceNormalization<float> op("localOpName", epsilon);
+  return op.compute(input, scale, B);
 }
-tensor<float> lrn(tensor<float>& input,int size,float alpha = 0.0001,float beta = 0.75, float bias = 1.0) {
-  LRN<float> op(size,"localOpName",alpha,beta,bias);
+tensor<float> lrn(tensor<float> &input, int size, float alpha = 0.0001,
+                  float beta = 0.75, float bias = 1.0) {
+  LRN<float> op(size, "localOpName", alpha, beta, bias);
   return op.compute(input);
 }
-
 
 /*tensor<float> mean(std::vector<tensor<float>> inputs) {
   Mean<float> op;
