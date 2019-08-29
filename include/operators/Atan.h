@@ -29,15 +29,20 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Atan : public baseOperator<T> {
-  //  Atan attributes
+
 public:
   Atan(std::string name = "opAtan") : baseOperator<T>(opAtan, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> &a) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    tensor<T> result(a.shape());
+
+    for (size_t i = 0; i < a.length(); i++) {
+      float x = a[i];
+      result[i] = atan(x);
+    }
+
+    return result;
   }
 };
 } // namespace dnnc

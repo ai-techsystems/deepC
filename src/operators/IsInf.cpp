@@ -20,15 +20,30 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-
 #include "operators/IsInf.h"
 
 using namespace dnnc;
 using namespace Eigen;
 
+//#define DNNC_IDENTITY_TEST 1
 #ifdef DNNC_ISINF_TEST
 #include <iostream>
+
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {1.1, -2., 3., 4., 5., 6.};
+  tensor<float> a(2, 3);
+  a.load(d1);
+  a(1, 2) = -1.0 / 0.0;
+  a(1, 1) = 1.0 / 0.0;
+  int detect_positive = 1;
+  int detect_negative = 0;
+  std::cout << a << "\n";
+  IsInf<float> m("localOpName", detect_positive, detect_negative);
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+  return 0;
 }
+
 #endif

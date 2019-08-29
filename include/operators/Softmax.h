@@ -30,14 +30,74 @@ using namespace Eigen;
 namespace dnnc {
 template <typename T> class Softmax : public baseOperator<T> {
   //  Softmax attributes
+
+protected:
+  int axis = 1;
+
 public:
   Softmax(std::string name = "opSoftmax") : baseOperator<T>(opSoftmax, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  bool getAttribute(OPATTR attrName, int &obj) {
+    if (attrName == attr_axis) {
+      obj = axis;
+      return true;
+    }
+    return false;
+  }
+  void setAttribute(OPATTR attrName, int &obj) {
+    if (attrName == attr_axis) {
+      axis = obj;
+    }
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
+
+  tensor<T> compute(tensor<T> &a) {
+    if (!compare())
+      throw std::invalid_argument(
+          "Constrain a and output types to float tensors.");
+
+    // For 2D
+    if (a.rank() == 2) {
+
+      tensor<T> result(a.shape()[0], a.shape()[1]);
+
+      DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+
+      if (axis == 1) {
+        int i, j;
+        for (i = 0; i < int(a.shape()[0]); i++) {
+          float sum = 0;
+          for (j = 0; j < int(a.shape()[1]); j++) {
+            sum += exp(eigenMatrixA(i, j));
+          }
+          for (j = 0; j < int(a.shape()[1]); j++) {
+            eigenMatrixA(i, j) = exp(eigenMatrixA(i, j)) / (sum);
+          }
+        }
+      }
+      if (axis == 0) {
+        int i, j;
+        for (i = 0; i < int(a.shape()[1]); i++) {
+          float sum = 0;
+          for (j = 0; j < int(a.shape()[0]); j++) {
+            sum += exp(eigenMatrixA(j, i));
+          }
+          for (j = 0; j < int(a.shape()[0]); j++) {
+            eigenMatrixA(j, i) = exp(eigenMatrixA(j, i)) / (sum);
+          }
+        }
+      }
+
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA;
+      result.load(eResult.data());
+
+      return result;
+    } else
+      throw std::invalid_argument(
+          "tensor dimensions not appropriate for softmax operator.");
   }
 };
 } // namespace dnnc

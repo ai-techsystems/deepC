@@ -29,6 +29,17 @@ using namespace Eigen;
 #ifdef DNNC_GLOBALMAXPOOL_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+
+  float d1[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+  tensor<float> a(2, 2, 2);
+  a.load(d1);
+  GlobalMaxPool<float> m("localOpName");
+  std::cout << a << "\n";
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

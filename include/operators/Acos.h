@@ -23,21 +23,31 @@
 
 #pragma once
 #include "operators/baseOperator.h"
+#include <cmath>
 #include <string>
-
 using namespace Eigen;
-
+using namespace std;
 namespace dnnc {
 template <typename T> class Acos : public baseOperator<T> {
-  //  Acos attributes
 public:
   Acos(std::string name = "opAcos") : baseOperator<T>(opAcos, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> &a) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    tensor<T> result(a.shape());
+
+    for (size_t i = 0; i < a.length(); i++) {
+      float x = a[i];
+      if (x < -1 && x > 1) {
+        throw std::invalid_argument(
+            "Error : the value of tensor 			element is not "
+            "lying in the domain of arc cosine ");
+        result[i] = x;
+      }
+      result[i] = acos(x);
+    }
+
+    return result;
   }
 };
 } // namespace dnnc

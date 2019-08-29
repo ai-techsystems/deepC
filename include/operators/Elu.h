@@ -29,15 +29,37 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Elu : public baseOperator<T> {
-  //  Elu attributes
+protected:
+  float alpha = 1.0;
+
 public:
-  Elu(std::string name = "opElu") : baseOperator<T>(opElu, name) {}
+  Elu(std::string name = "opElu", float alpha = 1.0)
+      : baseOperator<T>(opElu, name) {
+    this->alpha = alpha;
+  }
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  bool getAttribute(OPATTR attrName, float &obj) {
+    if (attrName == attr_alpha) {
+      obj = alpha;
+      return true;
+    }
+    return false;
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<T> compute(tensor<T> &input) {
+    if (input.rank() != 1)
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for Elu operator.");
+
+    tensor<T> result(input.shape(), input.name());
+    for (size_t i = 0; i < input.length(); i++)
+      /*
+      f(x) = alpha * (exp(x) - 1.) for x < 0
+                 x for x >= 0
+      */
+      result[i] = (input[i] < 0) ? (alpha * (exp(input[i]) - 1.)) : input[i];
+
+    return result;
   }
 };
 } // namespace dnnc

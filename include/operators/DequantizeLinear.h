@@ -29,16 +29,26 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class DequantizeLinear : public baseOperator<T> {
-  //  DequantizeLinear attributes
 public:
   DequantizeLinear(std::string name = "opDequantizeLinear")
       : baseOperator<T>(opDequantizeLinear, name) {}
+  /*
+    void temp_sub(tensor <T> & a, tensor<T> & a_zero_point){
+            for (size_t i = 0; i < a.length(); i++)
+                a[i] -= a_zero_point[0];
+    }
+   */
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> &a, tensor<T> &a_scale, tensor<T> &a_zero_point) {
+    if (a_scale.shape() != a_zero_point.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for DequantizeLinear operator.");
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    tensor<T> result(a.shape(), a.name());
+    for (size_t i = 0; i < a.length(); i++)
+      result[i] = (a[i] - a_zero_point[0]) * a_scale[0];
+
+    return result;
   }
 };
 } // namespace dnnc

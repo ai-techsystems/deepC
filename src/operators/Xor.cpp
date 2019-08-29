@@ -29,6 +29,22 @@ using namespace Eigen;
 #ifdef DNNC_XOR_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  bool d1[24] = {true,  false, false, false, true,  true,  false, false,
+                 false, false, true,  true,  true,  true,  false, true,
+                 true,  true,  false, true,  false, false, true,  true};
+  bool d2[24] = {true,  true,  true, false, false, true, true,  true,
+                 false, false, true, false, true,  true, false, false,
+                 true,  true,  true, true,  false, true, true,  true};
+  tensor<bool> a(2, 3, 2, 2);
+  a.load(d1);
+  tensor<bool> b(2, 3, 2, 2);
+  b.load(d2);
+
+  Xor<bool> m("localOpName");
+  auto result = m.compute(a, b);
+
+  std::cout << result;
+  std::cout << "\n";
+  return 0;
 }
 #endif

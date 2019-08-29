@@ -29,6 +29,27 @@ using namespace Eigen;
 #ifdef DNNC_GEMM_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {1., 2., 3., 4., 5., 6.};
+  float d2[6] = {6., 1., 5., 10., 2., 4.};
+  float d3[9] = {6., 1., 5., 10., 2., 4., 1., 2., 3.};
+  tensor<float> a(2, 3);
+  a.load(d1);
+  tensor<float> b(3, 2);
+  b.load(d2);
+  tensor<float> c(3, 3);
+  c.load(d3);
+  float alpha = 2.2;
+  float beta = 1.8;
+  int transA = 1;
+  int transB = 1;
+
+  Gemm<float> m("localOpName", alpha, beta, transA, transB);
+
+  auto result = m.compute(a, b, c);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

@@ -29,6 +29,14 @@ using namespace Eigen;
 #ifdef DNNC_ASIN_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[4] = {-1., 0, -.6, -.3};
+  tensor<float> a(2, 2);
+  a.load(d1);
+
+  Asin<float> ASINE("localOpName");
+  auto result = ASINE.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
 }
 #endif

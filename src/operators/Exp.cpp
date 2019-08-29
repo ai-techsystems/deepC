@@ -29,6 +29,16 @@ using namespace Eigen;
 #ifdef DNNC_EXP_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {0., 1., 2., 3., 9., 99.};
+  tensor<float> a(2, 3);
+  a.load(d1);
+
+  Exp<float> m("localOpName");
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

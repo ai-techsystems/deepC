@@ -29,6 +29,15 @@ using namespace Eigen;
 #ifdef DNNC_ATAN_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+
+  float d1[1] = {-1.};
+  tensor<float> a(1, 1);
+  a.load(d1);
+
+  Atan<float> ATAN("localOpName", 0x0);
+  auto result = ATAN.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
 }
 #endif

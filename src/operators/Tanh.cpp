@@ -29,6 +29,11 @@ using namespace Eigen;
 #ifdef DNNC_TANH_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {1., 2., 3., 4., 5., 6.};
+  tensor<float> a(2, 3);
+  a.load(d1);
+  Tanh<float> m("localOpName");
+  auto result = m.compute(a);
+  std::cout << result;
 }
 #endif

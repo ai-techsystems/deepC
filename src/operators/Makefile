@@ -21,9 +21,17 @@
 # This file is part of DNN compiler maintained at 
 # https://github.com/ai-techsystems/dnnCompiler
 #
-include ../../Makefile.common
 
+MKDIR_P=mkdir -p
+OBJ_DIR=./obj
+LIB_DIR=./lib
 LIB=$(LIB_DIR)/liboperators.so
+
+INCLUDES= -I../../include -isystem ../../packages/eigen-eigen-323c052e1731
+GCC=/usr/bin/g++
+CPP_FLAGS=-O2 -Wall -std=c++14 -fPIC -D_DEBUG
+LD=/usr/bin/ld
+LD_FLAGS=-shared 
 
 all:$(LIB)
 
@@ -32,14 +40,14 @@ OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
 	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
 	@echo "compiling $<"
-	$(GCC) $(CPP_FLAGS) $(EIGEN_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
+	$(GCC) $(CPP_FLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
 	$(GCC) $(LD_FLAGS) $(OBJECTS) -o $@
 
 clean:
-	$(RM_F) $(OBJ_DIR) $(LIB_DIR) 
+	\rm -fr $(OBJ_DIR) $(LIB_DIR) 
 
 .DEFAULT: all
 .PHONY: print_vars

@@ -29,15 +29,25 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Asin : public baseOperator<T> {
-  //  Asin attributes
 public:
   Asin(std::string name = "opAsin") : baseOperator<T>(opAsin, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> &a) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    tensor<T> result(a.shape());
+
+    for (size_t i = 0; i < a.length(); i++) {
+      float x = a[i];
+      if (x < -1 && x > 1) {
+        result[i] = x;
+        throw std::invalid_argument(
+            "Error : the value of tensor 			element is not "
+            "lying in the domain of arc sine ");
+      }
+      result[i] = asin(x);
+    }
+
+    return result;
   }
 };
 } // namespace dnnc
