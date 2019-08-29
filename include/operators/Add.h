@@ -36,11 +36,9 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for add operator.");
 
-    tensor<T> result(a.shape()[0], a.shape()[1]);
-
+    tensor<T> result(a.shape(), a.name());
     for (size_t i = 0; i < a.length(); i++)
       result[i] = a[i] + b[i];
-
     return result;
   }
 };

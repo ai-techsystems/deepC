@@ -26,18 +26,23 @@
 #include <string>
 
 using namespace Eigen;
-
+using namespace std;
 namespace dnnc {
 template <typename T> class Abs : public baseOperator<T> {
-  //  Abs attributes
 public:
   Abs(std::string name = "opAbs") : baseOperator<T>(opAbs, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> &a) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    tensor<T> result(a.shape());
+
+    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+
+    Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.cwiseAbs();
+
+    result.load(eResult.data());
+
+    return result;
   }
 };
 } // namespace dnnc

@@ -29,15 +29,23 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Atanh : public baseOperator<T> {
-  //  Atanh attributes
 public:
   Atanh(std::string name = "opAtanh") : baseOperator<T>(opAtanh, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> &a) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    tensor<T> result(a.shape(), a.name());
+    for (size_t i = 0; i < a.length(); i++) {
+      float x = a[i];
+      if (x < -1 && x > 1) {
+        result[i] = x;
+        throw std::invalid_argument(
+            "Error : the value of tensor element is less than 0");
+      } else
+        result[i] = 0.5 * (log((x + 1)) - log((x - 1)));
+    }
+
+    return result;
   }
 };
 } // namespace dnnc

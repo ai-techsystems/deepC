@@ -29,15 +29,14 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Exp : public baseOperator<T> {
-  //  Exp attributes
 public:
   Exp(std::string name = "opExp") : baseOperator<T>(opExp, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<T> compute(tensor<T> &a) {
+    tensor<T> result(a.shape(), a.name());
+    for (size_t i = 0; i < a.length(); i++)
+      result[i] = exp(a[i]);
+    return result;
   }
 };
 } // namespace dnnc

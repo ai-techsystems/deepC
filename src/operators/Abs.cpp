@@ -30,5 +30,14 @@ using namespace Eigen;
 #include <iostream>
 int main() {
   // ADD YOUR TEST CODE HERE
+  float d1[6] = {-1., -2., 0., 4.3, 5.2, -6.7};
+  tensor<float> a(2, 3);
+  a.load(d1);
+
+  Abs<float> ABS("localOpName");
+  auto result = ABS.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
 }
 #endif

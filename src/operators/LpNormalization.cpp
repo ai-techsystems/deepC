@@ -29,6 +29,16 @@ using namespace Eigen;
 #ifdef DNNC_LPNORMALIZATION_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[12] = {1., -1., 2., 2., 0., 0., 0., 1., -1., 1., 1., 1.};
+  tensor<float> a(3, 4);
+  a.load(d1);
+
+  std::cout << a << std::endl;
+  LpNormalization<float> m("localOpName");
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+  return 0;
 }
 #endif

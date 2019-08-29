@@ -35,9 +35,33 @@ public:
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
+    if (a.shape() != b.shape()) {
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for Subtraction operator.");
+    }
+
+    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    DNNC_EIGEN_MATRIX(eigenMatrixB, b);
+    if (a.rank() == 2) // For matrix of rank 2
+    {
+      tensor<T> result(a.shape()[0], a.shape()[1]);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
+      result.load(eResult.data());
+      return result;
+    } else if (a.rank() == 3) {
+      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
+      result.load(eResult.data());
+      return result;
+    } else if (a.rank() == 4) {
+      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2], a.shape()[3]);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
+      result.load(eResult.data());
+      return result;
+    } else
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for Subtraction operator.");
   }
 };
 } // namespace dnnc

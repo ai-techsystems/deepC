@@ -20,7 +20,6 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-
 #pragma once
 #include "operators/baseOperator.h"
 #include <string>
@@ -29,16 +28,104 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class MatMulInteger : public baseOperator<T> {
+protected:
   //  MatMulInteger attributes
+  //  NONE
 public:
   MatMulInteger(std::string name = "opMatMulInteger")
       : baseOperator<T>(opMatMulInteger, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<int> compute(tensor<T> &a, tensor<T> &b) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    if (a.rank() != b.rank())
+      a.broadcast(b);
+
+    if ((a.rank() == 1 && b.rank() == 1)) {
+      if (a.length() != b.length())
+        throw std::invalid_argument(
+            "vector dimensions not appropriate for multiplication operator.");
+
+      tensor<int> result(1);
+      result[0] = 0;
+      for (size_t i = 0; i < a.length(); i++)
+        result[0] += a[i] * b[i];
+
+      return result;
+    } else if (a.rank() == 2 && b.rank() == 2) {
+      if (a.shape()[1] != b.shape()[0])
+        throw std::invalid_argument("matrix dimensions not appropriate for 2D "
+                                    "multiplication operator.");
+
+      tensor<int> result(a.shape()[0], b.shape()[1]);
+
+      DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+      DNNC_EIGEN_MATRIX(eigenMatrixB, b);
+
+      Matrix<int, Dynamic, Dynamic, RowMajor> eResult =
+          eigenMatrixA * eigenMatrixB;
+
+      result.load(eResult.data());
+      return result;
+    } else if ((a.rank() == 3)) {
+      if ((a.shape()[2] != b.shape()[1]) || (a.shape()[0] != b.shape()[0])) {
+        throw std::invalid_argument("tensor dimensions not appropriate for 3D "
+                                    "multiplication operator.");
+      }
+
+      tensor<int> result(a.shape()[0], a.shape()[1], b.shape()[2]);
+
+      DNNC_EIGEN_TENSOR_MAP(eigenTensorA, a);
+      DNNC_EIGEN_TENSOR_MAP(eigenTensorB, b);
+
+      Tensor<int, 3, RowMajor> eResult(a.shape()[0], a.shape()[1],
+                                       b.shape()[2]);
+
+      for (size_t i = 0; i < a.shape()[0]; i++) {
+        Tensor<int, 2, RowMajor> eigenTensorChipA = eigenTensorA.chip(i, 0);
+        Tensor<int, 2, RowMajor> eigenTensorChipB = eigenTensorB.chip(i, 0);
+
+        auto eigenMatrixA = Map<Matrix<int, Dynamic, Dynamic, RowMajor>>(
+            eigenTensorChipA.data(), a.shape()[1], a.shape()[2]);
+        auto eigenMatrixB = Map<Matrix<int, Dynamic, Dynamic, RowMajor>>(
+            eigenTensorChipB.data(), b.shape()[1], b.shape()[2]);
+        Matrix<int, Dynamic, Dynamic, RowMajor> eigenMatMulAB =
+            eigenMatrixA * eigenMatrixB;
+
+        eResult.chip(i, 0) = TensorMap<Tensor<int, 2, RowMajor>>(
+            eigenMatMulAB.data(), a.shape()[1], b.shape()[2]);
+      }
+
+      result.load(eResult.data());
+      return result;
+#ifdef DNNC_HIGHRANK_SUPPORT
+    } else if ((a.rank() == 4)) {
+      if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[1]) ||
+          (a.shape()[3] != b.shape()[2])) {
+        throw std::invalid_argument(
+            "tensor dimenions not appropriate for multiplication operator.");
+      }
+
+      tensor<int> result(a.shape()[0], a.shape()[1], a.shape()[2],
+                         b.shape()[3]);
+
+      DNNC_EIGEN_TENSOR4D_MAP(eigenTensorA, a);
+      DNNC_EIGEN_TENSOR4D_MAP(eigenTensorB, b);
+
+      array<IndexPair<long>, 3> dims = {
+          IndexPair<long>(1, 0), IndexPair<long>(2, 1), IndexPair<long>(3, 2)};
+
+      auto eResult = static_cast<DNNC_EIGEN_TENSOR4D>(
+          eigenTensorA.contract(eigenTensorB, dims));
+
+      result.load(eResult.data());
+      return result;
+#endif
+
+    } else {
+      throw std::invalid_argument("invalid tensor rank.");
+    }
+
+    return tensor<int>();
   }
 };
 } // namespace dnnc

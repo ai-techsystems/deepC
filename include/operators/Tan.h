@@ -34,10 +34,31 @@ public:
   Tan(std::string name = "opTan") : baseOperator<T>(opTan, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  static float Tan_func(T x) { return tan(x); }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  // NOT GOOD to return by value
+  tensor<T> compute(tensor<T> &a) {
+    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    if (a.rank() == 2) {
+      tensor<T> result(a.shape()[0], a.shape()[1]);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&Tan_func);
+      result.load(eResult.data());
+      return result;
+    } else if (a.rank() == 3) {
+      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&Tan_func);
+      result.load(eResult.data());
+      return result;
+    } /*
+     else if(a.rank()==4)
+     {
+             tensor<T> result(a.shape()[0], a.shape()[1]), a.shape()[2],
+     a.shape()[3]; Matrix<T, Dynamic, Dynamic> eResult =
+     eigenMatrixA.unaryExpr(&Tan_func); result.load( eResult.data() ); return
+     result;
+     }*/
+    else
+      throw std::invalid_argument("tensor dimenions not appropriate.");
   }
 };
 } // namespace dnnc

@@ -29,16 +29,10 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Identity : public baseOperator<T> {
-  //  Identity attributes
 public:
   Identity(std::string name = "opIdentity")
       : baseOperator<T>(opIdentity, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
+  tensor<T> compute(tensor<T> &a) { return a; }
 };
 } // namespace dnnc

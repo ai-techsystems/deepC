@@ -29,6 +29,18 @@ using namespace Eigen;
 #ifdef DNNC_AND_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {1., 2., 3., 4., 5., 6.};
+  float d2[6] = {1., 2., 3., 4., 5., 6.};
+
+  tensor<float> a(2, 3);
+  a.load(d1);
+  tensor<float> b(2, 3);
+  b.load(d2);
+
+  And<float> AND("localOpName");
+  auto result = AND.compute(a, b);
+
+  std::cout << result;
+  std::cout << "\n";
 }
 #endif

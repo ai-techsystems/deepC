@@ -29,16 +29,75 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class InstanceNormalization : public baseOperator<T> {
-  //  InstanceNormalization attributes
+protected:
+  float epsilon = 1e-05;
+
 public:
-  InstanceNormalization(std::string name = "opInstanceNormalization")
-      : baseOperator<T>(opInstanceNormalization, name) {}
+  InstanceNormalization(std::string name = "opInstanceNormalization",
+                        float epsilon = 1e-05)
+      : baseOperator<T>(opInstanceNormalization) {
+    this->epsilon = epsilon;
+  }
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
+  bool getAttribute(OPATTR attrName, float &obj) {
+    if (attrName == attr_epsilon) {
+      obj = epsilon;
+      return true;
+    }
+    return false;
+  }
+  tensor<T> compute(tensor<T> &input, tensor<T> &scale, tensor<T> &B) {
+    if (!compare())
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+    tensor<T> result(input.shape(), input.name());
+    std::vector<size_t> original_shape = input.shape();
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    if ((input.shape()[1] != scale.shape()[0]) ||
+        (input.shape()[1] != B.shape()[0]))
+      throw std::invalid_argument("Inappropriate tensor dimenions");
+
+    size_t size = 1;
+    for (size_t i = 2; i < input.rank(); i++) {
+      size *= input.shape()[i];
+    }
+
+    std::vector<size_t> shape{input.shape()[0], input.shape()[1], size};
+    int channel_size = size * input.shape()[0];
+    input.reshape(shape);
+    result.reshape(shape);
+    T sum = 0;
+    T sq_sum = 0;
+    T mean;
+    T var;
+    for (size_t i = 0; i < input.shape()[1]; i++) {
+      std::cout << "Current Channel=" << i << "\n";
+      for (size_t j = 0; j < input.shape()[0]; j++) {
+        for (size_t k = 0; k < size; k++) {
+          std::cout << input(j, i, k) << ',';
+          sum += input(j, i, k);
+          sq_sum += input(j, i, k) * input(j, i, k);
+        }
+      }
+      std::cout << "\n";
+      mean = sum / channel_size;
+      var = (sq_sum / channel_size - mean * mean);
+      std::cout << "Mean= " << mean << ',' << "Variance=" << var << std::endl;
+      for (size_t j = 0; j < input.shape()[0]; j++) {
+        for (size_t k = 0; k < size; k++) {
+
+          result(j, i, k) =
+              scale[i] * (input(j, i, k) - mean) / sqrt(var + epsilon) + B[i];
+        }
+      }
+      sum = 0;
+      sq_sum = 0;
+    }
+    result.reshape(original_shape);
+    return result;
   }
 };
 } // namespace dnnc

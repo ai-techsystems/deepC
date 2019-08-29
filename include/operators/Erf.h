@@ -29,15 +29,15 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Erf : public baseOperator<T> {
-  //  Erf attributes
 public:
   Erf(std::string name = "opErf") : baseOperator<T>(opErf, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> &a) {
+    tensor<T> result(a.shape(), a.name());
+    for (size_t i = 0; i < a.length(); i++)
+      result[i] = erf(a[i]);
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    return result;
   }
 };
 } // namespace dnnc

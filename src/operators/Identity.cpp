@@ -20,15 +20,28 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-
 #include "operators/Identity.h"
 
 using namespace dnnc;
 using namespace Eigen;
 
+//#define DNNC_IDENTITY_TEST 1
 #ifdef DNNC_IDENTITY_TEST
 #include <iostream>
+
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[8] = {1., 2., 3., 4., 5., 6., 7., 8.};
+  tensor<float> a(2, 2, 2);
+  a.load(d1);
+  // tensor<float> b(3,2); b.load(d2);
+
+  Identity<float> m("localOpName");
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
+
 #endif
