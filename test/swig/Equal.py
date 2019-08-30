@@ -28,8 +28,7 @@ import unittest
 class EqualTest(unittest.TestCase):
     def setUp(self):
         self.len = 24
-        self.np_a = np.random.randn(self.len).astype(np.float32)
-        # self.np_b = np.random.randn(self.len).astype(np.float32)
+        self.np_a = np.random.randint(24, size=self.len)
         self.np_b = self.np_a
         self.dc_a = dc.array(list(self.np_a))
         self.dc_b = dc.array(list(self.np_b))
@@ -37,8 +36,7 @@ class EqualTest(unittest.TestCase):
     def test_Equal1D (self):
         npr = np.equal(self.np_a, self.np_b)
         dcr = dc.equal(self.dc_a, self.dc_b)
-        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.bool),
-                rtol=1e-3, atol=1e-3)
+        np.testing.assert_array_equal(npr, np.array(dcr.data()))
 
     def test_Equal2D (self):
         np_a = np.reshape(self.np_a, (6,4))
@@ -47,8 +45,7 @@ class EqualTest(unittest.TestCase):
         dc_b = dc.reshape(self.dc_b, (6,4))
         npr = np.equal(np_a, np_b)
         dcr = dc.equal(dc_a, dc_b)
-        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
-                rtol=1e-3, atol=1e-3)
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
 
     def test_Equal3D (self):
         np_a = np.reshape(self.np_a, (2,4,3))
@@ -59,8 +56,7 @@ class EqualTest(unittest.TestCase):
         npr = np.equal(np_a, np_b)
         dcr = dc.equal(dc_a, dc_b)
 
-        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
-                rtol=1e-3, atol=1e-3)
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
 
     def test_Equal4D (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
@@ -71,12 +67,11 @@ class EqualTest(unittest.TestCase):
         npr = np.equal(np_a, np_b)
         dcr = dc.equal(dc_a, dc_b)
 
-        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
-                rtol=1e-3, atol=1e-3)
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
 
     def tearDown(self):
         return "test finished"
 
 if __name__ == '__main__':
     unittest.main()
-    
+

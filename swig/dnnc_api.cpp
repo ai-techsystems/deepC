@@ -189,7 +189,12 @@ tensor<float> elu(tensor<float> &a, float alpha = 1.0) {
   return op.compute(a);
 }
 
-tensor<float> equal(tensor<float> &a, tensor<float> &b) {
+tensor<bool> equal(tensor<int> &a, tensor<int> &b) {
+  Equal<int> op;
+  return op.compute(a, b);
+}
+
+tensor<bool> equal(tensor<float> &a, tensor<float> &b) {
   Equal<float> op;
   return op.compute(a, b);
 }

@@ -65,6 +65,7 @@
 typedef long unsigned int size_t;
 %}
 namespace std {
+  %template(bvec) vector<bool>;
   %template(ivec) vector<size_t>;
   %template(fvec) vector<float>;
 }
@@ -83,6 +84,8 @@ extern dnnc::tensor<float>  \
         div(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         elu(dnnc::tensor<float>& a, float alpha=1.0) ;
+extern dnnc::tensor<bool>  \
+        equal(dnnc::tensor<int>& a, dnnc::tensor<int>& b) ;
 extern dnnc::tensor<bool>  \
         equal(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
@@ -172,6 +175,8 @@ extern dnnc::tensor<float> reshape(dnnc::tensor<float>&, PyObject*) ;
         return self.asTypeInt();
       elif ( newType == "bool" ) :
         return self.asTypeBool();
+      else
+        raise ValueError("unsupported data type {} \n".format(newType))
       
       return self
 
@@ -194,6 +199,8 @@ extern dnnc::tensor<float>  \
         div(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
         elu(dnnc::tensor<float>& a, float alpha=1.0) ;
+extern dnnc::tensor<bool>  \
+        equal(dnnc::tensor<int>& a, dnnc::tensor<int>& b) ;
 extern dnnc::tensor<bool>  \
         equal(dnnc::tensor<float>& a, dnnc::tensor<float>& b) ;
 extern dnnc::tensor<float>  \
