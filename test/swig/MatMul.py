@@ -25,7 +25,7 @@ import dnnc as dc
 import numpy as np
 import unittest
 
-class MatMul(unittest.TestCase):
+class MatMulTest(unittest.TestCase):
     def setUp (self):
         self.len = 12
         self.np_a = np.random.randn(self.len).astype(np.float32)

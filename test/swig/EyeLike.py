@@ -26,7 +26,7 @@ import numpy as np
 import unittest
 
 
-class EluTest(unittest.TestCase):
+class EyeLikeTest(unittest.TestCase):
     
     def setUp(self):
         self.len = 10
@@ -36,9 +36,9 @@ class EluTest(unittest.TestCase):
         self.dc_a = dc.array(list(self.np_a))
 
 
-    # Elu by default takes 2D tensor only
+    # EyeLike by default takes 2D tensor only
 
-    def test_Elu2D (self):
+    def test_EyeLike2D (self):
         row = 2
         column = 5
         np_a = np.reshape(self.np_a, (row,column))
