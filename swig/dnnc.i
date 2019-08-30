@@ -162,6 +162,24 @@ extern dnnc::tensor<float> reshape(dnnc::tensor<float>&, PyObject*) ;
 %template(iTensor) dnnc::tensor<int>;
 %template(fTensor) dnnc::tensor<float>;
 %template(dTensor) dnnc::tensor<double>;
+%pythoncode %{
+    def astype(self, newType):
+      if ( newType == "double" ) :
+        return self.asTypeDouble();
+      elif ( newType == "float" ) :
+        return self.asTypeFloat();
+      elif ( newType == "int" ) :
+        return self.asTypeInt();
+      elif ( newType == "bool" ) :
+        return self.asTypeBool();
+      
+      return self
+
+    bTensor.astype = astype;
+    iTensor.astype = astype;
+    fTensor.astype = astype;
+    dTensor.astype = astype;
+%}
 
 extern dnnc::tensor<float>
         array(size_t x,     size_t y = 0,

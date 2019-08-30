@@ -77,6 +77,13 @@ int main() {
   type_test<double>();
   // need tests for float11_t, float16_t and float64_t
   //
+  std::vector<size_t> shape = {2, 2};
+
+  tensor<float> t1(shape, "", dnnc::INIT_ONE);
+  auto t2 = t1.asType<int>();
+  std::cout << t1 << "\n";
+  std::cout << t2 << "\n";
+
   return 0;
 }
 #endif
