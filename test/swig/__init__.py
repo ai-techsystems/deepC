@@ -12,18 +12,17 @@ def load_tests(loader, tests):
         return
 
     test_fp = open(test_file, "r");
-    print("opened file", test_file)
-    
+    #print("opened file", test_file)
+
     for test in test_fp.readlines():
 
-        print("adding test", test.strip())
         module_name = test.strip().split(".")[0]
         class_name = module_name + "Test"
         module = importlib.import_module("."+module_name, package="swig")
         class_ = getattr(module, class_name)
-        
+
         tests.append(loader.loadTestsFromTestCase(class_))
-        
+
     test_fp.close()
     return
 
@@ -42,7 +41,7 @@ def load_test(loader, test, tests):
     class_name = module_name + "Test"
     module = importlib.import_module("."+module_name, package="swig")
     class_ = getattr(module, class_name)
-    
+
     tests.append(loader.loadTestsFromTestCase(class_))
-        
+
     return
