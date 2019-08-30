@@ -54,7 +54,6 @@ public:
     else
       return x;
   }
-
   tensor<T> compute(tensor<T> &a) {
     if (!compare())
       throw std::invalid_argument(
