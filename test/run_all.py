@@ -8,7 +8,7 @@ if __name__ == '__main__':
         folder = os.path.join(os.getcwd(), folder)
         #module_names = load_tests(folder)
         #os.chdir(folder);
-        print (folder)
+        #print (folder)
 
         loader = unittest.TestLoader()
         tests = []

@@ -175,7 +175,7 @@ extern dnnc::tensor<float> reshape(dnnc::tensor<float>&, PyObject*) ;
         return self.asTypeInt();
       elif ( newType == "bool" ) :
         return self.asTypeBool();
-      else
+      else:
         raise ValueError("unsupported data type {} \n".format(newType))
       
       return self
