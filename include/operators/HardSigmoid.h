@@ -28,8 +28,8 @@
 using namespace Eigen;
 
 namespace dnnc {
-  /*! \f$ \max (0,\min(1,alpha*x+beta)) \f$
-   */
+/*! \f$ \max (0,\min(1,alpha*x+beta)) \f$
+ */
 template <typename T> class HardSigmoid : public baseOperator<T> {
 protected:
   float alpha = 0.2;

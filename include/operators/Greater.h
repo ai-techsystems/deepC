@@ -28,12 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Greater : public baseOperator<T>
-{
+template <typename T> class Greater : public baseOperator<T> {
 public:
   Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
-  tensor<bool> compute(tensor<T> a, tensor<T> b)
-  {
+  tensor<bool> compute(tensor<T> a, tensor<T> b) {
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Greater operator.");

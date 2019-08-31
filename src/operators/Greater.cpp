@@ -36,8 +36,8 @@ int main() {
   a.load(d1);
   tensor<int> b(2, 1, 3);
   b.load(d2);
-  std::cout<< a;
-  std::cout<< b;
+  std::cout << a;
+  std::cout << b;
   Greater<int> m("localOpName");
   auto result = m.compute(a, b);
   std::cout << result;

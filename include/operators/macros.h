@@ -38,8 +38,7 @@ using namespace Eigen;
 
 // NOTE: These macros are valid only on classes inherited
 // from baseOperator.
-#define DNNC_EIGEN_VECTOR_CTOR(T)                                             \
-  Matrix<T, 1, Dynamic, RowMajor>
+#define DNNC_EIGEN_VECTOR_CTOR(T) Matrix<T, 1, Dynamic, RowMajor>
 
 #define DNNC_EIGEN_MATRIX_CTOR(T) Matrix<T, Dynamic, Dynamic, RowMajor>
 
