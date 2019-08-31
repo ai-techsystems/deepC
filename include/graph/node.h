@@ -23,12 +23,13 @@
 #pragma once
 
 #include "operators/baseOperator.h"
+#include <set>
 
 namespace dnnc {
 class node {
 protected:
-  baseOperator<T> *_node = {0x0} set <
-                           tensor<T> _to; // coming to this node inputs.
+  baseOperator<T> *_node = {0x0};
+  set < tensor<T> _to; // coming to this node inputs.
   set < tensor<T> _from;                  // going from this node, outputs
 };
 } // namespace dnnc
