@@ -28,9 +28,32 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! \f$ y=scale*\frac{x-mean}{\sqrt{variance+epsilon}} \f$
+    where mean and variance are computed per instance per channel (C).
+    The formula for Mean is given by:
+    \f$ \mu = \frac{1}{n}\sum_{i=1}^{n} x_{i} \f$ */
+
+/*! This can be calculated in a single pass through all the elements.*/
+
+/*! The formula for Variance is given by:
+    \f$ var(X) = \frac{1}{n}\sum_{i=1}^{n} (x_{i}-\mu)^{2} \f$ */
+
+/*! According to this Mean of the elements in channel is prerequisite for
+   Variance calculation. A little bit of maths will tell you that mean is not
+   required for Variance they can be calculated simultaneously.*/
+
+/*! \f$ var(X) = \frac{1}{n}\sum_{i=1}^{n} (x_{i}-\mu)^{2} =
+\frac{1}{n}\sum_{i=1}^{n} (x_{i}^{2}-2\mu x_{i}+\mu^{2})=
+\frac{1}{n}\sum_{i=1}^{n}x_{i}^{2}-\frac{2\mu}{n}\sum_{i=1}^{n} x_{i}+
+\mu\frac{n}{n} = \frac{1}{n}\sum_{i=1}^{n}x_{i}^{2} - \mu^2 \f$ */
+
+/*! And this formulation became part of dnn compiler operator implementation.
+ * The operator is O(n) where n = Number of elements in the tensor =
+ * N*C*D1…*Dk.*/
 template <typename T> class InstanceNormalization : public baseOperator<T> {
 protected:
-  float epsilon = 1e-05;
+  float epsilon = 1e-05; /*!< In case variance goes to zero and to avoid
+                            division by zero. */
 
 public:
   InstanceNormalization(std::string name = "opInstanceNormalization",
@@ -38,6 +61,7 @@ public:
       : baseOperator<T>(opInstanceNormalization) {
     this->epsilon = epsilon;
   }
+  /*! Compares input datatype with double and float*/
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
@@ -48,7 +72,11 @@ public:
     }
     return false;
   }
-  tensor<T> compute(tensor<T> &input, tensor<T> &scale, tensor<T> &B) {
+  tensor<T>
+  compute(tensor<T> &
+              input /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/,
+          tensor<T> &scale /*!<  1D vector of dimension C.*/,
+          tensor<T> &B /*!< : 1D vector of dimension C.*/) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
