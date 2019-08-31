@@ -32,13 +32,16 @@ template <typename T> class Greater : public baseOperator<T> {
 public:
   Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
   static bool comp(T x, T y) { return x > y; }
-  tensor<bool> compute(tensor<T> &a, tensor<T> &b) {
+  tensor<bool> compute(tensor<T> a, tensor<T> b) {
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<bool> result(resultShape);
+
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Greater operator.");
     // Reshaping to 1D
     std::vector<size_t> shape{a.length()};
-    tensor<bool> result(a.shape(), a.name());
     a.reshape(shape);
     b.reshape(shape);
 

@@ -59,13 +59,9 @@ public:
       return tensor<T>(0);
     }
 
-    // for now check every shape is equal and creaet result tensor.
-    for (size_t i = 1; i < inputs.size(); i++)
-      if (inputs[0].shape() != inputs[i].shape())
-        throw std::invalid_argument(
-            "Max operator requires tensors with equal shape.");
+    std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
 
-    tensor<T> result(inputs[0].shape());
+    tensor<T> result(resultShape);
 
     // compute element wise max
     for (size_t i = 0; i < result.length(); i++) {

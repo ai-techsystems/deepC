@@ -52,6 +52,7 @@
 #include "operators/LpNormalization.h"
 #include "operators/MatMul.h"
 #include "operators/MatMulInteger.h"
+#include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
 #include "operators/ThresholdedRelu.h"
@@ -337,3 +338,8 @@ tensor<float> lrn(tensor<float> &input, int size, float alpha = 0.0001,
   Min<float> op;
 / return op.compute(inputs);
 }*/
+
+tensor<float> max(std::vector<tensor<float>> inputs) {
+  Max<float> op;
+  return op.compute(inputs);
+}

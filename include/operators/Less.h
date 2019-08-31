@@ -38,12 +38,15 @@ public:
 
   static bool comp(T x, T y) { return x < y; }
 
-  tensor<bool> compute(tensor<T> &a, tensor<T> &b) {
+  tensor<bool> compute(tensor<T> a, tensor<T> b) {
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<bool> result(resultShape);
+
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Less operator.");
 
-    tensor<bool> result(a.shape(), a.name());
     for (size_t i = 0; i < a.length(); i++) {
       result[i] = comp(a[i], b[i]); // element-wise A and B
     }

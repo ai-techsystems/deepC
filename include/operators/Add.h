@@ -29,9 +29,14 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Add : public baseOperator<T> {
-private:
-  tensor<T> AddInternal(tensor<T> &a, tensor<T> &b) {
-    tensor<T> result(a.shape());
+protected:
+public:
+  Add(std::string name = "opAdd") : baseOperator<T>(opAdd, name) {}
+  tensor<T> compute(tensor<T> a, tensor<T> b) {
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<T> result(resultShape);
+
     if (a.rank() == 1) {
 
       DNNC_EIGEN_VECTOR(eigenMatrixA, a);
@@ -66,59 +71,6 @@ private:
     } else {
       std::cout << "Not yet supported!" << std::endl;
       return dnnc::NULL_TENSOR<T>;
-    }
-  }
-
-protected:
-public:
-  Add(std::string name = "opAdd") : baseOperator<T>(opAdd, name) {}
-  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
-    tensor<T> result;
-    if (a.shape() != b.shape()) {
-      // try broadcasting
-      if (a.rank() < b.rank()) {
-        tensor<T> a2 = dnnc::broadcast<T>(a, b.shape());
-        if (!a2.isnull()) {
-          result = AddInternal(a2, b);
-        } else {
-          result = dnnc::NULL_TENSOR<T>;
-        }
-      } else if (a.rank() > b.rank()) {
-        tensor<T> b2 = dnnc::broadcast<T>(b, a.shape());
-        if (!b2.isnull()) {
-          result = AddInternal(a, b2);
-        } else {
-          result = dnnc::NULL_TENSOR<T>;
-        }
-      } else {
-        tensor<T> a2 = dnnc::broadcast<T>(a, b.shape());
-        if (!a2.isnull()) {
-          result = AddInternal(a2, b);
-        } else {
-          tensor<T> b2 = dnnc::broadcast<T>(b, a.shape());
-          if (!b2.isnull()) {
-            result = AddInternal(a, b2);
-          } else {
-            result = dnnc::NULL_TENSOR<T>;
-          }
-        }
-      }
-      if (result.isnull()) {
-        std::stringstream errMsg;
-        errMsg << "operands could not be broadcast together with shapes "
-               << "(";
-        for (size_t i = 0; i < a.rank() - 1; i++) {
-          errMsg << a.shape()[i] << ",";
-        }
-        errMsg << a.shape()[a.rank() - 1] << ") (";
-        for (size_t i = 0; i < b.rank() - 1; i++) {
-          errMsg << b.shape()[i] << ",";
-        }
-        errMsg << b.shape()[b.rank() - 1] << ")" << std::endl;
-        throw std::invalid_argument(errMsg.str().c_str());
-      }
-    } else {
-      result = AddInternal(a, b);
     }
     return result;
   }
