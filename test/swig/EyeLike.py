@@ -53,30 +53,33 @@ class EyeLikeTest(unittest.TestCase):
 
 if __name__ == '__main__':
     # unittest.main()
-    # k = 2
     
-    len = 15
+    k = 2
+    
+    len = 10
     
     np_a = np.random.randn(len).astype(np.int8)
     dc_a = dc.array(list(np_a))
     
-    print(np_a)
-    print(dc_a)
+    # print(np_a)
+    # print(dc_a)
     
-    row = 3
+    row = 2
     column = 5
     
     np_b = np.reshape(np_a, (row,column))
     dc_b = dc.reshape(dc_a, (row,column))
     
     print(np_b)
-    print(dc_b.data())
+    print(np.array(dc_b.data()))
     
-    print(np_a)
-    print(dc_a)
+    # print(np_a)
+    # print(dc_a)
     
-    # npr = np.eye(row, column ,k=k)
-    # dcr = dc.eye_like(dc_a,k)
-    # print(npr)
-    # print(dcr)
+    npr = np.eye(row, column ,k=k)
+    dcr = dc.eye_like(dc_b,k)
+    print(npr.flatten())
+    print(np.array(dcr.data()))
+    print(npr)
+    print(dcr)
     
