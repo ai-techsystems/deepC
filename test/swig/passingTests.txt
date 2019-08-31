@@ -2,6 +2,7 @@ Add.py
 Div.py
 DequantizeLinear.py
 Elu.py
+Equal.py
 Erf.py
 Exp.py
 Floor.py 

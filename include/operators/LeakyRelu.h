@@ -60,16 +60,14 @@ public:
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     // f(x) = alpha * x for x < 0, f(x) = x for x >= 0
-    std::vector<size_t> shape{a.length()};
     tensor<T> result(a.shape(), a.name());
-    a.reshape(shape);
+    a.flatteninplace();
     DNNC_EIGEN_VECTOR(eigenVector, a);
-    Matrix<T, 1, Dynamic> eResult;
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     auto c0 = std::bind(Leaky_Relu, std::placeholders::_1, alpha);
     eResult.array() = eigenVector.array().unaryExpr(c0);
 
     result.load(eResult.data());
-    result.reshape(shape);
     return result;
   }
 };

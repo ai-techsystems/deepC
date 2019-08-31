@@ -31,7 +31,7 @@ namespace dnnc {
 template <typename T> class Greater : public baseOperator<T> {
 public:
   Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
-  static bool comp(T x, T y) { return x > y; }
+
   tensor<bool> compute(tensor<T> a, tensor<T> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
@@ -40,14 +40,12 @@ public:
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Greater operator.");
-    // Reshaping to 1D
-    std::vector<size_t> shape{a.length()};
-    a.reshape(shape);
-    b.reshape(shape);
-
+    // Written for arbitrary Dimension.
+    a.flatteninplace();
+    b.flatteninplace();
     DNNC_EIGEN_VECTOR(eigenVectorA, a);
     DNNC_EIGEN_VECTOR(eigenVectorB, b);
-    Matrix<bool, 1, Dynamic> eResult;
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
     eResult.array() = eigenVectorA.array() > eigenVectorB.array();
     result.load(eResult.data());
     return result;

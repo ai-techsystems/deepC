@@ -1,4 +1,3 @@
-Equal.py
 EyeLike.py
 Flatten.py
 Gemm.py
