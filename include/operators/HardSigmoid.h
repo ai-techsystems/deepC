@@ -28,6 +28,8 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! \f$ \max (0,\min(1,alpha*x+beta)) \f$
+ */
 template <typename T> class HardSigmoid : public baseOperator<T> {
 protected:
   float alpha = 0.2;
@@ -66,15 +68,13 @@ public:
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     tensor<T> result(a.shape(), a.name());
-    std::vector<size_t> shape{a.length()};
     // max(0, min(1, alpha * x + beta))
-    a.reshape(shape);
+    a.flatteninplace();
     DNNC_EIGEN_VECTOR(eigenVector, a);
-    Matrix<T, 1, Dynamic> eResult;
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     auto c0 = std::bind(Hard_Sigmoid, std::placeholders::_1, alpha, beta);
     eResult.array() = eigenVector.array().unaryExpr(c0);
     result.load(eResult.data());
-    result.reshape(shape);
     return result;
   }
 };

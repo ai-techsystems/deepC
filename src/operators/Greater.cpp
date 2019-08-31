@@ -30,16 +30,16 @@ using namespace Eigen;
 #include <iostream>
 
 int main() {
-  float d1[6] = {6., 2., 4., 4., 3., 6.};
-  float d2[6] = {1., 2., 3., 4., 5., 6.};
-  tensor<float> a(2, 1, 3);
+  int d1[6] = {6, 2, 4, 4, 3, 6};
+  int d2[6] = {1, 2, 3, 4, 5, 6};
+  tensor<int> a(2, 1, 3);
   a.load(d1);
-  tensor<float> b(2, 1, 3);
+  tensor<int> b(2, 1, 3);
   b.load(d2);
-
-  Greater<float> m("localOpName");
+  std::cout << a;
+  std::cout << b;
+  Greater<int> m("localOpName");
   auto result = m.compute(a, b);
-
   std::cout << result;
   std::cout << "\n";
 
