@@ -79,7 +79,7 @@ protected:
 
     init_ref();
 
-    size_t msize = length(); // flat array length
+    DIMENSION msize = length(); // flat array length
     if (rank() == 0 || msize == 0)
       return;
 
@@ -167,6 +167,17 @@ public:
       free(_mem_layout);
     }
   }
+  /*! Description: creates a deep copy of the tensor
+   * Returns: new tensor*/
+  tensor<T> copy() {
+    if (isnull())
+      return NULL_TENSOR<T>;
+
+    tensor<T> result(_shape, _name);
+    result.load(_mem_layout);
+
+    return result;
+  }
   /// \brief Return copy of the tensor, cast to a specified type.
   template <typename newT> tensor<newT> asType() {
     // if (typeid(T) == typeid(newT))
@@ -174,7 +185,7 @@ public:
 
     tensor<newT> result(_shape, _name);
 
-    size_t msize = length(); // flat array length
+    DIMENSION msize = length(); // flat array length
     for (size_t i = 0; i < msize; i++)
       result[i] = _mem_layout[i];
     return result;
@@ -344,13 +355,21 @@ public:
     }
     return *this;
   }
+  /*! It flattens tensor in place, reducing the tensor's rank to
+   * 1 as in flat 1D array */
+  void flatteninplace() {
+    DIMENSION sz = length();
+    _shape.clear();
+    _shape.push_back(sz);
+    return;
+  }
   tensor<T> flatten() {
     if (isnull())
       return NULL_TENSOR<T>;
     std::vector<size_t> new_shape;
     new_shape.push_back(length());
 
-    tensor<T> result(new_shape);
+    tensor<T> result(new_shape, _name);
     result.load(_mem_layout);
 
     return result;
