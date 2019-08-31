@@ -31,8 +31,7 @@
 namespace dnnc {
 
 template <typename T>
-std::vector<DIMENSION> 
-getTargetShape(const tensor<T> a, const tensor<T> b) {
+std::vector<DIMENSION> getTargetShape(const tensor<T> a, const tensor<T> b) {
   bool mismatch = false;
   std::vector<DIMENSION> targetShape;
   DIMENSION aNumDims = a.shape().size();
@@ -42,38 +41,38 @@ getTargetShape(const tensor<T> a, const tensor<T> b) {
     targetShape = a.shape();
   } else if (bNumDims >= aNumDims) {
     DIMENSION i;
-    DIMENSION offset = bNumDims-aNumDims;
+    DIMENSION offset = bNumDims - aNumDims;
     for (i = 0; i < offset; i++) {
       targetShape.push_back(b.shape()[i]);
     }
     for (; i < bNumDims; i++) {
-      if (a.shape()[i-offset] == b.shape()[i]) {
-	targetShape.push_back(a.shape()[i-offset]);
+      if (a.shape()[i - offset] == b.shape()[i]) {
+        targetShape.push_back(a.shape()[i - offset]);
       } else if (b.shape()[i] == 1) {
-	targetShape.push_back(a.shape()[i-offset]);
-      } else if (a.shape()[i-offset] == 1) {
-	targetShape.push_back(b.shape()[i]);
+        targetShape.push_back(a.shape()[i - offset]);
+      } else if (a.shape()[i - offset] == 1) {
+        targetShape.push_back(b.shape()[i]);
       } else {
-	mismatch = true;
-	break;
+        mismatch = true;
+        break;
       }
     }
   } else {
     DIMENSION i;
-    DIMENSION offset = aNumDims-bNumDims;
+    DIMENSION offset = aNumDims - bNumDims;
     for (i = 0; i < offset; i++) {
       targetShape.push_back(a.shape()[i]);
     }
     for (; i < aNumDims; i++) {
-      if (a.shape()[i] == b.shape()[i-offset]) {
-	targetShape.push_back(b.shape()[i-offset]);
-      } else if (b.shape()[i-offset] == 1) {
-	targetShape.push_back(a.shape()[i]);
+      if (a.shape()[i] == b.shape()[i - offset]) {
+        targetShape.push_back(b.shape()[i - offset]);
+      } else if (b.shape()[i - offset] == 1) {
+        targetShape.push_back(a.shape()[i]);
       } else if (a.shape()[i] == 1) {
-	targetShape.push_back(b.shape()[i-offset]);
+        targetShape.push_back(b.shape()[i - offset]);
       } else {
-	mismatch = true;
-	break;
+        mismatch = true;
+        break;
       }
     }
   }
@@ -81,7 +80,7 @@ getTargetShape(const tensor<T> a, const tensor<T> b) {
   if (mismatch) {
     std::stringstream errMsg;
     errMsg << "operands could not be broadcast together with shapes "
-	   << "(";
+           << "(";
     for (size_t i = 0; i < a.rank() - 1; i++) {
       errMsg << a.shape()[i] << ",";
     }
@@ -92,11 +91,11 @@ getTargetShape(const tensor<T> a, const tensor<T> b) {
     errMsg << b.shape()[b.rank() - 1] << ")" << std::endl;
     throw std::invalid_argument(errMsg.str().c_str());
   }
-  
+
   return targetShape;
 }
 
-template<typename T>
+template <typename T>
 tensor<T> broadcast(const tensor<T> a,
                     const std::vector<DIMENSION> targetShape) {
   // TODO:
@@ -206,23 +205,21 @@ tensor<T> broadcast(const tensor<T> a,
   return dnnc::NULL_TENSOR<T>;
 }
 
-template<typename T>
-std::vector<DIMENSION> 
-binaryBroadcastReShape(tensor<T> &a, tensor<T> &b) {
-  std::vector<DIMENSION> targetShape = getTargetShape(a,b);
-  a = broadcast<T>(a, targetShape);   
-  b = broadcast<T>(b, targetShape);   
+template <typename T>
+std::vector<DIMENSION> binaryBroadcastReShape(tensor<T> &a, tensor<T> &b) {
+  std::vector<DIMENSION> targetShape = getTargetShape(a, b);
+  a = broadcast<T>(a, targetShape);
+  b = broadcast<T>(b, targetShape);
   return targetShape;
 }
 
-template<typename T>
-std::vector<DIMENSION> 
-vecBroadcastReShape(std::vector<tensor<T>> &inputs) {
+template <typename T>
+std::vector<DIMENSION> vecBroadcastReShape(std::vector<tensor<T>> &inputs) {
   std::vector<DIMENSION> targetShape;
 
-  for (size_t i = 0; i < (inputs.size()-1); i++) {
-    targetShape = binaryBroadcastReShape(inputs[i], inputs[i+1]);
-    if (targetShape.size()==0) {
+  for (size_t i = 0; i < (inputs.size() - 1); i++) {
+    targetShape = binaryBroadcastReShape(inputs[i], inputs[i + 1]);
+    if (targetShape.size() == 0) {
       // one incompatible shape breaks the operation, no point in going further
       break;
     }
