@@ -42,17 +42,14 @@ public:
       return false;
   }
   // NOT GOOD to return by value
-  tensor<bool> compute(tensor<T> &a) {
+  tensor<bool> compute(tensor<T> a) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
-    // Reshaping to 1D
-    std::vector<size_t> shape{a.length()};
     tensor<bool> result(a.shape(), a.name());
-    a.reshape(shape);
-
+    a.flatteninplace();
     DNNC_EIGEN_VECTOR(eigenVector, a);
-    Matrix<bool, 1, Dynamic> eResult;
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
     eResult.array() = eigenVector.array().isNaN();
 
     result.load(eResult.data());
