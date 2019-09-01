@@ -35,7 +35,10 @@ public:
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
+  tensor<T> compute(tensor<T> a, tensor<T> b) {
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<T> result(resultShape);
     if (a.shape() != b.shape()) {
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Subtraction operator.");
@@ -45,17 +48,14 @@ public:
     DNNC_EIGEN_MATRIX(eigenMatrixB, b);
     if (a.rank() == 2) // For matrix of rank 2
     {
-      tensor<T> result(a.shape()[0], a.shape()[1]);
       Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
       result.load(eResult.data());
       return result;
     } else if (a.rank() == 3) {
-      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
       Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
       result.load(eResult.data());
       return result;
     } else if (a.rank() == 4) {
-      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2], a.shape()[3]);
       Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
       result.load(eResult.data());
       return result;

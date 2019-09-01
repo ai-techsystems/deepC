@@ -33,13 +33,14 @@ template <typename T> class And : public baseOperator<T> {
 public:
   And(std::string name = "opAnd") : baseOperator<T>(opAnd, name) {}
 
-  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
+  tensor<T> compute(tensor<T> a, tensor<T> b) {
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<T> result(resultShape);
+
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions aren't appropriate for AND operator.");
-
-    tensor<T> result(a.shape()[0], a.shape()[1]);
-
     for (size_t i = 0; i < a.length(); i++) {
       result[i] = a[i] && b[i];
     }

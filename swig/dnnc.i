@@ -69,6 +69,8 @@ namespace std {
   %template(ivec) vector<int>;
   %template(lvec) vector<size_t>;
   %template(fvec) vector<float>;
+  %template(itvec) vector<dnnc::tensor<int> >;
+  %template(ftvec) vector<dnnc::tensor<float> >;
 }
 %{
 #include <core/tensor.h>
@@ -148,6 +150,7 @@ extern dnnc::tensor<float> zeros(size_t x, size_t y = 0, size_t z = 0, size_t w 
 extern dnnc::tensor<float> ones(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
 extern dnnc::tensor<float> random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
 extern dnnc::tensor<float> reshape(dnnc::tensor<float>&, PyObject*) ;
+extern dnnc::tensor<float> max(std::vector<dnnc::tensor<float>> inputs) ;
 %}
 %feature("python:slot", "mp_subscript", functype="binaryfunc") dnnc::tensor::__getitem__;
 %feature("python:slot", "mp_ass_subscript", functype="objobjargproc") dnnc::tensor::__setitem__;
@@ -262,3 +265,4 @@ extern dnnc::tensor<float> zeros(size_t x, size_t y = 0, size_t z = 0, size_t w 
 extern dnnc::tensor<float> ones(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
 extern dnnc::tensor<float> random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0);
 extern dnnc::tensor<float> reshape(dnnc::tensor<float>&, PyObject*) ;
+extern dnnc::tensor<float> max(std::vector<dnnc::tensor<float>> inputs) ;

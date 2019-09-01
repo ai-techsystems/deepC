@@ -32,12 +32,15 @@ template <typename T> class Equal : public baseOperator<T> {
 public:
   Equal(std::string name = "opEqual") : baseOperator<T>(opEqual, name) {}
 
-  tensor<bool> compute(tensor<T> &a, tensor<T> &b) {
+  tensor<bool> compute(tensor<T> a, tensor<T> b) {
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<bool> result(resultShape);
+
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Equal operator.");
 
-    tensor<bool> result(a.shape(), a.name());
     for (size_t i = 0; i < a.length(); i++)
       result[i] = a[i] == b[i] ? true : false;
 

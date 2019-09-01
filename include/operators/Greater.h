@@ -31,12 +31,16 @@ namespace dnnc {
 template <typename T> class Greater : public baseOperator<T> {
 public:
   Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
+
   tensor<bool> compute(tensor<T> a, tensor<T> b) {
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<bool> result(resultShape);
+
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Greater operator.");
     // Written for arbitrary Dimension.
-    tensor<bool> result(a.shape(), a.name());
     a.flatteninplace();
     b.flatteninplace();
     DNNC_EIGEN_VECTOR(eigenVectorA, a);

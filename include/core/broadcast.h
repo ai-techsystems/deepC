@@ -23,11 +23,78 @@
 
 #pragma once
 #include "tensor.h"
-#include <string.h>
+#include <sstream>
+#include <string>
 
 // reference: https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
 
 namespace dnnc {
+
+template <typename T>
+std::vector<DIMENSION> getTargetShape(const tensor<T> a, const tensor<T> b) {
+  bool mismatch = false;
+  std::vector<DIMENSION> targetShape;
+  DIMENSION aNumDims = a.shape().size();
+  DIMENSION bNumDims = b.shape().size();
+
+  if (a.shape() == b.shape()) {
+    targetShape = a.shape();
+  } else if (bNumDims >= aNumDims) {
+    DIMENSION i;
+    DIMENSION offset = bNumDims - aNumDims;
+    for (i = 0; i < offset; i++) {
+      targetShape.push_back(b.shape()[i]);
+    }
+    for (; i < bNumDims; i++) {
+      if (a.shape()[i - offset] == b.shape()[i]) {
+        targetShape.push_back(a.shape()[i - offset]);
+      } else if (b.shape()[i] == 1) {
+        targetShape.push_back(a.shape()[i - offset]);
+      } else if (a.shape()[i - offset] == 1) {
+        targetShape.push_back(b.shape()[i]);
+      } else {
+        mismatch = true;
+        break;
+      }
+    }
+  } else {
+    DIMENSION i;
+    DIMENSION offset = aNumDims - bNumDims;
+    for (i = 0; i < offset; i++) {
+      targetShape.push_back(a.shape()[i]);
+    }
+    for (; i < aNumDims; i++) {
+      if (a.shape()[i] == b.shape()[i - offset]) {
+        targetShape.push_back(b.shape()[i - offset]);
+      } else if (b.shape()[i - offset] == 1) {
+        targetShape.push_back(a.shape()[i]);
+      } else if (a.shape()[i] == 1) {
+        targetShape.push_back(b.shape()[i - offset]);
+      } else {
+        mismatch = true;
+        break;
+      }
+    }
+  }
+
+  if (mismatch) {
+    std::stringstream errMsg;
+    errMsg << "operands could not be broadcast together with shapes "
+           << "(";
+    for (size_t i = 0; i < a.rank() - 1; i++) {
+      errMsg << a.shape()[i] << ",";
+    }
+    errMsg << a.shape()[a.rank() - 1] << ") (";
+    for (size_t i = 0; i < b.rank() - 1; i++) {
+      errMsg << b.shape()[i] << ",";
+    }
+    errMsg << b.shape()[b.rank() - 1] << ")" << std::endl;
+    throw std::invalid_argument(errMsg.str().c_str());
+  }
+
+  return targetShape;
+}
+
 template <typename T>
 tensor<T> broadcast(const tensor<T> a,
                     const std::vector<DIMENSION> targetShape) {
@@ -137,4 +204,28 @@ tensor<T> broadcast(const tensor<T> a,
 
   return dnnc::NULL_TENSOR<T>;
 }
+
+template <typename T>
+std::vector<DIMENSION> binaryBroadcastReShape(tensor<T> &a, tensor<T> &b) {
+  std::vector<DIMENSION> targetShape = getTargetShape(a, b);
+  a = broadcast<T>(a, targetShape);
+  b = broadcast<T>(b, targetShape);
+  return targetShape;
+}
+
+template <typename T>
+std::vector<DIMENSION> vecBroadcastReShape(std::vector<tensor<T>> &inputs) {
+  std::vector<DIMENSION> targetShape;
+
+  for (size_t i = 0; i < (inputs.size() - 1); i++) {
+    targetShape = binaryBroadcastReShape(inputs[i], inputs[i + 1]);
+    if (targetShape.size() == 0) {
+      // one incompatible shape breaks the operation, no point in going further
+      break;
+    }
+  }
+
+  return targetShape;
+}
+
 } // namespace dnnc
