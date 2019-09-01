@@ -1,9 +1,12 @@
 build/
+obj/
+lib/
 __pycache__/
 
 *.o
 *.so
 *.a
+a.out
 *.exe
 *.dll
 *.zip
@@ -20,6 +23,8 @@ __pycache__/
 *.creator
 *.files
 *.includes
+
+
 
 swig/dnnc.py*
 swig/dnnc.py

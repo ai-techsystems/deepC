@@ -66,7 +66,8 @@ typedef long unsigned int size_t;
 %}
 namespace std {
   %template(bvec) vector<bool>;
-  %template(ivec) vector<size_t>;
+  %template(ivec) vector<int>;
+  %template(lvec) vector<size_t>;
   %template(fvec) vector<float>;
 }
 %{

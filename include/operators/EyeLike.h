@@ -64,12 +64,13 @@ public:
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < col; j++) {
 
-        if (i == (j - k)){
-          std::cout << i << " " << (j) << " -> " << "1" << std::endl;
+        if (i == (j - k)) {
+          std::cout << i << " " << (j) << " -> "
+                    << "1" << std::endl;
           eResult(i, j) = 1;
-        }
-        else{
-          std::cout << i << " " << (j) << " -> " << "0" << std::endl;
+        } else {
+          std::cout << i << " " << (j) << " -> "
+                    << "0" << std::endl;
           eResult(i, j) = 0;
         }
         // eResult(i, j) = (i == (j - k)) ? 1. : 0.;

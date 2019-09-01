@@ -178,6 +178,14 @@ public:
 
     return result;
   }
+  /// \brief identifier of the tensor
+  size_t identifier() const {
+    return reinterpret_cast<size_t>(_mem_layout - 0xfff);
+  }
+  /// \brief check if this tensor has same id as other.
+  bool sameas(const tensor<T> &other) const {
+    return identifier() == other.identifier();
+  }
   /// \brief Return copy of the tensor, cast to a specified type.
   template <typename newT> tensor<newT> asType() {
     // if (typeid(T) == typeid(newT))

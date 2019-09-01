@@ -90,16 +90,17 @@ tensor<float> reshape(tensor<float> &tensorObj, PyObject *newShape) {
     if (nShape[0] <= 0)
       throw std::logic_error("reshape integer must have positive value.\n");
 
-    tensor<float> result = tensorObj.reshape(nShape);
-    return result;
+    tensorObj.reshape(nShape);
   } else if (PyTuple_Check(newShape)) {
     auto vShape = listTupleToVector_SizeT(newShape);
     for (size_t i = 0; i < vShape.size(); i++)
       if (vShape[i] <= 0)
         throw std::logic_error("reshape tupel must have positive elements.\n");
 
-    tensor<float> result = tensorObj.reshape(vShape);
-    return result;
+    tensorObj.reshape(vShape);
+  } else {
+    throw std::logic_error(
+        "reshape expect number or tupel as new shape argument.\n");
   }
   return tensorObj;
 }

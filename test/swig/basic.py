@@ -12,7 +12,7 @@ add = dc.add(t1,t1)
 
 t3 = dc.array(2,3,4)
 #print("old shape", t1.shape())
-new_shape = dc.ivec([2,12])
+new_shape = dc.lvec([2,12])
 t3.reshape(new_shape)
 #print("new shape", t1.shape())
 
