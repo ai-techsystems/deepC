@@ -22,6 +22,7 @@
 //
 
 #include "operators/GlobalLpPool.h"
+#include "operators/baseOperator.h"
 
 using namespace dnnc;
 using namespace Eigen;
@@ -29,6 +30,17 @@ using namespace Eigen;
 #ifdef DNNC_GLOBALLPPOOL_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[16] = {12, -2, 3, 4, 5, 6, 1, 1, 2, 3, 4, 5, 3, 2, 4, 5};
+  tensor<float> a(2, 2, 4);
+  a.load(d1);
+  int p = 1;
+  GlobalLpPool<float> m("localOpName", p);
+  std::cout << a << "\n";
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

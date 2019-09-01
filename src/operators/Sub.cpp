@@ -29,6 +29,19 @@ using namespace Eigen;
 #ifdef DNNC_SUB_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[24] = {1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.,
+                  1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.};
+  float d2[24] = {1., 2., 3., 1., 5., 6., 1., 2., 3., 1., 5., 6.,
+                  1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.};
+  tensor<float> a(2, 3, 2, 2);
+  a.load(d1);
+  tensor<float> b(2, 3, 2, 2);
+  b.load(d2);
+  Sub<float> m("localOpName");
+  auto result = m.compute(a, b);
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

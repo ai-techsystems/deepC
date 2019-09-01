@@ -29,6 +29,19 @@ using namespace Eigen;
 #ifdef DNNC_FLATTEN_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[36] = {-1., -2., -3., 1.,  2.,  3.,  4.,  5.,  6.,  -1., -2., -3.,
+                  1.,  2.,  3.,  4.,  5.,  6.,  -1., -2., -3., 1.,  2.,  3.,
+                  4.,  5.,  6.,  -1., -2., -3., 1.,  2.,  3.,  4.,  5.,  6.};
+  tensor<float> a(3, 2, 3, 2);
+  a.load(d1);
+  int axis = 2;
+
+  Flatten<float> m("localOpName", axis);
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

@@ -33,5 +33,23 @@ tensor<T> broadcast(const tensor<T> a,
   // 1. uni-directional broadcasting
   // 2. multi-directional broadcasting
   tensor<T> null;
+
+  // multi-directional broadcasting
+  if (a.shape() == targetShape) {
+    // nothing to do
+    return a;
+  } else if ((a.rank() == 1) && (a.shape[0] == 1)) {
+    // a is a scalar
+    tensor<T> result(targetShape);
+    size_t num_elems = std::accumulate(begin(targetShape), end(targetShape), 1,
+                                       std::multiplies<>());
+    T mem_data = malloc(num_elems * sizeof(T));
+    mem_set(mem_data, a, num_elems);
+    result.load(mem_data);
+    return result;
+  } else {
+    std::cout << "Not supported";
+  }
+
   return null;
 }

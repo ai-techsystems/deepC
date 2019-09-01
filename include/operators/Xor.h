@@ -34,10 +34,23 @@ public:
   Xor(std::string name = "opXor") : baseOperator<T>(opXor, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> a, tensor<T> b) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    if (typeid(a) != typeid(tensor<bool>) || typeid(b) != typeid(tensor<bool>))
+      throw std::invalid_argument(
+          "tensor types not appropriate for Xor operator.");
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<T> result(resultShape);
+
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for Xor operator.");
+
+    for (size_t i = 0; i < a.length(); i++)
+      result[i] = (!a[i] != !b[i]) ? true : false;
+
+    return result;
   }
 };
 } // namespace dnnc

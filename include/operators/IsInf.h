@@ -29,15 +29,56 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class IsInf : public baseOperator<T> {
-  //  IsInf attributes
+protected:
+  int detect_negative = 1;
+  int detect_positive = 1;
+
 public:
-  IsInf(std::string name = "opIsInf") : baseOperator<T>(opIsInf, name) {}
+  IsInf(std::string name = "opIsInf", int detect_positive = 1,
+        int detect_negative = 1)
+      : baseOperator<T>(opIsInf, name) {
+    this->detect_positive = detect_positive;
+    this->detect_negative = detect_negative;
+  }
+  bool getAttribute(OPATTR attrName, int &obj) {
+    if (attrName == attr_detect_positive) {
+      obj = detect_positive;
+      return true;
+    } else if (attrName == attr_detect_negative) {
+      obj = detect_negative;
+      return true;
+    }
+    return false;
+  }
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  static bool Is_INF(T x, int detect_negative, int detect_positive) {
+    if (std::isinf(x)) {
+      if ((x < 0) && (detect_negative))
+        return true;
+      else if ((x > 0) && (detect_positive))
+        return true;
+      else
+        return false;
+    } else
+      return false;
+  }
+  // NOT GOOD to return by value
+  tensor<bool> compute(tensor<T> &a) {
+    if (!compare())
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+    tensor<bool> result(a.shape(), a.name());
+    auto c0 = std::bind(Is_INF, std::placeholders::_1, detect_negative,
+                        detect_positive);
+
+    for (size_t i = 0; i < a.length(); i++) {
+      result[i] = c0(a[i]);
+    }
+    return result;
   }
 };
 } // namespace dnnc

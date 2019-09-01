@@ -29,16 +29,46 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class LeakyRelu : public baseOperator<T> {
-  //  LeakyRelu attributes
+protected:
+  float alpha = 0.01;
+
 public:
-  LeakyRelu(std::string name = "opLeakyRelu")
-      : baseOperator<T>(opLeakyRelu, name) {}
+  LeakyRelu(std::string name = "opLeakyRelu", float alpha = 0.01)
+      : baseOperator<T>(opLeakyRelu, name) {
+    this->alpha = alpha;
+  }
+  bool getAttribute(OPATTR attrName, float &obj) {
+    if (attrName == attr_alpha) {
+      obj = alpha;
+      return true;
+    }
+    return false;
+  }
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  static T Leaky_Relu(T x, float alpha) {
+    if (x < 0)
+      return T(alpha * x);
+    else
+      return x;
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<T> compute(tensor<T> &a) {
+    if (!compare())
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+    // f(x) = alpha * x for x < 0, f(x) = x for x >= 0
+    tensor<T> result(a.shape(), a.name());
+    a.flatteninplace();
+    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    auto c0 = std::bind(Leaky_Relu, std::placeholders::_1, alpha);
+    eResult.array() = eigenVector.array().unaryExpr(c0);
+
+    result.load(eResult.data());
+    return result;
   }
 };
 } // namespace dnnc

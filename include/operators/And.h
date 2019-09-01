@@ -33,11 +33,19 @@ template <typename T> class And : public baseOperator<T> {
 public:
   And(std::string name = "opAnd") : baseOperator<T>(opAnd, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> a, tensor<T> b) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<T> result(resultShape);
+
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions aren't appropriate for AND operator.");
+    for (size_t i = 0; i < a.length(); i++) {
+      result[i] = a[i] && b[i];
+    }
+
+    return result;
   }
 };
 } // namespace dnnc

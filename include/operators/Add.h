@@ -21,6 +21,7 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
@@ -31,16 +32,46 @@ template <typename T> class Add : public baseOperator<T> {
 protected:
 public:
   Add(std::string name = "opAdd") : baseOperator<T>(opAdd, name) {}
-  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for add operator.");
+  tensor<T> compute(tensor<T> a, tensor<T> b) {
 
-    tensor<T> result(a.shape()[0], a.shape()[1]);
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<T> result(resultShape);
 
-    for (size_t i = 0; i < a.length(); i++)
-      result[i] = a[i] + b[i];
+    if (a.rank() == 1) {
 
+      DNNC_EIGEN_VECTOR(eigenMatrixA, a);
+      DNNC_EIGEN_VECTOR(eigenMatrixB, b);
+
+      Matrix<T, 1, Dynamic, RowMajor> eResult = eigenMatrixA + eigenMatrixB;
+
+      result.load(eResult.data());
+      return result;
+
+    } else if (a.rank() == 2) {
+
+      DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+      DNNC_EIGEN_MATRIX(eigenMatrixB, b);
+
+      Matrix<T, Dynamic, Dynamic, RowMajor> eResult =
+          eigenMatrixA + eigenMatrixB;
+
+      result.load(eResult.data());
+      return result;
+
+    } else if (a.rank() == 3) {
+
+      DNNC_EIGEN_TENSOR_MAP(eigenTensorA, a);
+      DNNC_EIGEN_TENSOR_MAP(eigenTensorB, b);
+
+      Tensor<T, 3, RowMajor> eResult = eigenTensorA + eigenTensorB;
+
+      result.load(eResult.data());
+      return result;
+
+    } else {
+      std::cout << "Not yet supported!" << std::endl;
+      return dnnc::NULL_TENSOR<T>;
+    }
     return result;
   }
 };

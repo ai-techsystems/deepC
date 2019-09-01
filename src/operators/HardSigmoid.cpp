@@ -20,15 +20,30 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-
 #include "operators/HardSigmoid.h"
-
+#include "operators/baseOperator.h"
 using namespace dnnc;
 using namespace Eigen;
 
+//#define DNNC_IDENTITY_TEST 1
 #ifdef DNNC_HARDSIGMOID_TEST
 #include <iostream>
+
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {1., -2., 3., 4., 5., 6.};
+  tensor<float> a(2, 3);
+  a.load(d1);
+  // tensor<float> b(3,2); b.load(d2);
+  float alpha = 0.2;
+  float beta = 0.2;
+  HardSigmoid<float> m("localOpName", alpha, beta);
+  std::cout << a << "\n";
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
+
 #endif

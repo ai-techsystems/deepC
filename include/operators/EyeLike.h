@@ -29,15 +29,57 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class EyeLike : public baseOperator<T> {
-  //  EyeLike attributes
+protected:
+  int k = 0;
+
 public:
-  EyeLike(std::string name = "opEyeLike") : baseOperator<T>(opEyeLike, name) {}
+  EyeLike(std::string name = "opEyeLike", int k = 0)
+      : baseOperator<T>(opEyeLike, name) {
+    this->k = k;
+  }
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  bool getAttribute(OPATTR attrName, int &obj) {
+    if (attrName == attr_k) {
+      obj = k;
+      return true;
+    }
+    return false;
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<T> compute(tensor<T> &a) {
+    if (a.rank() != 2)
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for EyeLike operator.");
+
+    int row = a.shape()[0];
+    int col = a.shape()[1];
+    tensor<T> result(row, col);
+
+    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+
+    Matrix<T, Dynamic, Dynamic> eResult(row, col);
+
+    // std::cout << std::endl << "row" << " " << "col" << std::endl ;
+
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < col; j++) {
+
+        if (i == (j - k)) {
+          std::cout << i << " " << (j) << " -> "
+                    << "1" << std::endl;
+          eResult(i, j) = 1;
+        } else {
+          std::cout << i << " " << (j) << " -> "
+                    << "0" << std::endl;
+          eResult(i, j) = 0;
+        }
+        // eResult(i, j) = (i == (j - k)) ? 1. : 0.;
+      }
+    }
+
+    result.load(eResult.data());
+
+    return result;
   }
 };
 } // namespace dnnc

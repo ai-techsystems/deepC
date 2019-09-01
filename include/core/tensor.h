@@ -51,27 +51,37 @@ template <typename T> class tensor {
 
 protected:
   //////////// protected members /////////////////
-  size_t *_ref;
-  T *_mem_layout; // TODO: add tiling.
-  std::string _name;
-  std::vector<DIMENSION> _shape;
+  size_t *_ref;      //! reference count of tensor
+  T *_mem_layout;    //! memory layout of the tensor. TODO: add tiling.
+  std::string _name; //! tensor name
+  std::vector<DIMENSION> _shape; //! tensor shape
 
   //////////// protected methods /////////////////
+
+  /// \brief Get the memory for tensor
   T *getMemory(size_t sz) {
     _mem_layout = sz ? static_cast<T *>(malloc(sizeof(T) * sz)) : 0x0;
-    if ((sz && !_mem_layout) || !_ref)
+    if ((sz && !_mem_layout))
       throw std::bad_alloc();
     return _mem_layout;
   }
-  // only constructors  call init method
-  void init(INIT_TYPE fill = INIT_NONE) {
+  /// \brief initialize reference count of the tensor to 1
+  void init_ref() {
     _ref = static_cast<size_t *>(malloc(sizeof(size_t)));
+    if (!_ref)
+      throw std::bad_alloc();
     *_ref = 1; // init reference count.
+  }
 
-    size_t msize = length(); // flat array length
+  /// \brief only constructors call init method. Argument type
+  /// INIT_TYPE initializes _mem_layout to 0, 1, random or uninitialized.
+  void init(INIT_TYPE fill = INIT_NONE) {
+
+    init_ref();
+
+    DIMENSION msize = length(); // flat array length
     if (rank() == 0 || msize == 0)
       return;
-    // throw std::invalid_argument("tensor with no shape.");
 
     _mem_layout = getMemory(msize);
 
@@ -93,12 +103,17 @@ protected:
   }
 
 public:
-  // tensor constructor with arbitrary dimension
+  /// tensor constructor with arbitrary dimension up to 4.
+
+  /// CTOR 1: Use this contructor with shape vector and to initialize
+  ///         with zero, one, or random numbers.
   tensor(std::vector<DIMENSION> dimn, std::string n = "",
          INIT_TYPE fill = INIT_NONE)
       : _ref(0x0), _mem_layout(0x0), _name(n), _shape(dimn) {
     init(fill);
   }
+  /// CTOR 1a: Use this contructor with upto 4 dimensions to initialize with
+  ///          zero, one, or random numbers.
   tensor(DIMENSION x = 0, DIMENSION y = 0, DIMENSION z = 0, DIMENSION w = 0,
          std::string n = "", INIT_TYPE fill = INIT_NONE)
       : _ref(0x0), _mem_layout(0x0), _name(n) {
@@ -113,6 +128,16 @@ public:
     }
     init(fill);
   }
+  /// USE WITH CAUTION.
+  /// CTOR 2: Use this contructor to handover the externally allocated and
+  ///         initialized memory to tensor.
+  /// This object will own the memory passed to it and free it in the
+  /// destructor. This exists solely for performance reasons.
+  tensor(T *data, std::vector<DIMENSION> dimn, std::string n = "")
+      : _ref(0x0), _mem_layout(data), _name(n), _shape(dimn) {
+    init_ref();
+  }
+  /// \brief Copy Constructor
   tensor(const tensor &other) {
     _ref = other._ref;
     _name = other._name;
@@ -120,6 +145,7 @@ public:
     _mem_layout = other._mem_layout;
     (*_ref)++;
   }
+  /// \brief Assignment Operator
   tensor &operator=(const tensor &other) {
     // Gracefully handle self assignment
     if (this == &other)
@@ -141,16 +167,64 @@ public:
       free(_mem_layout);
     }
   }
+  /*! Description: creates a deep copy of the tensor
+   * Returns: new tensor*/
+  tensor<T> copy() {
+    if (isnull())
+      return NULL_TENSOR<T>;
 
+    tensor<T> result(_shape, _name);
+    result.load(_mem_layout);
+
+    return result;
+  }
+  /// \brief identifier of the tensor
+  size_t identifier() const {
+    return reinterpret_cast<size_t>(_mem_layout - 0xfff);
+  }
+  /// \brief check if this tensor has same id as other.
+  bool sameas(const tensor<T> &other) const {
+    return identifier() == other.identifier();
+  }
+  /// \brief Return copy of the tensor, cast to a specified type.
+  template <typename newT> tensor<newT> asType() {
+    // if (typeid(T) == typeid(newT))
+    //  return *dynamic_cast<tensor<newT*>>(this);
+
+    tensor<newT> result(_shape, _name);
+
+    DIMENSION msize = length(); // flat array length
+    for (size_t i = 0; i < msize; i++)
+      result[i] = _mem_layout[i];
+    return result;
+  }
+  /// \brief return a copy of the tensor, cast to double
+  tensor<double> asTypeDouble() { return asType<double>(); }
+  /// \brief return a copy of the tensor, cast to float
+  tensor<float> asTypeFloat() { return asType<float>(); }
+  /// \brief return a copy of the tensor, cast to int
+  tensor<int> asTypeInt() { return asType<int>(); }
+  /// \brief return a copy of the tensor, cast to bool
+  tensor<bool> asTypeBool() { return asType<bool>(); }
+
+  /// \brief load single data into tensor.
+  inline void load(const T &data, std::vector<size_t> indices) {
+    this->operator()(indices) = data;
+  }
   inline void load(const T &data, size_t i, size_t j = 0, size_t k = 0,
                    size_t l = 0) {
     this->operator()(i, j, k, l) = data;
   }
+  /// \brief load 1D vector into the tensor
   void load(std::vector<T> data) {
     size_t sz = length();
     for (size_t i = 0; i < data.size() && i < sz; i++)
       _mem_layout[i] = data[i];
   }
+  /// \brief UNSAFE METHOD. Load flat array into the tensor.
+  ///  UNSAFE because data size MUST be at least as large as tensor length,
+  ///  otherwise, it'll lead to crash.
+  /// USE WITH CAUTION.
   void load(T *data) {
     if (!data || isnull())
       return;
@@ -183,7 +257,7 @@ public:
         str += i ? "\n [" : "[";
         size_t j = 0;
         for (j = 0; j < _shape[1] && j < max_el; j++) {
-          size_t index = i * _shape[0] + j;
+          size_t index = i * _shape[1] + j;
           str += (j ? " " : "") + std::to_string(_mem_layout[index]);
         }
         str += (j == max_el ? "...]" : "]");
@@ -235,94 +309,7 @@ public:
     return str + "\n";
   }
 
-  // this converts EIGEN-results to numpy results.
-  std::string eigen_to_numpy() const {
-    std::string str;
-    if ((rank() == 1) || ((rank() == 2) && (_shape[0] == 1))) {
-      if (_name.size())
-        str = _name + "=\n";
-      str += "[";
-      for (size_t i = 0; i < length(); i++) {
-        if (i != 0)
-          str += " ";
-        str += std::to_string(_mem_layout[i]);
-        if (i > DNNC_TENSOR_MAX_EL) {
-          str += "...\n";
-          break;
-        }
-        if (i < (length() - 1))
-          str += "\n";
-      }
-      str += "]\n";
-    } else if (rank() == 2) {
-      if (_name.size())
-        str = _name + "=\n";
-      for (size_t i = 0; i < _shape[0]; i++) {
-        str += "  [";
-        for (size_t j = 0; j < _shape[1]; j++) {
-          size_t index = i + _shape[0] * j;
-          str += std::to_string(_mem_layout[index]) + " ";
-          if (j > DNNC_TENSOR_MAX_EL) {
-            str += "...";
-            break;
-          }
-        }
-        if (i > DNNC_TENSOR_MAX_EL) {
-          str += "...";
-          break;
-        }
-        str += "]\n";
-      }
-    } else if (rank() == 3) {
-      for (size_t k = 0; k < _shape[2]; k++) {
-        if (_name.size())
-          str += _name + "[" + std::to_string(k) + "]=\n";
-        str += "[\n";
-        for (size_t i = 0; i < _shape[0]; i++) {
-          str += "  [";
-          for (size_t j = 0; j < _shape[1]; j++) {
-            size_t index = i + _shape[0] * j + _shape[0] * _shape[1] * k;
-            str += std::to_string(_mem_layout[index]) + " ";
-            if (j > DNNC_TENSOR_MAX_EL) {
-              str += "...";
-              break;
-            }
-          }
-          if (i > DNNC_TENSOR_MAX_EL) {
-            str += "...";
-            break;
-          }
-          str += "]\n";
-        }
-        str += "]\n";
-        if (k > DNNC_TENSOR_MAX_EL) {
-          str += "...\n";
-          break;
-        }
-      }
-    } else {
-      // For now, print it like a vector for tensor with rank higher than 3
-      // TODO: support rank 4 tensors as well.
-      if (_name.size())
-        str = _name + "=\n";
-      str += "[";
-      for (size_t i = 0; i < length(); i++) {
-        if (i != 0)
-          str += " ";
-        str += std::to_string(_mem_layout[i]);
-        if (i > DNNC_TENSOR_MAX_EL) {
-          str += "...\n";
-          break;
-        }
-        if (i < (length() - 1))
-          str += "\n";
-      }
-      str += "]\n";
-    }
-
-    return str;
-  }
-
+#ifdef SWIGPYTHON
   char *__str__() {
     std::string str = to_string();
     size_t sz = str.size();
@@ -344,6 +331,8 @@ public:
     result[sz] = '\0';
     return result;
   }
+#endif
+  /// \brief return 1D flat array
   const std::vector<T> data() const {
     return isnull() ? std::vector<T>()
                     : std::vector<T>(_mem_layout, _mem_layout + length());
@@ -351,6 +340,7 @@ public:
 
   // public methods
 
+  /// \brief Return number of elements in the tensor.
   const DIMENSION length() const {
     DIMENSION sz = rank() ? 1 : 0;
     for (size_t i = 0; i < rank(); i++)
@@ -378,13 +368,21 @@ public:
     }
     return *this;
   }
+  /*! It flattens tensor in place, reducing the tensor's rank to
+   * 1 as in flat 1D array */
+  void flatteninplace() {
+    DIMENSION sz = length();
+    _shape.clear();
+    _shape.push_back(sz);
+    return;
+  }
   tensor<T> flatten() {
     if (isnull())
       return NULL_TENSOR<T>;
     std::vector<size_t> new_shape;
     new_shape.push_back(length());
 
-    tensor<T> result(new_shape);
+    tensor<T> result(new_shape, _name);
     result.load(_mem_layout);
 
     return result;

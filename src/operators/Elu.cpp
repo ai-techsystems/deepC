@@ -29,6 +29,17 @@ using namespace Eigen;
 #ifdef DNNC_ELU_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {-1., -2., -3., 1., 2., 3.};
+  tensor<float> a(6);
+  a.load(d1);
+  float alpha = 2.0;
+
+  Elu<float> m("localOpName", alpha);
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

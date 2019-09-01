@@ -29,16 +29,36 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class GlobalAveragePool : public baseOperator<T> {
-  //  GlobalAveragePool attributes
 public:
   GlobalAveragePool(std::string name = "opGlobalAveragePool")
       : baseOperator<T>(opGlobalAveragePool, name) {}
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
+  tensor<T> compute(tensor<T> &a) {
+    if (!compare())
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+    // Reshaping the tensor to 3D.
+    size_t axis_left = 1;
+    for (int i = 2; i < int(a.rank()); i++) {
+      axis_left *= a.shape()[i];
+    }
+    std::vector<size_t> shape{a.shape()[0], a.shape()[1], axis_left};
+    a.reshape(shape);
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    int cummulation = axis_left;
+    tensor<T> result(a.shape()[0], a.shape()[1]);
+    int j = 0;
+    T sum = 0;
+    for (size_t i = 0; i < a.length(); i++) {
+      sum += a[i];
+      if (!((i + 1) % cummulation)) {
+        result[j++] = T(sum / cummulation);
+        sum = 0;
+      }
+    }
+    return result;
   }
 };
 } // namespace dnnc

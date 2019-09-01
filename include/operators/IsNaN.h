@@ -29,15 +29,31 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class IsNaN : public baseOperator<T> {
-  //  IsNaN attributes
 public:
   IsNaN(std::string name = "opIsNaN") : baseOperator<T>(opIsNaN, name) {}
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  static bool Is_NAN(T x) {
+    if (std::isnan(x))
+      return true;
+    else
+      return false;
+  }
+  // NOT GOOD to return by value
+  tensor<bool> compute(tensor<T> a) {
+    if (!compare())
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+    tensor<bool> result(a.shape(), a.name());
+    a.flatteninplace();
+    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    eResult.array() = eigenVector.array().isNaN();
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    result.load(eResult.data());
+    return result;
   }
 };
 } // namespace dnnc

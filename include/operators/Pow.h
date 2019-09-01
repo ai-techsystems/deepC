@@ -34,10 +34,12 @@ public:
   Pow(std::string name = "opPow") : baseOperator<T>(opPow, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> a, tensor<T> b) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<T> result(resultShape);
+
+    return result;
   }
 };
 } // namespace dnnc

@@ -29,15 +29,22 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Equal : public baseOperator<T> {
-  //  Equal attributes
 public:
   Equal(std::string name = "opEqual") : baseOperator<T>(opEqual, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<bool> compute(tensor<T> a, tensor<T> b) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<bool> result(resultShape);
+
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for Equal operator.");
+
+    for (size_t i = 0; i < a.length(); i++)
+      result[i] = a[i] == b[i] ? true : false;
+
+    return result;
   }
 };
 } // namespace dnnc

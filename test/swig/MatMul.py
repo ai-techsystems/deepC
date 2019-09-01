@@ -25,7 +25,7 @@ import dnnc as dc
 import numpy as np
 import unittest
 
-class MatMul(unittest.TestCase):
+class MatMulTest(unittest.TestCase):
     def setUp (self):
         self.len = 12
         self.np_a = np.random.randn(self.len).astype(np.float32)
@@ -61,7 +61,7 @@ class MatMul(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def teadDown(self):
+    def tearDown(self):
         return "test finished"
 
 if __name__ == '__main__':

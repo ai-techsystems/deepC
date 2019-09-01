@@ -29,6 +29,16 @@ using namespace Eigen;
 #ifdef DNNC_FLOOR_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {1.2, 2.5, 3.7, 4., 5.1, 6.9};
+  tensor<float> a(2, 3);
+  a.load(d1);
+
+  Floor<float> m("localOpName");
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

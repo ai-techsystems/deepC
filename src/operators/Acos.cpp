@@ -29,6 +29,15 @@ using namespace Eigen;
 #ifdef DNNC_ACOS_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+
+  float d1[1] = {-1.};
+  tensor<float> a(1, 1);
+  a.load(d1);
+
+  Acos<float> ACOS("localOpName");
+  auto result = ACOS.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
 }
 #endif

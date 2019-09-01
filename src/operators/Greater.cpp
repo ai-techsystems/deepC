@@ -20,15 +20,30 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-
 #include "operators/Greater.h"
 
 using namespace dnnc;
 using namespace Eigen;
 
+//#define DNNC_ADD_TEST 1
 #ifdef DNNC_GREATER_TEST
 #include <iostream>
+
 int main() {
-  // ADD YOUR TEST CODE HERE
+  int d1[6] = {6, 2, 4, 4, 3, 6};
+  int d2[6] = {1, 2, 3, 4, 5, 6};
+  tensor<int> a(2, 1, 3);
+  a.load(d1);
+  tensor<int> b(2, 1, 3);
+  b.load(d2);
+  std::cout << a;
+  std::cout << b;
+  Greater<int> m("localOpName");
+  auto result = m.compute(a, b);
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
+
 #endif
