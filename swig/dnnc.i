@@ -72,6 +72,7 @@ namespace std {
 }
 %{
 #include <core/tensor.h>
+extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 extern dnnc::tensor<float>  \
         array(size_t x,     size_t y = 0,  \
               size_t z = 0, size_t w = 0) ;
@@ -154,13 +155,15 @@ extern dnnc::tensor<float> max(std::vector<dnnc::tensor<float>> inputs) ;
 %feature("python:slot", "mp_ass_subscript", functype="objobjargproc") dnnc::tensor::__setitem__;
 
 %extend dnnc::tensor {
-  const T& __getitem__(int i, int j=0, int k=0, int l=0) {
-      const T& item = $self->operator()(i,j,k,l);
-      return item;
+  const T& __getitem__(PyObject* indices) {
+    std::vector<size_t> vIndices = listTupleToVector_SizeT(indices);
+    const T& item = $self->operator()(vIndices);
+    return item;
   }
-  void __setitem__(int i, const T& data) {
-      $self->load(data, i);
-      return ;
+  void __setitem__(PyObject* indices, const T& data) {
+    std::vector<size_t> vIndices = listTupleToVector_SizeT(indices);
+    $self->load(data, vIndices);
+    return ;
   }
 }
 %template(bTensor) dnnc::tensor<bool>;

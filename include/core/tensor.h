@@ -208,6 +208,9 @@ public:
   tensor<bool> asTypeBool() { return asType<bool>(); }
 
   /// \brief load single data into tensor.
+  inline void load(const T &data, std::vector<size_t> indices) {
+    this->operator()(indices) = data;
+  }
   inline void load(const T &data, size_t i, size_t j = 0, size_t k = 0,
                    size_t l = 0) {
     this->operator()(i, j, k, l) = data;
@@ -306,6 +309,7 @@ public:
     return str + "\n";
   }
 
+#ifdef SWIGPYTHON
   char *__str__() {
     std::string str = to_string();
     size_t sz = str.size();
@@ -327,6 +331,7 @@ public:
     result[sz] = '\0';
     return result;
   }
+#endif
   /// \brief return 1D flat array
   const std::vector<T> data() const {
     return isnull() ? std::vector<T>()

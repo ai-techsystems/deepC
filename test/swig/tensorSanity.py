@@ -65,7 +65,7 @@ class tensorSanityTest(unittest.TestCase):
         # tensor from python list
         l1D=[1,3,5]
         a=dc.array(l1D).astype('int')
-        np.testing.assert_equal(np.array(l1D), np.array(list(a)))
+        np.testing.assert_equal(np.array(l1D), np.array(list(a.data())))
 
         # tensor from python list of lists
         l2D=[[1,3,5],[2,4,6]]
@@ -108,6 +108,15 @@ class tensorSanityTest(unittest.TestCase):
         # load one element with flat index
         a[0] = 777
         assert a[0] == 777
+
+        # reshape, fetch and load with multi indices
+        a=dc.arange(12).astype('int')
+        a.reshape(dc.lvec([2,2,3]))
+        assert a[0,1,1] == 4
+
+        a[1,1,1] == 200
+        assert a[1,1,1] == 200
+
 
     # test data types
     def test_data(self):
