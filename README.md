@@ -85,7 +85,7 @@ We acknowledge the efforts predecessor projects like [LLVM](https://llvm.org/), 
 
 ---
 
-## 🕵️‍♂️ Why another compiler❔
+## 🕵️‍♂️ Why compiler❔
 dnnCompiler is targeted towards devices with small formfactor like microcontrollers, which are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable. 
 
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
