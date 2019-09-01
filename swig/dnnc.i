@@ -69,8 +69,6 @@ namespace std {
   %template(ivec) vector<int>;
   %template(lvec) vector<size_t>;
   %template(fvec) vector<float>;
-  %template(itvec) vector<dnnc::tensor<int> >;
-  %template(ftvec) vector<dnnc::tensor<float> >;
 }
 %{
 #include <core/tensor.h>
@@ -168,6 +166,10 @@ extern dnnc::tensor<float> max(std::vector<dnnc::tensor<float>> inputs) ;
 %template(bTensor) dnnc::tensor<bool>;
 %template(iTensor) dnnc::tensor<int>;
 %template(fTensor) dnnc::tensor<float>;
+namespace std {
+  %template(itvec) vector<dnnc::tensor<int> >;
+  %template(ftvec) vector<dnnc::tensor<float> >;
+}
 %template(dTensor) dnnc::tensor<double>;
 %pythoncode %{
     def astype(self, newType):
