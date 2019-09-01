@@ -114,12 +114,19 @@ class tensorSanityTest(unittest.TestCase):
         a.reshape(dc.lvec([2,2,3]))
         assert a[0,1,1] == 4
 
-        a[1,1,1] == 200
+        a[1,1,1] = 200
         assert a[1,1,1] == 200
+
+        # negative test
+        try :
+            # This throws ValueError
+            print(a[0,0,9,9,9])
+        except ValueError as e:
+            assert e
 
 
     # test data types
-    def test_data(self):
+    def test_dtypes(self):
         a=dc.random(2,3)
         assert a.dtype() == 'float'
 

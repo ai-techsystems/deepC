@@ -404,19 +404,24 @@ public:
 
   T &operator()(std::vector<INDEX> &indices) const {
     INDEX index = 0;
-    if (rank() == 4) {
+    if (rank() == 4 && indices.size() == 4) {
       index = indices[0] * _shape[1] * _shape[2] * _shape[3] +
               indices[1] * _shape[2] * _shape[3] + indices[2] * _shape[3] +
               indices[3];
-    } else if (rank() == 3) {
+    } else if (rank() == 3 && indices.size() == 3) {
       index = indices[0] * _shape[1] * _shape[2] + indices[1] * _shape[2] +
               indices[2];
-    } else if (rank() == 2) {
+    } else if (rank() == 2 && indices.size() == 2) {
       index = indices[0] * _shape[1] + indices[1];
-    } else if (rank() == 1) {
+    } else if (rank() == 1 && indices.size() == 1) {
       index = indices[0];
     } else {
-      for (size_t i = 0; i < indices.size(); i++) {
+      if ( indices.size() > rank() ) {
+        std::string msg = "number of supplied indices " + std::to_string(indices.size()) \
+                        + " is more than rank of the tensor " + std::to_string(rank()) + ".\n";
+        throw std::invalid_argument(msg);
+      }
+      for (size_t i = 0; i < indices.size() && i < rank() ; i++) {
         DIMENSION dsz = 1;
         for (size_t j = i + 1; j < rank(); j++)
           dsz *= _shape[j];
