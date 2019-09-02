@@ -28,7 +28,8 @@
 using namespace Eigen;
 
 namespace dnnc {
-/*! \f$ \max (0,\min(1,alpha*x+beta)) \f$
+/*!  Applies HardSigmoid function \f$ y=\max (0,\min(1,alpha*x+beta)) \f$
+ * elementwise
  */
 template <typename T> class HardSigmoid : public baseOperator<T> {
 protected:
@@ -42,6 +43,8 @@ public:
     this->alpha = alpha;
     this->beta = beta;
   }
+  /*! Constrain input and output types to float tensors.
+   */
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
@@ -61,9 +64,7 @@ public:
     temp = (0 > temp) ? 0 : temp;
     return temp;
   }
-
-  // NOT GOOD to return by value
-  tensor<T> compute(tensor<T> &a) {
+  tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");

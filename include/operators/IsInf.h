@@ -28,10 +28,17 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Map infinity to true and other values to false.*/
 template <typename T> class IsInf : public baseOperator<T> {
 protected:
-  int detect_negative = 1;
-  int detect_positive = 1;
+  int detect_negative =
+      1; /*!< (Optional) Whether map negative infinity to true. Default to 1 so
+            that negative infinity induces true. Set this attribute to 0 if
+            negative infinity should be mapped to false.*/
+  int detect_positive =
+      1; /*!< (Optional) Whether map positive infinity to true. Default to 1 so
+            that positive infinity induces true. Set this attribute to 0 if
+            positive infinity should be mapped to false */
 
 public:
   IsInf(std::string name = "opIsInf", int detect_positive = 1,
@@ -50,7 +57,8 @@ public:
     }
     return false;
   }
-
+  /*! Constrain input and output types to float tensors.
+   */
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }

@@ -28,10 +28,18 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! The operator computes the hardmax (1 for the first maximum value, and 0 for
+ * all others) values for each layer in the batch of the given input */
+/*! Input does not need to explicitly be a 2D vector; rather, it will be coerced
+ * into one: */
+/*! A tensor of N-dimension \f$ [a_0, a_1, ..., a_{k-1}, a_k, ..., a_{n-1}] \f$
+ * where k is a attribute ,will be coerced into 2-D \f$ [a_0 * ... * a_{k-1},
+ * a_k * ... * a_{n-1}] \f$ .*/
 template <typename T> class Hardmax : public baseOperator<T> {
 protected:
-  int axis = 0;
-
+  int axis =
+      1; /*!< Describes the axis of the inputs when coerced to 2D; defaults to
+            one because the 0th axis most likely describes the batch_size */
 public:
   Hardmax(std::string name = "opHardmax", int axis = 0)
       : baseOperator<T>(opHardmax, name) {
@@ -44,17 +52,16 @@ public:
     }
     return false;
   }
+  /*! Constrain input and output types to float tensors.
+   */
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
-
-  tensor<T> compute(tensor<T> &a) {
-
+  tensor<T> compute(tensor<T> &a/*< The input tensor that has been coerced into a 2D matrix of size (NxD) */) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     std::vector<size_t> original_shape = a.shape();
-    // Reshaping the tensor to 2D.
     size_t axis1 = 1;
     size_t axis2 = 1;
     for (int i = 0; i < axis; i++) {
@@ -71,7 +78,6 @@ public:
     Eigen::MatrixXf::Index max_index;
 
     DNNC_EIGEN_MATRIX(eigenMatrix1, a);
-    // Hardmax-ing it
     for (int j = 0; j < int(a.shape()[1]); j++) {
       eigenMatrix1.col(j).maxCoeff(&max_index);
       for (int i = 0; i < int(a.shape()[0]); i++) {
