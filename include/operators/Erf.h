@@ -28,16 +28,27 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! Computes the error function of the given input tensor element-wise.*/
+
 template <typename T> class Erf : public baseOperator<T> {
 public:
   Erf(std::string name = "opErf") : baseOperator<T>(opErf, name) {}
 
-  tensor<T> compute(tensor<T> &a) {
+  tensor<T> compute(tensor<T> &a /*!< : N D tensor input*/) {
     tensor<T> result(a.shape(), a.name());
-    for (size_t i = 0; i < a.length(); i++)
-      result[i] = erf(a[i]);
-
+    
+  	a.flatteninplace();
+    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    
+    eResult.array() = erf(eigenVector.array());
+    
+    result.load(eResult.data());
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape and type as input.
+  */
 };
 } // namespace dnnc

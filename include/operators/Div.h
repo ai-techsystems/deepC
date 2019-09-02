@@ -28,11 +28,16 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! This does element wise binary division operation of two given N D tensors of same size.
+    This operator supports multidirectional (i.e., Numpy-style) broadcasting.*/
+
 template <typename T> class Div : public baseOperator<T> {
 public:
   Div(std::string name = "opDiv") : baseOperator<T>(opDiv, name) {}
 
-  tensor<T> compute(tensor<T> a, tensor<T> b) {
+  tensor<T> compute(tensor<T> a /*!< : N D tensor input*/,
+                   tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
@@ -40,10 +45,22 @@ public:
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Div operator.");
-    for (size_t i = 0; i < a.length(); i++)
-      result[i] = a[i] / b[i];
-
+    // Written for arbitrary Dimension.
+    a.flatteninplace();
+    b.flatteninplace();
+    
+    DNNC_EIGEN_VECTOR(eigenVectorA, a);
+    DNNC_EIGEN_VECTOR(eigenVectorB, b);
+    
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    
+    eResult.array() = eigenVectorA.array() / eigenVectorB.array();
+    result.load(eResult.data());
+    
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape and type as input.
+  */
 };
 } // namespace dnnc

@@ -28,51 +28,38 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! This does element wise binary addition operation of two given N D tensors of same size.
+    This operator supports multidirectional (i.e., Numpy-style) broadcasting.*/
+
 template <typename T> class Add : public baseOperator<T> {
-protected:
 public:
   Add(std::string name = "opAdd") : baseOperator<T>(opAdd, name) {}
-  tensor<T> compute(tensor<T> a, tensor<T> b) {
+  tensor<T> compute(tensor<T> a /*!< : N D tensor input*/,
+                   tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
-
-    if (a.rank() == 1) {
-
-      DNNC_EIGEN_VECTOR(eigenMatrixA, a);
-      DNNC_EIGEN_VECTOR(eigenMatrixB, b);
-
-      Matrix<T, 1, Dynamic, RowMajor> eResult = eigenMatrixA + eigenMatrixB;
-
-      result.load(eResult.data());
-      return result;
-
-    } else if (a.rank() == 2) {
-
-      DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-      DNNC_EIGEN_MATRIX(eigenMatrixB, b);
-
-      Matrix<T, Dynamic, Dynamic, RowMajor> eResult =
-          eigenMatrixA + eigenMatrixB;
-
-      result.load(eResult.data());
-      return result;
-
-    } else if (a.rank() == 3) {
-
-      DNNC_EIGEN_TENSOR_MAP(eigenTensorA, a);
-      DNNC_EIGEN_TENSOR_MAP(eigenTensorB, b);
-
-      Tensor<T, 3, RowMajor> eResult = eigenTensorA + eigenTensorB;
-
-      result.load(eResult.data());
-      return result;
-
-    } else {
-      std::cout << "Not yet supported!" << std::endl;
-      return dnnc::NULL_TENSOR<T>;
-    }
+    
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for Add operator.");
+    // Written for arbitrary Dimension.
+    a.flatteninplace();
+    b.flatteninplace();
+    
+    DNNC_EIGEN_VECTOR(eigenVectorA, a);
+    DNNC_EIGEN_VECTOR(eigenVectorB, b);
+    
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    
+    eResult.array() = eigenVectorA.array() + eigenVectorB.array();
+    result.load(eResult.data());
+    
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape and type as input.
+  */
 };
 } // namespace dnnc
