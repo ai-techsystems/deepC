@@ -28,11 +28,20 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! Returns the tensor resulted from performing the equal logical operation elementwise on the input tensors A and B*/
+/*! This operator supports multidirectional (i.e., Numpy-style) broadcasting.*/
+
 template <typename T> class Equal : public baseOperator<T> {
 public:
   Equal(std::string name = "opEqual") : baseOperator<T>(opEqual, name) {}
 
-  tensor<bool> compute(tensor<T> a, tensor<T> b) {
+  static bool equal_function(T x, T y) {
+    return (x == y) ? true : false;
+  }
+
+  tensor<bool> compute(tensor<T> a /*!< : N D tensor input*/,
+                      tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
@@ -41,10 +50,21 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Equal operator.");
 
-    for (size_t i = 0; i < a.length(); i++)
-      result[i] = a[i] == b[i] ? true : false;
+    a.flatteninplace();
+    b.flatteninplace();
+    
+    DNNC_EIGEN_VECTOR(eigenVectorA, a);
+    DNNC_EIGEN_VECTOR(eigenVectorB, b);
+    
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    
+    eResult.array() = eigenVectorA.array().binaryExpr(eigenVectorB.array(),&equal_function);
+    result.load(eResult.data());
 
     return result;
   }
+  /*!<
+  \return The output tensor of type bool and the same shape as input.
+  */
 };
 } // namespace dnnc

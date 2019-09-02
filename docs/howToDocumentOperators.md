@@ -4,9 +4,11 @@ This is a tutorial for documenting your operator implementation in C++.
 We will be using [Doxygen](http://www.doxygen.nl/index.html) for our documentation purpose.
 Install doxygen in your system by following this [tutorial](https://www.youtube.com/watch?v=44Ja2X_fzv4).
 Here's how to run doxygen.
+
+```console
+doxygen doxygen.cfg
 ```
-doxygen doxygenconfig
-```
+
 This will create a 'docs' folder outside your local repo folder
 Search for 'index.html' in docs/html and run it on your browser.
 #### Steps to follow for documentation

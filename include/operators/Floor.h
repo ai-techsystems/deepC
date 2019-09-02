@@ -28,16 +28,39 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! Floor takes one input data (Tensor) and produces one output data (Tensor) where the floor is,
+ \f$y = floor(x)\f$
+ The function is applied to the tensor elementwise.*/
+
 template <typename T> class Floor : public baseOperator<T> {
 public:
-  Floor(std::string name = "opFloor") : baseOperator<T>(opFloor, name) {}
 
-  // NOT GOOD to return by value
-  tensor<T> compute(tensor<T> &a) {
+  Floor(std::string name = "opFloor") : baseOperator<T>(opFloor, name) {}
+  /*! Constrain input and output types to float tensors.
+   */
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
+  
+  tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
+  	if (!compare())
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+
     tensor<T> result(a.shape(), a.name());
-    for (size_t i = 0; i < a.length(); i++)
-      result[i] = floor(a[i]);
+    
+  	a.flatteninplace();
+    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    
+    eResult.array() = floor(eigenVector.array());
+    
+    result.load(eResult.data());
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape and type as input.
+  */
 };
 } // namespace dnnc
