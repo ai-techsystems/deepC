@@ -35,20 +35,24 @@ public:
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
-  tensor<T> compute(tensor<T> &a) {
+  tensor<T> compute(tensor<T> a) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
-    // Reshaping the tensor to 3D.
     size_t axis_left = 1;
     for (int i = 2; i < int(a.rank()); i++) {
       axis_left *= a.shape()[i];
     }
+    size_t rank = a.rank();
     std::vector<size_t> shape{a.shape()[0], a.shape()[1], axis_left};
     a.reshape(shape);
-
+    shape.pop_back();
+    std::cout << a.rank() << "\n";
+    for (int i = 2; i < int(rank); i++) {
+      shape.push_back(1);
+    }
     int cummulation = axis_left;
-    tensor<T> result(a.shape()[0], a.shape()[1]);
+    tensor<T> result(shape);
     T max = a[0];
     int j = 0;
     for (size_t i = 1; i < a.length(); i++) {
@@ -62,5 +66,10 @@ public:
     }
     return result;
   }
+  /*!<
+  \return Output data tensor from pooling across the input tensor. The output
+  tensor has the same rank as the input. The first two dimensions of output
+  shape are the same as the input (N x C), while the other dimensions are all 1.
+  */
 };
 } // namespace dnnc

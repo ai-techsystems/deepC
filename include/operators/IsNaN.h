@@ -28,18 +28,14 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns which elements of the input are NaN.*/
 template <typename T> class IsNaN : public baseOperator<T> {
 public:
   IsNaN(std::string name = "opIsNaN") : baseOperator<T>(opIsNaN, name) {}
+  /*! Constrain input and output types to float tensors.
+   */
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
-
-  static bool Is_NAN(T x) {
-    if (std::isnan(x))
-      return true;
-    else
-      return false;
   }
   // NOT GOOD to return by value
   tensor<bool> compute(tensor<T> a) {

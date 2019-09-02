@@ -61,7 +61,8 @@ public:
       : baseOperator<T>(opInstanceNormalization) {
     this->epsilon = epsilon;
   }
-  /*! Compares input datatype with double and float*/
+  /*! Constrain input and output types to float tensors.
+   */
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
@@ -127,5 +128,8 @@ public:
     result.reshape(original_shape);
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape as input.
+  */
 };
 } // namespace dnnc

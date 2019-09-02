@@ -37,7 +37,6 @@ int main() {
   GlobalLpPool<float> m("localOpName", p);
   std::cout << a << "\n";
   auto result = m.compute(a);
-
   std::cout << result;
   std::cout << "\n";
 

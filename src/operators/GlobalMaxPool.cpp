@@ -36,10 +36,8 @@ int main() {
   GlobalMaxPool<float> m("localOpName");
   std::cout << a << "\n";
   auto result = m.compute(a);
-
   std::cout << result;
   std::cout << "\n";
-
   return 0;
 }
 #endif

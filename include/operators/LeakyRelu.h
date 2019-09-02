@@ -28,6 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Applies LeakyRelu function \f$ f(x)=\left\{\begin{matrix}
+\alpha x & x<0 \\
+x  & x\geq 0
+\end{matrix}\right.\f$ elementwise */
 template <typename T> class LeakyRelu : public baseOperator<T> {
 protected:
   float alpha = 0.01;
@@ -44,6 +48,8 @@ public:
     }
     return false;
   }
+  /*! Constrain input and output types to float tensors.
+   */
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
@@ -55,11 +61,10 @@ public:
       return x;
   }
 
-  tensor<T> compute(tensor<T> &a) {
+  tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
-    // f(x) = alpha * x for x < 0, f(x) = x for x >= 0
     tensor<T> result(a.shape(), a.name());
     a.flatteninplace();
     DNNC_EIGEN_VECTOR(eigenVector, a);

@@ -28,19 +28,23 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns the tensor resulted from performing the greater logical operation
+ * elementwise on the input tensors A and B (with Numpy-style broadcasting
+ * support).
+ */
 template <typename T> class Greater : public baseOperator<T> {
 public:
   Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
 
-  tensor<bool> compute(tensor<T> a, tensor<T> b) {
-
+  tensor<bool>
+  compute(tensor<T> a /*!< First input operand for the logical operator.*/,
+          tensor<T> b /*!< Second input operand for the logical operator.*/) {
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Greater operator.");
-    // Written for arbitrary Dimension.
     a.flatteninplace();
     b.flatteninplace();
     DNNC_EIGEN_VECTOR(eigenVectorA, a);

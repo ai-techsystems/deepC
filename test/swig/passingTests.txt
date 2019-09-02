@@ -7,8 +7,12 @@ Equal.py
 Erf.py
 Exp.py
 Floor.py
+Greater.py
 HardSigmoid.py
 Identity.py
+InstanceNormalization.py
+IsInf.py
+IsNaN.py
 LeakyRelu.py
 MatMul.py
 Broadcast.py
