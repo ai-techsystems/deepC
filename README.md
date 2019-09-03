@@ -31,7 +31,7 @@ You can install ubuntu18.04 on windows [Watch HowTo video here](https://www.yout
 Follow the steps to install pre-requisites
 ```
 sudo apt-get update
-sudo apt-get install build-essential clang-format clang clang-8 llvm-8 llvm-8-dev swig
+sudo apt-get install build-essential python3.6-dev swig clang-format clang clang-8 llvm-8 llvm-8-dev
 
 # TODO: libprotobuf-dev protobuf-compiler cmake graphviz libpng-dev wget opencl-headers libgoogle-glog-dev
 ```
