@@ -51,12 +51,12 @@ class GemmTest(unittest.TestCase):
                 rtol=1e-3, atol=1e-3)
     '''
     def test_Gemm2D (self):
-        transA = 1
+        transA = 0
         transB = 0
-        np_a = np.reshape(self.np_a, (4,3))
+        np_a = np.reshape(self.np_a, (3,4))
         np_b = np.reshape(self.np_b, (4,3))
         np_c = np.reshape(self.np_c, (3,3))
-        dc_a = dc.reshape(self.dc_a, (4,3))
+        dc_a = dc.reshape(self.dc_a, (3,4))
         dc_b = dc.reshape(self.dc_b, (4,3))
         dc_c = dc.reshape(self.dc_c, (3,3))
         npr = temp_gemm(np_a, np_b, np_c, self.alpha, self.beta, transA, transB)
@@ -93,4 +93,3 @@ class GemmTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    

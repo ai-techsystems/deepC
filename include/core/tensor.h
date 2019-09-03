@@ -244,7 +244,7 @@ public:
     std::string str = _name.size() ? _name + "=" : "";
     if (rank() == 0) {
       str += "null tensor";
-    } else if ((rank() == 1) || ((rank() == 2) && (_shape[0] == 1))) {
+    } else if (rank() == 1) {
       str += "\n[";
       size_t i = 0;
       for (i = 0; i < length() && i < max_el; i++)
