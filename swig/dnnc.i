@@ -73,6 +73,7 @@ namespace std {
 %{
 #include <core/tensor.h>
 #include "dnnc_swig_externs.h"
+extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %}
 %feature("python:slot", "mp_subscript", functype="binaryfunc") dnnc::tensor::__getitem__;
 %feature("python:slot", "mp_ass_subscript", functype="objobjargproc") dnnc::tensor::__setitem__;

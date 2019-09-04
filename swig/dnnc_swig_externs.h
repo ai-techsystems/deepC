@@ -72,8 +72,6 @@ extern dnnc::tensor<double> \
 		 erf(dnnc::tensor<double> &a) ;
 extern dnnc::tensor<float> \
 		 erf(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<int> \
-		 erf(dnnc::tensor<int> &a) ;
 extern dnnc::tensor<double> \
 		 exp(dnnc::tensor<double> &a) ;
 extern dnnc::tensor<float> \
@@ -102,8 +100,6 @@ extern dnnc::tensor<double> \
 		 gemm(dnnc::tensor<double> &a, dnnc::tensor<double> &b, dnnc::tensor<double> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) ;
 extern dnnc::tensor<float> \
 		 gemm(dnnc::tensor<float> &a, dnnc::tensor<float> &b, dnnc::tensor<float> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) ;
-extern dnnc::tensor<int> \
-		 gemm(dnnc::tensor<int> &a, dnnc::tensor<int> &b, dnnc::tensor<int> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) ;
 extern dnnc::tensor<float> \
 		 global_average_pool(dnnc::tensor<float> &a) ;
 extern dnnc::tensor<double> \
@@ -138,6 +134,10 @@ extern dnnc::tensor<float> \
 		 identity(dnnc::tensor<float> &a) ;
 extern dnnc::tensor<double> \
 		 identity(dnnc::tensor<double> &a) ;
+extern dnnc::tensor<float> \
+		 instancenormalization(dnnc::tensor<float> &a, dnnc::tensor<float> &scale,dnnc::tensor<float> &B, float epsilon = 1e-5) ;
+extern dnnc::tensor<double> \
+		 instancenormalization(dnnc::tensor<double> &a, dnnc::tensor<double> &scale,dnnc::tensor<double> &B, float epsilon = 1e-5) ;
 extern dnnc::tensor<bool> \
 		 isinf(dnnc::tensor<float> &a, int detect_positive = 1,int detect_negative = 1) ;
 extern dnnc::tensor<bool> \
@@ -166,5 +166,7 @@ extern dnnc::tensor<float> \
 		 lpnormalization(dnnc::tensor<float> &a) ;
 extern dnnc::tensor<int> \
 		 matmulinteger(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
+extern dnnc::tensor<float> \
+		 max(std::vector<dnnc::tensor<float>> a) ;
 extern dnnc::tensor<float> \
 		 transpose(dnnc::tensor<float> &a) ;

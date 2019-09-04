@@ -52,6 +52,7 @@
 #include "operators/LpNormalization.h"
 #include "operators/MatMul.h"
 #include "operators/MatMulInteger.h"
+#include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
 #include "operators/ThresholdedRelu.h"
@@ -232,8 +233,7 @@ tensor<output> erf(tensor<input> &a) {
 	return op.compute(a);
 	dtype = {
 		"double" : "double",
-		"float" : "float",
-		"int" : "int"
+		"float" : "float"
 	}
 }
 
@@ -282,8 +282,7 @@ tensor<output> gemm(tensor<input> &a, tensor<input> &b, tensor<input> &c, float 
 	return op.compute(a, b, c);
 	dtype = {
 		"double" : "double",
-		"float" : "float",
-		"int" : "int"
+		"float" : "float"
 	}
 }
 
@@ -352,6 +351,7 @@ tensor<output> identity(tensor<input> &a) {
     "double" : "double"
   }
 }
+
 tensor<output> instancenormalization(tensor<input> &a, tensor<input> &scale,tensor<input> &B, float epsilon = 1e-5) {
   InstanceNormalization<input> op("localOpName", epsilon);
   return op.compute(a, scale, B);
@@ -427,6 +427,11 @@ tensor<float> lpnormalization(tensor<float> &a) {
 tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
 	MatMulInteger<int> op;
 	return op.compute(a, b);
+}
+
+tensor<float> max(std::vector<tensor<float>> a) {
+  Max<float> op;
+  return op.compute(a);
 }
 
 tensor<float> transpose(tensor<float> &a) {

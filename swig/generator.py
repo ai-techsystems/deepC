@@ -23,10 +23,10 @@ import ast
 
 def check_comments(s):
 	if "/*" in s:
-		print("\nUnmatched '/*' comment syntax at:\n\n"+s[s.find("*/")-100:s.find("*/")+30])
+		print("\nUnmatched '/*' comment syntax at:\n\n"+s[s.find("*/")-100:s.find("*/")+100])
 		return 1
 	if "*/" in s:
-		print("\nUnmatched '*/' comment syntax at: \n\n"+s[s.find("*/")-100:s.find("*/")+30])
+		print("\nUnmatched '*/' comment syntax at:\n\n"+s[s.find("*/")-100:s.find("*/")+100])
 		return 1
 	return 0
 
@@ -96,6 +96,11 @@ def main():
 
 			dtype = get_dtype_dictionary(content)
 			content = remove_dtype(content)
+
+			if "dtype" in content:
+				print("dtype block could not be removed, try again!")
+				return
+
 			for input, output in dtype.items():
 				temp = content.replace("input",input) .replace("output",output) + "\n\n"
 				cpp_file += temp

@@ -52,6 +52,7 @@
 #include "operators/LpNormalization.h"
 #include "operators/MatMul.h"
 #include "operators/MatMulInteger.h"
+#include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
 #include "operators/ThresholdedRelu.h"
@@ -247,11 +248,6 @@ tensor<float> erf(tensor<float> &a) {
 	return op.compute(a);
 }
 
-tensor<int> erf(tensor<int> &a) {
-	Erf<int> op;
-	return op.compute(a);
-}
-
 tensor<double> exp(tensor<double> &a) {
 	Exp<double> op;
 	return op.compute(a);
@@ -319,11 +315,6 @@ tensor<double> gemm(tensor<double> &a, tensor<double> &b, tensor<double> &c, flo
 
 tensor<float> gemm(tensor<float> &a, tensor<float> &b, tensor<float> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) {
 	Gemm<float> op("localOpName", alpha, beta, transA, transB);
-	return op.compute(a, b, c);
-}
-
-tensor<int> gemm(tensor<int> &a, tensor<int> &b, tensor<int> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) {
-	Gemm<int> op("localOpName", alpha, beta, transA, transB);
 	return op.compute(a, b, c);
 }
 
@@ -396,52 +387,30 @@ tensor<bool> identity(tensor<bool> &a) {
   Identity<bool> op;
   return op.compute(a);
 }
-tensor<bool> instancenormalization(tensor<bool> &a, tensor<bool> &scale,tensor<bool> &B, float epsilon = 1e-5) {
-  InstanceNormalization<bool> op("localOpName", epsilon);
-  return op.compute(a, scale, B);
-  dtype = {
-    "float" : "float",
-    "double" : "double"
-  }
-}
 
 tensor<int> identity(tensor<int> &a) {
   Identity<int> op;
   return op.compute(a);
-}
-tensor<int> instancenormalization(tensor<int> &a, tensor<int> &scale,tensor<int> &B, float epsilon = 1e-5) {
-  InstanceNormalization<int> op("localOpName", epsilon);
-  return op.compute(a, scale, B);
-  dtype = {
-    "float" : "float",
-    "double" : "double"
-  }
 }
 
 tensor<float> identity(tensor<float> &a) {
   Identity<float> op;
   return op.compute(a);
 }
-tensor<float> instancenormalization(tensor<float> &a, tensor<float> &scale,tensor<float> &B, float epsilon = 1e-5) {
-  InstanceNormalization<float> op("localOpName", epsilon);
-  return op.compute(a, scale, B);
-  dtype = {
-    "float" : "float",
-    "double" : "double"
-  }
-}
 
 tensor<double> identity(tensor<double> &a) {
   Identity<double> op;
   return op.compute(a);
 }
+
+tensor<float> instancenormalization(tensor<float> &a, tensor<float> &scale,tensor<float> &B, float epsilon = 1e-5) {
+  InstanceNormalization<float> op("localOpName", epsilon);
+  return op.compute(a, scale, B);
+}
+
 tensor<double> instancenormalization(tensor<double> &a, tensor<double> &scale,tensor<double> &B, float epsilon = 1e-5) {
   InstanceNormalization<double> op("localOpName", epsilon);
   return op.compute(a, scale, B);
-  dtype = {
-    "float" : "float",
-    "double" : "double"
-  }
 }
 
 tensor<bool> isinf(tensor<float> &a, int detect_positive = 1,int detect_negative = 1) {
@@ -512,6 +481,11 @@ tensor<float> lpnormalization(tensor<float> &a) {
 tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
 	MatMulInteger<int> op;
 	return op.compute(a, b);
+}
+
+tensor<float> max(std::vector<tensor<float>> a) {
+  Max<float> op;
+  return op.compute(a);
 }
 
 tensor<float> transpose(tensor<float> &a) {
