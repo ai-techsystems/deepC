@@ -61,7 +61,7 @@ public:
       return x;
   }
 
-  tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
+  tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");

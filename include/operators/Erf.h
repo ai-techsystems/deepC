@@ -37,13 +37,13 @@ public:
 
   tensor<T> compute(tensor<T> &a /*!< : N D tensor input*/) {
     tensor<T> result(a.shape(), a.name());
-    
-  	a.flatteninplace();
+
+    a.flatteninplace();
     DNNC_EIGEN_VECTOR(eigenVector, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
-    
+
     eResult.array() = erf(eigenVector.array());
-    
+
     result.load(eResult.data());
     return result;
   }

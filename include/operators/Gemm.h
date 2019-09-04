@@ -28,26 +28,29 @@
 using namespace Eigen;
 
 namespace dnnc {
-  
+
 /*! The General Matrix Multiplication formula is*/
 /*! \f$ Y=\alpha\;A'\;B'+\beta\;C\f$ */
 /*! Where */
-/*! \f$ A'=transpose(A)\;,\;\;if\;A_{trans}=1\;;\\A'=A\;,\;\;if\;A_{trans}=0 \f$ */
+/*! \f$ A'=transpose(A)\;,\;\;if\;A_{trans}=1\;;\\A'=A\;,\;\;if\;A_{trans}=0 \f$
+ */
 /*! And */
-/*! \f$ B'=transpose(B)\;,\;\;if\;B_{trans}=1\;;\\B'=B\;,\;\;if\;B_{trans}=0 \f$ */
-/*! Input tensor A has shape (M, K) or (K, M), input tensor B has shape (K, N) or 
-(N, K), input tensor C is broadcastable to shape (M, N), and output tensor Y has 
-shape (M, N). A will be transposed before doing the computation if attribute transA
-is non-zero, same for B and transB.\n 
-This operator supports unidirectional broadcasting (tensor C should be 
+/*! \f$ B'=transpose(B)\;,\;\;if\;B_{trans}=1\;;\\B'=B\;,\;\;if\;B_{trans}=0 \f$
+ */
+/*! Input tensor A has shape (M, K) or (K, M), input tensor B has shape (K, N)
+or (N, K), input tensor C is broadcastable to shape (M, N), and output tensor Y
+has shape (M, N). A will be transposed before doing the computation if attribute
+transA is non-zero, same for B and transB.\n This operator supports
+unidirectional broadcasting (tensor C should be
 unidirectional broadcastable to tensor A * B)*/
 
 template <typename T> class Gemm : public baseOperator<T> {
 protected:
-  float alpha = 1.0; /*!< Scalar multiplier for the product of input tensors A * B */
+  float alpha =
+      1.0; /*!< Scalar multiplier for the product of input tensors A * B */
   float beta = 1.0; /*!< Scalar multiplier for input tensor C */
-  int transA = 0; /*!< Whether A should be transposed */
-  int transB = 0; /*!< Whether B should be transposed */
+  int transA = 0;   /*!< Whether A should be transposed */
+  int transB = 0;   /*!< Whether B should be transposed */
 
 public:
   Gemm(std::string name = "opGemm", float alpha = 1.0, float beta = 1.0,
@@ -60,9 +63,8 @@ public:
   }
   /*! Compares input datatype with int, double and float*/
   static bool compare() {
-    return ((typeid(T) == typeid(double)) ||
-             (typeid(T) == typeid(float)) ||
-              (typeid(T) == typeid(int))) ;
+    return ((typeid(T) == typeid(double)) || (typeid(T) == typeid(float)) ||
+            (typeid(T) == typeid(int)));
   }
   bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_transA) {
@@ -93,7 +95,7 @@ public:
                                   is non-zero.*/,
                    tensor<T> &c/*!<Input tensor C. The shape of C should be
                                    unidirectional broadcastable to (M, N)*/) {
-    
+
     if (a.rank() != 2 || b.rank() != 2 || c.rank() != 2)
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Gemm operator.");

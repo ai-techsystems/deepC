@@ -29,7 +29,9 @@ using namespace Eigen;
 
 namespace dnnc {
 
-/*! \f$ f(x)=\alpha\times(e^{x}-1),\;\;\;for\;x<0\;;\\f(x)=x,\;\;\;for\;x\geq0\;; \f$*/
+/*! \f$
+ * f(x)=\alpha\times(e^{x}-1),\;\;\;for\;x<0\;;\\f(x)=x,\;\;\;for\;x\geq0\;;
+ * \f$*/
 /*! The formula shows how the Elu operator works.*/
 /*! And this formulation became part of dnn compiler operator implementation.
  * The operator is O(n) where n = Number of elements in the tensor*/
@@ -56,12 +58,12 @@ public:
     return false;
   }
   /*! Element wise Elu-Function*/
-  static T elu_function (T x, float alpha) {
+  static T elu_function(T x, float alpha) {
     return (x < 0) ? (alpha * (exp(x) - 1.)) : x;
   }
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
-    
+
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");

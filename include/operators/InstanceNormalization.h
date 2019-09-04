@@ -74,7 +74,7 @@ public:
     return false;
   }
   tensor<T>
-  compute(tensor<T> &
+  compute(tensor<T>
               input /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/,
           tensor<T> &scale /*!<  1D vector of dimension C.*/,
           tensor<T> &B /*!< : 1D vector of dimension C.*/) {
@@ -114,7 +114,8 @@ public:
       // std::cout << "\n";
       mean = sum / channel_size;
       var = (sq_sum / channel_size - mean * mean);
-      // std::cout << "Mean= " << mean << ',' << "Variance=" << var << std::endl;
+      // std::cout << "Mean= " << mean << ',' << "Variance=" << var <<
+      // std::endl;
       for (size_t j = 0; j < input.shape()[0]; j++) {
         for (size_t k = 0; k < size; k++) {
 

@@ -30,20 +30,21 @@ using namespace Eigen;
 namespace dnnc {
 
 /*! Generate a 2D tensor (matrix) with ones on the diagonal and zeros
-everywhere else. Only 2D tensors are supported, i.e. input T1 must 
+everywhere else. Only 2D tensors are supported, i.e. input T1 must
 be of rank 2. The shape of the output tensor is the same as the input
 tensor. The data type can be specified by the 'dtype' argument. If
 'dtype' is not specified, then the type of input tensor is used. By
-default, the main diagonal is populated with ones, but attribute 
+default, the main diagonal is populated with ones, but attribute
 'k' can be used to populate upper or lower diagonals*/
 /*! The formula for fillung up Eye Like matrix is*/
-/*! \f$ A_{(i,j)}=1\;,\;\;\;for\;\;i=j-k\;;\\A_{(i,j)}=0\;,\;\;\;for\;\;i\neq j-k \f$*/
+/*! \f$ A_{(i,j)}=1\;,\;\;\;for\;\;i=j-k\;;\\A_{(i,j)}=0\;,\;\;\;for\;\;i\neq
+ * j-k \f$*/
 
 template <typename T> class EyeLike : public baseOperator<T> {
 protected:
   int k = 0; /*!< (Optional) Index of the diagonal to be populated
-               with ones. Default is 0. If T2 is the output, this 
-               op sets T2[i, i+k] = 1. k = 0 populates the main 
+               with ones. Default is 0. If T2 is the output, this
+               op sets T2[i, i+k] = 1. k = 0 populates the main
                diagonal, k > 0 populates an upper diagonal, and
                 k < 0 populates a lower diagonal.*/
 
