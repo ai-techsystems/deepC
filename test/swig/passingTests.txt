@@ -6,7 +6,10 @@ Elu.py
 Equal.py
 Erf.py
 Exp.py
+EyeLike.py
+Flatten.py
 Floor.py
+Gemm.py
 Greater.py
 HardSigmoid.py
 Identity.py

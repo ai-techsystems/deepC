@@ -28,6 +28,7 @@
 using namespace Eigen;
 
 namespace dnnc {
+
 /*! \f$ f(x)=\alpha\times(e^{x}-1),\;\;\;for\;x<0\;;\\f(x)=x,\;\;\;for\;x\geq0\;; \f$*/
 /*! The formula shows how the Elu operator works.*/
 /*! And this formulation became part of dnn compiler operator implementation.

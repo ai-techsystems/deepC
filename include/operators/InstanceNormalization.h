@@ -103,18 +103,18 @@ public:
     T mean;
     T var;
     for (size_t i = 0; i < input.shape()[1]; i++) {
-      std::cout << "Current Channel=" << i << "\n";
+      // std::cout << "Current Channel=" << i << "\n";
       for (size_t j = 0; j < input.shape()[0]; j++) {
         for (size_t k = 0; k < size; k++) {
-          std::cout << input(j, i, k) << ',';
+          // std::cout << input(j, i, k) << ',';
           sum += input(j, i, k);
           sq_sum += input(j, i, k) * input(j, i, k);
         }
       }
-      std::cout << "\n";
+      // std::cout << "\n";
       mean = sum / channel_size;
       var = (sq_sum / channel_size - mean * mean);
-      std::cout << "Mean= " << mean << ',' << "Variance=" << var << std::endl;
+      // std::cout << "Mean= " << mean << ',' << "Variance=" << var << std::endl;
       for (size_t j = 0; j < input.shape()[0]; j++) {
         for (size_t k = 0; k < size; k++) {
 

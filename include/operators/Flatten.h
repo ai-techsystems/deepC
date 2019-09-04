@@ -67,15 +67,12 @@ public:
     for (i = axis; i < (size_t)a.rank(); i++) {
       col *= a.shape()[i];
     }
-    // std::cout<<a.shape()[0]<<" , "<<a.shape()[1]<<" , "<<a.shape()[2]<<" ,
-    // "<<a.shape()[3]<<std::endl;
+    // std::cout << a.shape()[0]<< " , " << a.shape()[1] << std::endl;
+    // std::cout << row << " , " << col << std::endl;
 
     std::vector<size_t> two_dimension{row, col};
     a.reshape(two_dimension);
-    tensor<T> result = a;
-    // std::cout<<result.shape()[0]<<" , "<<result.shape()[1]<<std::endl;
-
-    return result;
+    return a;
   }
   /*!<
   \returns a 2D tensor with the contents of the input tensor, with input dimensions up to axis flattened to the outer

@@ -28,6 +28,13 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! \f$ y=(x-x_{0})*x_{scale} \f$*/
+/*! Where \f$ x \f$ is a quantized tensor, \f$x_{0}\f$ is the origin,
+ and \f$x_{scale}\f$ is the scale.*/
+/*! The formula shows how the Dequantize Linear works.*/
+/*! Constraints: \f$x_{scale}\f$ and \f$x_{0}\f$ must have same shape.
+ \f$x_{0}\f$ and \f$ x \f$ must have same type (8-bit/32-bit integer tensor)*/
+
 template <typename T> class DequantizeLinear : public baseOperator<T> {
 public:
   DequantizeLinear(std::string name = "opDequantizeLinear")
@@ -43,7 +50,9 @@ public:
   }
   */
 
-  tensor<T> compute(tensor<T> &a, tensor<T> &x_scale, tensor<T> &x_zero_point) {
+  tensor<T> compute(tensor<T> &a/*!<N-D quantized input tensor to be de-quantized*/,
+                 tensor<T> &x_scale/*!<Scalar tensor*/, 
+                tensor<T> &x_zero_point/*!<Scalar tensor*/) {
     if (x_scale.shape() != x_zero_point.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for DequantizeLinear operator.");
@@ -71,5 +80,8 @@ public:
 
     return result;
   }
+  /*!<
+  \return The output tensor as float and of the same shape as input.
+  */
 };
 } // namespace dnnc
