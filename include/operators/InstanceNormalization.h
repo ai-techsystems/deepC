@@ -114,7 +114,8 @@ public:
       // std::cout << "\n";
       mean = sum / channel_size;
       var = (sq_sum / channel_size - mean * mean);
-      // std::cout << "Mean= " << mean << ',' << "Variance=" << var << std::endl;
+      // std::cout << "Mean= " << mean << ',' << "Variance=" << var <<
+      // std::endl;
       for (size_t j = 0; j < input.shape()[0]; j++) {
         for (size_t k = 0; k < size; k++) {
 
