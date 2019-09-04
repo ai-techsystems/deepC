@@ -24,13 +24,27 @@ This will help us to get rid of the tension when it comes to merging a update, w
 We are currently automating the `dnnc.i` and `dnnc_api.cpp` file, to save you some time, and repeatative works.
 In the process of automation we will be needing two files, 
 
-* **dnnc.api** (pseudo cpp/python file which you will be adding your opearators in)
-* **generator.py** (which will generate `dnnc.i` and `dnnc_api.cpp` file from the above `dnnc.api` file)
+* **[swig / dnnc.api](https://github.com/ai-techsystems/dnnCompiler/blob/operators/swig/dnnc.api)** (pseudo cpp/python file which you will be adding your opearators in)
+* **[swig / op_gen.py](https://github.com/ai-techsystems/dnnCompiler/blob/operators/swig/op_gen.py)** (which will generate `dnnc_swig_externs.h` and `dnnc_api.cpp` file from the above `dnnc.api` file)
 
+### Usage :
+* Everything inside `dnnc.api` is **whitespace** and **newline** sensitive, so try to keep the structure similar.
+* Make sure to add a blank line between 2 operators.
+* Don't leave any blank lines inside operators' functions.
+* Don't leave more than one blank line anywhere.
+* Use comment syntax (`/*` or `*/`) in the same line as the code. 
+  - Like at front ` /* tensor<output> ... ` and at end ` } */ `
+* After adding new operator in `dnnc.api`, run the `op_gen.py` at the same directory.
+```console
+python op_gen.py
+```
+* It will generate `dnnc_swig_externs.h` and `dnnc_api.cpp` file, and you are done here.
+  - If you are curious, why we are creating `dnnc_swig_externs.h`, earlier we were adding externs inside `dnnc.i` file twice,
+    but now, we will create a cpp header file and call that file twice inside `dnnc.i`. Not everything inside `dnnc.i` can
+    be automated, but we used automation, where we could.
+* Run Make command now, like you did previously. And everything will be same after that.
 
-#### I have tried to pick and write some diverse examples below to give you an idea how the `dnnc.api` file will look like.
-
-Everything except **dtype** block is a cpp block, and **dtype** is a python dictionary which contains all kinds of input output datatype combination possible for the operators
+* Everything except **dtype** block is a cpp block, and **dtype** is a python dictionary which contains all kinds of input output datatype combination possible for the operators
 
 ```python
 dtype = {
@@ -39,10 +53,9 @@ dtype = {
   "input2" : "output1",
   ...
 }
-
 ```
 
-**Note :** Everything inside dnnc.api is **whitespace** and **newline** sensitive, so try to keep the structure similar.
+### I have tried to pick and write some diverse examples below to give you an idea how the `dnnc.api` file will look like.
 
 ---
 ##### MatMul and Add operators has input and output of same dtypes
