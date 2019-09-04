@@ -57,7 +57,7 @@ public:
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
-  tensor<T> compute(tensor<T> &a/*< The input tensor that has been coerced into a 2D matrix of size (NxD) */) {
+  tensor<T> compute(tensor<T> a/*< The input tensor that has been coerced into a 2D matrix of size (NxD) */) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");

@@ -74,7 +74,7 @@ public:
     return false;
   }
   tensor<T>
-  compute(tensor<T> &
+  compute(tensor<T>
               input /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/,
           tensor<T> &scale /*!<  1D vector of dimension C.*/,
           tensor<T> &B /*!< : 1D vector of dimension C.*/) {
