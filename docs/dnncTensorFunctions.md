@@ -33,7 +33,7 @@
 ✅array = numpy.arange(3) # array will contain 0,1,2
 
 # Create a Numpy array from Python sequence of elements
-✔️a = numpy.asarray([1,2])
+✅a = numpy.asarray([1,2])
 
 # Create an array with values that are evenly spaced
 ✔️a = numpy.array(0,6,2) # create 0-5, 2 apart, returns [0,2,4]
@@ -44,27 +44,28 @@
 ```
 ---
 ### Some advanced features (Array manipulation)
+**NOTE** DNNC tensor allows manipulation in size/contents, prohibits operation that lead to chang in size/length of memory.
 
 ```python
 
 # Add
 a = [3,4,5]
-a = numpy.append(a, [1,2]) #returns [3,4,5,1,2]
+🚫a = numpy.append(a, [1,2]) #returns [3,4,5,1,2]
 
 #Join
-numpy.concatenate(a,b)
-numpy.stack(a,b)
-numpy.hstack(a,b)
-numpy.vstack(a,b)
+🚫numpy.concatenate(a,b)
+✔️numpy.stack(a,b)
+✔️numpy.hstack(a,b)
+✔️numpy.vstack(a,b)
 
 # Delete
-a = numpy.delete(array,2) # 2 is going to be deleted from the array
+🚫a = numpy.delete(array,2) # 2 is going to be deleted from the array
 
 # Sort
-numpy.sort(array1, axis=1, kind = 'quicksort', order ='column name')
+✔️numpy.sort(array1, axis=1, kind = 'quicksort', order ='column name')
 
 # Deep copy
-new_array = numpy.copy(array)
+✔️new_array = numpy.copy(array)
 
 ```
 ---
@@ -75,11 +76,11 @@ new_array = numpy.copy(array)
 ```python
 
 # Shape
-array = numpy.array([[..],[..]])
-array.shape
+✅array = numpy.array([[..],[..]])
+✅array.shape
 
 # Reshape by setting shape property
-array.shape = (1,2) # (1 row, 2 columns)
+✅array.shape = (1,2) # (1 row, 2 columns)
 # resize(x,y) can also be used to resize an array
 
 # Dimensions of an array:
@@ -93,28 +94,28 @@ array.itemsize
 
 ```python
 
-array = numpy.arange(100)
+✅array = numpy.arange(100)
 
 # Get 3rd element:
-array[2]
+✅array[2]
 
 # Get items within indexes
-array[3:5] #3 is start, 5 is end
+✔️array[3:5] #3 is start, 5 is end
 
 # Get 3-10 element, step size 4 increments:
-array[2:9:4]
+✔️array[2:9:4]
 
 # Get all elements from 2nd element onwards
-array[1:]
+✔️array[1:]
 
 # Can also pass in N-Dimensional Index
-array[[0,1],[1,2]]
+✔️array[[0,1],[1,2]]
 
 # Get all NAN elements
-array[numpy.isnan(array)]
+✔️array[numpy.isnan(array)]
 
 # Using where()
-numpy.where(array > 5) # will return all elements that meet the criteria
+✔️numpy.where(array > 5) # will return all elements that meet the criteria
 
 ```
 ##### Broadcasting
@@ -122,12 +123,12 @@ numpy.where(array > 5) # will return all elements that meet the criteria
 ```python
 
 # 5 rows, 3 columns array
-bigger_array = arange(5,3) 
+✅bigger_array = arange(5,3) 
 
 # 5 rows, 1 column array
-smaller_array = arange(5)
+✅smaller_array = arange(5)
 
-final_array = bigger_array + smaller_array
+✔️final_array = bigger_array + smaller_array
 
 ```
 ---
