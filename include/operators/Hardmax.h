@@ -57,10 +57,12 @@ public:
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
-  tensor<T> compute(tensor<T> a/*< The input tensor that has been coerced into a 2D matrix of size (NxD) */) {
+  tensor<T> compute(tensor<T> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
+    if (axis >= int(a.rank()))
+      std::invalid_argument("Reshaping failed");
     std::vector<size_t> original_shape = a.shape();
     size_t axis1 = 1;
     size_t axis2 = 1;
@@ -68,11 +70,10 @@ public:
       axis1 *= a.shape()[i];
     }
     if (axis1 > a.length())
-      std::invalid_argument("Reshaping failed");
+      std::invalid_argument("Reshaping failed.Check Axis");
     axis2 = a.length() / axis1;
     std::vector<size_t> shape{axis1, axis2};
     a.reshape(shape);
-    std::cout << a << "\n";
     tensor<T> result(a.shape()[0], a.shape()[1]);
 
     Eigen::MatrixXf::Index max_index;
@@ -82,17 +83,17 @@ public:
       eigenMatrix1.col(j).maxCoeff(&max_index);
       for (int i = 0; i < int(a.shape()[0]); i++) {
         if (i == max_index)
-          eigenMatrix1(i, j) = 1;
+          result(i, j) = 1;
         else
-          eigenMatrix1(i, j) = 0;
+          result(i, j) = 0;
       }
     }
-    Matrix<T, Dynamic, Dynamic> eResult = eigenMatrix1;
-
-    result.load(eResult.data());
-    std::cout << result << std::endl;
     result.reshape(original_shape);
     return result;
   }
+  /*!<
+  \return The output values with the same shape as input tensor (the original
+  size without coercion).
+  */
 };
 } // namespace dnnc

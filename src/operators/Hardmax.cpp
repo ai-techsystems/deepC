@@ -35,13 +35,13 @@ int main() {
   tensor<float> a(4, 2, 2);
   a.load(d1);
   // tensor<float> b(3,2); b.load(d2);
+  std::cout << a << "\n";
   int axis = 1;
   Hardmax<float> m("localOpName", axis);
   auto result = m.compute(a);
 
   std::cout << result;
   std::cout << "\n";
-
   return 0;
 }
 
