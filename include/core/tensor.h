@@ -416,12 +416,14 @@ public:
     } else if (rank() == 1 && indices.size() == 1) {
       index = indices[0];
     } else {
-      if ( indices.size() > rank() ) {
-        std::string msg = "number of supplied indices " + std::to_string(indices.size()) \
-                        + " is more than rank of the tensor " + std::to_string(rank()) + ".\n";
+      if (indices.size() > rank()) {
+        std::string msg = "number of supplied indices " +
+                          std::to_string(indices.size()) +
+                          " is more than rank of the tensor " +
+                          std::to_string(rank()) + ".\n";
         throw std::invalid_argument(msg);
       }
-      for (size_t i = 0; i < indices.size() && i < rank() ; i++) {
+      for (size_t i = 0; i < indices.size() && i < rank(); i++) {
         DIMENSION dsz = 1;
         for (size_t j = i + 1; j < rank(); j++)
           dsz *= _shape[j];

@@ -80,7 +80,7 @@ PyObject *vectorVectorToTuple_Float(const vector<vector<float>> &data) {
 
 vector<float> listTupleToVector_Float(PyObject *incoming) {
   vector<float> data;
-  if ( PyFloat_Check(incoming) ) {
+  if (PyFloat_Check(incoming)) {
     size_t num = PyFloat_AsDouble(incoming);
     data.push_back(num);
   } else if (PyTuple_Check(incoming)) {
@@ -101,7 +101,7 @@ vector<float> listTupleToVector_Float(PyObject *incoming) {
 
 vector<int> listTupleToVector_Int(PyObject *incoming) {
   vector<int> data;
-  if ( PyLong_Check(incoming) ) {
+  if (PyLong_Check(incoming)) {
     size_t num = PyLong_AsLong(incoming);
     data.push_back(num);
   } else if (PyTuple_Check(incoming)) {
@@ -122,7 +122,7 @@ vector<int> listTupleToVector_Int(PyObject *incoming) {
 
 vector<size_t> listTupleToVector_SizeT(PyObject *incoming) {
   vector<size_t> data;
-  if ( PyLong_Check(incoming) ) {
+  if (PyLong_Check(incoming)) {
     size_t num = PyLong_AsSize_t(incoming);
     data.push_back(num);
   } else if (PyTuple_Check(incoming)) {

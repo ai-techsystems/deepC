@@ -54,12 +54,13 @@
 %ignore *::operator[];
 
 %module dnnc
-%include "typemaps.i"
+%include <typemaps.i>
 %include <std_string.i>
 %include <std_vector.i>
 %include <std_shared_ptr.i>
 %include <exception.i>
-%include <core/tensor.h>
+%include "core/tensor.h"
+%include "dnnc_swig_externs.h"
 
 %inline %{
 typedef long unsigned int size_t;
@@ -93,11 +94,11 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %template(bTensor) dnnc::tensor<bool>;
 %template(iTensor) dnnc::tensor<int>;
 %template(fTensor) dnnc::tensor<float>;
+%template(dTensor) dnnc::tensor<double>;
 namespace std {
   %template(itvec) vector<dnnc::tensor<int> >;
   %template(ftvec) vector<dnnc::tensor<float> >;
 }
-%template(dTensor) dnnc::tensor<double>;
 %pythoncode %{
     def astype(self, newType):
       if ( newType == "double" ) :
@@ -118,4 +119,3 @@ namespace std {
     fTensor.astype = astype;
     dTensor.astype = astype;
 %}
-%include "dnnc_swig_externs.h"
