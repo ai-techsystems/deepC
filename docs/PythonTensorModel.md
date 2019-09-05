@@ -1,9 +1,10 @@
 # What is DNNC Tensor
-Tensor variable is a fix-length multi-dimensional array. 
-It is a mutable object with fixed length and ability to transform constrained by algebraic rules. 
+Tensor variable is a fixed-length multi-dimensional array. 
+It is a mutable object with ability to transform constrained by algebraic rules. 
 Similar to NumPy ndarray objects, dnnc.tensor objects have a data type and a shape. 
 Additionally, dnnc.tensors can reside in accelerator memory (like a GPU). 
-DNNC will offers a rich library of operations (dnnc.add, dnnc.matmul, dnnc.transpose etc.) that consume and produce dnnc.tensors
+DNNC will offers a rich library of operations (dnnc.add, dnnc.matmul, dnnc.transpose etc.) that consume and produce dnnc.tensors.
+Here is a partial list.
 
 # Tensor Operations
 
