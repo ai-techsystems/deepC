@@ -11,6 +11,7 @@ Flatten.py
 Floor.py
 Gemm.py
 Greater.py
+Hardmax.py
 HardSigmoid.py
 Identity.py
 InstanceNormalization.py
