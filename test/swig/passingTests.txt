@@ -10,7 +10,11 @@ EyeLike.py
 Flatten.py
 Floor.py
 Gemm.py
+GlobalAveragePool.py
+GlobalLpPool.py
+GlobalMaxPool.py
 Greater.py
+Hardmax.py
 HardSigmoid.py
 Identity.py
 InstanceNormalization.py

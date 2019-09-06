@@ -83,7 +83,10 @@ public:
       eigenMatrix1.col(j).maxCoeff(&max_index);
       for (int i = 0; i < int(a.shape()[0]); i++) {
         if (i == max_index)
+        {
           result(i, j) = 1;
+          continue;
+        }
         else
           result(i, j) = 0;
       }
