@@ -30,8 +30,14 @@ extern dnnc::tensor<float> \
 		 ones(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
 extern dnnc::tensor<float> \
 		 random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
+extern dnnc::tensor<double> \
+		 reshape(dnnc::tensor<double> &tens_obj, PyObject *newShape) ;
 extern dnnc::tensor<float> \
 		 reshape(dnnc::tensor<float> &tens_obj, PyObject *newShape) ;
+extern dnnc::tensor<int> \
+		 reshape(dnnc::tensor<int> &tens_obj, PyObject *newShape) ;
+extern dnnc::tensor<bool> \
+		 reshape(dnnc::tensor<bool> &tens_obj, PyObject *newShape) ;
 extern dnnc::tensor<float> \
 		 array(PyObject *objects) ;
 extern dnnc::tensor<float> \

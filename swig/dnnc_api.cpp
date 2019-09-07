@@ -83,23 +83,95 @@ tensor<float> random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
 	return tensor<float>(x, y, z, w, "", dnnc::INIT_RANDOM);
 }
 
-tensor<float> reshape(tensor<float> &tens_obj, PyObject *newShape) {
+tensor<double> reshape(tensor<double> &tens_obj, PyObject *newShape) {
+	tensor<double> result ;
 	if (PyLong_Check(newShape)) {
 		std::vector<size_t> nShape;
 		auto newShapeMember = PyLong_AsLong(newShape);
 		nShape.push_back(static_cast<size_t>(newShapeMember));
 		if (nShape[0] <= 0)
 			throw std::logic_error("reshape integer must have positive value.\n");
-		tensor<float> result = tens_obj.reshape(nShape);
-		return result;
-	} else if (PyTuple_Check(newShape)) {
+		result = tens_obj.reshape(nShape);
+	    return result;
+	}else if (PyTuple_Check(newShape)) {
 		auto vShape = listTupleToVector_SizeT(newShape);
 		for (size_t i = 0; i < vShape.size(); i++)
 			if (vShape[i] <= 0)
 				throw std::logic_error("reshape tupel must have positive elements.\n");
-		tensor<float> result = tens_obj.reshape(vShape);
-		return result;
-	}
+		result = tens_obj.reshape(vShape);
+	    return result;
+	}else {
+		throw std::logic_error("reshape type must be int or tuple.\n");
+    }
+	return tens_obj;
+}
+
+tensor<float> reshape(tensor<float> &tens_obj, PyObject *newShape) {
+	tensor<float> result ;
+	if (PyLong_Check(newShape)) {
+		std::vector<size_t> nShape;
+		auto newShapeMember = PyLong_AsLong(newShape);
+		nShape.push_back(static_cast<size_t>(newShapeMember));
+		if (nShape[0] <= 0)
+			throw std::logic_error("reshape integer must have positive value.\n");
+		result = tens_obj.reshape(nShape);
+	    return result;
+	}else if (PyTuple_Check(newShape)) {
+		auto vShape = listTupleToVector_SizeT(newShape);
+		for (size_t i = 0; i < vShape.size(); i++)
+			if (vShape[i] <= 0)
+				throw std::logic_error("reshape tupel must have positive elements.\n");
+		result = tens_obj.reshape(vShape);
+	    return result;
+	}else {
+		throw std::logic_error("reshape type must be int or tuple.\n");
+    }
+	return tens_obj;
+}
+
+tensor<int> reshape(tensor<int> &tens_obj, PyObject *newShape) {
+	tensor<int> result ;
+	if (PyLong_Check(newShape)) {
+		std::vector<size_t> nShape;
+		auto newShapeMember = PyLong_AsLong(newShape);
+		nShape.push_back(static_cast<size_t>(newShapeMember));
+		if (nShape[0] <= 0)
+			throw std::logic_error("reshape integer must have positive value.\n");
+		result = tens_obj.reshape(nShape);
+	    return result;
+	}else if (PyTuple_Check(newShape)) {
+		auto vShape = listTupleToVector_SizeT(newShape);
+		for (size_t i = 0; i < vShape.size(); i++)
+			if (vShape[i] <= 0)
+				throw std::logic_error("reshape tupel must have positive elements.\n");
+		result = tens_obj.reshape(vShape);
+	    return result;
+	}else {
+		throw std::logic_error("reshape type must be int or tuple.\n");
+    }
+	return tens_obj;
+}
+
+tensor<bool> reshape(tensor<bool> &tens_obj, PyObject *newShape) {
+	tensor<bool> result ;
+	if (PyLong_Check(newShape)) {
+		std::vector<size_t> nShape;
+		auto newShapeMember = PyLong_AsLong(newShape);
+		nShape.push_back(static_cast<size_t>(newShapeMember));
+		if (nShape[0] <= 0)
+			throw std::logic_error("reshape integer must have positive value.\n");
+		result = tens_obj.reshape(nShape);
+	    return result;
+	}else if (PyTuple_Check(newShape)) {
+		auto vShape = listTupleToVector_SizeT(newShape);
+		for (size_t i = 0; i < vShape.size(); i++)
+			if (vShape[i] <= 0)
+				throw std::logic_error("reshape tupel must have positive elements.\n");
+		result = tens_obj.reshape(vShape);
+	    return result;
+	}else {
+		throw std::logic_error("reshape type must be int or tuple.\n");
+    }
 	return tens_obj;
 }
 
