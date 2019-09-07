@@ -39,8 +39,10 @@ class GlobalAveragePoolTest(unittest.TestCase):
     def test_GlobalAveragePool3D (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3))
-        np_a = np.reshape(np_a, (np_a.shape[0],np_a.shape[1],end_axis(np_a)) )
-        npr = np.mean(np_a,axis=2)
+        spatial_shape = np.ndim(np_a) -2
+        npr = np.average(np_a, axis=tuple(range(2, spatial_shape + 2)))
+        for _ in range(spatial_shape):
+            npr = np.expand_dims(npr, -1)
         dcr = dc.global_average_pool(dc_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
@@ -48,8 +50,10 @@ class GlobalAveragePoolTest(unittest.TestCase):
     def test_GlobalAveragePool4D (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
-        np_a = np.reshape(np_a, (np_a.shape[0],np_a.shape[1],end_axis(np_a)) )
-        npr = np.mean(np_a,axis=2)
+        spatial_shape = np.ndim(np_a) -2
+        npr = np.average(np_a, axis=tuple(range(2, spatial_shape + 2)))
+        for _ in range(spatial_shape):
+            npr = np.expand_dims(npr, -1)
         dcr = dc.global_average_pool(dc_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
