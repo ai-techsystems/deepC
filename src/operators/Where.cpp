@@ -26,9 +26,30 @@
 using namespace dnnc;
 using namespace Eigen;
 
+#define DNNC_WHERE_TEST 1
 #ifdef DNNC_WHERE_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+
+  int d1[8] = {1, 2, 3, 4, 5, 6};
+  int d2[8] = {9, 8, 7, 6, 5, 4};
+  bool d3[8] = {1, 0, 0, 1, 0, 1};
+
+  tensor<int> a(2, 4);
+  a.load(d1);
+
+  tensor<int> b(2, 4);
+  b.load(d2);
+
+  tensor<bool> c(2, 4);
+  c.load(d3);
+
+  Where<int> w("localOpName");
+  auto result = w.compute(c, a, b);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif
