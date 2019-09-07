@@ -29,12 +29,24 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Local response normalization. This Normalizes over local input regions. The
+ * local region is defined across the channels.*/
+/*! For an element \f$X[n, c, d1, ..., dk]\f$ in a tensor of shape \f$ (N * C *
+ * D1 * D2* ...* Dk)\f$, its region is \f$\left \{ X[n, i, d1, ..., dk] \mid
+ * max(0, c - floor((size - 1) / 2)) \leq  i \leq  min(C - 1, c + ceil((size -
+ * 1) / 2))  \right \}\f$ */
+/*! Define \f$square\_sum[n, c, d1, ..., dk] = \sum_{i=max(0, c - floor((size -
+ * 1) / 2))}^{min(C - 1, c + ceil((size - 1) / 2))}(X[n, i, d1, ..., dk] ^ 2)\f$
+ */
+/*! and then apply \f$ Y[n, c, d1, ..., dk] = X[n, c, d1, ...,
+ * dk]/\begin{pmatrix}bias + \alpha*square\_sum[n, c, d1, ..., dk]
+ * \end{pmatrix}^{beta} \f$ */
 template <typename T> class LRN : public baseOperator<T> {
 protected:
-  float alpha = 0.0001;
-  float beta = 0.75;
+  float alpha = 0.0001; /*!< Scaling parameter.*/
+  float beta = 0.75;    /*!< The exponent.*/
   float bias = 1.0;
-  int size;
+  int size; /*!< (Required) The number of channels to sum over.*/
 
 public:
   LRN(int size, std::string name = "opLRN", float alpha = 0.0001,
@@ -69,7 +81,11 @@ public:
     }
     return false;
   }
-  tensor<T> compute(tensor<T> &input) {
+  tensor<T> compute(tensor<T> input/*!< Input data tensor from the previous operator;
+    dimensions for image case are \f$(N * C * H * W)\f$, where N is the batch size,
+    C is the number of channels, and H and W are the height and the width of the data.
+    For non image case, the dimensions are in the form of  \f$(N * C * D1 * D2* ...* Dn)\f$,
+     where N is the batch size.*/) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
@@ -117,5 +133,8 @@ public:
     result.reshape(original_shape);
     return result;
   }
+  /*!<
+   \return Output tensor, which has the shape and type as input tensor
+ */
 };
 } // namespace dnnc

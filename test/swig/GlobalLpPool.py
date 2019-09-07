@@ -42,6 +42,9 @@ class GlobalLpPoolTest(unittest.TestCase):
         dc_a = dc.reshape(self.dc_a, (2,4,3))
         np_a = np.reshape(np_a, (np_a.shape[0],np_a.shape[1],end_axis(np_a)) )
         npr = np.linalg.norm(np_a,ord = self.p,axis=2)
+        spatial_shape = np.ndim(np_a) -2
+        for _ in range(spatial_shape):
+            npr = np.expand_dims(npr, -1)
         dcr = dc.global_lp_pool(dc_a,self.p)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
@@ -51,6 +54,9 @@ class GlobalLpPoolTest(unittest.TestCase):
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
         np_a = np.reshape(np_a, (np_a.shape[0],np_a.shape[1],end_axis(np_a)) )
         npr = np.linalg.norm(np_a,ord = self.p,axis=2)
+        spatial_shape = np.ndim(np_a) -2
+        for _ in range(spatial_shape):
+            npr = np.expand_dims(npr, -1)
         dcr = dc.global_lp_pool(dc_a,self.p)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)

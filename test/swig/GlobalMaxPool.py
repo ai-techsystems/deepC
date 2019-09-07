@@ -39,8 +39,10 @@ class GlobalMaxPoolTest(unittest.TestCase):
     def test_GlobalMaxPool3D (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3))
-        np_a = np.reshape(np_a, (np_a.shape[0],np_a.shape[1],end_axis(np_a)) )
-        npr = np_a.max(axis=2)
+        spatial_shape = np.ndim(np_a) -2
+        npr = np.max(np_a, axis=tuple(range(2, spatial_shape + 2)))
+        for _ in range(spatial_shape):
+            npr = np.expand_dims(npr, -1)
         dcr = dc.global_max_pool(dc_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
@@ -48,8 +50,10 @@ class GlobalMaxPoolTest(unittest.TestCase):
     def test_GlobalMaxPool4D (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
-        np_a = np.reshape(np_a, (np_a.shape[0],np_a.shape[1],end_axis(np_a)) )
-        npr = np.amax(np_a,axis=2)
+        spatial_shape = np.ndim(np_a) -2
+        npr = np.max(np_a, axis=tuple(range(2, spatial_shape + 2)))
+        for _ in range(spatial_shape):
+            npr = np.expand_dims(npr, -1)
         dcr = dc.global_max_pool(dc_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
