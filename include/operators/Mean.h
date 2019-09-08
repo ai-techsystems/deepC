@@ -22,6 +22,7 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 #include <vector>
@@ -29,8 +30,12 @@
 using namespace Eigen;
 
 namespace dnnc {
+  /*! Returns the tensor resulted 
+   * from Element-wise mean of each of the input tensors (
+   * with Numpy-style broadcasting support).
+ */
 template <typename T> class Mean : public baseOperator<T> {
-  //  Mean attributes
+ 
   T meanEl(std::vector<T> &v) {
     T sum = 0;
     if (v.size() == 0)
@@ -45,27 +50,18 @@ template <typename T> class Mean : public baseOperator<T> {
 public:
   Mean(std::string name = "opMean") : baseOperator<T>(opMean, name) {}
 
-  tensor<T> compute(std::vector<tensor<T>> inputs) {
-    // TODO: broadcasting requirements.
-    // 1. find the tensors with largest rank
-    // 2. determine shape with largest dimension of each rank among largest rank
-    // tensors found in step1.
-    // 3. create a result tensor with this new shape
-    // 4. broadcast other tensors to result vector.
+  tensor<T> compute(std::vector<tensor<T>> inputs  /*!<[float,double]: ND tensors */ ) {
+    
 
-    if (inputs.size() == 0) {
+   if (inputs.size() == 0) {
       throw std::invalid_argument(
           "Mean operator requires non-zero size input vector.");
       return tensor<T>(0);
     }
 
-    // for now check every shape is equal and create result tensor.
-    for (size_t i = 1; i < inputs.size(); i++)
-      if (inputs[0].shape() != inputs[i].shape())
-        throw std::invalid_argument(
-            "Mean operator requires tensors with equal shape.");
+    std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
 
-    tensor<T> result(inputs[0].shape());
+    tensor<T> result(resultShape);
 
     // compute element wise mean
     for (size_t i = 0; i < result.length(); i++) {
@@ -77,5 +73,7 @@ public:
     }
     return result;
   }
+
+
 };
 } // namespace dnnc

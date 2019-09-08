@@ -19,9 +19,7 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 
-import os,sys
-# DNNC_ROOT='/Desktop/dnnCompiler'
-sys.path.append(os.path.abspath('..'+os.path.sep+'..'+os.path.sep+'swig'));
+import common; # DNNC path setup
 
 import dnnc as dc
 import numpy as np
@@ -31,17 +29,12 @@ class MatMulIntegerTest(unittest.TestCase):
     def setUp(self):
         self.len = 12
         self.np_a = np.random.randn(self.len).astype(np.int)
-        self.np_b = np.random.randn(self.len).astype(np.int)
-        #self.np_a = np.arange(self.len).astype(np.float32)
-        #self.np_b = np.arange(self.len).astype(np.float32)
-        
-        self.dc_a = dc.array(list(self.np_a));  # dc.array gives float not int like-> [0.00000 1.000000]   
-        self.dc_b = dc.array(list(self.np_b));
+        self.np_b = np.random.randn(self.len).astype(np.int)       
+        self.dc_a = dc.array(list(self.np_a)).astype('int');    
+        self.dc_b = dc.array(list(self.np_b)).astype('int');
 
     def test_MatMulInteger1D (self):
         npr = np.matmul(self.np_a, self.np_b)
-        print(self.np_a)
-        print(self.dc_a)
         dcr = dc.matmulinteger(self.dc_a, self.dc_b)
         np.testing.assert_allclose(npr, np.array(dcr.data()[0]).astype(np.int),
                 rtol=1e-3, atol=1e-3)
@@ -67,11 +60,10 @@ class MatMulIntegerTest(unittest.TestCase):
 
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
                 rtol=1e-3, atol=1e-3)
+    
+    def tearDown(self):
+        return "test finished"
 
 if __name__ == '__main__':
-    # m = MatMulTest()
-    # m.test_MatMul1D()
-    # m.test_MatMul2D()
-    # m.test_MatMul3D()
     unittest.main()
     

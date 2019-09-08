@@ -19,9 +19,7 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 
-import os,sys
-# DNNC_ROOT='/Desktop/dnnCompiler'
-sys.path.append(os.path.abspath('..'+os.path.sep+'..'+os.path.sep+'swig'));
+import common; # DNNC path setup
 
 import dnnc as dc
 import numpy as np
@@ -29,11 +27,9 @@ import unittest
 
 class LessTest(unittest.TestCase):
     def setUp(self):
-        self.len = 12
+        self.len = 24
         self.np_a = np.random.randn(self.len).astype(np.float32)
         self.np_b = np.random.randn(self.len).astype(np.float32)
-        #self.np_a = np.arange(self.len).astype(np.float32)
-        #self.np_b = np.arange(self.len).astype(np.float32)
         self.dc_a = dc.array(list(self.np_a));
         self.dc_b = dc.array(list(self.np_b));
 
@@ -44,20 +40,20 @@ class LessTest(unittest.TestCase):
                 rtol=1e-3, atol=1e-3)
 
     def test_Less2D (self):
-        np_a = np.reshape(self.np_a, (3,4))
-        np_b = np.reshape(self.np_b, (3,4))
-        dc_a = dc.reshape(self.dc_a, (3,4));
-        dc_b = dc.reshape(self.dc_b, (3,4));
+        np_a = np.reshape(self.np_a, (6,4))
+        np_b = np.reshape(self.np_b, (6,4))
+        dc_a = dc.reshape(self.dc_a, (6,4));
+        dc_b = dc.reshape(self.dc_b, (6,4));
         npr = np.less(np_a, np_b);
         dcr = dc.less(dc_a, dc_b);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
                 rtol=1e-3, atol=1e-3)
 
     def test_Less3D (self):
-        np_a = np.reshape(self.np_a, (2,2,3))
-        np_b = np.reshape(self.np_b, (2,2,3))
-        dc_a = dc.reshape(self.dc_a, (2,2,3));
-        dc_b = dc.reshape(self.dc_b, (2,2,3));
+        np_a = np.reshape(self.np_a, (2,4,3))
+        np_b = np.reshape(self.np_b, (2,4,3))
+        dc_a = dc.reshape(self.dc_a, (2,4,3));
+        dc_b = dc.reshape(self.dc_b, (2,4,3));
 
         npr = np.less(np_a, np_b);
         dcr = dc.less(dc_a, dc_b);
@@ -65,10 +61,22 @@ class LessTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
                 rtol=1e-3, atol=1e-3)
 
+    def test_Equal4D (self):
+        np_a = np.reshape(self.np_a, (2,2,2,3))
+        np_b = np.reshape(self.np_b, (2,2,2,3))
+        dc_a = dc.reshape(self.dc_a, (2,2,2,3))
+        dc_b = dc.reshape(self.dc_b, (2,2,2,3))
+
+        npr = np.less(np_a, np_b)
+        dcr = dc.less(dc_a, dc_b)
+
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
+                rtol=1e-3, atol=1e-3)
+                
+    def tearDown(self):
+        return "test finished"
+    
+
 if __name__ == '__main__':
-    # m = MatMulTest()
-    # m.test_MatMul1D()
-    # m.test_MatMul2D()
-    # m.test_MatMul3D()
     unittest.main()
 

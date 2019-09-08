@@ -525,29 +525,39 @@ tensor<double> leakyrelu(tensor<double> &a, float alpha = 0.01) {
   return op.compute(a);
 }
 
-tensor<float> thresholded_relu(tensor<float> &a) {
-	ThresholdedRelu<float> op;
-	return op.compute(a);
+tensor<bool> less(tensor<int> &a, tensor<int> &b) {
+  Less<int> op;
+  return op.compute(a, b);
 }
 
 tensor<bool> less(tensor<float> &a, tensor<float> &b) {
-	Less<float> op;
-	return op.compute(a, b);
+  Less<float> op;
+  return op.compute(a, b);
+}
+
+tensor<bool> less(tensor<double> &a, tensor<double> &b) {
+  Less<double> op;
+  return op.compute(a, b);
 }
 
 tensor<float> log(tensor<float> &a) {
-	Log<float> op;
-	return op.compute(a);
+  Log<float> op;
+  return op.compute(a);
 }
 
-tensor<float> logsoftmax(tensor<float> &a) {
-	LogSoftmax<float> op;
-	return op.compute(a);
+tensor<double> log(tensor<double> &a) {
+  Log<double> op;
+  return op.compute(a);
 }
 
-tensor<float> lpnormalization(tensor<float> &a) {
-	LpNormalization<float> op;
-	return op.compute(a);
+tensor<float> lpnormalization(tensor<float> &a, int p = 2, int axis = -1) {
+  LpNormalization<float> op("localOpName", p, axis);
+  return op.compute(a);
+}
+
+tensor<double> lpnormalization(tensor<double> &a, int p = 2, int axis = -1) {
+  LpNormalization<double> op("localOpName", p, axis);
+  return op.compute(a);
 }
 
 tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
@@ -555,9 +565,39 @@ tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
 	return op.compute(a, b);
 }
 
-tensor<float> max(std::vector<tensor<float>> a) {
+tensor<float> min(std::vector<tensor<float>> floats) {
+  Min<float> op;
+  return op.compute(floats);
+}
+
+tensor<double> min(std::vector<tensor<double>> doubles) {
+  Min<double> op;
+  return op.compute(doubles);
+}
+
+tensor<float> mean(std::vector<tensor<float>> floats) {
+  Mean<float> op;
+  return op.compute(floats);
+}
+
+tensor<double> mean(std::vector<tensor<double>> doubles) {
+  Mean<double> op;
+  return op.compute(doubles);
+}
+
+tensor<float> max(std::vector<tensor<float>> floats) {
   Max<float> op;
-  return op.compute(a);
+  return op.compute(floats);
+}
+
+tensor<double> max(std::vector<tensor<double>> doubles) {
+  Max<double> op;
+  return op.compute(doubles);
+}
+
+tensor<float> thresholded_relu(tensor<float> &a) {
+	ThresholdedRelu<float> op;
+	return op.compute(a);
 }
 
 tensor<float> transpose(tensor<float> &a) {

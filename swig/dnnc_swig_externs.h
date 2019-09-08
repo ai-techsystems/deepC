@@ -160,19 +160,35 @@ extern dnnc::tensor<float> \
 		 leakyrelu(dnnc::tensor<float> &a, float alpha = 0.01) ;
 extern dnnc::tensor<double> \
 		 leakyrelu(dnnc::tensor<double> &a, float alpha = 0.01) ;
-extern dnnc::tensor<float> \
-		 thresholded_relu(dnnc::tensor<float> &a) ;
+extern dnnc::tensor<bool> \
+		 less(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
 extern dnnc::tensor<bool> \
 		 less(dnnc::tensor<float> &a, dnnc::tensor<float> &b) ;
+extern dnnc::tensor<bool> \
+		 less(dnnc::tensor<double> &a, dnnc::tensor<double> &b) ;
 extern dnnc::tensor<float> \
 		 log(dnnc::tensor<float> &a) ;
+extern dnnc::tensor<double> \
+		 log(dnnc::tensor<double> &a) ;
 extern dnnc::tensor<float> \
-		 logsoftmax(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<float> \
-		 lpnormalization(dnnc::tensor<float> &a) ;
+		 lpnormalization(dnnc::tensor<float> &a, int p = 2, int axis = -1) ;
+extern dnnc::tensor<double> \
+		 lpnormalization(dnnc::tensor<double> &a, int p = 2, int axis = -1) ;
 extern dnnc::tensor<int> \
 		 matmulinteger(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
 extern dnnc::tensor<float> \
-		 max(std::vector<dnnc::tensor<float>> a) ;
+		 min(std::vector<dnnc::tensor<float>> floats) ;
+extern dnnc::tensor<double> \
+		 min(std::vector<dnnc::tensor<double>> doubles) ;
+extern dnnc::tensor<float> \
+		 mean(std::vector<dnnc::tensor<float>> floats) ;
+extern dnnc::tensor<double> \
+		 mean(std::vector<dnnc::tensor<double>> doubles) ;
+extern dnnc::tensor<float> \
+		 max(std::vector<dnnc::tensor<float>> floats) ;
+extern dnnc::tensor<double> \
+		 max(std::vector<dnnc::tensor<double>> doubles) ;
+extern dnnc::tensor<float> \
+		 thresholded_relu(dnnc::tensor<float> &a) ;
 extern dnnc::tensor<float> \
 		 transpose(dnnc::tensor<float> &a) ;

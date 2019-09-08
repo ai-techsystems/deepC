@@ -406,41 +406,74 @@ tensor<output> leakyrelu(tensor<input> &a, float alpha = 0.01) {
   }
 }
 
+tensor<output> less(tensor<input> &a, tensor<input> &b) {
+  Less<input> op;
+  return op.compute(a, b);
+  dtype = {
+    "int" : "bool",
+    "float" : "bool",
+    "double" : "bool"
+  }
+}
+
+tensor<output> log(tensor<input> &a) {
+  Log<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> lpnormalization(tensor<input> &a, int p = 2, int axis = -1) {
+  LpNormalization<input> op("localOpName", p, axis);
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> matmulinteger(tensor<input> &a, tensor<input> &b) {
+	MatMulInteger<input> op;
+	return op.compute(a, b);
+  dtype = {
+	"int" : "int"
+  }
+}
+
+tensor<output> min(std::vector<tensor<input>> inputs) {
+  Min<input> op;
+  return op.compute(inputs);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> mean(std::vector<tensor<input>> inputs) {
+  Mean<input> op;
+  return op.compute(inputs);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> max(std::vector<tensor<input>> inputs) {
+  Max<input> op;
+  return op.compute(inputs);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
 /* The below operators need to change accroding to above operators */
 
 tensor<float> thresholded_relu(tensor<float> &a) {
 	ThresholdedRelu<float> op;
 	return op.compute(a);
-}
-
-tensor<bool> less(tensor<float> &a, tensor<float> &b) {
-	Less<float> op;
-	return op.compute(a, b);
-}
-
-tensor<float> log(tensor<float> &a) {
-	Log<float> op;
-	return op.compute(a);
-}
-
-tensor<float> logsoftmax(tensor<float> &a) {
-	LogSoftmax<float> op;
-	return op.compute(a);
-}
-
-tensor<float> lpnormalization(tensor<float> &a) {
-	LpNormalization<float> op;
-	return op.compute(a);
-}
-
-tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
-	MatMulInteger<int> op;
-	return op.compute(a, b);
-}
-
-tensor<float> max(std::vector<tensor<float>> a) {
-  Max<float> op;
-  return op.compute(a);
 }
 
 tensor<float> transpose(tensor<float> &a) {

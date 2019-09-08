@@ -27,6 +27,7 @@
 using namespace Eigen;
 
 namespace dnnc {
+  /* Matrix product that behaves like numpy.matmul */
 template <typename T> class MatMulInteger : public baseOperator<T> {
 protected:
   //  MatMulInteger attributes
@@ -35,7 +36,8 @@ public:
   MatMulInteger(std::string name = "opMatMulInteger")
       : baseOperator<T>(opMatMulInteger, name) {}
 
-  tensor<int> compute(tensor<T> &a, tensor<T> &b) {
+  tensor<int> compute(tensor<int> &a /*!<Input tensor A. */
+                      , tensor<int> &b /*!<Input tensor B. */) {
 
     if ((a.rank() == 1 && b.rank() == 1)) {
       if (a.length() != b.length())

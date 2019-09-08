@@ -19,15 +19,13 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 
-import os,sys
-# DNNC_ROOT='/Desktop/dnnCompiler'
-sys.path.append(os.path.abspath('..'+os.path.sep+'..'+os.path.sep+'swig'));
+import common; # DNNC path setup
 
 import dnnc as dc
 import numpy as np
 import unittest
 
-# warning given if np_a contain nan values
+# warning given if np_a contain nan values.negative values inside the log, which gives nan with real numbers.
 
 class LogTest(unittest.TestCase):
     def setUp(self):
@@ -36,17 +34,16 @@ class LogTest(unittest.TestCase):
         self.dc_a = dc.array(list(self.np_a));
 
     def test_Log1D (self):
+        print(self.np_a)
         npr = np.log(self.np_a)
-        #print(npr) 
         dcr = dc.log(self.dc_a)
-        #print(dcr)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
     def test_Log2D (self):
         np_a = np.reshape(self.np_a, (6,4))
         dc_a = dc.reshape(self.dc_a, (6,4));
-        npr = np.log(np_a);
+        npr = np.log(np_a)
         dcr = dc.log(dc_a);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
@@ -54,8 +51,7 @@ class LogTest(unittest.TestCase):
     def test_Log3D (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3));
-
-        npr = np.log(np_a);
+        npr = np.log(np_a)
         dcr = dc.log(dc_a);
 
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
@@ -63,13 +59,9 @@ class LogTest(unittest.TestCase):
 
     def test_Log4D (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
-        
         dc_a = dc.reshape(self.dc_a, (2,2,2,3));
-       
-
-        npr = np.log(np_a);
+        npr = np.log(np_a)
         dcr = dc.log(dc_a);
-
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 

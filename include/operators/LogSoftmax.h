@@ -21,6 +21,8 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 // Eigen cwise unsupported-tensors(written TODO in original doc)
+// computing softmax as per axis(https://en.wikipedia.org/wiki/Softmax_function)
+
 #pragma once
 #include "operators/baseOperator.h"
 #include <string>
@@ -28,18 +30,24 @@
 using namespace Eigen;
 
 namespace dnnc {
+  /*! The operator computes the logsoftmax (log of softmax) values for each 
+  layer in the batch of the given input. The input is a 2-D tensor (Tensor)
+  of size (batch_size x input_feature_dimensions). 
+  The output tensor has the same shape and contains the logsoftmax
+  values of the corresponding input. */
 template <typename T> class LogSoftmax : public baseOperator<T> {
   //  LogSoftmax attributes
 protected:
   // default
-  int axis = 1;
+  int axis = 1; /*!< axis of the input. */
 
 public:
-  LogSoftmax(std::string name = "opLogSoftmax")
-      : baseOperator<T>(opLogSoftmax, name) {}
+  LogSoftmax(std::string name = "opLogSoftmax", int axis=1)
+      : baseOperator<T>(opLogSoftmax, name) {
+        this-> axis = axis;
+      }
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-  bool getAttribute(OPATTR attrName, int &obj) {
+ bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_axis) {
       obj = axis;
       return true;
@@ -47,56 +55,46 @@ public:
     return false;
   }
 
-  void setAttribute(OPATTR attrName, int &obj) {
-    if (attrName == attr_axis) {
-      axis = obj;
-    }
-  }
-
-  static bool compare() {
+ static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
 
-  tensor<T> compute(tensor<T> &input) {
+  tensor<T> compute(tensor<T> &a) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    // only 2D excepted
+    tensor<T> result(a.shape(), a.name());
 
-    if (input.rank() == 2) {
+    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
 
-      tensor<T> result(input.shape(), input.name());
+    std::vector<size_t> shape{a.shape()[0], a.shape()[1]};
 
-      DNNC_EIGEN_MATRIX(eigenMatrixA, input);
-      std::cout << eigenMatrixA << std::endl;
-      std::cout << input.shape()[0] << std::endl;
+    if (a.rank() != 2) {
+          a.reshape(shape);
+    }    
       // default cases
-
       if (axis == 1) {
         int i, j;
-        for (i = 0; i < int(input.shape()[0]); i++) {
+        for (i = 0; i < int(a.shape()[0]); i++) {
           float sum = 0;
-          for (j = 0; j < int(input.shape()[1]); j++) {
-            sum += exp(eigenMatrixA(
-                i, j)); // computing softmax as per
-                        // axis(https://en.wikipedia.org/wiki/Softmax_function)
+          for (j = 0; j < int(a.shape()[1]); j++) {
+            sum += exp(eigenMatrixA(i, j)); 
           }
-          for (j = 0; j < int(input.shape()[1]); j++) {
-            eigenMatrixA(i, j) = log(exp(eigenMatrixA(i, j)) /
-                                     sum); // computing logsoftmax as per axis
+          for (j = 0; j < int(a.shape()[1]); j++) {
+            eigenMatrixA(i, j) = log(exp(eigenMatrixA(i, j)) /sum);
           }
         }
       }
 
       else if (axis == 0) {
         int i, j;
-        for (i = 0; i < int(input.shape()[1]); i++) {
+        for (i = 0; i < int(a.shape()[1]); i++) {
           float sum = 0;
-          for (j = 0; j < int(input.shape()[0]); j++) {
+          for (j = 0; j < int(a.shape()[0]); j++) {
             sum += exp(eigenMatrixA(j, i));
           }
-          for (j = 0; j < int(input.shape()[0]); j++) {
+          for (j = 0; j < int(a.shape()[0]); j++) {
             eigenMatrixA(j, i) = log(exp(eigenMatrixA(j, i)) / (sum));
           }
         }
@@ -106,10 +104,7 @@ public:
       result.load(eResult.data());
 
       return result;
-    } else {
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for logsoftmax operator.");
-    }
+     
   }
 };
 } // namespace dnnc
