@@ -37,12 +37,13 @@ class FlattenTest(unittest.TestCase):
         self.dc_a = dc.array(list(self.np_a))
 
     def test_Flatten1D (self):
-        shape = (24,)
+        shape = (1,24)
         axis = 0
         npr = temp_flatten(self.np_a,shape,axis)
         dcr = dc.flatten(self.dc_a,axis)
-        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
     
     def test_Flatten2D (self):
         shape = (6,4)
@@ -53,6 +54,7 @@ class FlattenTest(unittest.TestCase):
         dcr = dc.flatten(dc_a,axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
 
     def test_Flatten3D (self):
         shape = (2,4,3)
@@ -63,6 +65,7 @@ class FlattenTest(unittest.TestCase):
         dcr = dc.flatten(dc_a,axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
     
     def test_Flatten4D (self):
         shape = (2,2,2,3)
@@ -73,10 +76,10 @@ class FlattenTest(unittest.TestCase):
         dcr = dc.flatten(dc_a,axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
 
     def tearDown(self):
         return "test finished"
 
 if __name__ == '__main__':
     unittest.main()
-    

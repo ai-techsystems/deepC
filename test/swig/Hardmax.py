@@ -1,6 +1,6 @@
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
-# distributed with this work for divitional information
+# distributed with this work for additional information
 # regarding copyright ownership.  The ASF licenses this file
 # to you under the Apache License, Version 2.0 (the
 # "License") you may not use this file except in compliance
@@ -25,69 +25,55 @@ import dnnc as dc
 import numpy as np
 import unittest
 
-def temp_gemm(np_a, np_b, np_c, alpha, beta, transA, transB):
-    np_a = np_a.T if (transA==1) else np_a
-    np_b = np_b.T if (transB==1) else np_b
-    y = (alpha * np.dot(np_a, np_b)) + (beta * np_c)
-    return y
-
-class GemmTest(unittest.TestCase):
+class HardmaxTest(unittest.TestCase):
     def setUp(self):
-        self.len_a_b = 12
-        self.len_c = 9
-        self.alpha = 0.5
-        self.beta = 0.5
-        self.np_a = np.random.randn(self.len_a_b).astype(np.float32)
-        self.np_b = np.random.randn(self.len_a_b).astype(np.float32)
-        self.np_c = np.random.randn(self.len_c).astype(np.float32)
+        self.len = 24
+        self.np_a = np.random.randn(self.len).astype(np.float32)
         self.dc_a = dc.array(list(self.np_a))
-        self.dc_b = dc.array(list(self.np_b))
-        self.dc_c = dc.array(list(self.np_c))
-    '''
-    def test_Gemm1D (self):
-        npr = temp_gemm(self.np_a, self.np_b)
-        dcr = dc.gemm(self.dc_a, self.dc_b)
+        self.axis = 1
+        self.axis1 = 1
+        self.axis2 = 1
+    def coerce(self,a):
+        for i in range(self.axis):
+          self.axis1 *= a.shape[i]
+        self.axis2 = a.size // self.axis1;
+
+    def test_Hardmax1D (self):
+        npr = (self.np_a.max(0,keepdims=1) == self.np_a)
+        dcr = dc.hardmax(self.dc_a,1)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-    '''
-    def test_Gemm2D (self):
-        transA = 0
-        transB = 0
-        np_a = np.reshape(self.np_a, (3,4))
-        np_b = np.reshape(self.np_b, (4,3))
-        np_c = np.reshape(self.np_c, (3,3))
-        dc_a = dc.reshape(self.dc_a, (3,4))
-        dc_b = dc.reshape(self.dc_b, (4,3))
-        dc_c = dc.reshape(self.dc_c, (3,3))
-        npr = temp_gemm(np_a, np_b, np_c, self.alpha, self.beta, transA, transB)
-        dcr = dc.gemm(dc_a, dc_b, dc_c, self.alpha, self.beta, transA, transB)
+
+    def test_Hardmax2D (self):
+        np_a = np.reshape(self.np_a, (6,4))
+        dc_a = dc.reshape(self.dc_a, (6,4))
+        self.coerce(np_a)
+        np_a = np.reshape(np_a, (self.axis1,self.axis2))
+        npr = (np_a.max(0,keepdims=1)==np_a).astype(float)
+        dcr = dc.hardmax(dc_a,self.axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-    '''
-    def test_Gemm3D (self):
+
+    def test_Hardmax3D (self):
         np_a = np.reshape(self.np_a, (2,4,3))
-        np_b = np.reshape(self.np_b, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3))
-        dc_b = dc.reshape(self.dc_b, (2,4,3))
-
-        npr = temp_gemm(np_a, np_b)
-        dcr = dc.gemm(dc_a, dc_b)
-
+        self.coerce(np_a)
+        np_a = np.reshape(np_a, (self.axis1,self.axis2))
+        npr = (np_a.max(0,keepdims=1)==np_a).astype(float)
+        dcr = dc.hardmax(dc_a,self.axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Gemm4D (self):
+    def test_Hardmax4D (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
-        np_b = np.reshape(self.np_b, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
-        dc_b = dc.reshape(self.dc_b, (2,2,2,3))
-
-        npr = temp_gemm(np_a, np_b)
-        dcr = dc.gemm(dc_a, dc_b)
-
+        self.coerce(np_a)
+        np_a = np.reshape(np_a, (self.axis1,self.axis2))
+        npr = (np_a.max(0,keepdims=1)==np_a).astype(float)
+        dcr = dc.hardmax(dc_a,self.axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-    '''
+
     def tearDown(self):
         return "test finished"
 

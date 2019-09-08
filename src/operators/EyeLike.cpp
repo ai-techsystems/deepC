@@ -29,15 +29,15 @@ using namespace Eigen;
 #ifdef DNNC_EYELIKE_TEST
 #include <iostream>
 int main() {
-  /*float d1[15] = {-1., -2., -3., 1., 2., 3., 4., 5.,
+  float d1[15] = {-1., -2., -3., 1., 2., 3., 4., 5.,
                   6.,  -3., 1.,  2., 3., 4., 5.};
-  tensor<float> a(3, 5);*/
+  tensor<float> a(5, 3);
 
-  float d1[10] = {-1., -2., -3., 1., 2., 3., 4., 5., 6., -3.};
-  tensor<float> a(2, 5);
+  // float d1[10] = {-1., -2., -3., 1., 2., 3., 4., 5., 6., -3.};
+  // tensor<float> a(2, 5);
 
   a.load(d1);
-  int k = 1;
+  int k = -1;
 
   EyeLike<float> m("localOpName", k);
   auto result = m.compute(a);

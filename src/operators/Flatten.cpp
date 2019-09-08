@@ -32,14 +32,15 @@ int main() {
   float d1[36] = {-1., -2., -3., 1.,  2.,  3.,  4.,  5.,  6.,  -1., -2., -3.,
                   1.,  2.,  3.,  4.,  5.,  6.,  -1., -2., -3., 1.,  2.,  3.,
                   4.,  5.,  6.,  -1., -2., -3., 1.,  2.,  3.,  4.,  5.,  6.};
-  tensor<float> a(3, 2, 3, 2);
+  tensor<float> a(1, 36);
   a.load(d1);
-  int axis = 2;
+  int axis = 1;
 
   Flatten<float> m("localOpName", axis);
   auto result = m.compute(a);
 
   std::cout << result;
+  std::cout << result.rank();
   std::cout << "\n";
 
   return 0;

@@ -61,7 +61,8 @@ public:
       : baseOperator<T>(opInstanceNormalization) {
     this->epsilon = epsilon;
   }
-  /*! Compares input datatype with double and float*/
+  /*! Constrain input and output types to float tensors.
+   */
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
@@ -73,7 +74,7 @@ public:
     return false;
   }
   tensor<T>
-  compute(tensor<T> &
+  compute(tensor<T>
               input /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/,
           tensor<T> &scale /*!<  1D vector of dimension C.*/,
           tensor<T> &B /*!< : 1D vector of dimension C.*/) {
@@ -102,18 +103,19 @@ public:
     T mean;
     T var;
     for (size_t i = 0; i < input.shape()[1]; i++) {
-      std::cout << "Current Channel=" << i << "\n";
+      // std::cout << "Current Channel=" << i << "\n";
       for (size_t j = 0; j < input.shape()[0]; j++) {
         for (size_t k = 0; k < size; k++) {
-          std::cout << input(j, i, k) << ',';
+          // std::cout << input(j, i, k) << ',';
           sum += input(j, i, k);
           sq_sum += input(j, i, k) * input(j, i, k);
         }
       }
-      std::cout << "\n";
+      // std::cout << "\n";
       mean = sum / channel_size;
       var = (sq_sum / channel_size - mean * mean);
-      std::cout << "Mean= " << mean << ',' << "Variance=" << var << std::endl;
+      // std::cout << "Mean= " << mean << ',' << "Variance=" << var <<
+      // std::endl;
       for (size_t j = 0; j < input.shape()[0]; j++) {
         for (size_t k = 0; k < size; k++) {
 
@@ -127,5 +129,8 @@ public:
     result.reshape(original_shape);
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape as input.
+  */
 };
 } // namespace dnnc

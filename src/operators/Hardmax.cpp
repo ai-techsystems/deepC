@@ -32,16 +32,16 @@ using namespace Eigen;
 
 int main() {
   float d1[16] = {3, 0, 1, 2, 2, 5, 1, 0, 0, 1, 3, 2, 0, 1, 2, 3};
-  tensor<float> a(4, 2, 2);
+  tensor<float> a(16);
   a.load(d1);
   // tensor<float> b(3,2); b.load(d2);
+  std::cout << a << "\n";
   int axis = 1;
   Hardmax<float> m("localOpName", axis);
   auto result = m.compute(a);
 
   std::cout << result;
   std::cout << "\n";
-
   return 0;
 }
 

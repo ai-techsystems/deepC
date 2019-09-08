@@ -1,6 +1,3 @@
-EyeLike.py
-Flatten.py
-Gemm.py
 Less.py
 LpNormalization.py
 Log.py

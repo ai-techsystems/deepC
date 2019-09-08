@@ -28,27 +28,62 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! \f$ y=(x-x_{0})*x_{scale} \f$*/
+/*! Where \f$ x \f$ is a quantized tensor, \f$x_{0}\f$ is the origin,
+ and \f$x_{scale}\f$ is the scale.*/
+/*! The formula shows how the Dequantize Linear works.*/
+/*! Constraints: \f$x_{scale}\f$ and \f$x_{0}\f$ must have same shape.
+ \f$x_{0}\f$ and \f$ x \f$ must have same type (8-bit/32-bit integer tensor)*/
+
 template <typename T> class DequantizeLinear : public baseOperator<T> {
 public:
   DequantizeLinear(std::string name = "opDequantizeLinear")
       : baseOperator<T>(opDequantizeLinear, name) {}
-  /*
-    void temp_sub(tensor <T> & a, tensor<T> & a_zero_point){
-            for (size_t i = 0; i < a.length(); i++)
-                a[i] -= a_zero_point[0];
-    }
-   */
 
-  tensor<T> compute(tensor<T> &a, tensor<T> &a_scale, tensor<T> &a_zero_point) {
-    if (a_scale.shape() != a_zero_point.shape())
+  /*
+  static T dequantize_linear_function (T a, float a_scale, float a_zero_point) {
+    return ((a - a_zero_point) * a_scale);
+  }
+
+  static bool compare(tensor<T> &a, tensor<T> &x_zero_point) {
+    return ((typeid(a) == typeid(int)) && (typeid(x_zero_point) ==
+  typeid(int)));
+  }
+  */
+
+  tensor<T>
+  compute(tensor<T> &a /*!<N-D quantized input tensor to be de-quantized*/,
+          tensor<T> &x_scale /*!<Scalar tensor*/,
+          tensor<T> &x_zero_point /*!<Scalar tensor*/) {
+    if (x_scale.shape() != x_zero_point.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for DequantizeLinear operator.");
+    /*
+    if (!compare(a,a_zero_point))
+     throw std::invalid_argument(
+         "Constrain input and output types to float tensors.");
+   */
 
     tensor<T> result(a.shape(), a.name());
+
     for (size_t i = 0; i < a.length(); i++)
-      result[i] = (a[i] - a_zero_point[0]) * a_scale[0];
+      result[i] = (a[i] - x_zero_point[0]) * x_scale[0];
+
+    /*
+    float a_zero_point = x_zero_point[0];
+    float a_scale = x_scale[0];
+    a.flatteninplace();
+    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    auto c0 = std::bind(dequantize_linear_function, std::placeholders::_2,
+    a_scale, a_zero_point); eResult.array() = eigenVector.array().unaryExpr(c0);
+    result.load(eResult.data());
+    */
 
     return result;
   }
+  /*!<
+  \return The output tensor as float and of the same shape as input.
+  */
 };
 } // namespace dnnc

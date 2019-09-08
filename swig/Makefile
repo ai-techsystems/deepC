@@ -31,12 +31,20 @@ PYMOD=_dnnc.so
 
 all:$(LIB) VERIFY
 
+# generate extern definitions and apis for swig
+API_MODULES=dnnc.api
+DNNC_API_CPPS=$(API_MODULES:%.api=%_api.cpp)
+$(DNNC_API_CPPS): $(API_MODULES)
+	@echo "generating APIs from $<"
+	$(PYTHON) ./op_gen.py
+
 SWIG_MODULES=dnnc.i
 SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)
-$(SWIG_CPPS):$(SWIG_MODULES)
+$(SWIG_CPPS):$(SWIG_MODULES) 
+	@echo "running swig with $<"
 	$(SWIG) $(SWIG_FLAGS) $(DNNC_INCLUDES) -o $@ $<
 
-CPP_SRCS=$(SWIG_CPPS) $(wildcard *.cpp)
+CPP_SRCS=$(DNNC_API_CPPS) $(SWIG_CPPS) dnnc_pyutils.cpp
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
 	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
@@ -52,12 +60,13 @@ VERIFY:
 	$(PYTHON) ../test/swig/basic.py
 
 clean:
-	$(RM_F) $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc.py dnnc.pyc $(PYMOD) __pycache__
+	$(RM_F) $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc.py dnnc.pyc $(DNNC_API_CPPS) $(PYMOD) __pycache__
 
 .DEFAULT: all
 .PHONY: print_vars
 
 print_vars:
-	@echo $(SWIG_CPPS)
-	@echo $(CPP_SRCS)
-	@echo $(OBJECTS)
+	@echo "DNNC_API : " $(DNNC_API_CPPS)
+	@echo "SWIG_CPPS: " $(SWIG_CPPS)
+	@echo "CPP_SRCS : " $(CPP_SRCS)
+	@echo "OBJECTS  : " $(OBJECTS)

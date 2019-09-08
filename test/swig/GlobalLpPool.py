@@ -24,27 +24,40 @@ import common
 import dnnc as dc
 import numpy as np
 import unittest
+def end_axis(a):
+    reshape_axis = 1
+    for i in range(2,len(a.shape)):
+        reshape_axis *= a.shape[i]
+    return reshape_axis
 
-
-class EyeLikeTest(unittest.TestCase):
-    
+class GlobalLpPoolTest(unittest.TestCase):
     def setUp(self):
-        self.len = 10
-        self.k = np.random.randint(low=-10, high=10)
-        # self.k = 1
+        self.len = 24
         self.np_a = np.random.randn(self.len).astype(np.float32)
         self.dc_a = dc.array(list(self.np_a))
+        self.p = 2
 
+    def test_GlobalLpPool3D (self):
+        np_a = np.reshape(self.np_a, (2,4,3))
+        dc_a = dc.reshape(self.dc_a, (2,4,3))
+        np_a = np.reshape(np_a, (np_a.shape[0],np_a.shape[1],end_axis(np_a)) )
+        npr = np.linalg.norm(np_a,ord = self.p,axis=2)
+        spatial_shape = np.ndim(np_a) -2
+        for _ in range(spatial_shape):
+            npr = np.expand_dims(npr, -1)
+        dcr = dc.global_lp_pool(dc_a,self.p)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
 
-    # EyeLike by default takes 2D tensor only
-
-    def test_EyeLike2D (self):
-        row = 2
-        column = 5
-        np_a = np.reshape(self.np_a, (row,column))
-        dc_a = dc.reshape(self.dc_a, (row,column))
-        npr = np.eye(row, column ,k=self.k)
-        dcr = dc.eye_like(dc_a,self.k)
+    def test_GlobalLpPool4D (self):
+        np_a = np.reshape(self.np_a, (2,2,2,3))
+        dc_a = dc.reshape(self.dc_a, (2,2,2,3))
+        np_a = np.reshape(np_a, (np_a.shape[0],np_a.shape[1],end_axis(np_a)) )
+        npr = np.linalg.norm(np_a,ord = self.p,axis=2)
+        spatial_shape = np.ndim(np_a) -2
+        for _ in range(spatial_shape):
+            npr = np.expand_dims(npr, -1)
+        dcr = dc.global_lp_pool(dc_a,self.p)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -53,4 +66,3 @@ class EyeLikeTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    

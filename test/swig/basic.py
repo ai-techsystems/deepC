@@ -26,7 +26,7 @@ t3.load(data)
 
 arr = dc.array([1, 2])
 #print(arr)
-arr2D = dc.array([[1, 2], [10, 20]])
+arr2D = dc.array([[1, 2], [10, 20]]).astype('int')
 #print(arr2D)
 arrRand = dc.random(2, 3);
 #print(arrRand)
@@ -39,6 +39,7 @@ ones = dc.ones(2, 2);
 ranges = dc.arange(15, 3, 2)
 #print(ranges)
 
+dc.reshape(arr2D, (1,4))
 
 def test_multiply(a,b):
     c = dc.matmul(a, b)

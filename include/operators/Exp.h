@@ -28,15 +28,39 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! Calculates the exponential of the given input tensor, element-wise.
+ \f$ y = e^x \f$ */
+
 template <typename T> class Exp : public baseOperator<T> {
 public:
   Exp(std::string name = "opExp") : baseOperator<T>(opExp, name) {}
 
-  tensor<T> compute(tensor<T> &a) {
+  /*! Constrain input and output types to float tensors.
+   */
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
+
+  tensor<T> compute(tensor<T> &a /*!< : N D tensor input*/) {
+
+    if (!compare())
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+
     tensor<T> result(a.shape(), a.name());
-    for (size_t i = 0; i < a.length(); i++)
-      result[i] = exp(a[i]);
+
+    a.flatteninplace();
+    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+
+    eResult.array() = exp(eigenVector.array());
+
+    result.load(eResult.data());
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape and type as input.
+  */
 };
 } // namespace dnnc

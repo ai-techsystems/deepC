@@ -80,63 +80,63 @@ PyObject *vectorVectorToTuple_Float(const vector<vector<float>> &data) {
 
 vector<float> listTupleToVector_Float(PyObject *incoming) {
   vector<float> data;
-  if (incoming == 0x0)
-    return data;
-
-  if (PyTuple_Check(incoming)) {
+  if (PyFloat_Check(incoming)) {
+    size_t num = PyFloat_AsDouble(incoming);
+    data.push_back(num);
+  } else if (PyTuple_Check(incoming)) {
     for (Py_ssize_t i = 0; i < PyTuple_Size(incoming); i++) {
       PyObject *value = PyTuple_GetItem(incoming, i);
       data.push_back(PyFloat_AsDouble(value));
     }
-  } else {
-    if (PyList_Check(incoming)) {
-      for (Py_ssize_t i = 0; i < PyList_Size(incoming); i++) {
-        PyObject *value = PyList_GetItem(incoming, i);
-        data.push_back(PyFloat_AsDouble(value));
-      }
-    } else {
-      throw logic_error("Passed PyObject pointer was not a list or tuple!");
+  } else if (PyList_Check(incoming)) {
+    for (Py_ssize_t i = 0; i < PyList_Size(incoming); i++) {
+      PyObject *value = PyList_GetItem(incoming, i);
+      data.push_back(PyFloat_AsDouble(value));
     }
+  } else {
+    throw logic_error("Passed PyObject pointer was not a list or tuple!");
   }
   return data;
 }
 
 vector<int> listTupleToVector_Int(PyObject *incoming) {
   vector<int> data;
-  if (PyTuple_Check(incoming)) {
+  if (PyLong_Check(incoming)) {
+    size_t num = PyLong_AsLong(incoming);
+    data.push_back(num);
+  } else if (PyTuple_Check(incoming)) {
     for (Py_ssize_t i = 0; i < PyTuple_Size(incoming); i++) {
       PyObject *value = PyTuple_GetItem(incoming, i);
-      data.push_back(PyFloat_AsDouble(value));
+      data.push_back(PyLong_AsLong(value));
+    }
+  } else if (PyList_Check(incoming)) {
+    for (Py_ssize_t i = 0; i < PyList_Size(incoming); i++) {
+      PyObject *value = PyList_GetItem(incoming, i);
+      data.push_back(PyLong_AsLong(value));
     }
   } else {
-    if (PyList_Check(incoming)) {
-      for (Py_ssize_t i = 0; i < PyList_Size(incoming); i++) {
-        PyObject *value = PyList_GetItem(incoming, i);
-        data.push_back(PyFloat_AsDouble(value));
-      }
-    } else {
-      throw logic_error("Passed PyObject pointer was not a list or tuple!");
-    }
+    throw logic_error("Passed PyObject pointer was not a list or tuple!");
   }
   return data;
 }
 
 vector<size_t> listTupleToVector_SizeT(PyObject *incoming) {
   vector<size_t> data;
-  if (PyTuple_Check(incoming)) {
+  if (PyLong_Check(incoming)) {
+    size_t num = PyLong_AsSize_t(incoming);
+    data.push_back(num);
+  } else if (PyTuple_Check(incoming)) {
     for (Py_ssize_t i = 0; i < PyTuple_Size(incoming); i++) {
       PyObject *value = PyTuple_GetItem(incoming, i);
-      data.push_back(PyFloat_AsDouble(value));
+      data.push_back(PyLong_AsSize_t(value));
+    }
+  } else if (PyList_Check(incoming)) {
+    for (Py_ssize_t i = 0; i < PyList_Size(incoming); i++) {
+      PyObject *value = PyList_GetItem(incoming, i);
+      data.push_back(PyLong_AsSize_t(value));
     }
   } else {
-    if (PyList_Check(incoming)) {
-      for (Py_ssize_t i = 0; i < PyList_Size(incoming); i++) {
-        PyObject *value = PyList_GetItem(incoming, i);
-        data.push_back(PyFloat_AsDouble(value));
-      }
-    } else {
-      throw logic_error("Passed PyObject pointer was not a list or tuple!");
-    }
+    throw logic_error("Passed PyObject pointer was not a list or tuple!");
   }
   return data;
 }

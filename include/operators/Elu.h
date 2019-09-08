@@ -28,14 +28,26 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! \f$
+ * f(x)=\alpha\times(e^{x}-1),\;\;\;for\;x<0\;;\\f(x)=x,\;\;\;for\;x\geq0\;;
+ * \f$*/
+/*! The formula shows how the Elu operator works.*/
+/*! And this formulation became part of dnn compiler operator implementation.
+ * The operator is O(n) where n = Number of elements in the tensor*/
+
 template <typename T> class Elu : public baseOperator<T> {
 protected:
-  float alpha = 1.0;
+  float alpha = 1.0; /*!< Coefficient of ELU. */
 
 public:
   Elu(std::string name = "opElu", float alpha = 1.0)
       : baseOperator<T>(opElu, name) {
     this->alpha = alpha;
+  }
+  /*! Compares input datatype with double and float*/
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
 
   bool getAttribute(OPATTR attrName, float &obj) {
@@ -45,21 +57,33 @@ public:
     }
     return false;
   }
+  /*! Element wise Elu-Function*/
+  static T elu_function(T x, float alpha) {
+    return (x < 0) ? (alpha * (exp(x) - 1.)) : x;
+  }
 
-  tensor<T> compute(tensor<T> &input) {
-    if (input.rank() != 1)
+  tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
+
+    if (!compare())
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+
+    if (a.rank() != 1)
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Elu operator.");
 
-    tensor<T> result(input.shape(), input.name());
-    for (size_t i = 0; i < input.length(); i++)
-      /*
-      f(x) = alpha * (exp(x) - 1.) for x < 0
-                 x for x >= 0
-      */
-      result[i] = (input[i] < 0) ? (alpha * (exp(input[i]) - 1.)) : input[i];
+    tensor<T> result(a.shape(), a.name());
+    a.flatteninplace();
+    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    auto c0 = std::bind(elu_function, std::placeholders::_1, alpha);
+    eResult.array() = eigenVector.array().unaryExpr(c0);
+    result.load(eResult.data());
 
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape as input.
+  */
 };
 } // namespace dnnc

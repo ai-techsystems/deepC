@@ -28,9 +28,12 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! GlobalLpPool consumes an input tensor X and applies lp pool pooling across
+ * the values in the same channel. This is equivalent to LpPool with kernel size
+ * equal to the spatial dimension of input tensor.*/
 template <typename T> class GlobalLpPool : public baseOperator<T> {
 protected:
-  int p = 2;
+  int p = 2; /*!< p value of the Lp norm used to pool over the input data. */
 
 public:
   GlobalLpPool(std::string name = "opGlobalLpPool", int p = 2)
@@ -47,20 +50,24 @@ public:
   static bool compare() {
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
-  tensor<T> compute(tensor<T> &a) {
+  tensor<T> compute(
+      tensor<T> a /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
-    // Reshaping the tensor to 3D.
     size_t axis_left = 1;
     for (int i = 2; i < int(a.rank()); i++) {
       axis_left *= a.shape()[i];
     }
+    size_t rank = a.rank();
     std::vector<size_t> shape{a.shape()[0], a.shape()[1], axis_left};
     a.reshape(shape);
-
+    shape.pop_back();
+    for (int i = 2; i < int(rank); i++) {
+      shape.push_back(1);
+    }
     int cummulation = axis_left;
-    tensor<T> result(a.shape()[0], a.shape()[1]);
+    tensor<T> result(shape);
     int j = 0;
     double sum = 0;
     for (size_t i = 0; i < a.length(); i++) {
@@ -72,5 +79,10 @@ public:
     }
     return result;
   }
+  /*!<
+  \return Output data tensor from pooling across the input tensor. The output
+  tensor has the same rank as the input. The first two dimensions of output
+  shape are the same as the input (N x C), while the other dimensions are all 1.
+  */
 };
 } // namespace dnnc
