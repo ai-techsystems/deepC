@@ -204,6 +204,8 @@ public:
   tensor<float> asTypeFloat() { return asType<float>(); }
   /// \brief return a copy of the tensor, cast to int
   tensor<int> asTypeInt() { return asType<int>(); }
+  /// \brief return a copy of the tensor, cast to long
+  tensor<long> asTypeLong() { return asType<long>(); }
   /// \brief return a copy of the tensor, cast to bool
   tensor<bool> asTypeBool() { return asType<bool>(); }
 
@@ -245,13 +247,13 @@ public:
     if (rank() == 0) {
       str += "null tensor";
     } else if (rank() == 1) {
-      str += "\n[";
+      str += "[";
       size_t i = 0;
       for (i = 0; i < length() && i < max_el; i++)
         str += (i ? " " : "") + std::to_string(_mem_layout[i]);
       str += i == max_el ? "...]" : "]";
     } else if (rank() == 2) {
-      str += "\n[";
+      str += "[";
       size_t i = 0;
       for (i = 0; i < _shape[0] && i < max_el; i++) {
         str += i ? "\n [" : "[";
@@ -264,7 +266,7 @@ public:
       }
       str += i == max_el ? "...]" : "]";
     } else if (rank() == 3) {
-      str += "\n[";
+      str += "[";
       size_t i = 0;
       for (i = 0; i < _shape[0] && i < max_el; i++) {
         str += i ? "\n [" : "[";
@@ -282,7 +284,7 @@ public:
       }
       str += i == max_el ? "...]" : "]";
     } else if (rank() == 4) {
-      str += "\n[";
+      str += "[";
       size_t i = 0;
       for (i = 0; i < _shape[0] && i < max_el; i++) {
         str += i ? "\n [" : "[";
@@ -306,33 +308,9 @@ public:
       }
       str += i == max_el ? "...]" : "]";
     }
-    return str + "\n";
+    return str ;
   }
 
-#ifdef SWIGPYTHON
-  // TODO: Move these two methods to tensor.i
-  char *__str__() {
-    std::string str = to_string();
-    size_t sz = str.size();
-    char *result = (char *)malloc(sz + 1);
-    for (size_t i = 0; i < str.size(); i++)
-      result[i] = str.at(i);
-    result[sz] = '\0';
-    return result;
-  }
-  char *__repr__() {
-    std::string str;
-    for (size_t i = 0; i < length(); i++)
-      str += std::to_string(_mem_layout[i]) + ' ';
-
-    size_t sz = str.size();
-    char *result = (char *)malloc(sz + 1);
-    for (size_t i = 0; i < str.size(); i++)
-      result[i] = str.at(i);
-    result[sz] = '\0';
-    return result;
-  }
-#endif
   /// \brief return 1D flat array
   const std::vector<T> data() const {
     return isnull() ? std::vector<T>()
