@@ -75,23 +75,3 @@ namespace std {
 #include "dnnc_swig_externs.h"
 %}
 
-%pythoncode %{
-    def astype(self, newType):
-      if ( newType == "double" ) :
-        return self.asTypeDouble();
-      elif ( newType == "float" ) :
-        return self.asTypeFloat();
-      elif ( newType == "int" ) :
-        return self.asTypeInt();
-      elif ( newType == "bool" ) :
-        return self.asTypeBool();
-      else:
-        raise ValueError("unsupported data type {} \n".format(newType))
-      
-      return self
-
-    bTensor.astype = astype;
-    iTensor.astype = astype;
-    fTensor.astype = astype;
-    dTensor.astype = astype;
-%}

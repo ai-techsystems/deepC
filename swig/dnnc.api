@@ -61,8 +61,6 @@
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
-using namespace dnnc;
-
 /*## (Don't remove the '##', it indicates the split line)
 The code above this commented block will be copied as it is. 
 Keep in mind, this file is "\n" and "whitespace" sensitive,
@@ -444,6 +442,6 @@ tensor<float> max(std::vector<tensor<float>> a) {
 }
 
 tensor<float> transpose(tensor<float> &a) {
-	dnnc::Transpose<float> op;
+	Transpose<float> op;
 	return op.compute(a);
 }

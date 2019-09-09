@@ -34,6 +34,26 @@ namespace dnnc {
    broadcasting.*/
 
 template <typename T> class Add : public baseOperator<T> {
+protected:
+  template <typename Scalar>
+  inline DNNC_EIGEN_VECTOR_CTOR(Scalar)
+      eigenArrayAdd(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
+    return a.array() + b.array();
+  }
+  // Eigen does not support add operator for bool
+  // So specialiazation is needed to work around that limitation.
+  // Bug Ref: http://eigen.tuxfamily.org/bz/show_bug.cgi?id=426
+  inline DNNC_EIGEN_VECTOR_CTOR(bool)
+      eigenArrayAdd(Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &b) {
+    auto eigenVectorIA = a.template cast<uint8_t>();
+    auto eigenVectorIB = b.template cast<uint8_t>();
+    DNNC_EIGEN_VECTOR_CTOR(uint8_t) eIResult;
+    eIResult.array() = eigenVectorIA.array() + eigenVectorIB.array();
+    return eIResult.template cast<bool>();
+  }
+
 public:
   Add(std::string name = "opAdd") : baseOperator<T>(opAdd, name) {}
   tensor<T> compute(tensor<T> a /*!< : N D tensor input*/,
@@ -46,15 +66,13 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Add operator.");
     // Written for arbitrary Dimension.
-    a.flatteninplace();
-    b.flatteninplace();
 
-    DNNC_EIGEN_VECTOR(eigenVectorA, a);
-    DNNC_EIGEN_VECTOR(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(T)
+    eResult = eigenArrayAdd(eigenVectorA, eigenVectorB);
 
-    eResult.array() = eigenVectorA.array() + eigenVectorB.array();
     result.load(eResult.data());
 
     return result;

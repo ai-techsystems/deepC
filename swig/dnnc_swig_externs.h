@@ -20,159 +20,162 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 
-extern dnnc::tensor<float> \
+namespace dnnc {
+extern tensor<float> \
 		 array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
-extern dnnc::tensor<float> \
+extern tensor<float> \
 		 empty(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
-extern dnnc::tensor<float> \
+extern tensor<float> \
 		 zeros(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
-extern dnnc::tensor<float> \
+extern tensor<float> \
 		 ones(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
-extern dnnc::tensor<float> \
+extern tensor<float> \
 		 random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
-extern dnnc::tensor<float> \
+extern tensor<float> \
 		 array(PyObject *objects) ;
-extern dnnc::tensor<float> \
+extern tensor<float> \
 		 arange(size_t stop, size_t start = 0, size_t step = 1) ;
-extern dnnc::tensor<double> \
-		 reshape(dnnc::tensor<double> &tens_obj, PyObject *newShape) ;
-extern dnnc::tensor<float> \
-		 reshape(dnnc::tensor<float> &tens_obj, PyObject *newShape) ;
-extern dnnc::tensor<int> \
-		 reshape(dnnc::tensor<int> &tens_obj, PyObject *newShape) ;
-extern dnnc::tensor<bool> \
-		 reshape(dnnc::tensor<bool> &tens_obj, PyObject *newShape) ;
-extern dnnc::tensor<double> \
-		 matmul(dnnc::tensor<double> &a, dnnc::tensor<double> &b) ;
-extern dnnc::tensor<float> \
-		 matmul(dnnc::tensor<float> &a, dnnc::tensor<float> &b) ;
-extern dnnc::tensor<int> \
-		 matmul(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
-extern dnnc::tensor<double> \
-		 add(dnnc::tensor<double> &a, dnnc::tensor<double> &b) ;
-extern dnnc::tensor<float> \
-		 add(dnnc::tensor<float> &a, dnnc::tensor<float> &b) ;
-extern dnnc::tensor<int> \
-		 add(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
-extern dnnc::tensor<float> \
-		 dequantize_linear(dnnc::tensor<float> &a, dnnc::tensor<float> &b, dnnc::tensor<float> &c) ;
-extern dnnc::tensor<double> \
-		 div(dnnc::tensor<double> &a, dnnc::tensor<double> &b) ;
-extern dnnc::tensor<float> \
-		 div(dnnc::tensor<float> &a, dnnc::tensor<float> &b) ;
-extern dnnc::tensor<int> \
-		 div(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
-extern dnnc::tensor<double> \
-		 elu(dnnc::tensor<double> &a, float alpha = 1.0) ;
-extern dnnc::tensor<float> \
-		 elu(dnnc::tensor<float> &a, float alpha = 1.0) ;
-extern dnnc::tensor<bool> \
-		 equal(dnnc::tensor<double> &a, dnnc::tensor<double> &b) ;
-extern dnnc::tensor<bool> \
-		 equal(dnnc::tensor<float> &a, dnnc::tensor<float> &b) ;
-extern dnnc::tensor<bool> \
-		 equal(dnnc::tensor<bool> &a, dnnc::tensor<bool> &b) ;
-extern dnnc::tensor<bool> \
-		 equal(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
-extern dnnc::tensor<double> \
-		 erf(dnnc::tensor<double> &a) ;
-extern dnnc::tensor<float> \
-		 erf(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<double> \
-		 exp(dnnc::tensor<double> &a) ;
-extern dnnc::tensor<float> \
-		 exp(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<double> \
-		 eye_like(dnnc::tensor<double> &a, int k = 0) ;
-extern dnnc::tensor<float> \
-		 eye_like(dnnc::tensor<float> &a, int k = 0) ;
-extern dnnc::tensor<int> \
-		 eye_like(dnnc::tensor<int> &a, int k = 0) ;
-extern dnnc::tensor<bool> \
-		 eye_like(dnnc::tensor<bool> &a, int k = 0) ;
-extern dnnc::tensor<double> \
-		 flatten(dnnc::tensor<double> &a, int axis = 1) ;
-extern dnnc::tensor<float> \
-		 flatten(dnnc::tensor<float> &a, int axis = 1) ;
-extern dnnc::tensor<int> \
-		 flatten(dnnc::tensor<int> &a, int axis = 1) ;
-extern dnnc::tensor<bool> \
-		 flatten(dnnc::tensor<bool> &a, int axis = 1) ;
-extern dnnc::tensor<double> \
-		 floor(dnnc::tensor<double> &a) ;
-extern dnnc::tensor<float> \
-		 floor(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<double> \
-		 gemm(dnnc::tensor<double> &a, dnnc::tensor<double> &b, dnnc::tensor<double> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) ;
-extern dnnc::tensor<float> \
-		 gemm(dnnc::tensor<float> &a, dnnc::tensor<float> &b, dnnc::tensor<float> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) ;
-extern dnnc::tensor<float> \
-		 global_average_pool(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<double> \
-		 global_average_pool(dnnc::tensor<double> &a) ;
-extern dnnc::tensor<float> \
-		 global_lp_pool(dnnc::tensor<float> &a, int p = 2) ;
-extern dnnc::tensor<double> \
-		 global_lp_pool(dnnc::tensor<double> &a, int p = 2) ;
-extern dnnc::tensor<float> \
-		 global_max_pool(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<double> \
-		 global_max_pool(dnnc::tensor<double> &a) ;
-extern dnnc::tensor<bool> \
-		 greater(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
-extern dnnc::tensor<bool> \
-		 greater(dnnc::tensor<float> &a, dnnc::tensor<float> &b) ;
-extern dnnc::tensor<bool> \
-		 greater(dnnc::tensor<double> &a, dnnc::tensor<double> &b) ;
-extern dnnc::tensor<float> \
-		 hardmax(dnnc::tensor<float> &a, int axis = 0) ;
-extern dnnc::tensor<double> \
-		 hardmax(dnnc::tensor<double> &a, int axis = 0) ;
-extern dnnc::tensor<float> \
-		 hardsigmoid(dnnc::tensor<float> &a, float alpha = 0.2,float beta = 0.5) ;
-extern dnnc::tensor<double> \
-		 hardsigmoid(dnnc::tensor<double> &a, float alpha = 0.2,float beta = 0.5) ;
-extern dnnc::tensor<bool> \
-		 identity(dnnc::tensor<bool> &a) ;
-extern dnnc::tensor<int> \
-		 identity(dnnc::tensor<int> &a) ;
-extern dnnc::tensor<float> \
-		 identity(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<double> \
-		 identity(dnnc::tensor<double> &a) ;
-extern dnnc::tensor<float> \
-		 instancenormalization(dnnc::tensor<float> &a, dnnc::tensor<float> &scale,dnnc::tensor<float> &B, float epsilon = 1e-5) ;
-extern dnnc::tensor<double> \
-		 instancenormalization(dnnc::tensor<double> &a, dnnc::tensor<double> &scale,dnnc::tensor<double> &B, float epsilon = 1e-5) ;
-extern dnnc::tensor<bool> \
-		 isinf(dnnc::tensor<float> &a, int detect_positive = 1,int detect_negative = 1) ;
-extern dnnc::tensor<bool> \
-		 isinf(dnnc::tensor<double> &a, int detect_positive = 1,int detect_negative = 1) ;
-extern dnnc::tensor<bool> \
-		 isnan(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<bool> \
-		 isnan(dnnc::tensor<double> &a) ;
-extern dnnc::tensor<float> \
-		 lrn(dnnc::tensor<float> &a, int size, float alpha = 0.0001,float beta = 0.75, float bias = 1.0) ;
-extern dnnc::tensor<double> \
-		 lrn(dnnc::tensor<double> &a, int size, float alpha = 0.0001,float beta = 0.75, float bias = 1.0) ;
-extern dnnc::tensor<float> \
-		 leakyrelu(dnnc::tensor<float> &a, float alpha = 0.01) ;
-extern dnnc::tensor<double> \
-		 leakyrelu(dnnc::tensor<double> &a, float alpha = 0.01) ;
-extern dnnc::tensor<float> \
-		 thresholded_relu(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<bool> \
-		 less(dnnc::tensor<float> &a, dnnc::tensor<float> &b) ;
-extern dnnc::tensor<float> \
-		 log(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<float> \
-		 logsoftmax(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<float> \
-		 lpnormalization(dnnc::tensor<float> &a) ;
-extern dnnc::tensor<int> \
-		 matmulinteger(dnnc::tensor<int> &a, dnnc::tensor<int> &b) ;
-extern dnnc::tensor<float> \
-		 max(std::vector<dnnc::tensor<float>> a) ;
-extern dnnc::tensor<float> \
-		 transpose(dnnc::tensor<float> &a) ;
+extern tensor<double> \
+		 reshape(tensor<double> &tens_obj, PyObject *newShape) ;
+extern tensor<float> \
+		 reshape(tensor<float> &tens_obj, PyObject *newShape) ;
+extern tensor<int> \
+		 reshape(tensor<int> &tens_obj, PyObject *newShape) ;
+extern tensor<bool> \
+		 reshape(tensor<bool> &tens_obj, PyObject *newShape) ;
+extern tensor<double> \
+		 matmul(tensor<double> &a, tensor<double> &b) ;
+extern tensor<float> \
+		 matmul(tensor<float> &a, tensor<float> &b) ;
+extern tensor<int> \
+		 matmul(tensor<int> &a, tensor<int> &b) ;
+extern tensor<double> \
+		 add(tensor<double> &a, tensor<double> &b) ;
+extern tensor<float> \
+		 add(tensor<float> &a, tensor<float> &b) ;
+extern tensor<int> \
+		 add(tensor<int> &a, tensor<int> &b) ;
+extern tensor<float> \
+		 dequantize_linear(tensor<float> &a, tensor<float> &b, tensor<float> &c) ;
+extern tensor<double> \
+		 div(tensor<double> &a, tensor<double> &b) ;
+extern tensor<float> \
+		 div(tensor<float> &a, tensor<float> &b) ;
+extern tensor<int> \
+		 div(tensor<int> &a, tensor<int> &b) ;
+extern tensor<double> \
+		 elu(tensor<double> &a, float alpha = 1.0) ;
+extern tensor<float> \
+		 elu(tensor<float> &a, float alpha = 1.0) ;
+extern tensor<bool> \
+		 equal(tensor<double> &a, tensor<double> &b) ;
+extern tensor<bool> \
+		 equal(tensor<float> &a, tensor<float> &b) ;
+extern tensor<bool> \
+		 equal(tensor<bool> &a, tensor<bool> &b) ;
+extern tensor<bool> \
+		 equal(tensor<int> &a, tensor<int> &b) ;
+extern tensor<double> \
+		 erf(tensor<double> &a) ;
+extern tensor<float> \
+		 erf(tensor<float> &a) ;
+extern tensor<double> \
+		 exp(tensor<double> &a) ;
+extern tensor<float> \
+		 exp(tensor<float> &a) ;
+extern tensor<double> \
+		 eye_like(tensor<double> &a, int k = 0) ;
+extern tensor<float> \
+		 eye_like(tensor<float> &a, int k = 0) ;
+extern tensor<int> \
+		 eye_like(tensor<int> &a, int k = 0) ;
+extern tensor<bool> \
+		 eye_like(tensor<bool> &a, int k = 0) ;
+extern tensor<double> \
+		 flatten(tensor<double> &a, int axis = 1) ;
+extern tensor<float> \
+		 flatten(tensor<float> &a, int axis = 1) ;
+extern tensor<int> \
+		 flatten(tensor<int> &a, int axis = 1) ;
+extern tensor<bool> \
+		 flatten(tensor<bool> &a, int axis = 1) ;
+extern tensor<double> \
+		 floor(tensor<double> &a) ;
+extern tensor<float> \
+		 floor(tensor<float> &a) ;
+extern tensor<double> \
+		 gemm(tensor<double> &a, tensor<double> &b, tensor<double> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) ;
+extern tensor<float> \
+		 gemm(tensor<float> &a, tensor<float> &b, tensor<float> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) ;
+extern tensor<float> \
+		 global_average_pool(tensor<float> &a) ;
+extern tensor<double> \
+		 global_average_pool(tensor<double> &a) ;
+extern tensor<float> \
+		 global_lp_pool(tensor<float> &a, int p = 2) ;
+extern tensor<double> \
+		 global_lp_pool(tensor<double> &a, int p = 2) ;
+extern tensor<float> \
+		 global_max_pool(tensor<float> &a) ;
+extern tensor<double> \
+		 global_max_pool(tensor<double> &a) ;
+extern tensor<bool> \
+		 greater(tensor<int> &a, tensor<int> &b) ;
+extern tensor<bool> \
+		 greater(tensor<float> &a, tensor<float> &b) ;
+extern tensor<bool> \
+		 greater(tensor<double> &a, tensor<double> &b) ;
+extern tensor<float> \
+		 hardmax(tensor<float> &a, int axis = 0) ;
+extern tensor<double> \
+		 hardmax(tensor<double> &a, int axis = 0) ;
+extern tensor<float> \
+		 hardsigmoid(tensor<float> &a, float alpha = 0.2,float beta = 0.5) ;
+extern tensor<double> \
+		 hardsigmoid(tensor<double> &a, float alpha = 0.2,float beta = 0.5) ;
+extern tensor<bool> \
+		 identity(tensor<bool> &a) ;
+extern tensor<int> \
+		 identity(tensor<int> &a) ;
+extern tensor<float> \
+		 identity(tensor<float> &a) ;
+extern tensor<double> \
+		 identity(tensor<double> &a) ;
+extern tensor<float> \
+		 instancenormalization(tensor<float> &a, tensor<float> &scale,tensor<float> &B, float epsilon = 1e-5) ;
+extern tensor<double> \
+		 instancenormalization(tensor<double> &a, tensor<double> &scale,tensor<double> &B, float epsilon = 1e-5) ;
+extern tensor<bool> \
+		 isinf(tensor<float> &a, int detect_positive = 1,int detect_negative = 1) ;
+extern tensor<bool> \
+		 isinf(tensor<double> &a, int detect_positive = 1,int detect_negative = 1) ;
+extern tensor<bool> \
+		 isnan(tensor<float> &a) ;
+extern tensor<bool> \
+		 isnan(tensor<double> &a) ;
+extern tensor<float> \
+		 lrn(tensor<float> &a, int size, float alpha = 0.0001,float beta = 0.75, float bias = 1.0) ;
+extern tensor<double> \
+		 lrn(tensor<double> &a, int size, float alpha = 0.0001,float beta = 0.75, float bias = 1.0) ;
+extern tensor<float> \
+		 leakyrelu(tensor<float> &a, float alpha = 0.01) ;
+extern tensor<double> \
+		 leakyrelu(tensor<double> &a, float alpha = 0.01) ;
+extern tensor<float> \
+		 thresholded_relu(tensor<float> &a) ;
+extern tensor<bool> \
+		 less(tensor<float> &a, tensor<float> &b) ;
+extern tensor<float> \
+		 log(tensor<float> &a) ;
+extern tensor<float> \
+		 logsoftmax(tensor<float> &a) ;
+extern tensor<float> \
+		 lpnormalization(tensor<float> &a) ;
+extern tensor<int> \
+		 matmulinteger(tensor<int> &a, tensor<int> &b) ;
+extern tensor<float> \
+		 max(std::vector<tensor<float>> a) ;
+extern tensor<float> \
+		 transpose(tensor<float> &a) ;
+
+}

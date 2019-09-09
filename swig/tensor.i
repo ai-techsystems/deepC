@@ -28,6 +28,7 @@
 %include "core/tensor.h"
 %{
 #include <core/tensor.h>
+#include <operators/Add.h>
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %}
 
@@ -44,6 +45,16 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     $self->load(data, vIndices);
     return ;
   }
+  /* binary operators */
+  dnnc::tensor<T> __add__(dnnc::tensor<T>& other) {
+    dnnc::Add<T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  /* assignment operators */
+  dnnc::tensor<T> __iadd__(dnnc::tensor<T>& other) {
+    dnnc::Add<T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
 }
 %template(bTensor) dnnc::tensor<bool>;
 %template(iTensor) dnnc::tensor<int>;
@@ -53,3 +64,24 @@ namespace std {
   %template(itvec) vector<dnnc::tensor<int> >;
   %template(ftvec) vector<dnnc::tensor<float> >;
 }
+
+%pythoncode %{
+    def astype(self, newType):
+      if ( newType == "double" ) :
+        return self.asTypeDouble();
+      elif ( newType == "float" ) :
+        return self.asTypeFloat();
+      elif ( newType == "int" ) :
+        return self.asTypeInt();
+      elif ( newType == "bool" ) :
+        return self.asTypeBool();
+      else:
+        raise ValueError("unsupported data type {} \n".format(newType))
+      
+      return self
+
+    bTensor.astype = astype;
+    iTensor.astype = astype;
+    fTensor.astype = astype;
+    dTensor.astype = astype;
+%}

@@ -61,8 +61,7 @@
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
-using namespace dnnc;
-
+namespace dnnc {
 tensor<float> array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
 	return tensor<float>(x, y, z, w, "", dnnc::INIT_RANDOM);
 }
@@ -561,8 +560,10 @@ tensor<float> max(std::vector<tensor<float>> a) {
 }
 
 tensor<float> transpose(tensor<float> &a) {
-	dnnc::Transpose<float> op;
+	Transpose<float> op;
 	return op.compute(a);
 }
 
 
+
+}

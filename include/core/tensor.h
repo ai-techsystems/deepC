@@ -310,6 +310,7 @@ public:
   }
 
 #ifdef SWIGPYTHON
+  // TODO: Move these two methods to tensor.i
   char *__str__() {
     std::string str = to_string();
     size_t sz = str.size();

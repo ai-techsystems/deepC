@@ -43,19 +43,19 @@ def get_dtype_dictionary(s):
 
 def remove_dtype(s):
 	dtype_string = ""
-	
+
 	if "\tdtype" in s:
 		dtype_string = s[s.find("\tdtype"):s.find("}",s.find("dtype"))+2]
 	elif "  dtype" in s:
 		dtype_string = s[s.find("  dtype"):s.find("}",s.find("dtype"))+2]
 	else:
 		dtype_string = s[s.find("dtype"):s.find("}",s.find("dtype"))+2]
-	
+
 	s = s.replace("} ","}").replace(dtype_string,"")
 	return s
 
 def get_swig_extern(s):
-	s = "extern "+s.split("{")[0].replace(">","> \\\n\t\t",1).replace("tensor","dnnc::tensor")+";\n"
+	s = "extern "+s.split("{")[0].replace(">","> \\\n\t\t",1)+";\n"
 	return s
 
 def main():
@@ -66,24 +66,24 @@ def main():
 	except:
 		print("'dnnc.api' not found !")
 		return
-	
+
 	else:
 		split_position = contents.find("/*##")
-		cpp_file = contents[:split_position]
-		swig_extern_file = contents.split("#include")[0]
+		cpp_file = contents[:split_position] + "namespace dnnc {\n";
+		swig_extern_file = contents.split("#include")[0] + "namespace dnnc {\n";
 		contents = remove_comments(contents)
-		
+
 		if check_comments(contents):
 			return
 
 		for content in contents[split_position:].split("\n\n"):
 
 			if "<output>" not in content and "<input>" not in content:
-				
+
 				if "dtype" in content:
 					print("input output not mentioned, try again!")
 					return
-				
+
 				temp = content + "\n\n"
 				cpp_file += temp
 				temp = get_swig_extern(temp)
@@ -109,11 +109,11 @@ def main():
 
 		with open ("dnnc_api.cpp" ,"w") as f:
 			print("Saving 'dnnc_api.cpp'")
-			f.write(cpp_file)
-		
+			f.write(cpp_file + "\n}\n")
+
 		with open ("dnnc_swig_externs.h" ,"w") as f:
 			print("Saving 'dnnc_swig_externs.h'")
-			f.write(swig_extern_file)
+			f.write(swig_extern_file + "\n}\n")
 
 if __name__=="__main__":
 	main()
