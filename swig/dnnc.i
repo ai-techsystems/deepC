@@ -69,9 +69,7 @@ namespace std {
 }
 
 %include "tensor.i"
-%include "dnnc_swig_externs.h"
 
 %{
-#include "dnnc_swig_externs.h"
 %}
 

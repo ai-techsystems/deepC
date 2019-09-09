@@ -169,7 +169,7 @@ public:
   }
   /*! Description: creates a deep copy of the tensor
    * Returns: new tensor*/
-  tensor<T> copy() {
+  tensor<T> copy() const {
     if (isnull())
       return NULL_TENSOR<T>;
 
@@ -178,6 +178,26 @@ public:
 
     return result;
   }
+  /// \brief invert the sign of each element of the tensor
+  tensor<T> negate() const {
+    tensor<T> result = copy();
+    DIMENSION msize = result.length(); // flat array length
+    for (size_t i = 0; i < msize; i++)
+      result._mem_layout[i] = -_mem_layout[i];
+
+    return result;
+  }
+  /// \brief absolute value of each element of the tensor
+  tensor<T> absolute() const {
+    tensor<T> result = copy();
+    DIMENSION msize = result.length(); // flat array length
+    for (size_t i = 0; i < msize; i++)
+      result._mem_layout[i] =
+          _mem_layout[i] < static_cast<T>(0) ? -_mem_layout[i] : _mem_layout[i];
+
+    return result;
+  }
+  /// \brief identifier of the tensor
   /// \brief identifier of the tensor
   size_t identifier() const {
     return reinterpret_cast<size_t>(_mem_layout - 0xfff);
@@ -308,7 +328,7 @@ public:
       }
       str += i == max_el ? "...]" : "]";
     }
-    return str ;
+    return str;
   }
 
   /// \brief return 1D flat array
