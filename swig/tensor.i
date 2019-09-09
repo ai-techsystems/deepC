@@ -29,7 +29,7 @@
 %include "dnnc_swig_externs.h"
 %{
 #include <object.h> // where Py_LT, Pt_GT are defined.
-#include <core/tensor.h>
+#include "core/tensor.h"
 #include "operators/Add.h"
 #include "operators/Equal.h"
 #include "operators/Less.h"
@@ -45,19 +45,9 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 //%feature("python:slot",  "sq_ass_slice", functype="ssizessizeobjargproc")   __setslice__;
 %feature("python:slot",    "sq_length", functype="lenfunc")                   dnnc::tensor::length;
 %feature("python:slot",    "nb_nonzero", functype="inquiry")                  dnnc::tensor::__nonzero__;
+%feature("python:slot",    "nb_bool", functype="inquiry")                     dnnc::tensor::operator bool;
 %feature("python:slot",    "tp_repr", functype="reprfunc")                    dnnc::tensor::__str__;
 %feature("python:slot",    "tp_str", functype="reprfunc")                     dnnc::tensor::__repr__;
-%feature("python:slot",    "unaryfunc", functype="nb_negative")               dnnc::tensor::__neg__;
-%feature("python:slot",    "unaryfunc", functype="nb_absolute")               dnnc::tensor::__abs__;
-%feature("python:slot",    "binaryfunc", functype="nb_add")                   dnnc::tensor::__add__;
-%feature("python:slot",    "binaryfunc", functype="nb_inplace_add")           dnnc::tensor::__iadd__;
-%feature("python:slot",    "binaryfunc", functype="nb_subtract")              dnnc::tensor::__sub__;
-%feature("python:slot",    "binaryfunc", functype="nb_inplace_subtract")      dnnc::tensor::__isub__;
-%feature("python:compare", "Py_LT")                                           dnnc::tensor::__lt__;
-%feature("python:compare", "Py_GT")                                           dnnc::tensor::__gt__;
-%feature("python:compare", "Py_EQ")                                           dnnc::tensor::__eq__;
-
-
 #endif // SWIGPYTHON_BUILTIN
 
 %extend dnnc::tensor {
@@ -71,11 +61,12 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     $self->load(data, vIndices);
     return ;
   }
+  %pybinoperator(__nonzero__, dnnc::tensor::__nonzero__, inquiry, nb_nonzero);
   bool __nonzero__() const {
-    return !(self->isnull());
+    return (self->length());
   }
   bool __bool__() const {
-    return !(self->isnull());
+    return (self->length());
   }
   std::string __str__() {
     return $self->to_string();
@@ -84,39 +75,48 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return $self->to_string();
   }
   /* unary operators */
+  %pybinoperator(__neg__, dnnc::tensor::__neg__, unaryfunc, nb_negative);
   dnnc::tensor<T> __neg__() const {
     return $self->negate();
   }
+  %pybinoperator(__abs__, dnnc::tensor::__abs__, unaryfunc, nb_absolute);
   dnnc::tensor<T> __abs__() const {
     return $self->absolute();
   }
   /* binary operators */
+  %pybinoperator(__add__, dnnc::tensor::__add__, binaryfunc, nb_add);
   dnnc::tensor<T> __add__(dnnc::tensor<T>& other) {
     dnnc::Add<T> op("pythonOp");
     return op.compute(*$self, other);
   }
+  %pybinoperator(__sub__, dnnc::tensor::__sub__, binaryfunc, nb_subtract);
   dnnc::tensor<T> __sub__(dnnc::tensor<T>& other) {
     dnnc::Add<T> op("pythonOp");
     return op.compute(*$self, other.negate());
   }
   /* assignment operators */
+  %pybinoperator(__iadd__, dnnc::tensor::__iadd__, binaryfunc, nb_inplace_add);
   dnnc::tensor<T> __iadd__(dnnc::tensor<T>& other) {
     dnnc::Add<T> op("pythonOp");
     return op.compute(*$self, other);
   }
+  %pybinoperator(__isub__, dnnc::tensor::__isub__, binaryfunc, nb_inplace_subtract);
   dnnc::tensor<T> __isub__(dnnc::tensor<T>& other) {
     dnnc::Add<T> op("pythonOp");
     return op.compute(*$self, other.negate());
   }
   /* comparision operators */
+  %pycompare(__lt__, dnnc::tensor::__lt__, Py_LT);
   dnnc::tensor<bool> __lt__(dnnc::tensor<T>& other) {
     dnnc::Less<T> op;
     return op.compute(*$self, other);
   }
+  %pycompare(__gt__, dnnc::tensor::__gt__, Py_GT);
   dnnc::tensor<bool> __gt__(dnnc::tensor<T>& other) {
     dnnc::Greater<T> op;
     return op.compute(*$self, other);
   }
+  %pycompare(__eq__, dnnc::tensor::__eq__, Py_EQ);
   dnnc::tensor<bool> __eq__(dnnc::tensor<T>& other) {
     dnnc::Equal<T> op;
     return op.compute(*$self, other);

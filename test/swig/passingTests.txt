@@ -1,4 +1,5 @@
 tensorSanity.py
+tensorOperators.py
 Add.py
 Div.py
 DequantizeLinear.py

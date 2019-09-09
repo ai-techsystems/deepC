@@ -167,6 +167,7 @@ public:
       free(_mem_layout);
     }
   }
+  operator bool() const { return rank() != 0; }
   /*! Description: creates a deep copy of the tensor
    * Returns: new tensor*/
   tensor<T> copy() const {
