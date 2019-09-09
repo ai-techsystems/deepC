@@ -35,14 +35,9 @@ template <typename T> class GlobalAveragePool : public baseOperator<T> {
 public:
   GlobalAveragePool(std::string name = "opGlobalAveragePool")
       : baseOperator<T>(opGlobalAveragePool, name) {}
-  /*! Constrain input and output types to float tensors.
-   */
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
   tensor<T> compute(
       tensor<T> a /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/) {
-    if (!compare())
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     size_t axis_left = 1;
