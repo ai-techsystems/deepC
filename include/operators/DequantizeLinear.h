@@ -51,10 +51,10 @@ public:
   }
   */
 
-  tensor<T>
-  compute(tensor<T> &a /*!<N-D quantized input tensor to be de-quantized*/,
-          tensor<T> &x_scale /*!<Scalar tensor*/,
-          tensor<T> &x_zero_point /*!<Scalar tensor*/) {
+  tensor<float>
+  compute(tensor<int> &a /*!<N-D quantized input tensor to be de-quantized*/,
+          tensor<float> &x_scale /*!<Scalar tensor*/,
+          tensor<int> &x_zero_point /*!<Scalar tensor*/) {
     if (x_scale.shape() != x_zero_point.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for DequantizeLinear operator.");
@@ -64,7 +64,7 @@ public:
          "Constrain input and output types to float tensors.");
    */
 
-    tensor<T> result(a.shape(), a.name());
+    tensor<float> result(a.shape(), a.name());
 
     for (size_t i = 0; i < a.length(); i++)
       result[i] = (a[i] - x_zero_point[0]) * x_scale[0];

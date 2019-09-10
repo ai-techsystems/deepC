@@ -46,12 +46,9 @@ public:
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Div operator.");
-    // Written for arbitrary Dimension.
-    a.flatteninplace();
-    b.flatteninplace();
-
-    DNNC_EIGEN_VECTOR(eigenVectorA, a);
-    DNNC_EIGEN_VECTOR(eigenVectorB, b);
+    
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
 
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 

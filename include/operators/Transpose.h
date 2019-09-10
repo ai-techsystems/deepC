@@ -37,8 +37,17 @@ public:
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   tensor<T> compute(tensor<T> &a) {
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-    if (a.rank() == 2) {
+
+    tensor<T> result(a.shape(), a.name());
+    DNNC_EIGEN_MATRIX(eigenMatrix, a);
+    // DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    Matrix<T, Dynamic, Dynamic, RowMajor> eResult(a.shape()[0], a.shape()[1]);
+    eResult = eigenMatrix.transpose();
+
+    result.load(eResult.data());
+    return result;
+
+    /*if (a.rank() == 2) {
       tensor<T> result(a.shape()[1], a.shape()[0]);
       Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.transpose();
       result.load(eResult.data());
@@ -56,7 +65,7 @@ public:
       result.load(eResult.data());
       return result;
     }
-    return a;
+    return a;*/
   }
 };
 } // namespace dnnc
