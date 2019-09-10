@@ -34,12 +34,24 @@ public:
   Tan(std::string name = "opTan") : baseOperator<T>(opTan, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-  static float Tan_func(T x) { return tan(x); }
+  // static float Tan_func(T x) { return tan(x); }
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a) {
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-    if (a.rank() == 2) {
+    if (!(this->template type_check<float, double>()))
+      throw std::invalid_argument(
+        "Constrain input and output types to float tensors.");
+
+    tensor<T> result(a.shape(), a.name());
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+
+    eResult.array() = tan(eigenVector.array());
+
+    result.load(eResult.data());
+    return result;
+    /*if (a.rank() == 2) {
       tensor<T> result(a.shape()[0], a.shape()[1]);
       Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&Tan_func);
       result.load(eResult.data());
@@ -49,16 +61,17 @@ public:
       Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&Tan_func);
       result.load(eResult.data());
       return result;
-    } /*
+    } 
      else if(a.rank()==4)
      {
              tensor<T> result(a.shape()[0], a.shape()[1]), a.shape()[2],
      a.shape()[3]; Matrix<T, Dynamic, Dynamic> eResult =
      eigenMatrixA.unaryExpr(&Tan_func); result.load( eResult.data() ); return
      result;
-     }*/
+     }
     else
-      throw std::invalid_argument("tensor dimenions not appropriate.");
+      throw std::invalid_argument("tensor dimenions not appropriate.");*/
+
   }
 };
 } // namespace dnnc

@@ -57,6 +57,7 @@ public:
   }
 
   tensor<T> compute(tensor<T> a /*!< : N D tensor input of rank >= axis.*/) {
+    
     if (a.rank() < (size_t)axis)
       throw std::invalid_argument(
           "tensor rank or axis not appropriate for Flatten operator.");
@@ -71,9 +72,7 @@ public:
     for (i = axis; i < (size_t)a.rank(); i++) {
       col *= a.shape()[i];
     }
-    // std::cout << a.shape()[0]<< " , " << a.shape()[1] << std::endl;
-    // std::cout << row << " , " << col << std::endl;
-
+    
     std::vector<size_t> two_dimension{row, col};
     a.reshape(two_dimension);
     return a;

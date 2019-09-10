@@ -3,7 +3,6 @@ tensorOperators.py
 Add.py
 Broadcast.py
 Div.py
-DequantizeLinear.py
 Elu.py
 Equal.py
 Erf.py
@@ -25,3 +24,5 @@ IsNaN.py
 LeakyRelu.py
 MatMul.py
 Sub.py
+Tan.py
+Tanh.py

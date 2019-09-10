@@ -55,14 +55,8 @@ extern tensor<float> \
 		 add(tensor<float> &a, tensor<float> &b) ;
 extern tensor<int> \
 		 add(tensor<int> &a, tensor<int> &b) ;
-extern tensor<double> \
-		 sub(tensor<double> &a, tensor<double> &b) ;
 extern tensor<float> \
-		 sub(tensor<float> &a, tensor<float> &b) ;
-extern tensor<int> \
-		 sub(tensor<int> &a, tensor<int> &b) ;
-extern tensor<float> \
-		 dequantize_linear(tensor<float> &a, tensor<float> &b, tensor<float> &c) ;
+		 dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) ;
 extern tensor<double> \
 		 div(tensor<double> &a, tensor<double> &b) ;
 extern tensor<float> \
@@ -181,7 +175,27 @@ extern tensor<int> \
 		 matmulinteger(tensor<int> &a, tensor<int> &b) ;
 extern tensor<float> \
 		 max(std::vector<tensor<float>> a) ;
+extern tensor<double> \
+		 sub(tensor<double> &a, tensor<double> &b) ;
+extern tensor<float> \
+		 sub(tensor<float> &a, tensor<float> &b) ;
+extern tensor<int> \
+		 sub(tensor<int> &a, tensor<int> &b) ;
+extern tensor<float> \
+		 tan(tensor<float> &a) ;
+extern tensor<double> \
+		 tan(tensor<double> &a) ;
+extern tensor<float> \
+		 tanh(tensor<float> &a) ;
+extern tensor<double> \
+		 tanh(tensor<double> &a) ;
+extern tensor<double> \
+		 transpose(tensor<double> &a) ;
 extern tensor<float> \
 		 transpose(tensor<float> &a) ;
+extern tensor<int> \
+		 transpose(tensor<int> &a) ;
+extern tensor<bool> \
+		 transpose(tensor<bool> &a) ;
 
 }
