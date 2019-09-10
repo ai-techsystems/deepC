@@ -31,6 +31,7 @@
 #include <object.h> // where Py_LT, Pt_GT are defined.
 #include "core/tensor.h"
 #include "operators/Add.h"
+#include "operators/Sub.h"
 #include "operators/Equal.h"
 #include "operators/Less.h"
 #include "operators/Greater.h"
@@ -44,7 +45,6 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 //%feature("python:slot",  "sq_slice", functype="ssizessizeargfunc")          __getslice__;
 //%feature("python:slot",  "sq_ass_slice", functype="ssizessizeobjargproc")   __setslice__;
 %feature("python:slot",    "sq_length", functype="lenfunc")                   dnnc::tensor::length;
-%feature("python:slot",    "nb_nonzero", functype="inquiry")                  dnnc::tensor::__nonzero__;
 %feature("python:slot",    "nb_bool", functype="inquiry")                     dnnc::tensor::operator bool;
 %feature("python:slot",    "tp_repr", functype="reprfunc")                    dnnc::tensor::__str__;
 %feature("python:slot",    "tp_str", functype="reprfunc")                     dnnc::tensor::__repr__;
@@ -60,10 +60,6 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     std::vector<size_t> vIndices = listTupleToVector_SizeT(indices);
     $self->load(data, vIndices);
     return ;
-  }
-  %pybinoperator(__nonzero__, dnnc::tensor::__nonzero__, inquiry, nb_nonzero);
-  bool __nonzero__() const {
-    return (self->length());
   }
   bool __bool__() const {
     return (self->length());
@@ -91,8 +87,8 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   %pybinoperator(__sub__, dnnc::tensor::__sub__, binaryfunc, nb_subtract);
   dnnc::tensor<T> __sub__(dnnc::tensor<T>& other) {
-    dnnc::Add<T> op("pythonOp");
-    return op.compute(*$self, other.negate());
+    dnnc::Sub<T> op("pythonOp");
+    return op.compute(*$self, other);
   }
   /* assignment operators */
   %pybinoperator(__iadd__, dnnc::tensor::__iadd__, binaryfunc, nb_inplace_add);
@@ -102,8 +98,8 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   %pybinoperator(__isub__, dnnc::tensor::__isub__, binaryfunc, nb_inplace_subtract);
   dnnc::tensor<T> __isub__(dnnc::tensor<T>& other) {
-    dnnc::Add<T> op("pythonOp");
-    return op.compute(*$self, other.negate());
+    dnnc::Sub<T> op("pythonOp");
+    return op.compute(*$self, other);
   }
   /* comparision operators */
   %pycompare(__lt__, dnnc::tensor::__lt__, Py_LT);

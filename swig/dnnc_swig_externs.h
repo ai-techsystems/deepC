@@ -55,6 +55,12 @@ extern tensor<float> \
 		 add(tensor<float> &a, tensor<float> &b) ;
 extern tensor<int> \
 		 add(tensor<int> &a, tensor<int> &b) ;
+extern tensor<double> \
+		 sub(tensor<double> &a, tensor<double> &b) ;
+extern tensor<float> \
+		 sub(tensor<float> &a, tensor<float> &b) ;
+extern tensor<int> \
+		 sub(tensor<int> &a, tensor<int> &b) ;
 extern tensor<float> \
 		 dequantize_linear(tensor<float> &a, tensor<float> &b, tensor<float> &c) ;
 extern tensor<double> \

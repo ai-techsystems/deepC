@@ -55,6 +55,7 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Sub.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
 
@@ -256,6 +257,21 @@ tensor<float> add(tensor<float> &a, tensor<float> &b) {
 
 tensor<int> add(tensor<int> &a, tensor<int> &b) {
 	Add<int> op;
+	return op.compute(a, b);
+}
+
+tensor<double> sub(tensor<double> &a, tensor<double> &b) {
+	Sub<double> op;
+	return op.compute(a, b);
+}
+
+tensor<float> sub(tensor<float> &a, tensor<float> &b) {
+	Sub<float> op;
+	return op.compute(a, b);
+}
+
+tensor<int> sub(tensor<int> &a, tensor<int> &b) {
+	Sub<int> op;
 	return op.compute(a, b);
 }
 

@@ -55,6 +55,7 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Sub.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
 
@@ -189,6 +190,16 @@ tensor<output> matmul(tensor<input> &a, tensor<input> &b) {
 
 tensor<output> add(tensor<input> &a, tensor<input> &b) {
 	Add<input> op;
+	return op.compute(a, b);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int"
+	}
+}
+
+tensor<output> sub(tensor<input> &a, tensor<input> &b) {
+	Sub<input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "double",
