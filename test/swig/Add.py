@@ -67,7 +67,6 @@ class AddTest(unittest.TestCase):
         dc_a = dc.reshape(self.dc_a, (2,2,2,3));
         dc_b = dc.reshape(self.dc_b, (2,2,2,3));
 
-        # not working yet
         npr = np.add(np_a, np_b);
         dcr = dc.add(dc_a, dc_b);
 

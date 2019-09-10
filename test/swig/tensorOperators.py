@@ -63,6 +63,7 @@ class tensorOperatorsTest(unittest.TestCase):
     # binary operators
     def test_binary(self):
         dnnc_testing.utils.assert_equal( self.ones , self.zeros+self.ones)
+        dnnc_testing.utils.assert_equal( self.ones , self.zeros+1)
         dnnc_testing.utils.assert_equal( -self.ones, self.zeros-self.ones)
         dnnc_testing.utils.assert_equal( self.ones, self.ones-self.zeros)
         dnnc_testing.utils.assert_equal( self.zeros+self.ones, self.ones)

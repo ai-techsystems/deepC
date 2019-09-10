@@ -79,8 +79,7 @@ class SubTest(unittest.TestCase):
         dc_a = dc.reshape(self.dc_a, (2,2,2,3));
         dc_b = dc.array(list(np_b));
 
-        # github issue # 31
-        # not working yet
+        # github issue # 31, resolved.
         npr = np.subtract(np_a, np_b);
         dcr = dc.sub(dc_a, dc_b);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32), rtol=1e-3, atol=1e-3)
