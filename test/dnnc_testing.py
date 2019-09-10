@@ -3,6 +3,15 @@ class utils:
     def __init__():
         return
 
+    def assert_less(small, big):
+        assert small.shape() == big.shape()
+        small  = small.data()
+        big = big.data()
+        for (a,d) in zip(small, big):
+            assert (a<d), "ASSERT failed on assert_less"
+
+        return True;
+
     def assert_equal(actual, desired):
         assert actual.shape() == desired.shape()
         actual  = actual.data()

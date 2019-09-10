@@ -62,18 +62,24 @@ class tensorOperatorsTest(unittest.TestCase):
 
     # binary operators
     def test_binary(self):
-        assert self.ones == self.zeros+self.ones
-        assert -self.ones == self.zeros-self.ones
-        assert self.zeros == self.ones-self.zeros
-        assert self.zeros+self.ones == self.ones
+        dnnc_testing.utils.assert_equal( self.ones , self.zeros+self.ones)
+        dnnc_testing.utils.assert_equal( -self.ones, self.zeros-self.ones)
+        dnnc_testing.utils.assert_equal( self.ones, self.ones-self.zeros)
+        dnnc_testing.utils.assert_equal( self.zeros+self.ones, self.ones)
 
     # unary operators
     def test_unary(self):
-        assert self.i0_4 == -(-self.i0_4)
+        dnnc_testing.utils.assert_equal( self.i0_4, -(-self.i0_4))
+        dnnc_testing.utils.assert_equal( self.i0_4, abs(-self.i0_4))
 
     # comparison operators
     def test_comparison(self):
-        assert self.ones > self.zeros
+        lessResult = self.zeros < self.ones
+        dnnc_testing.utils.assert_equal(lessResult, self.ones)
+        greaterResult = self.ones > self.zeros
+        dnnc_testing.utils.assert_equal(greaterResult, self.ones)
+        equalResult = self.ones == dc.ones(2,3).asTypeInt()
+        dnnc_testing.utils.assert_equal(equalResult, self.ones)
 
     def tearDown(self):
         return "test finished"
