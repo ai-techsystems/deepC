@@ -72,10 +72,15 @@
   
   #### Update code  
   * Change the code inside the repo where you want to change.
+  #### Backing up uncommitted work:  
+  * But first back up your current work:
+    ```console
+    git stash
+    ```
   #### Add synchronization steps to get latest updates from `AITS dnnCompiler`  
   * Now you will have to setup your repo so that it can sync new updates from the original **dnnCompiler** repo under **AITS**. As there will be other developers working on that. To do that you have to set **dnnCompiler** repo of **AITS** as an **upstream**.
   * In the top level under your local **dnnCompiler** repo, open terminal.
-    - Add a remote upstream of the original **dnnCompiler**
+    - Add a remote upstream of the original **dnnCompiler** (You only need to do this upstream setup once! But **fetching** and **merging** should be done everytime)
       ```console
       git remote add upstream https://github.com/ai-techsystems/dnnCompiler
       ```
@@ -91,11 +96,7 @@
         * [new branch]      operators  -> upstream/operators
         ```
   * Now based on which branch you are currently on, you have to merge `origin/branch_name` with `upstream/branch_name`. **Origin** means your forked local repo, and **Upstream** means the original repo from **AITS** here.
-  #### Backing up uncommitted work:  
-  * But first back up your current work:
-    ```console
-    git stash
-    ```
+  
   #### Merging the update from upstream  
   * If you followed all previous steps, you will be currently on `origin/operators` branch, if you haven't you will be on `origin/master` branch. To check which branch you are on currently, see the above steps. In the next steps, I am assuming you are on `origin/operators` branch.
   * Now we will merge the upstream operators branch.
@@ -134,11 +135,11 @@
     ```
   #### Push your modified code to your forked repo in GitHub
   * Now you will have your uncommitted work over the synced repo, just as you wanted. Do more modifications if required. And then do the usual commands to push your changes in your forked repo.
-  ```console
-  git add .
-  git commit -m "commit message"
-  git push
-  ```
+    ```console
+    git add .
+    git commit -m "commit message"
+    git push
+    ```
   * This will update your forked repo with your additions, Now if you want them to be added in the **AITS dnnCompiler** repo, see the Pull request sectionbelow. 
   
   ## Pull Request
