@@ -81,9 +81,9 @@ class SubTest(unittest.TestCase):
 
         # github issue # 31
         # not working yet
-        #npr = np.subtract(np_a, np_b);
-        #dcr = dc.sub(dc_a, dc_b);
-        #np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32), rtol=1e-3, atol=1e-3)
+        npr = np.subtract(np_a, np_b);
+        dcr = dc.sub(dc_a, dc_b);
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32), rtol=1e-3, atol=1e-3)
 
 
     def tearDown(self):

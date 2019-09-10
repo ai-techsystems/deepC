@@ -51,7 +51,7 @@ class tensorOperatorsTest(unittest.TestCase):
         dnnc_testing.utils.assert_equal( tmp , self.zeros )
         tmp = self.f5_9
         tmp -= dc.array([5]);
-        dnnc_testing.utils.assert_equal( tmp , self.f0_4 )
+        dnnc_testing.utils.assert_allclose( tmp , self.f0_4 )
         tmp = self.i5_9
         tmp -= dc.array([5]).asTypeInt();
         dnnc_testing.utils.assert_equal( tmp , self.i0_4 )
@@ -59,7 +59,6 @@ class tensorOperatorsTest(unittest.TestCase):
         tmp -= dc.array([5]).asTypeBool();
 
         dnnc_testing.utils.assert_equal(tmp, dc.zeros(5).asTypeBool())
-        #self.f5_9 = dc.arange(10,5);
 
     # binary operators
     def test_binary(self):
