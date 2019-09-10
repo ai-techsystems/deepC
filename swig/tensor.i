@@ -25,6 +25,7 @@
 
 %ignore *::operator=;
 %ignore *::operator[];
+%include "python/pyopers.swg"
 %include "core/tensor.h"
 %include "dnnc_swig_externs.h"
 %{
@@ -39,7 +40,6 @@
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %}
 
-#if defined(SWIGPYTHON_BUILTIN)
 %feature("python:slot",    "mp_subscript", functype="binaryfunc")             dnnc::tensor::__getitem__;
 %feature("python:slot",    "mp_ass_subscript", functype="objobjargproc")      dnnc::tensor::__setitem__;
 //%feature("python:slot",  "sq_slice", functype="ssizessizeargfunc")          __getslice__;
@@ -48,7 +48,6 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %feature("python:slot",    "nb_bool", functype="inquiry")                     dnnc::tensor::operator bool;
 %feature("python:slot",    "tp_repr", functype="reprfunc")                    dnnc::tensor::__str__;
 %feature("python:slot",    "tp_str", functype="reprfunc")                     dnnc::tensor::__repr__;
-#endif // SWIGPYTHON_BUILTIN
 
 %extend dnnc::tensor {
   const T& __getitem__(PyObject* indices) {
@@ -85,18 +84,60 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     dnnc::Add<T> op("pythonOp");
     return op.compute(*$self, other);
   }
+  dnnc::tensor<T> __add__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Add<T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  // 'swig -builtin' option limits all reverse operator from being overloaded.
+  //       y=1+x; #(whre x and y are tensors) will not work
+  %pybinoperator(__radd__, dnnc::tensor::__radd__, binaryfunc, nb_radd);
+  dnnc::tensor<T> __radd__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Add<T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+
   %pybinoperator(__sub__, dnnc::tensor::__sub__, binaryfunc, nb_subtract);
   dnnc::tensor<T> __sub__(dnnc::tensor<T>& other) {
     dnnc::Sub<T> op("pythonOp");
     return op.compute(*$self, other);
   }
+  dnnc::tensor<T> __sub__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Sub<T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  // 'swig -builtin' option limits all reverse operator from being overloaded.
+  //       y=1-x; #(whre x and y are tensors) will not work
+  %pybinoperator(__rsub__, dnnc::tensor::__rsub__, binaryfunc, nb_rsubtract);
+  dnnc::tensor<T> __rsub__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Sub<T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
   /* assignment operators */
-  %pybinoperator(__iadd__, dnnc::tensor::__iadd__, binaryfunc, nb_inplace_add);
+  %pyinplaceoper(__iadd__, dnnc::tensor::__iadd__, binaryfunc, nb_inplace_add);
   dnnc::tensor<T> __iadd__(dnnc::tensor<T>& other) {
     dnnc::Add<T> op("pythonOp");
     return op.compute(*$self, other);
   }
-  %pybinoperator(__isub__, dnnc::tensor::__isub__, binaryfunc, nb_inplace_subtract);
+  dnnc::tensor<T> __iadd__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Add<T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  %pyinplaceoper(__isub__, dnnc::tensor::__isub__, binaryfunc, nb_inplace_subtract);
   dnnc::tensor<T> __isub__(dnnc::tensor<T>& other) {
     dnnc::Sub<T> op("pythonOp");
     return op.compute(*$self, other);
