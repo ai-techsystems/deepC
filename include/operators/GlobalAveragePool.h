@@ -37,31 +37,29 @@ public:
       : baseOperator<T>(opGlobalAveragePool, name) {}
   tensor<T> compute(
       tensor<T> a /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/) {
+
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
+
+    if ((a.rank() == 1) || (a.rank() == 2))
+      return a;
+    // Reshape ND tensor to 3D.
     size_t axis_left = 1;
     for (int i = 2; i < int(a.rank()); i++) {
       axis_left *= a.shape()[i];
     }
-    size_t rank = a.rank();
     std::vector<size_t> shape{a.shape()[0], a.shape()[1], axis_left};
     a.reshape(shape);
+    // Make the axis other than N and C equal to 1.
     shape.pop_back();
-    for (int i = 2; i < int(rank); i++) {
+    for (int i = 2; i < int(a.rank()); i++)
       shape.push_back(1);
-    }
-    int cummulation = axis_left;
+    DNNC_EIGEN_TENSOR_MAP(eigenTensor, a);
     tensor<T> result(shape);
-    int j = 0;
-    T sum = 0;
-    for (size_t i = 0; i < a.length(); i++) {
-      sum += a[i];
-      if (!((i + 1) % cummulation)) {
-        result[j++] = T(sum / cummulation);
-        sum = 0;
-      }
-    }
+    Tensor<T, 2, RowMajor> eResult(a.shape()[0], a.shape()[1]);
+    eResult = eigenTensor.mean(Eigen::array<int, 1>({2}));
+    result.load(eResult.data());
     return result;
   }
   /*!<

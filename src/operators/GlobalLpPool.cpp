@@ -33,7 +33,7 @@ int main() {
   float d1[16] = {12, -2, 3, 4, 5, 6, 1, 1, 2, 3, 4, 5, 3, 2, 4, 5};
   tensor<float> a(2, 2, 4);
   a.load(d1);
-  int p = 1;
+  int p = 2;
   GlobalLpPool<float> m("localOpName", p);
   std::cout << a << "\n";
   auto result = m.compute(a);

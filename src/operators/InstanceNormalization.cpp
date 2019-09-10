@@ -33,7 +33,7 @@ int main() {
   tensor<float> a(2, 2, 2);
   a.load(d1);
   float epsilon = 1.0;
-  float d2[4] = {-1, 1.5, 0.29, 1};
+  float d2[4] = {-1, 1.5, 0.329, 1};
   tensor<float> scale(2);
   scale.load(d2);
   float d3[4] = {0, 1, 1, 1};
