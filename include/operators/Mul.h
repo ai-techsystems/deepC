@@ -34,10 +34,17 @@ public:
   Mul(std::string name = "opMul") : baseOperator<T>(opMul, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-  tensor<T> compute(tensor<T> a, tensor<T> b) {
+  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+
+    eResult.array() = eigenVectorA.array() * eigenVectorB.array();
+    result.load(eResult.data());
 
     return result;
   }
