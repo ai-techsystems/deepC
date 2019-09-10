@@ -24,7 +24,6 @@
 #pragma once
 #include "operators/baseOperator.h"
 #include <string>
-#include <typeinfo>
 using namespace Eigen;
 
 namespace dnnc {
@@ -43,11 +42,6 @@ public:
     this->alpha = alpha;
     this->beta = beta;
   }
-  /*! Constrain input and output types to float tensors.
-   */
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
   bool getAttribute(OPATTR attrName, float &obj) {
     if (attrName == attr_alpha) {
       obj = alpha;
@@ -64,14 +58,14 @@ public:
     temp = (0 > temp) ? 0 : temp;
     return temp;
   }
-  tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
-    if (!compare())
+  tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
+
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     tensor<T> result(a.shape(), a.name());
     // max(0, min(1, alpha * x + beta))
-    a.flatteninplace();
-    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     auto c0 = std::bind(Hard_Sigmoid, std::placeholders::_1, alpha, beta);
     eResult.array() = eigenVector.array().unaryExpr(c0);

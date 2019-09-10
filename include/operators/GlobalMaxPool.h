@@ -32,11 +32,8 @@ template <typename T> class GlobalMaxPool : public baseOperator<T> {
 public:
   GlobalMaxPool(std::string name = "opGlobalMaxPool")
       : baseOperator<T>(opGlobalMaxPool, name) {}
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
   tensor<T> compute(tensor<T> a) {
-    if (!compare())
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     size_t axis_left = 1;
@@ -47,7 +44,6 @@ public:
     std::vector<size_t> shape{a.shape()[0], a.shape()[1], axis_left};
     a.reshape(shape);
     shape.pop_back();
-    std::cout << a.rank() << "\n";
     for (int i = 2; i < int(rank); i++) {
       shape.push_back(1);
     }

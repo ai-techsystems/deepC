@@ -48,12 +48,6 @@ public:
     }
     return false;
   }
-  /*! Constrain input and output types to float tensors.
-   */
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
-
   static T Leaky_Relu(T x, float alpha) {
     if (x < 0)
       return T(alpha * x);
@@ -61,13 +55,12 @@ public:
       return x;
   }
 
-  tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
-    if (!compare())
+  tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     tensor<T> result(a.shape(), a.name());
-    a.flatteninplace();
-    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     auto c0 = std::bind(Leaky_Relu, std::placeholders::_1, alpha);
     eResult.array() = eigenVector.array().unaryExpr(c0);

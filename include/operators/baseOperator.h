@@ -21,8 +21,11 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
+#include "core/broadcast.h"
 #include "operators/macros.h"
 #include <memory>
+#include <typeindex>
+#include <typeinfo>
 #include <vector>
 
 // we're forced to include tensor.h here, because of limitation on
@@ -274,6 +277,21 @@ public:
   template <typename attrType>
   bool getAttribute(OPATTR attrName, attrType &obj);
 
+  /*!< Constrain input and output types.*/
+  template <typename... Types> bool type_check() {
+    std::vector<std::type_index> allowed_types;
+    allowed_types.insert(allowed_types.end(), {typeid(Types)...});
+    bool checker = false;
+    for (size_t i = 0; i < allowed_types.size(); i++) {
+      checker = (allowed_types[i] == std::type_index(typeid(T)));
+      if (checker)
+        break;
+    }
+    return checker;
+  }
+  /*!<
+   \return Returns true if T is one of the types specified
+   */
   void compute(void);
   tensor<T> compute(tensor<T> in1);
   tensor<T> compute(tensor<T> &in1);

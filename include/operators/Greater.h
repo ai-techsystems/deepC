@@ -37,18 +37,16 @@ public:
   Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
 
   tensor<bool>
-  compute(tensor<T> a /*!< First input operand for the logical operator.*/,
-          tensor<T> b /*!< Second input operand for the logical operator.*/) {
+  compute(tensor<T> &a /*!< First input operand for the logical operator.*/,
+          tensor<T> &b /*!< Second input operand for the logical operator.*/) {
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Greater operator.");
-    a.flatteninplace();
-    b.flatteninplace();
-    DNNC_EIGEN_VECTOR(eigenVectorA, a);
-    DNNC_EIGEN_VECTOR(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
     eResult.array() = eigenVectorA.array() > eigenVectorB.array();
     result.load(eResult.data());

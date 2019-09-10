@@ -32,19 +32,13 @@ namespace dnnc {
 template <typename T> class IsNaN : public baseOperator<T> {
 public:
   IsNaN(std::string name = "opIsNaN") : baseOperator<T>(opIsNaN, name) {}
-  /*! Constrain input and output types to float tensors.
-   */
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
-  // NOT GOOD to return by value
-  tensor<bool> compute(tensor<T> a) {
-    if (!compare())
+
+  tensor<bool> compute(tensor<T> &a) {
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     tensor<bool> result(a.shape(), a.name());
-    a.flatteninplace();
-    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
     eResult.array() = eigenVector.array().isNaN();
 

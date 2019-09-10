@@ -61,11 +61,6 @@ public:
       : baseOperator<T>(opInstanceNormalization) {
     this->epsilon = epsilon;
   }
-  /*! Constrain input and output types to float tensors.
-   */
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
   bool getAttribute(OPATTR attrName, float &obj) {
     if (attrName == attr_epsilon) {
       obj = epsilon;
@@ -78,7 +73,7 @@ public:
               input /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/,
           tensor<T> &scale /*!<  1D vector of dimension C.*/,
           tensor<T> &B /*!< : 1D vector of dimension C.*/) {
-    if (!compare())
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

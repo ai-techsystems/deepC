@@ -42,7 +42,6 @@ int main() {
 
   std::cout << result;
   std::cout << "\n";
-
   return 0;
 }
 
