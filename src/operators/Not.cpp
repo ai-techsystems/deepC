@@ -26,9 +26,56 @@
 using namespace dnnc;
 using namespace Eigen;
 
+#define DNNC_NOT_TEST 1
 #ifdef DNNC_NOT_TEST
 #include <iostream>
+
 int main() {
-  // ADD YOUR TEST CODE HERE
+  std::cout << "Tests for different dimensions" << std::endl;
+  
+  bool a[8] = {true, false, false, true, false, true};
+  // bool b[8] = {1, 0, 0, 1, 0, 1};
+
+  tensor<bool> tensor_a(8);
+  tensor_a.load(a);
+  std::cout << "Original Vector : " << tensor_a << std::endl;
+  std::cout << "Original Vector Shape: 8, 1" << std::endl;
+  std::cout << "------------------------------------------" << std::endl;
+
+
+  tensor<bool> tensor_b(2, 4);
+  tensor_b.load(a);
+
+  tensor<bool> tensor_c(2, 2, 2);
+  tensor_c.load(a);
+
+  Not<bool> n("localOpName");
+  auto result = n.compute(tensor_a);
+
+  std::cout << "Changed Vector - 8, 1" << std::endl;
+  std::cout << result;
+  std::cout << std::endl;
+  std::cout << "------------------------------------------" << std::endl;
+
+  result = n.compute(tensor_b);
+
+  std::cout << "Changed Vector - 2, 4" << std::endl;
+  std::cout << result;
+  std::cout << std::endl;
+  std::cout << "------------------------------------------" << std::endl;
+
+  result = n.compute(tensor_c);
+
+  std::cout << "Changed Vector - 2, 2, 2" << std::endl;
+  std::cout << result;
+  std::cout << std::endl;
+  std::cout << "------------------------------------------" << std::endl;
+
+  std::cout << "Tests for different types" << std::endl;
+  Not<int> x("localOpName");
+  Not<float> y("localOpName");
+  Not<double> z("localOpName");
+
+
 }
 #endif

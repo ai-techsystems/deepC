@@ -30,14 +30,36 @@ using namespace Eigen;
 namespace dnnc {
 template <typename T> class Not : public baseOperator<T> {
   //  Not attributes
+protected:
+
+  //Functions that defines the operation to be performed for each element
+  static T not_function(T x) {
+    return !x;
+  }
+
 public:
-  Not(std::string name = "opNot") : baseOperator<T>(opNot, name) {}
+  Not(std::string name = "opNot") : baseOperator<T>(opNot, name) {
+    if (!(this->template type_check<bool>()))
+      throw std::invalid_argument(
+          "Constrain input and output types to bool tensors.");
+  }
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<T> compute(tensor<T> a) {
+
+    //Result vector declaration
+	  tensor<T> result(a.shape(), a.name());
+
+    DNNC_EIGEN_VECTOR(input_eigen, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eigen_result;
+
+    auto not_bind = std::bind(not_function, std::placeholders::_1);
+
+    eigen_result.array() = input_eigen.array().unaryExpr(not_bind);
+    result.load(eigen_result.data());
+
+    return result;
   }
 };
 } // namespace dnnc
