@@ -1,7 +1,8 @@
-# DNNC functions to mimic numpy using Eigen
-
+# DNNC tensor operators, NN operators and methods (similar to numpy)
 ---
-### Most remarkable fluid features (Array creation):
+
+## Philosophy
+DNNC tensor variable is a **fixed-length multi-dimensional array**. It is a mutable object with ability to transform constrained by algebraic rules. Similar to numpy ndarray objects, dnnc.tensor objects have a data type and a shape. Unlike numpy, tensor, once created is kept fixed in size. This is because, DNNC is a compiler designed to produce efficient executables for smaller devices.
 
 **Legends** ✔️: ToBeDone, ✅:Done, 🚫:Rejected
 ```python
