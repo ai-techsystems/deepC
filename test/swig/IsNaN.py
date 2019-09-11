@@ -37,14 +37,28 @@ class IsNaNTest(unittest.TestCase):
         dcr = dc.isnan(self.dc_a)
         np.testing.assert_array_equal(npr, np.array(dcr.data()))
 
-    def test_IsNaN2D (self):
+    def test_IsNaN2D_1 (self):
         np_a = np.reshape(self.np_a, (6,4))
         dc_a = dc.reshape(self.dc_a, (6,4))
         npr = np.isnan(np_a)
         dcr = dc.isnan(dc_a)
         np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
 
-    def test_IsNaN3D (self):
+    def test_IsNaN2D_2 (self):
+        np_a = np.reshape(self.np_a, (3,8))
+        dc_a = dc.reshape(self.dc_a, (3,8))
+        npr = np.isnan(np_a)
+        dcr = dc.isnan(dc_a)
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_IsNaN2D_3 (self):
+        np_a = np.reshape(self.np_a, (12,2))
+        dc_a = dc.reshape(self.dc_a, (12,2))
+        npr = np.isnan(np_a)
+        dcr = dc.isnan(dc_a)
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_IsNaN3D_1 (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3))
 
@@ -53,9 +67,36 @@ class IsNaNTest(unittest.TestCase):
 
         np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
 
-    def test_IsNaN4D (self):
+    def test_IsNaN3D_2 (self):
+        np_a = np.reshape(self.np_a, (2,2,6))
+        dc_a = dc.reshape(self.dc_a, (2,2,6))
+
+        npr = np.isnan(np_a)
+        dcr = dc.isnan(dc_a)
+
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_IsNaN3D_3 (self):
+        np_a = np.reshape(self.np_a, (4,2,3))
+        dc_a = dc.reshape(self.dc_a, (4,2,3))
+
+        npr = np.isnan(np_a)
+        dcr = dc.isnan(dc_a)
+
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_IsNaN4D_1 (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
+
+        npr = np.isnan(np_a)
+        dcr = dc.isnan(dc_a)
+
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_IsNaN4D_2 (self):
+        np_a = np.reshape(self.np_a, (2,2,1,6))
+        dc_a = dc.reshape(self.dc_a, (2,2,1,6))
 
         npr = np.isnan(np_a)
         dcr = dc.isnan(dc_a)

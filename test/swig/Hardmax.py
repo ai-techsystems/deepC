@@ -44,7 +44,7 @@ class HardmaxTest(unittest.TestCase):
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Hardmax2D (self):
+    def test_Hardmax2D_1 (self):
         np_a = np.reshape(self.np_a, (6,4))
         dc_a = dc.reshape(self.dc_a, (6,4))
         self.coerce(np_a)
@@ -54,7 +54,27 @@ class HardmaxTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Hardmax3D (self):
+    def test_Hardmax2D_2 (self):
+        np_a = np.reshape(self.np_a, (3,8))
+        dc_a = dc.reshape(self.dc_a, (3,8))
+        self.coerce(np_a)
+        np_a = np.reshape(np_a, (self.axis1,self.axis2))
+        npr = (np_a.max(0,keepdims=1)==np_a).astype(float)
+        dcr = dc.hardmax(dc_a,self.axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Hardmax2D_3 (self):
+        np_a = np.reshape(self.np_a, (12,2))
+        dc_a = dc.reshape(self.dc_a, (12,2))
+        self.coerce(np_a)
+        np_a = np.reshape(np_a, (self.axis1,self.axis2))
+        npr = (np_a.max(0,keepdims=1)==np_a).astype(float)
+        dcr = dc.hardmax(dc_a,self.axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Hardmax3D_1 (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3))
         self.coerce(np_a)
@@ -64,9 +84,29 @@ class HardmaxTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Hardmax4D (self):
+    def test_Hardmax3D_2 (self):
+        np_a = np.reshape(self.np_a, (2,2,6))
+        dc_a = dc.reshape(self.dc_a, (2,2,6))
+        self.coerce(np_a)
+        np_a = np.reshape(np_a, (self.axis1,self.axis2))
+        npr = (np_a.max(0,keepdims=1)==np_a).astype(float)
+        dcr = dc.hardmax(dc_a,self.axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Hardmax4D_1 (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
+        self.coerce(np_a)
+        np_a = np.reshape(np_a, (self.axis1,self.axis2))
+        npr = (np_a.max(0,keepdims=1)==np_a).astype(float)
+        dcr = dc.hardmax(dc_a,self.axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Hardmax4D_2 (self):
+        np_a = np.reshape(self.np_a, (2,2,1,6))
+        dc_a = dc.reshape(self.dc_a, (2,2,1,6))
         self.coerce(np_a)
         np_a = np.reshape(np_a, (self.axis1,self.axis2))
         npr = (np_a.max(0,keepdims=1)==np_a).astype(float)

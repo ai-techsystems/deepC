@@ -37,7 +37,7 @@ class IdentityTest(unittest.TestCase):
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Identity2D (self):
+    def test_Identity2D_1 (self):
         np_a = np.reshape(self.np_a, (6,4))
         dc_a = dc.reshape(self.dc_a, (6,4))
         npr = np_a
@@ -45,7 +45,15 @@ class IdentityTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Identity3D (self):
+    def test_Identity2D_2 (self):
+        np_a = np.reshape(self.np_a, (3,8))
+        dc_a = dc.reshape(self.dc_a, (3,8))
+        npr = np_a
+        dcr = dc.identity(dc_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Identity3D_1 (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3))
         npr = np_a
@@ -53,9 +61,25 @@ class IdentityTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Identity4D (self):
+    def test_Identity3D_2 (self):
+        np_a = np.reshape(self.np_a, (2,2,6))
+        dc_a = dc.reshape(self.dc_a, (2,2,6))
+        npr = np_a
+        dcr = dc.identity(dc_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Identity4D_1 (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
+        npr = np_a
+        dcr = dc.identity(dc_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Identity4D_2 (self):
+        np_a = np.reshape(self.np_a, (2,2,1,6))
+        dc_a = dc.reshape(self.dc_a, (2,2,1,6))
         npr = np_a
         dcr = dc.identity(dc_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
