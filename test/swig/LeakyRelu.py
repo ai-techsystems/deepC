@@ -39,7 +39,7 @@ class LeakyReluTest(unittest.TestCase):
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_LeakyRelu2D (self):
+    def test_LeakyRelu2D_1 (self):
         np_a = np.reshape(self.np_a, (6,4))
         dc_a = dc.reshape(self.dc_a, (6,4))
         npr = self.np_a.copy()
@@ -48,7 +48,25 @@ class LeakyReluTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_LeakyRelu3D (self):
+    def test_LeakyRelu2D_2 (self):
+        np_a = np.reshape(self.np_a, (3,8))
+        dc_a = dc.reshape(self.dc_a, (3,8))
+        npr = self.np_a.copy()
+        npr[self.np_a < 0] = npr[self.np_a < 0] * self.alpha
+        dcr = dc.leakyrelu(self.dc_a,self.alpha)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_LeakyRelu2D_3 (self):
+        np_a = np.reshape(self.np_a, (12,2))
+        dc_a = dc.reshape(self.dc_a, (12,2))
+        npr = self.np_a.copy()
+        npr[self.np_a < 0] = npr[self.np_a < 0] * self.alpha
+        dcr = dc.leakyrelu(self.dc_a,self.alpha)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_LeakyRelu3D_1 (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3))
         npr = self.np_a.copy()
@@ -57,9 +75,36 @@ class LeakyReluTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_LeakyRelu4D (self):
+    def test_LeakyRelu3D_2 (self):
+        np_a = np.reshape(self.np_a, (4,2,3))
+        dc_a = dc.reshape(self.dc_a, (4,2,3))
+        npr = self.np_a.copy()
+        npr[self.np_a < 0] = npr[self.np_a < 0] * self.alpha
+        dcr = dc.leakyrelu(self.dc_a,self.alpha)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_LeakyRelu3D_3 (self):
+        np_a = np.reshape(self.np_a, (2,2,6))
+        dc_a = dc.reshape(self.dc_a, (2,2,6))
+        npr = self.np_a.copy()
+        npr[self.np_a < 0] = npr[self.np_a < 0] * self.alpha
+        dcr = dc.leakyrelu(self.dc_a,self.alpha)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_LeakyRelu4D_1 (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
+        npr = self.np_a.copy()
+        npr[self.np_a < 0] = npr[self.np_a < 0] * self.alpha
+        dcr = dc.leakyrelu(self.dc_a,self.alpha)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_LeakyRelu4D_2 (self):
+        np_a = np.reshape(self.np_a, (2,1,4,3))
+        dc_a = dc.reshape(self.dc_a, (2,1,4,3))
         npr = self.np_a.copy()
         npr[self.np_a < 0] = npr[self.np_a < 0] * self.alpha
         dcr = dc.leakyrelu(self.dc_a,self.alpha)
