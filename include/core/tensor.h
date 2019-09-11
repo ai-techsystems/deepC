@@ -235,7 +235,8 @@ public:
   /// \brief return a copy of the tensor, cast to int
   tensor<int> asTypeInt() { return asType<int>(); }
   /// \brief return a copy of the tensor, cast to uint8
-  // tensor<int> asTypeUint8() { return asType<uint8_t>(); }    // This doesn't work, needs attention
+  // tensor<int> asTypeUint8() { return asType<uint8_t>(); }    // This doesn't
+  // work, needs attention
   /// \brief return a copy of the tensor, cast to long
   tensor<long> asTypeLong() { return asType<long>(); }
   /// \brief return a copy of the tensor, cast to bool

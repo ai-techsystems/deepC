@@ -22,20 +22,21 @@
 //
 
 #pragma once
-#include "operators/baseOperator.h"
 #include "core/broadcast.h"
+#include "operators/baseOperator.h"
 #include <string>
 
 using namespace Eigen;
 
 namespace dnnc {
-/*! Returns the tensor resulted from performing the greater than or equal to logical operation
- * elementwise on the input tensors A and B (with Numpy-style broadcasting
- * support).
+/*! Returns the tensor resulted from performing the greater than or equal to
+ * logical operation elementwise on the input tensors A and B (with Numpy-style
+ * broadcasting support).
  */
 template <typename T> class GreaterEqual : public baseOperator<T> {
 public:
-  GreaterEqual(std::string name = "opGreaterEqual") : baseOperator<T>(opGreaterEqual, name) {}
+  GreaterEqual(std::string name = "opGreaterEqual")
+      : baseOperator<T>(opGreaterEqual, name) {}
 
   tensor<bool>
   compute(tensor<T> &a /*!< First input operand for the logical operator.*/,

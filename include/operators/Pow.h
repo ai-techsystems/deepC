@@ -39,9 +39,9 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
 
-    if (!(this->template type_check<float,double>()))
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
-        "Constrain input and output types to float tensors.");
+          "Constrain input and output types to float tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
@@ -52,7 +52,7 @@ public:
 
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
-    eResult.array() = pow(eigenVectorA.array(),eigenVectorB.array());
+    eResult.array() = pow(eigenVectorA.array(), eigenVectorB.array());
     result.load(eResult.data());
 
     return result;

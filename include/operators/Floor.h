@@ -38,10 +38,10 @@ public:
   Floor(std::string name = "opFloor") : baseOperator<T>(opFloor, name) {}
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
-    
+
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
-        "Constrain input and output types to float tensors.");
+          "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 

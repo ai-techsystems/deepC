@@ -29,8 +29,8 @@ using namespace Eigen;
 #ifdef DNNC_OR_TEST
 #include <iostream>
 int main() {
-  bool d1[6] = {true,false,true,true,false,false};
-  bool d2[6] = {false,true,true,false,false,true};
+  bool d1[6] = {true, false, true, true, false, false};
+  bool d2[6] = {false, true, true, false, false, true};
   tensor<bool> a(2, 3);
   a.load(d1);
   tensor<bool> b(2, 3);

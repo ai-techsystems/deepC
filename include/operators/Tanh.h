@@ -41,7 +41,7 @@ public:
   tensor<T> compute(tensor<T> &a) {
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
-        "Constrain input and output types to float tensors.");
+          "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 

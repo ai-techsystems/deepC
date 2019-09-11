@@ -62,14 +62,14 @@ public:
 
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
-        "Constrain input and output types to float tensors.");
+          "Constrain input and output types to float tensors.");
 
     if (a.rank() != 1)
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Elu operator.");
 
     tensor<T> result(a.shape(), a.name());
-    
+
     DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     auto c0 = std::bind(elu_function, std::placeholders::_1, alpha);

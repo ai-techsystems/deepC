@@ -61,7 +61,7 @@ public:
     this->transA = transA;
     this->transB = transB;
   }
-  
+
   bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_transA) {
       obj = transA;
@@ -95,7 +95,7 @@ public:
     if (a.rank() != 2 || b.rank() != 2 || c.rank() != 2)
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Gemm operator.");
-    
+
     if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
           "Constrain input and output types to float and int tensors.");

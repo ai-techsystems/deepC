@@ -36,7 +36,8 @@ namespace dnnc {
 
 template <typename T> class NotEqual : public baseOperator<T> {
 public:
-  NotEqual(std::string name = "opNotEqual") : baseOperator<T>(opNotEqual, name) {}
+  NotEqual(std::string name = "opNotEqual")
+      : baseOperator<T>(opNotEqual, name) {}
 
   static bool notEqual_function(T x, T y) { return (x != y) ? true : false; }
 
@@ -55,8 +56,8 @@ public:
 
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
 
-    eResult.array() =
-        eigenVectorA.array().binaryExpr(eigenVectorB.array(), &notEqual_function);
+    eResult.array() = eigenVectorA.array().binaryExpr(eigenVectorB.array(),
+                                                      &notEqual_function);
     result.load(eResult.data());
 
     return result;

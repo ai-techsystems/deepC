@@ -22,8 +22,8 @@
 //
 
 #pragma once
-#include "operators/baseOperator.h"
 #include "core/broadcast.h"
+#include "operators/baseOperator.h"
 #include <string>
 
 using namespace Eigen;

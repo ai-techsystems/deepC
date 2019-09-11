@@ -35,18 +35,16 @@ public:
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
   /*! Element wise Or-Function*/
-  static bool or_function(T x, T y) {
-    return (x||y);
-  }
+  static bool or_function(T x, T y) { return (x || y); }
 
   tensor<T> compute(tensor<T> a, tensor<T> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
 
- 	if (!(this->template type_check<bool>()))
+    if (!(this->template type_check<bool>()))
       throw std::invalid_argument(
-        "Constrain input and output types to bool tensors.");
+          "Constrain input and output types to bool tensors.");
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);

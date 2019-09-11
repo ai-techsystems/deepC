@@ -29,20 +29,18 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Xor : public baseOperator<T> {
-  
+
 public:
   Xor(std::string name = "opXor") : baseOperator<T>(opXor, name) {}
 
   /*! Element wise Xor-Function*/
-  static T xor_function(T x, T y) {
-    return (!x != !y) ? true : false;
-  }
-  
+  static T xor_function(T x, T y) { return (!x != !y) ? true : false; }
+
   tensor<T> compute(tensor<T> a, tensor<T> b) {
 
     if (!(this->template type_check<bool>()))
       throw std::invalid_argument(
-        "Constrain input and output types to float tensors.");
+          "Constrain input and output types to float tensors.");
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
@@ -57,7 +55,8 @@ public:
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
-    eResult.array() = eigenVectorA.array().binaryExpr(eigenVectorB.array(), &xor_function);
+    eResult.array() =
+        eigenVectorA.array().binaryExpr(eigenVectorB.array(), &xor_function);
     result.load(eResult.data());
 
     return result;
