@@ -34,11 +34,28 @@ public:
   Or(std::string name = "opOr") : baseOperator<T>(opOr, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  /*! Element wise Or-Function*/
+  static bool or_function(T x, T y) {
+    return (x||y);
+  }
 
   tensor<T> compute(tensor<T> a, tensor<T> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
+
+ 	if (!(this->template type_check<bool>()))
+      throw std::invalid_argument(
+        "Constrain input and output types to bool tensors.");
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+
+    eResult.array() =
+        eigenVectorA.array().binaryExpr(eigenVectorB.array(), &or_function);
+    result.load(eResult.data());
 
     return result;
   }

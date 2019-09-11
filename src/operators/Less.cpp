@@ -29,8 +29,8 @@ using namespace Eigen;
 #ifdef DNNC_LESS_TEST
 #include <iostream>
 int main() {
-  float d1[8] = {1., 2., 3., 4., 5., 6., 7., 8.};
-  float d2[8] = {2., 3., 3., 5., 7., 6., 9., 10.};
+  float d1[8] = {2., 3., 3., 5., 7., 6., 9., 10.};
+  float d2[8] = {1., 2., 3., 4., 5., 6., 7., 8.};
   tensor<float> a(2, 2, 2);
   a.load(d1);
   tensor<float> b(2, 2, 2);

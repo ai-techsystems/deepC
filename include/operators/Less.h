@@ -23,33 +23,34 @@
 
 #pragma once
 #include "operators/baseOperator.h"
+#include "core/broadcast.h"
 #include <string>
 
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns the tensor resulted from performing the less logical operation
+ * elementwise on the input tensors A and B (with Numpy-style broadcasting
+ * support).
+ */
 template <typename T> class Less : public baseOperator<T> {
-  //  Less attributes
-  // None
 public:
   Less(std::string name = "opLess") : baseOperator<T>(opLess, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  static bool comp(T x, T y) { return x < y; }
-
-  tensor<bool> compute(tensor<T> a, tensor<T> b) {
-
+  tensor<bool>
+  compute(tensor<T> &a /*!< First input operand for the logical operator.*/,
+          tensor<T> &b /*!< Second input operand for the logical operator.*/) {
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Less operator.");
-
-    for (size_t i = 0; i < a.length(); i++) {
-      result[i] = comp(a[i], b[i]); // element-wise A and B
-    }
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    eResult.array() = eigenVectorA.array() < eigenVectorB.array();
+    result.load(eResult.data());
     return result;
   }
 };

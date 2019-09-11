@@ -22,36 +22,47 @@
 //
 
 #pragma once
-#include "operators/baseOperator.h"
 #include "core/broadcast.h"
+#include "operators/baseOperator.h"
 #include <string>
 
 using namespace Eigen;
 
 namespace dnnc {
-/*! Returns the tensor resulted from performing the greater logical operation
- * elementwise on the input tensors A and B (with Numpy-style broadcasting
- * support).
- */
-template <typename T> class Greater : public baseOperator<T> {
-public:
-  Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
 
-  tensor<bool>
-  compute(tensor<T> &a /*!< First input operand for the logical operator.*/,
-          tensor<T> &b /*!< Second input operand for the logical operator.*/) {
+/*! Returns the tensor resulted from performing the Not Equal logical operation
+ * elementwise on the input tensors A and B*/
+/*! This operator supports multidirectional (i.e., Numpy-style) broadcasting.*/
+
+template <typename T> class NotEqual : public baseOperator<T> {
+public:
+  NotEqual(std::string name = "opNotEqual") : baseOperator<T>(opNotEqual, name) {}
+
+  static bool notEqual_function(T x, T y) { return (x != y) ? true : false; }
+
+  tensor<bool> compute(tensor<T> a /*!< : N D tensor input*/,
+                       tensor<T> b /*!< : N D tensor input*/) {
+
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
-          "tensor dimenions not appropriate for Greater operator.");
+          "tensor dimenions not appropriate for NotEqual operator.");
+
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
-    eResult.array() = eigenVectorA.array() > eigenVectorB.array();
+
+    eResult.array() =
+        eigenVectorA.array().binaryExpr(eigenVectorB.array(), &notEqual_function);
     result.load(eResult.data());
+
     return result;
   }
+  /*!<
+  \return The output tensor of type bool and the same shape as input.
+  */
 };
 } // namespace dnnc
