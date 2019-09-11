@@ -188,6 +188,15 @@ public:
 
     return result;
   }
+  /// \brief keep the sign of each element of the tensor
+  tensor<T> pos() const {
+    tensor<T> result = copy();
+    DIMENSION msize = result.length(); // flat array length
+    for (size_t i = 0; i < msize; i++)
+      result._mem_layout[i] = _mem_layout[i];
+
+    return result;
+  }
   /// \brief absolute value of each element of the tensor
   tensor<T> absolute() const {
     tensor<T> result = copy();
@@ -225,6 +234,8 @@ public:
   tensor<float> asTypeFloat() { return asType<float>(); }
   /// \brief return a copy of the tensor, cast to int
   tensor<int> asTypeInt() { return asType<int>(); }
+  /// \brief return a copy of the tensor, cast to uint8
+  // tensor<int> asTypeUint8() { return asType<uint8_t>(); }    // This doesn't work, needs attention
   /// \brief return a copy of the tensor, cast to long
   tensor<long> asTypeLong() { return asType<long>(); }
   /// \brief return a copy of the tensor, cast to bool

@@ -21,22 +21,22 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "operators/Or.h"
+#include "operators/NotEqual.h"
 
 using namespace dnnc;
 using namespace Eigen;
 
-#ifdef DNNC_OR_TEST
+#ifdef DNNC_NOTEQUAL_TEST
 #include <iostream>
 int main() {
-  bool d1[6] = {true,false,true,true,false,false};
-  bool d2[6] = {false,true,true,false,false,true};
-  tensor<bool> a(2, 3);
+  float d1[6] = {1., 2., 3., 4., 5., 6.};
+  float d2[6] = {1., 2., 3., 6., 5., 6.};
+  tensor<float> a(2, 3);
   a.load(d1);
-  tensor<bool> b(2, 3);
+  tensor<float> b(2, 3);
   b.load(d2);
 
-  Or<bool> m("localOpName");
+  NotEqual<float> m("localOpName");
   auto result = m.compute(a, b);
 
   std::cout << result;

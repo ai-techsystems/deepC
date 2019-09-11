@@ -33,8 +33,12 @@ class tensorOperatorsTest(unittest.TestCase):
         self.ones=dc.ones(2,3).asTypeInt()
         self.f0_4 = dc.arange(5);
         self.f5_9 = dc.arange(10,5);
+        self.np_f0_4 = np.arange(5);
+        self.np_f5_9 = np.arange(10,5);
         self.i0_4 = self.f0_4.asTypeInt()
         self.i5_9 = self.f5_9.asTypeInt()
+        self.np_i0_4 = self.np_f0_4.astype(np.int)
+        self.np_i5_9 = self.np_f5_9.astype(np.int)
         self.b0_4 = self.f0_4.asTypeBool()
         self.b5_9 = self.f5_9.asTypeBool()
 
@@ -62,25 +66,58 @@ class tensorOperatorsTest(unittest.TestCase):
 
     # binary operators
     def test_binary(self):
+        # Add
         dnnc_testing.utils.assert_equal( self.ones , self.zeros+self.ones)
         dnnc_testing.utils.assert_equal( self.ones , self.zeros+1)
+        dnnc_testing.utils.assert_equal( self.zeros+self.ones, self.ones)
+        # Sub
         dnnc_testing.utils.assert_equal( -self.ones, self.zeros-self.ones)
         dnnc_testing.utils.assert_equal( self.ones, self.ones-self.zeros)
-        dnnc_testing.utils.assert_equal( self.zeros+self.ones, self.ones)
+        # And
+        dnnc_testing.utils.assert_equal( self.zeros , self.zeros&self.ones)
+        # dnnc_testing.utils.assert_equal( self.ones , 1&self.ones)   # And doesn't work with scalar 
+        # dnnc_testing.utils.assert_equal( self.zeros , 0&self.ones)  # on left and tensor on right 
+        dnnc_testing.utils.assert_equal( self.ones , self.ones&1)
+        dnnc_testing.utils.assert_equal( self.zeros , self.ones&0)
+        # Or
+        # dnnc_testing.utils.assert_equal( self.ones , self.zeros|self.ones)
+        # dnnc_testing.utils.assert_equal( self.ones , 0|self.ones)   # Or doesn't work with scalar 
+        # dnnc_testing.utils.assert_equal( self.ones , 1|self.zeros)  # on left and tensor on right 
+        # dnnc_testing.utils.assert_equal( self.ones , self.ones|0)
+        # dnnc_testing.utils.assert_equal( self.ones , self.zeros|1)
+        # Pow
+        # dnnc_testing.utils.assert_equal( self.ones , self.ones**1)
+        # dnnc_testing.utils.assert_equal( np.power(self.np_i0_4 , self.np_i5_9), self.i0_4**self.i5_9)
 
     # unary operators
     def test_unary(self):
+        # Neg
         dnnc_testing.utils.assert_equal( self.i0_4, -(-self.i0_4))
+        # Pos
+        dnnc_testing.utils.assert_equal( -self.i0_4, +(-self.i0_4))
+        # Abs
         dnnc_testing.utils.assert_equal( self.i0_4, abs(-self.i0_4))
 
     # comparison operators
     def test_comparison(self):
+        # Less
         lessResult = self.zeros < self.ones
         dnnc_testing.utils.assert_equal(lessResult, self.ones)
+        # LessEqual
+        lessEqualResult = self.zeros <= self.zeros
+        dnnc_testing.utils.assert_equal(lessEqualResult, self.ones)
+        # Greater
         greaterResult = self.ones > self.zeros
         dnnc_testing.utils.assert_equal(greaterResult, self.ones)
+        # GreaterEqual
+        greaterEqualResult = self.ones >= self.ones
+        dnnc_testing.utils.assert_equal(greaterEqualResult, self.ones)
+        # Equal
         equalResult = self.ones == dc.ones(2,3).asTypeInt()
         dnnc_testing.utils.assert_equal(equalResult, self.ones)
+        # NotEqual
+        notEqualResult = self.ones != self.zeros
+        dnnc_testing.utils.assert_equal(notEqualResult, self.ones)
 
     def tearDown(self):
         return "test finished"

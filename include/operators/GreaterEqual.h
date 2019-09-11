@@ -29,13 +29,13 @@
 using namespace Eigen;
 
 namespace dnnc {
-/*! Returns the tensor resulted from performing the greater logical operation
+/*! Returns the tensor resulted from performing the greater than or equal to logical operation
  * elementwise on the input tensors A and B (with Numpy-style broadcasting
  * support).
  */
-template <typename T> class Greater : public baseOperator<T> {
+template <typename T> class GreaterEqual : public baseOperator<T> {
 public:
-  Greater(std::string name = "opGreater") : baseOperator<T>(opGreater, name) {}
+  GreaterEqual(std::string name = "opGreaterEqual") : baseOperator<T>(opGreaterEqual, name) {}
 
   tensor<bool>
   compute(tensor<T> &a /*!< First input operand for the logical operator.*/,
@@ -45,11 +45,11 @@ public:
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
-          "tensor dimenions not appropriate for Greater operator.");
+          "tensor dimenions not appropriate for GreaterEqual operator.");
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
-    eResult.array() = eigenVectorA.array() > eigenVectorB.array();
+    eResult.array() = eigenVectorA.array() >= eigenVectorB.array();
     result.load(eResult.data());
     return result;
   }

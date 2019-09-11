@@ -55,6 +55,12 @@ extern tensor<float> \
 		 add(tensor<float> &a, tensor<float> &b) ;
 extern tensor<int> \
 		 add(tensor<int> &a, tensor<int> &b) ;
+extern tensor<double> \
+		 logical_and(tensor<double> &a, tensor<double> &b) ;
+extern tensor<float> \
+		 logical_and(tensor<float> &a, tensor<float> &b) ;
+extern tensor<int> \
+		 logical_and(tensor<int> &a, tensor<int> &b) ;
 extern tensor<float> \
 		 dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) ;
 extern tensor<double> \
@@ -125,6 +131,12 @@ extern tensor<bool> \
 		 greater(tensor<float> &a, tensor<float> &b) ;
 extern tensor<bool> \
 		 greater(tensor<double> &a, tensor<double> &b) ;
+extern tensor<bool> \
+		 greater_equal(tensor<int> &a, tensor<int> &b) ;
+extern tensor<bool> \
+		 greater_equal(tensor<float> &a, tensor<float> &b) ;
+extern tensor<bool> \
+		 greater_equal(tensor<double> &a, tensor<double> &b) ;
 extern tensor<float> \
 		 hardmax(tensor<float> &a, int axis = 0) ;
 extern tensor<double> \
@@ -161,10 +173,20 @@ extern tensor<float> \
 		 leakyrelu(tensor<float> &a, float alpha = 0.01) ;
 extern tensor<double> \
 		 leakyrelu(tensor<double> &a, float alpha = 0.01) ;
-extern tensor<float> \
-		 thresholded_relu(tensor<float> &a) ;
+extern tensor<bool> \
+		 less(tensor<int> &a, tensor<int> &b) ;
 extern tensor<bool> \
 		 less(tensor<float> &a, tensor<float> &b) ;
+extern tensor<bool> \
+		 less(tensor<double> &a, tensor<double> &b) ;
+extern tensor<bool> \
+		 less_equal(tensor<int> &a, tensor<int> &b) ;
+extern tensor<bool> \
+		 less_equal(tensor<float> &a, tensor<float> &b) ;
+extern tensor<bool> \
+		 less_equal(tensor<double> &a, tensor<double> &b) ;
+extern tensor<float> \
+		 thresholded_relu(tensor<float> &a) ;
 extern tensor<float> \
 		 log(tensor<float> &a) ;
 extern tensor<float> \
@@ -175,6 +197,22 @@ extern tensor<int> \
 		 matmulinteger(tensor<int> &a, tensor<int> &b) ;
 extern tensor<float> \
 		 max(std::vector<tensor<float>> a) ;
+extern tensor<bool> \
+		 not_equal(tensor<double> &a, tensor<double> &b) ;
+extern tensor<bool> \
+		 not_equal(tensor<float> &a, tensor<float> &b) ;
+extern tensor<bool> \
+		 not_equal(tensor<bool> &a, tensor<bool> &b) ;
+extern tensor<bool> \
+		 not_equal(tensor<int> &a, tensor<int> &b) ;
+extern tensor<bool> \
+		 logical_not(tensor<bool> &a) ;
+extern tensor<bool> \
+		 logical_or(tensor<bool> &a, tensor<bool> &b) ;
+extern tensor<float> \
+		 pow(tensor<float> &a, tensor<float> &b) ;
+extern tensor<double> \
+		 pow(tensor<double> &a, tensor<double> &b) ;
 extern tensor<double> \
 		 sub(tensor<double> &a, tensor<double> &b) ;
 extern tensor<float> \
@@ -189,6 +227,8 @@ extern tensor<float> \
 		 tanh(tensor<float> &a) ;
 extern tensor<double> \
 		 tanh(tensor<double> &a) ;
+extern tensor<bool> \
+		 logical_xor(tensor<bool> &a, tensor<bool> &b) ;
 extern tensor<double> \
 		 transpose(tensor<double> &a) ;
 extern tensor<float> \
