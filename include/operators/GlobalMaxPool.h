@@ -32,38 +32,30 @@ template <typename T> class GlobalMaxPool : public baseOperator<T> {
 public:
   GlobalMaxPool(std::string name = "opGlobalMaxPool")
       : baseOperator<T>(opGlobalMaxPool, name) {}
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
   tensor<T> compute(tensor<T> a) {
-    if (!compare())
+
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
+
+    if ((a.rank() == 1) || (a.rank() == 2))
+      return a;
+    // Reshape ND tensor to 3D.
     size_t axis_left = 1;
     for (int i = 2; i < int(a.rank()); i++) {
       axis_left *= a.shape()[i];
     }
-    size_t rank = a.rank();
     std::vector<size_t> shape{a.shape()[0], a.shape()[1], axis_left};
     a.reshape(shape);
+    // Make the axis other than N and C equal to 1.
     shape.pop_back();
-    std::cout << a.rank() << "\n";
-    for (int i = 2; i < int(rank); i++) {
+    for (int i = 2; i < int(a.rank()); i++)
       shape.push_back(1);
-    }
-    int cummulation = axis_left;
+    DNNC_EIGEN_TENSOR_MAP(eigenTensor, a);
     tensor<T> result(shape);
-    T max = a[0];
-    int j = 0;
-    for (size_t i = 1; i < a.length(); i++) {
-      if (a[i] > max)
-        max = a[i];
-      if (!((i + 1) % cummulation)) {
-        result[j++] = max;
-        if ((i + 1) != a.length())
-          max = a[i + 1];
-      }
-    }
+    Tensor<T, 2, RowMajor> eResult(a.shape()[0], a.shape()[1]);
+    eResult = eigenTensor.maximum(Eigen::array<int, 1>({2}));
+    result.load(eResult.data());
     return result;
   }
   /*!<

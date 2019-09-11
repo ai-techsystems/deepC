@@ -55,14 +55,17 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Sub.h"
+#include "operators/Tan.h"
+#include "operators/Tanh.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
+#include "operators/Xor.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
-using namespace dnnc;
-
+namespace dnnc {
 tensor<float> array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
 	return tensor<float>(x, y, z, w, "", dnnc::INIT_RANDOM);
 }
@@ -260,8 +263,8 @@ tensor<int> add(tensor<int> &a, tensor<int> &b) {
 	return op.compute(a, b);
 }
 
-tensor<float> dequantize_linear(tensor<float> &a, tensor<float> &b, tensor<float> &c) {
-	DequantizeLinear<float> op;
+tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) {
+	DequantizeLinear<int> op;
 	return op.compute(a, b, c);
 }
 
@@ -560,9 +563,64 @@ tensor<float> max(std::vector<tensor<float>> a) {
   return op.compute(a);
 }
 
-tensor<float> transpose(tensor<float> &a) {
-	dnnc::Transpose<float> op;
+tensor<double> sub(tensor<double> &a, tensor<double> &b) {
+	Sub<double> op;
+	return op.compute(a, b);
+}
+
+tensor<float> sub(tensor<float> &a, tensor<float> &b) {
+	Sub<float> op;
+	return op.compute(a, b);
+}
+
+tensor<int> sub(tensor<int> &a, tensor<int> &b) {
+	Sub<int> op;
+	return op.compute(a, b);
+}
+
+tensor<float> tan(tensor<float> &a) {
+  Tan<float> op;
+  return op.compute(a);
+}
+
+tensor<double> tan(tensor<double> &a) {
+  Tan<double> op;
+  return op.compute(a);
+}
+
+tensor<float> tanh(tensor<float> &a) {
+  Tanh<float> op;
+  return op.compute(a);
+}
+
+tensor<double> tanh(tensor<double> &a) {
+  Tanh<double> op;
+  return op.compute(a);
+}
+
+tensor<double> transpose(tensor<double> &a) {
+	Transpose<double> op;
 	return op.compute(a);
 }
 
 
+tensor<float> transpose(tensor<float> &a) {
+	Transpose<float> op;
+	return op.compute(a);
+}
+
+
+tensor<int> transpose(tensor<int> &a) {
+	Transpose<int> op;
+	return op.compute(a);
+}
+
+
+tensor<bool> transpose(tensor<bool> &a) {
+	Transpose<bool> op;
+	return op.compute(a);
+}
+
+
+
+}

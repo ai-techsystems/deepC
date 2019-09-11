@@ -57,10 +57,6 @@ public:
     this->bias = bias;
     this->size = size;
   }
-
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
   bool getAttribute(OPATTR attrName, float &obj) {
     if (attrName == attr_alpha) {
       obj = alpha;
@@ -86,7 +82,7 @@ public:
     C is the number of channels, and H and W are the height and the width of the data.
     For non image case, the dimensions are in the form of  \f$(N * C * D1 * D2* ...* Dn)\f$,
      where N is the batch size.*/) {
-    if (!compare())
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

@@ -29,16 +29,20 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Xor : public baseOperator<T> {
-  //  Xor attributes
+  
 public:
   Xor(std::string name = "opXor") : baseOperator<T>(opXor, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  /*! Element wise Xor-Function*/
+  static T xor_function(T x, T y) {
+    return (!x != !y) ? true : false;
+  }
+  
   tensor<T> compute(tensor<T> a, tensor<T> b) {
 
-    if (typeid(a) != typeid(tensor<bool>) || typeid(b) != typeid(tensor<bool>))
+    if (!(this->template type_check<bool>()))
       throw std::invalid_argument(
-          "tensor types not appropriate for Xor operator.");
+        "Constrain input and output types to float tensors.");
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
@@ -47,8 +51,14 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Xor operator.");
 
-    for (size_t i = 0; i < a.length(); i++)
-      result[i] = (!a[i] != !b[i]) ? true : false;
+    // for (size_t i = 0; i < a.length(); i++)
+    //   result[i] = (!a[i] != !b[i]) ? true : false;
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    eResult.array() = eigenVectorA.array().binaryExpr(eigenVectorB.array(), &xor_function);
+    result.load(eResult.data());
 
     return result;
   }

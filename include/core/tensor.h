@@ -167,9 +167,10 @@ public:
       free(_mem_layout);
     }
   }
+  operator bool() const { return rank() != 0; }
   /*! Description: creates a deep copy of the tensor
    * Returns: new tensor*/
-  tensor<T> copy() {
+  tensor<T> copy() const {
     if (isnull())
       return NULL_TENSOR<T>;
 
@@ -178,6 +179,26 @@ public:
 
     return result;
   }
+  /// \brief invert the sign of each element of the tensor
+  tensor<T> negate() const {
+    tensor<T> result = copy();
+    DIMENSION msize = result.length(); // flat array length
+    for (size_t i = 0; i < msize; i++)
+      result._mem_layout[i] = -_mem_layout[i];
+
+    return result;
+  }
+  /// \brief absolute value of each element of the tensor
+  tensor<T> absolute() const {
+    tensor<T> result = copy();
+    DIMENSION msize = result.length(); // flat array length
+    for (size_t i = 0; i < msize; i++)
+      result._mem_layout[i] =
+          _mem_layout[i] < static_cast<T>(0) ? -_mem_layout[i] : _mem_layout[i];
+
+    return result;
+  }
+  /// \brief identifier of the tensor
   /// \brief identifier of the tensor
   size_t identifier() const {
     return reinterpret_cast<size_t>(_mem_layout - 0xfff);
@@ -204,6 +225,8 @@ public:
   tensor<float> asTypeFloat() { return asType<float>(); }
   /// \brief return a copy of the tensor, cast to int
   tensor<int> asTypeInt() { return asType<int>(); }
+  /// \brief return a copy of the tensor, cast to long
+  tensor<long> asTypeLong() { return asType<long>(); }
   /// \brief return a copy of the tensor, cast to bool
   tensor<bool> asTypeBool() { return asType<bool>(); }
 
@@ -245,13 +268,13 @@ public:
     if (rank() == 0) {
       str += "null tensor";
     } else if (rank() == 1) {
-      str += "\n[";
+      str += "[";
       size_t i = 0;
       for (i = 0; i < length() && i < max_el; i++)
         str += (i ? " " : "") + std::to_string(_mem_layout[i]);
       str += i == max_el ? "...]" : "]";
     } else if (rank() == 2) {
-      str += "\n[";
+      str += "[";
       size_t i = 0;
       for (i = 0; i < _shape[0] && i < max_el; i++) {
         str += i ? "\n [" : "[";
@@ -264,7 +287,7 @@ public:
       }
       str += i == max_el ? "...]" : "]";
     } else if (rank() == 3) {
-      str += "\n[";
+      str += "[";
       size_t i = 0;
       for (i = 0; i < _shape[0] && i < max_el; i++) {
         str += i ? "\n [" : "[";
@@ -282,7 +305,7 @@ public:
       }
       str += i == max_el ? "...]" : "]";
     } else if (rank() == 4) {
-      str += "\n[";
+      str += "[";
       size_t i = 0;
       for (i = 0; i < _shape[0] && i < max_el; i++) {
         str += i ? "\n [" : "[";
@@ -306,32 +329,9 @@ public:
       }
       str += i == max_el ? "...]" : "]";
     }
-    return str + "\n";
+    return str;
   }
 
-#ifdef SWIGPYTHON
-  char *__str__() {
-    std::string str = to_string();
-    size_t sz = str.size();
-    char *result = (char *)malloc(sz + 1);
-    for (size_t i = 0; i < str.size(); i++)
-      result[i] = str.at(i);
-    result[sz] = '\0';
-    return result;
-  }
-  char *__repr__() {
-    std::string str;
-    for (size_t i = 0; i < length(); i++)
-      str += std::to_string(_mem_layout[i]) + ' ';
-
-    size_t sz = str.size();
-    char *result = (char *)malloc(sz + 1);
-    for (size_t i = 0; i < str.size(); i++)
-      result[i] = str.at(i);
-    result[sz] = '\0';
-    return result;
-  }
-#endif
   /// \brief return 1D flat array
   const std::vector<T> data() const {
     return isnull() ? std::vector<T>()

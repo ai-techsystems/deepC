@@ -25,7 +25,7 @@ import dnnc as dc
 import numpy as np
 import unittest
 
-class AddTest(unittest.TestCase):
+class SubTest(unittest.TestCase):
     def setUp(self):
         self.len = 24
         self.np_a = np.random.randn(self.len).astype(np.float32)
@@ -33,45 +33,57 @@ class AddTest(unittest.TestCase):
         self.dc_a = dc.array(list(self.np_a));
         self.dc_b = dc.array(list(self.np_b));
 
-    def test_Add1D (self):
-        npr = np.add(self.np_a, self.np_b)
-        dcr = dc.add(self.dc_a, self.dc_b)
+    def test_Sub1D (self):
+        npr = np.subtract(self.np_a, self.np_b)
+        dcr = dc.sub(self.dc_a, self.dc_b)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Add2D (self):
+    def test_Sub2D (self):
         np_a = np.reshape(self.np_a, (6,4))
         np_b = np.reshape(self.np_b, (6,4))
         dc_a = dc.reshape(self.dc_a, (6,4));
         dc_b = dc.reshape(self.dc_b, (6,4));
-        npr = np.add(np_a, np_b);
-        dcr = dc.add(dc_a, dc_b);
+        npr = np.subtract(np_a, np_b);
+        dcr = dc.sub(dc_a, dc_b);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Add3D (self):
+    def test_Sub3D (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         np_b = np.reshape(self.np_b, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3));
         dc_b = dc.reshape(self.dc_b, (2,4,3));
 
-        npr = np.add(np_a, np_b);
-        dcr = dc.add(dc_a, dc_b);
+        npr = np.subtract(np_a, np_b);
+        dcr = dc.sub(dc_a, dc_b);
 
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Add4D (self):
+    def test_Sub4D (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
         np_b = np.reshape(self.np_b, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3));
         dc_b = dc.reshape(self.dc_b, (2,2,2,3));
 
-        npr = np.add(np_a, np_b);
-        dcr = dc.add(dc_a, dc_b);
-
+        # not working yet
+        npr = np.subtract(np_a, np_b);
+        dcr = dc.sub(dc_a, dc_b);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
+
+    def test_Broadcast (self):
+        np_a = np.reshape(self.np_a, (2,2,2,3))
+        np_b = self.np_b[0:3]
+        dc_a = dc.reshape(self.dc_a, (2,2,2,3));
+        dc_b = dc.array(list(np_b));
+
+        # github issue # 31, resolved.
+        npr = np.subtract(np_a, np_b);
+        dcr = dc.sub(dc_a, dc_b);
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32), rtol=1e-3, atol=1e-3)
+
 
     def tearDown(self):
         return "test finished"

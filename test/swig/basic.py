@@ -26,7 +26,7 @@ t3.load(data)
 
 arr = dc.array([1, 2])
 #print(arr)
-arr2D = dc.array([[1, 2], [10, 20]]).astype('int')
+arr2D = dc.array([[1, 2], [10, 20]]).asTypeInt()
 #print(arr2D)
 arrRand = dc.random(2, 3);
 #print(arrRand)

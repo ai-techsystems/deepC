@@ -7,7 +7,10 @@ if __name__ == '__main__':
     for folder in ['swig'] :
 
         # add the test name here
-        test = input("Enter test name (ex. 'MatMul.py'): ")
+        if ( len(sys.argv) > 1 ):
+            test = sys.argv[1];
+        else:
+            test = input("Enter test name (ex. 'MatMul.py'): ")
 
         folder = os.path.join(os.getcwd(), folder)
         print (folder)

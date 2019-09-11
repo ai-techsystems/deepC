@@ -55,13 +55,15 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Sub.h"
+#include "operators/Tan.h"
+#include "operators/Tanh.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
+#include "operators/Xor.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
-
-using namespace dnnc;
 
 /*## (Don't remove the '##', it indicates the split line)
 The code above this commented block will be copied as it is. 
@@ -199,12 +201,9 @@ tensor<output> add(tensor<input> &a, tensor<input> &b) {
 	}
 }
 
-tensor<output> dequantize_linear(tensor<input> &a, tensor<float> &b, tensor<input> &c) {
-	DequantizeLinear<input> op;
+tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) {
+	DequantizeLinear<int> op;
 	return op.compute(a, b, c);
-	dtype = {
-		"float" : "float"
-	}
 }
 
 tensor<output> div(tensor<input> &a, tensor<input> &b) {
@@ -443,7 +442,49 @@ tensor<float> max(std::vector<tensor<float>> a) {
   return op.compute(a);
 }
 
-tensor<float> transpose(tensor<float> &a) {
-	dnnc::Transpose<float> op;
+tensor<output> sub(tensor<input> &a, tensor<input> &b) {
+	Sub<input> op;
+	return op.compute(a, b);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int"
+	}
+}
+
+tensor<output> tan(tensor<input> &a) {
+  Tan<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> tanh(tensor<input> &a) {
+  Tanh<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+/*tensor<output> xor(tensor<input> &a, tensor<input> &b) {
+	Xor<input> op;
+	return op.compute(a, b);
+	dtype = {
+		"bool" : "bool"
+	}
+}*/
+
+tensor<output> transpose(tensor<input> &a) {
+	Transpose<input> op;
 	return op.compute(a);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int",
+		"bool" : "bool"
+	}
 }

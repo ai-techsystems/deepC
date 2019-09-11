@@ -29,16 +29,16 @@ using namespace Eigen;
 #ifdef DNNC_DEQUANTIZELINEAR_TEST
 #include <iostream>
 int main() {
-  // int d1[6] = {1, 2, 3, 4, 5, 6};
-  float d1[24] = {1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.,
-                  1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.};
+  int d1[24] = {1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6};
+  //float d1[24] = {1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.,
+    //              1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.};
   float d2[1] = {4.};
   // int d3[1] = {6};
-  float d3[1] = {6.};
+  int d3[1] = {6};
 
   // we can't pass both int and float tensor to the compute function for now
   // tensor<int> a(2,3); a.load(d1);
-  tensor<float> a(2, 2, 3, 2);
+  tensor<int> a(2, 2, 3, 2);
   a.load(d1);
 
   tensor<float> b(1);
@@ -46,10 +46,10 @@ int main() {
 
   // we can't pass both int and float tensor to the compute function for now
   // tensor<int> c(1,1); c.load(d3);
-  tensor<float> c(1);
+  tensor<int> c(1);
   c.load(d3);
 
-  DequantizeLinear<float> m("localOpName");
+  DequantizeLinear<int> m("localOpName");
   auto result = m.compute(a, b, c);
 
   std::cout << result;

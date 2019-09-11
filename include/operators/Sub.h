@@ -29,39 +29,53 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Sub : public baseOperator<T> {
-  //  Sub attributes
+  template <typename Scalar>
+  inline DNNC_EIGEN_VECTOR_CTOR(Scalar)
+      eigenArraySub(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
+    return a.array() - b.array();
+  }
+  // Eigen does not support subtraction operator for bool
+  // So specialiazation is needed to work around that limitation.
+  // Bug Ref: http://eigen.tuxfamily.org/bz/show_bug.cgi?id=426
+  inline DNNC_EIGEN_VECTOR_CTOR(bool)
+      eigenArraySub(Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &b) {
+    auto eigenVectorIA = a.template cast<uint8_t>();
+    auto eigenVectorIB = b.template cast<uint8_t>();
+    DNNC_EIGEN_VECTOR_CTOR(uint8_t) eIResult;
+    eIResult.array() = eigenVectorIA.array() - eigenVectorIB.array();
+    return eIResult.template cast<bool>();
+  }
+
 public:
   Sub(std::string name = "opSub") : baseOperator<T>(opSub, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  tensor<T> compute(tensor<T> a, tensor<T> b) {
+  tensor<T> compute(tensor<T> a /*!< : N D tensor input*/,
+                    tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
-    if (a.shape() != b.shape()) {
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Subtraction operator.");
-    }
 
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-    DNNC_EIGEN_MATRIX(eigenMatrixB, b);
-    if (a.rank() == 2) // For matrix of rank 2
-    {
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
-      result.load(eResult.data());
-      return result;
-    } else if (a.rank() == 3) {
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
-      result.load(eResult.data());
-      return result;
-    } else if (a.rank() == 4) {
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA - eigenMatrixB;
-      result.load(eResult.data());
-      return result;
-    } else
+    if (a.shape() != b.shape())
       throw std::invalid_argument(
-          "tensor dimenions not appropriate for Subtraction operator.");
+          "tensor dimenions not appropriate for Sub operator.");
+    // Written for arbitrary Dimension.
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+
+    DNNC_EIGEN_VECTOR_CTOR(T)
+    eResult = eigenArraySub(eigenVectorA, eigenVectorB);
+
+    result.load(eResult.data());
+
+    return result;
   }
+  /*!<
+  \return The output tensor of the same shape and type as input.
+  */
 };
 } // namespace dnnc

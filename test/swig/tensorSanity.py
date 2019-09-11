@@ -64,12 +64,12 @@ class tensorSanityTest(unittest.TestCase):
 
         # tensor from python list
         l1D=[1,3,5]
-        a=dc.array(l1D).astype('int')
+        a=dc.array(l1D).asTypeInt()
         np.testing.assert_equal(np.array(l1D), np.array(list(a.data())))
 
         # tensor from python list of lists
         l2D=[[1,3,5],[2,4,6]]
-        a=dc.array(l2D).astype('int')
+        a=dc.array(l2D).asTypeInt()
         assert a.rank() == 2
         assert a.shape() == (2, 3)
         np.testing.assert_equal(np.array(l2D).flatten(), \
@@ -85,18 +85,18 @@ class tensorSanityTest(unittest.TestCase):
         assert a.length() == 10
 
         # add start and step
-        a=dc.arange(10, 5, 3).astype('int')
+        a=dc.arange(10, 5, 3).asTypeInt()
         assert a.data() == (5, 8)
 
         # swap start and stop.
-        a=dc.arange(5, 10, 3).astype('int')
+        a=dc.arange(5, 10, 3).asTypeInt()
         assert a.data() == (5, 8)
 
     # test data loading and index
     def test_data(self):
 
         # confirm type as class tuple.
-        a=dc.zeros(2,3).astype('int')
+        a=dc.zeros(2,3).asTypeInt()
         adata = a.data()
         assert type(adata) == type((1,))
 
@@ -110,7 +110,7 @@ class tensorSanityTest(unittest.TestCase):
         assert a[0] == 777
 
         # reshape, fetch and load with multi indices
-        a=dc.arange(12).astype('int')
+        a=dc.arange(12).asTypeInt()
         a.reshape(dc.lvec([2,2,3]))
         assert a[0,1,1] == 4
 
@@ -131,22 +131,16 @@ class tensorSanityTest(unittest.TestCase):
         assert a.dtype() == 'float'
 
         # transform datatype to int.
-        aint = a.astype('int')
-        bint = a.asTypeInt()
+        aint = a.asTypeInt()
         assert aint.dtype() == 'int32_t'
-        assert bint.dtype() == 'int32_t'
 
         # transform datatype to double.
-        adbl = a.astype('double')
-        bdbl = a.asTypeDouble()
+        adbl = a.asTypeDouble();
         assert adbl.dtype() == 'double'
-        assert bdbl.dtype() == 'double'
 
         # transform datatype to double.
-        abool = a.astype('bool')
-        bbool = a.asTypeBool()
+        abool = a.asTypeBool()
         assert abool.dtype() == 'bool'
-        assert bbool.dtype() == 'bool'
 
     # test shapes
     def test_shapes(self):
@@ -154,7 +148,7 @@ class tensorSanityTest(unittest.TestCase):
         # test shape tuple
         shape1=dc.lvec([2,3,4,5])
         shape2=dc.lvec([5,4,3,2])
-        a=dc.random(2,3,4,5).astype('int')
+        a=dc.random(2,3,4,5).asTypeInt()
         assert a.rank() == 4
         assert a.shape() == (2, 3, 4, 5)
 

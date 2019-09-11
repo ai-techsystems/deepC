@@ -32,9 +32,9 @@ def temp_dequantize_linear(np_x, np_x_scale, np_x_zero_point):
 class DequantizeLinearTest(unittest.TestCase):
     def setUp(self):
         self.len = 24
-        self.np_x = np.random.randn(self.len).astype(np.float32)
+        self.np_x = np.random.randn(self.len).astype(np.int)
         self.np_x_scale = np.random.randn(1).astype(np.float32)
-        self.np_x_zero_point = np.random.randn(1).astype(np.float32)
+        self.np_x_zero_point = np.random.randn(1).astype(np.int)
         self.dc_x = dc.array(list(self.np_x))
         self.dc_x_scale = dc.array(list(self.np_x_scale))
         self.dc_x_zero_point = dc.array(list(self.np_x_zero_point))

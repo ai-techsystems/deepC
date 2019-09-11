@@ -61,11 +61,7 @@ public:
     this->transA = transA;
     this->transB = transB;
   }
-  /*! Compares input datatype with int, double and float*/
-  static bool compare() {
-    return ((typeid(T) == typeid(double)) || (typeid(T) == typeid(float)) ||
-            (typeid(T) == typeid(int)));
-  }
+  
   bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_transA) {
       obj = transA;
@@ -99,9 +95,10 @@ public:
     if (a.rank() != 2 || b.rank() != 2 || c.rank() != 2)
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Gemm operator.");
-    if (!compare())
+    
+    if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
-          "Constrain input and output types to int or float tensors.");
+          "Constrain input and output types to float and int tensors.");
 
     tensor<T> result(c.shape(), c.name());
     DNNC_EIGEN_MATRIX(eigenMatrixA, a);

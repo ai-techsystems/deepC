@@ -57,11 +57,6 @@ public:
     }
     return false;
   }
-  /*! Constrain input and output types to float tensors.
-   */
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
 
   static bool Is_INF(T x, int detect_negative, int detect_positive) {
     if (std::isinf(x)) {
@@ -76,7 +71,7 @@ public:
   }
   // NOT GOOD to return by value
   tensor<bool> compute(tensor<T> &a) {
-    if (!compare())
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     tensor<bool> result(a.shape(), a.name());

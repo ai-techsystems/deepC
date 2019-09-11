@@ -3,7 +3,7 @@
 # distributed with this work for additional information
 # regarding copyright ownership.  The ASF licenses this file
 # to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
+# "License") you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
 #
 #   http://www.apache.org/licenses/LICENSE-2.0
@@ -25,51 +25,39 @@ import dnnc as dc
 import numpy as np
 import unittest
 
-class AddTest(unittest.TestCase):
+class TanhTest(unittest.TestCase):
     def setUp(self):
         self.len = 24
         self.np_a = np.random.randn(self.len).astype(np.float32)
-        self.np_b = np.random.randn(self.len).astype(np.float32)
-        self.dc_a = dc.array(list(self.np_a));
-        self.dc_b = dc.array(list(self.np_b));
+        self.dc_a = dc.array(list(self.np_a))
 
-    def test_Add1D (self):
-        npr = np.add(self.np_a, self.np_b)
-        dcr = dc.add(self.dc_a, self.dc_b)
+    def test_Tanh1D (self):
+        npr = np.tanh(self.np_a)
+        dcr = dc.tanh(self.dc_a)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-
-    def test_Add2D (self):
+    
+    def test_Tanh2D (self):
         np_a = np.reshape(self.np_a, (6,4))
-        np_b = np.reshape(self.np_b, (6,4))
-        dc_a = dc.reshape(self.dc_a, (6,4));
-        dc_b = dc.reshape(self.dc_b, (6,4));
-        npr = np.add(np_a, np_b);
-        dcr = dc.add(dc_a, dc_b);
+        dc_a = dc.reshape(self.dc_a, (6,4))
+        npr = np.tanh(np_a)
+        dcr = dc.tanh(dc_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Add3D (self):
+    def test_Tanh3D (self):
         np_a = np.reshape(self.np_a, (2,4,3))
-        np_b = np.reshape(self.np_b, (2,4,3))
-        dc_a = dc.reshape(self.dc_a, (2,4,3));
-        dc_b = dc.reshape(self.dc_b, (2,4,3));
-
-        npr = np.add(np_a, np_b);
-        dcr = dc.add(dc_a, dc_b);
-
+        dc_a = dc.reshape(self.dc_a, (2,4,3))
+        npr = np.tanh(np_a)
+        dcr = dc.tanh(dc_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-
-    def test_Add4D (self):
+    
+    def test_Tanh4D (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
-        np_b = np.reshape(self.np_b, (2,2,2,3))
-        dc_a = dc.reshape(self.dc_a, (2,2,2,3));
-        dc_b = dc.reshape(self.dc_b, (2,2,2,3));
-
-        npr = np.add(np_a, np_b);
-        dcr = dc.add(dc_a, dc_b);
-
+        dc_a = dc.reshape(self.dc_a, (2,2,2,3))
+        npr = np.tanh(np_a)
+        dcr = dc.tanh(dc_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -78,4 +66,4 @@ class AddTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
+    

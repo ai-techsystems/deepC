@@ -1,7 +1,8 @@
 tensorSanity.py
+tensorOperators.py
 Add.py
+Broadcast.py
 Div.py
-DequantizeLinear.py
 Elu.py
 Equal.py
 Erf.py
@@ -22,4 +23,6 @@ IsInf.py
 IsNaN.py
 LeakyRelu.py
 MatMul.py
-Broadcast.py
+Sub.py
+Tan.py
+Tanh.py

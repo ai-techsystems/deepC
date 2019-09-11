@@ -36,21 +36,16 @@ namespace dnnc {
 template <typename T> class Floor : public baseOperator<T> {
 public:
   Floor(std::string name = "opFloor") : baseOperator<T>(opFloor, name) {}
-  /*! Constrain input and output types to float tensors.
-   */
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
-    if (!compare())
+    
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+        "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 
-    a.flatteninplace();
-    DNNC_EIGEN_VECTOR(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = floor(eigenVector.array());

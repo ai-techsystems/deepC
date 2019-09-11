@@ -38,7 +38,7 @@ class GreaterTest(unittest.TestCase):
         dcr = dc.greater(self.dc_a, self.dc_b)
         np.testing.assert_array_equal(npr, np.array(dcr.data()))
 
-    def test_Greater2D (self):
+    def test_Greater2D_1 (self):
         np_a = np.reshape(self.np_a, (6,4))
         np_b = np.reshape(self.np_b, (6,4))
         dc_a = dc.reshape(self.dc_a, (6,4))
@@ -47,7 +47,25 @@ class GreaterTest(unittest.TestCase):
         dcr = dc.greater(dc_a, dc_b)
         np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
 
-    def test_Greater3D (self):
+    def test_Greater2D_2 (self):
+        np_a = np.reshape(self.np_a, (3,8))
+        np_b = np.reshape(self.np_b, (3,8))
+        dc_a = dc.reshape(self.dc_a, (3,8))
+        dc_b = dc.reshape(self.dc_b, (3,8))
+        npr = np.greater(np_a, np_b)
+        dcr = dc.greater(dc_a, dc_b)
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_Greater2D_3 (self):
+        np_a = np.reshape(self.np_a, (12,2))
+        np_b = np.reshape(self.np_b, (12,2))
+        dc_a = dc.reshape(self.dc_a, (12,2))
+        dc_b = dc.reshape(self.dc_b, (12,2))
+        npr = np.greater(np_a, np_b)
+        dcr = dc.greater(dc_a, dc_b)
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_Greater3D_1 (self):
         np_a = np.reshape(self.np_a, (2,4,3))
         np_b = np.reshape(self.np_b, (2,4,3))
         dc_a = dc.reshape(self.dc_a, (2,4,3))
@@ -58,11 +76,44 @@ class GreaterTest(unittest.TestCase):
 
         np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
 
-    def test_Greater4D (self):
+    def test_Greater3D_2 (self):
+        np_a = np.reshape(self.np_a, (2,2,6))
+        np_b = np.reshape(self.np_b, (2,2,6))
+        dc_a = dc.reshape(self.dc_a, (2,2,6))
+        dc_b = dc.reshape(self.dc_b, (2,2,6))
+
+        npr = np.greater(np_a, np_b)
+        dcr = dc.greater(dc_a, dc_b)
+
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_Greater3D_3 (self):
+        np_a = np.reshape(self.np_a, (4,1,6))
+        np_b = np.reshape(self.np_b, (4,1,6))
+        dc_a = dc.reshape(self.dc_a, (4,1,6))
+        dc_b = dc.reshape(self.dc_b, (4,1,6))
+
+        npr = np.greater(np_a, np_b)
+        dcr = dc.greater(dc_a, dc_b)
+
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_Greater4D_1 (self):
         np_a = np.reshape(self.np_a, (2,2,2,3))
         np_b = np.reshape(self.np_b, (2,2,2,3))
         dc_a = dc.reshape(self.dc_a, (2,2,2,3))
         dc_b = dc.reshape(self.dc_b, (2,2,2,3))
+
+        npr = np.greater(np_a, np_b)
+        dcr = dc.greater(dc_a, dc_b)
+
+        np.testing.assert_array_equal(npr.flatten(), np.array(dcr.data()))
+
+    def test_Greater4D_2 (self):
+        np_a = np.reshape(self.np_a, (1,4,2,3))
+        np_b = np.reshape(self.np_b, (1,4,2,3))
+        dc_a = dc.reshape(self.dc_a, (1,4,2,3))
+        dc_b = dc.reshape(self.dc_b, (1,4,2,3))
 
         npr = np.greater(np_a, np_b)
         dcr = dc.greater(dc_a, dc_b)

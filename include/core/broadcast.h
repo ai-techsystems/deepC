@@ -127,6 +127,7 @@ tensor<T> broadcast(const tensor<T> a,
   if (aNumDims == targetNumDims) {
 
     std::vector<size_t> resultShape(targetNumDims);
+
     // Determine broadcast result shape
     for (size_t i = 0; i < targetNumDims; i++) {
       if ((a.shape()[i] == targetShape[i]) || (a.shape()[i] == 1)) {
@@ -142,7 +143,31 @@ tensor<T> broadcast(const tensor<T> a,
     DIMENSION d0 = targetShape[0];
     DIMENSION d1 = targetShape[1];
     DIMENSION d2 = targetShape[2];
-    if (targetNumDims == 3) {
+    DIMENSION d3 = targetShape[3];
+    if (targetNumDims == 4) {
+      for (size_t i = 0; i < d0; i++) {
+        for (size_t j = 0; j < d1; j++) {
+          for (size_t k = 0; k < d2; k++) {
+            for (size_t l = 0; l < d3; l++) {
+              size_t i1 = i, j1 = j, k1 = k, l1 = l;
+              if (a.shape()[0] != d0) {
+                i1 = 0;
+              }
+              if (a.shape()[1] != d1) {
+                j1 = 0;
+              }
+              if (a.shape()[2] != d2) {
+                k1 = 0;
+              }
+              if (a.shape()[3] != d3) {
+                l1 = 0;
+              }
+              result(i, j, k, l) = a(i1, j1, k1, l1);
+            }
+          }
+        }
+      }
+    } else if (targetNumDims == 3) {
       for (size_t i = 0; i < d0; i++) {
         for (size_t j = 0; j < d1; j++) {
           for (size_t k = 0; k < d2; k++) {
