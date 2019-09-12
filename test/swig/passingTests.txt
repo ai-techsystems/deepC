@@ -23,6 +23,7 @@ InstanceNormalization.py
 IsInf.py
 IsNaN.py
 LeakyRelu.py
+LRN.py
 MatMul.py
 Sub.py
 Tan.py

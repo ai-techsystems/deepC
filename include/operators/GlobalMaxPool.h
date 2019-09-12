@@ -28,11 +28,15 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! GlobalMaxPool consumes an input tensor X and applies max pooling
+ *across the values in the same channel. This is equivalent to MaxPool with
+ * kernel size equal to the spatial dimension of input tensor. */
 template <typename T> class GlobalMaxPool : public baseOperator<T> {
 public:
   GlobalMaxPool(std::string name = "opGlobalMaxPool")
       : baseOperator<T>(opGlobalMaxPool, name) {}
-  tensor<T> compute(tensor<T> a) {
+  tensor<T> compute(
+      tensor<T> a /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/) {
 
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
