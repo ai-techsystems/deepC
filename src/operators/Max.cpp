@@ -29,12 +29,17 @@ using namespace Eigen;
 #ifdef DNNC_MAX_TEST
 #include <iostream>
 int main() {
-  float data1[9] = {0.1, 0.02, 1.3, 4.05, 0.5, 0.06, 1.2, 1.03, 1.4};
-  float data2[9] = {0.01, 0.2, 1.03, 4.5, 0.05, 0.6, 1.02, 1.3, 1.4};
-  tensor<float> fTensor1(3, 3);
+  float data1[6] = {1, 1, 1, 2,3, 1};
+  float data2[4] = {1, 2,3, 4};
+  tensor<float> fTensor1(3, 2);
   fTensor1.load(data1);
-  tensor<float> fTensor2(3, 3);
+  tensor<float> fTensor2(2,2);
   fTensor2.load(data2);
+
+ // std::cout<<fTensor1<<"\n";
+  //std::cout<<"\n";
+  //std::cout<<fTensor2<<"\n";
+  //std::cout<<"\n";
 
   std::vector<tensor<float>> vt;
   vt.push_back(fTensor1);

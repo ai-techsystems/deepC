@@ -19,9 +19,7 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 
-import os,sys
-# DNNC_ROOT='/Desktop/dnnCompiler'
-sys.path.append(os.path.abspath('..'+os.path.sep+'..'+os.path.sep+'swig'));
+import common; # DNNC path setup
 
 import dnnc as dc
 import numpy as np
@@ -30,21 +28,17 @@ import unittest
 class MatMulIntegerTest(unittest.TestCase):
     def setUp(self):
         self.len = 12
-        self.np_a = np.random.randn(self.len).astype(np.int)
-        self.np_b = np.random.randn(self.len).astype(np.int)
-        #self.np_a = np.arange(self.len).astype(np.float32)
-        #self.np_b = np.arange(self.len).astype(np.float32)
-        
-        self.dc_a = dc.array(list(self.np_a));  # dc.array gives float not int like-> [0.00000 1.000000]   
-        self.dc_b = dc.array(list(self.np_b));
+        self.np_a = np.random.randint(12, size=self.len)
+        self.np_b = np.random.randint(12, size=self.len)      
+        self.dc_a = dc.array(list(self.np_a)).asTypeInt(); 
+        self.dc_b = dc.array(list(self.np_b)).asTypeInt();
+        self.a_zero_point = dc.array(0).asTypeInt();
+        self.b_zero_point = dc.array(0).asTypeInt();
 
     def test_MatMulInteger1D (self):
-        npr = np.matmul(self.np_a, self.np_b)
-        print(self.np_a)
-        print(self.dc_a)
-        dcr = dc.matmulinteger(self.dc_a, self.dc_b)
-        np.testing.assert_allclose(npr, np.array(dcr.data()[0]).astype(np.int),
-                rtol=1e-3, atol=1e-3)
+        npr = np.matmul(self.np_a, self.np_b)    
+        dcr = dc.matmulinteger(self.dc_a, self.dc_b,self.a_zero_point, self.b_zero_point)
+        np.testing.assert_array_equal(npr, np.array(dcr.data()[0]))
 
     def test_MatMulInteger2D (self):
         np_a = np.reshape(self.np_a, (3,4))
@@ -52,7 +46,7 @@ class MatMulIntegerTest(unittest.TestCase):
         dc_a = dc.reshape(self.dc_a, (3,4));
         dc_b = dc.reshape(self.dc_b, (4,3));
         npr = np.matmul(np_a, np_b);
-        dcr = dc.matmulinteger(dc_a, dc_b);
+        dcr = dc.matmulinteger(dc_a, dc_b,self.a_zero_point,self.b_zero_point);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
                 rtol=1e-3, atol=1e-3)
 
@@ -63,15 +57,14 @@ class MatMulIntegerTest(unittest.TestCase):
         dc_b = dc.reshape(self.dc_b, (2,3,2));
 
         npr = np.matmul(np_a, np_b);
-        dcr = dc.matmulinteger(dc_a, dc_b);
+        dcr = dc.matmulinteger(dc_a, dc_b,self.a_zero_point,self.b_zero_point);
 
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
                 rtol=1e-3, atol=1e-3)
+    
+    def tearDown(self):
+        return "test finished"
 
 if __name__ == '__main__':
-    # m = MatMulTest()
-    # m.test_MatMul1D()
-    # m.test_MatMul2D()
-    # m.test_MatMul3D()
     unittest.main()
     

@@ -28,3 +28,10 @@ MatMul.py
 Sub.py
 Tan.py
 Tanh.py
+Log.py
+Less.py
+LogSoftmax.py
+LpNormalization.py
+Max.py
+Min.py
+Mean.py

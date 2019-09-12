@@ -254,3 +254,4 @@ std::vector<DIMENSION> vecBroadcastReShape(std::vector<tensor<T>> &inputs) {
 }
 
 } // namespace dnnc
+

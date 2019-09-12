@@ -24,7 +24,6 @@
 
 #include "core/tensor.h"
 #include "operators/Add.h"
-#include "operators/And.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
 #include "operators/Elu.h"
@@ -39,7 +38,6 @@
 #include "operators/GlobalLpPool.h"
 #include "operators/GlobalMaxPool.h"
 #include "operators/Greater.h"
-#include "operators/GreaterEqual.h"
 #include "operators/HardSigmoid.h"
 #include "operators/Hardmax.h"
 #include "operators/Identity.h"
@@ -49,7 +47,6 @@
 #include "operators/LRN.h"
 #include "operators/LeakyRelu.h"
 #include "operators/Less.h"
-#include "operators/LessEqual.h"
 #include "operators/Log.h"
 #include "operators/LogSoftmax.h"
 #include "operators/LpNormalization.h"
@@ -58,10 +55,6 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
-#include "operators/Not.h"
-#include "operators/NotEqual.h"
-#include "operators/Or.h"
-#include "operators/Pow.h"
 #include "operators/Sub.h"
 #include "operators/Tan.h"
 #include "operators/Tanh.h"
@@ -208,16 +201,6 @@ tensor<output> add(tensor<input> &a, tensor<input> &b) {
 	}
 }
 
-tensor<output> logical_and(tensor<input> &a, tensor<input> &b) {
-	And<input> op;
-	return op.compute(a, b);
-	dtype = {
-		"double" : "double",
-		"float" : "float",
-		"int" : "int"
-	}
-}
-
 tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) {
 	DequantizeLinear<int> op;
 	return op.compute(a, b, c);
@@ -348,16 +331,6 @@ tensor<output> greater(tensor<input> &a, tensor<input> &b) {
   }
 }
 
-tensor<output> greater_equal(tensor<input> &a, tensor<input> &b) {
-  GreaterEqual<input> op;
-  return op.compute(a, b);
-  dtype = {
-    "int" : "bool",
-    "float" : "bool",
-    "double" : "bool"
-  }
-}
-
 tensor<output> hardmax(tensor<input> &a, int axis = 0) {
   Hardmax<input> op("localOpName", axis);
   return op.compute(a);
@@ -442,13 +415,65 @@ tensor<output> less(tensor<input> &a, tensor<input> &b) {
   }
 }
 
-tensor<output> less_equal(tensor<input> &a, tensor<input> &b) {
-  LessEqual<input> op;
-  return op.compute(a, b);
+tensor<output> log(tensor<input> &a) {
+  Log<input> op;
+  return op.compute(a);
   dtype = {
-    "int" : "bool",
-    "float" : "bool",
-    "double" : "bool"
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> logsoftmax(tensor<input> &a, int axis = 1) {
+	LogSoftmax<input> op("localOpName", axis);
+	return op.compute(a);
+	dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> lpnormalization(tensor<input> &a, int p = 2, int axis = -1) {
+  LpNormalization<input> op("localOpName", p, axis);
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> matmulinteger(tensor<input> &a, tensor<input> &b, tensor<input> &c, tensor<input> &d) {
+	MatMulInteger<input> op;
+	return op.compute(a, b, c, d);
+  dtype = {
+	"int" : "int"
+  }
+}
+
+tensor<output> min(std::vector<tensor<input>> a) {
+  Min<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> mean(std::vector<tensor<input>> a) {
+  Mean<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> max(std::vector<tensor<input>> a) {
+  Max<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
   }
 }
 
@@ -457,67 +482,6 @@ tensor<output> less_equal(tensor<input> &a, tensor<input> &b) {
 tensor<float> thresholded_relu(tensor<float> &a) {
 	ThresholdedRelu<float> op;
 	return op.compute(a);
-}
-
-tensor<float> log(tensor<float> &a) {
-	Log<float> op;
-	return op.compute(a);
-}
-
-tensor<float> logsoftmax(tensor<float> &a) {
-	LogSoftmax<float> op;
-	return op.compute(a);
-}
-
-tensor<float> lpnormalization(tensor<float> &a) {
-	LpNormalization<float> op;
-	return op.compute(a);
-}
-
-tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
-	MatMulInteger<int> op;
-	return op.compute(a, b);
-}
-
-tensor<float> max(std::vector<tensor<float>> a) {
-  Max<float> op;
-  return op.compute(a);
-}
-
-tensor<output> not_equal(tensor<input> &a, tensor<input> &b) {
-	NotEqual<input> op;
-	return op.compute(a, b);
-	dtype = {
-		"double" : "bool",
-		"float" : "bool",
-		"bool" : "bool",
-		"int" : "bool"
-	}
-}
-
-tensor<output> logical_not(tensor<input> &a) {
-	Not<input> op;
-	return op.compute(a);
-	dtype = {
-		"bool" : "bool"
-	}
-}
-
-tensor<output> logical_or(tensor<input> &a, tensor<input> &b) {
-	Or<input> op;
-	return op.compute(a, b);
-	dtype = {
-		"bool" : "bool"
-	}
-}
-
-tensor<output> pow(tensor<input> &a, tensor<input> &b) {
-	Pow<input> op;
-	return op.compute(a, b);
-	dtype = {
-    "float" : "float",
-    "double" : "double"
-  }
 }
 
 tensor<output> sub(tensor<input> &a, tensor<input> &b) {
@@ -548,13 +512,13 @@ tensor<output> tanh(tensor<input> &a) {
   }
 }
 
-tensor<output> logical_xor(tensor<input> &a, tensor<input> &b) {
+/*tensor<output> xor(tensor<input> &a, tensor<input> &b) {
 	Xor<input> op;
 	return op.compute(a, b);
 	dtype = {
 		"bool" : "bool"
 	}
-}
+}*/
 
 tensor<output> transpose(tensor<input> &a) {
 	Transpose<input> op;
