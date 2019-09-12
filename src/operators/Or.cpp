@@ -29,15 +29,24 @@ using namespace Eigen;
 #ifdef DNNC_OR_TEST
 #include <iostream>
 int main() {
-  bool d1[6] = {true, false, true, true, false, false};
-  bool d2[6] = {false, true, true, false, false, true};
-  tensor<bool> a(2, 3);
-  a.load(d1);
-  tensor<bool> b(2, 3);
-  b.load(d2);
 
-  Or<bool> m("localOpName");
-  auto result = m.compute(a, b);
+  float d1[6] = {1., 2., 3., 4., 5., 0.};
+  float d2[6] = {1., 2., 3., 4., 5., 0.};
+  int d3[6] = {0, 1, 2, 3, 6, 5};
+  int d4[6] = {0, 1, 2, 3, 6, 5};
+  tensor<float> a(2, 3);
+  a.load(d1);
+  tensor<float> b(2, 3);
+  b.load(d2);
+  tensor<int> c(2, 3);
+  c.load(d3);
+  tensor<int> d(2, 3);
+  d.load(d4);
+  
+  // Or<float> m("localOpName");
+  // auto result = m.compute(a, b);
+  Or<int> m("localOpName");
+  auto result = m.compute(c, d);
 
   std::cout << result;
   std::cout << "\n";

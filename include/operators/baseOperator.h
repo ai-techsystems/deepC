@@ -75,6 +75,7 @@ enum OPCODE {
   opEyeLike,
   opFlatten,
   opFloor,
+  opFloorDiv,
   opGRU,
   opGather,
   opGemm,

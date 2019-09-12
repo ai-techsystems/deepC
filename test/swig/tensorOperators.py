@@ -69,10 +69,27 @@ class tensorOperatorsTest(unittest.TestCase):
         # Add
         dnnc_testing.utils.assert_equal( self.ones , self.zeros+self.ones)
         dnnc_testing.utils.assert_equal( self.ones , self.zeros+1)
+        # dnnc_testing.utils.assert_equal( self.ones , 1+self.zeros)
         dnnc_testing.utils.assert_equal( self.zeros+self.ones, self.ones)
         # Sub
         dnnc_testing.utils.assert_equal( -self.ones, self.zeros-self.ones)
         dnnc_testing.utils.assert_equal( self.ones, self.ones-self.zeros)
+        # Mul
+        dnnc_testing.utils.assert_equal( self.ones, self.ones*1)
+        # dnnc_testing.utils.assert_equal( self.ones, self.ones*self.ones)
+        dnnc_testing.utils.assert_equal( self.zeros, self.zeros*1)
+        dnnc_testing.utils.assert_equal( self.zeros, self.ones*0)
+        # FloorDiv
+        # dnnc_testing.utils.assert_equal( self.ones, (self.i0_4+3)//self.i0_4)
+        # dnnc_testing.utils.assert_equal( self.zeros, (self.i5_9-3)//self.i5_9)
+        # dnnc_testing.utils.assert_equal( self.ones, 1.0//self.ones)
+        # dnnc_testing.utils.assert_equal( self.zeros, self.zeros//1)
+        # dnnc_testing.utils.assert_equal( self.ones, self.zeros//1)
+        # Div
+        # dnnc_testing.utils.assert_equal( self.ones.asTypeFloat(), self.ones/self.ones)
+        # dnnc_testing.utils.assert_equal( self.ones, 1.0/self.ones)
+        dnnc_testing.utils.assert_equal( self.zeros, self.zeros/1)
+        dnnc_testing.utils.assert_equal( self.ones, self.ones/1)
         # And
         dnnc_testing.utils.assert_equal( self.zeros , self.zeros&self.ones)
         # dnnc_testing.utils.assert_equal( self.ones , 1&self.ones)   # And doesn't work with scalar 
@@ -80,11 +97,17 @@ class tensorOperatorsTest(unittest.TestCase):
         dnnc_testing.utils.assert_equal( self.ones , self.ones&1)
         dnnc_testing.utils.assert_equal( self.zeros , self.ones&0)
         # Or
-        # dnnc_testing.utils.assert_equal( self.ones , self.zeros|self.ones)
+        dnnc_testing.utils.assert_equal( self.ones , self.zeros|self.ones)
         # dnnc_testing.utils.assert_equal( self.ones , 0|self.ones)   # Or doesn't work with scalar 
         # dnnc_testing.utils.assert_equal( self.ones , 1|self.zeros)  # on left and tensor on right 
-        # dnnc_testing.utils.assert_equal( self.ones , self.ones|0)
-        # dnnc_testing.utils.assert_equal( self.ones , self.zeros|1)
+        dnnc_testing.utils.assert_equal( self.ones , self.ones|0)
+        dnnc_testing.utils.assert_equal( self.ones , self.zeros|1)
+        # Xor
+        dnnc_testing.utils.assert_equal( self.ones , self.zeros^self.ones)
+        # dnnc_testing.utils.assert_equal( self.ones , 0^self.ones)   # Xor doesn't work with scalar 
+        # dnnc_testing.utils.assert_equal( self.zeros , 0^self.zeros)  # on left and tensor on right 
+        dnnc_testing.utils.assert_equal( self.ones , self.ones^0)
+        dnnc_testing.utils.assert_equal( self.zeros , self.zeros^0)
         # Pow
         # dnnc_testing.utils.assert_equal( self.ones , self.ones**1)
         # dnnc_testing.utils.assert_equal( np.power(self.np_i0_4 , self.np_i5_9), self.i0_4**self.i5_9)

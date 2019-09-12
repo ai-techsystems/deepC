@@ -33,19 +33,17 @@ template <typename T> class Not : public baseOperator<T> {
 public:
   Not(std::string name = "opNot") : baseOperator<T>(opNot, name) {}
 
-  /*! Element wise Negate-Function*/
-  static T negate_function(T x) { return (!x); }
-  tensor<T> compute(tensor<T> &a /*!<[bool]: ND tensor*/) {
+  tensor<bool> compute(tensor<T> &a /*!< ND tensor*/) {
 
-    if (!(this->template type_check<bool>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to bool tensors.");
+    // if (!(this->template type_check<bool>()))
+    //   throw std::invalid_argument(
+    //     "Constrain input and output types to bool tensors.");
 
-    tensor<T> result(a.shape(), a.name());
-
+    tensor<bool> result(a.shape(), a.name());
+    
     DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
-    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
-    eResult.array() = eigenVector.array().unaryExpr(&negate_function);
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    eResult.array() = !eigenVector.template cast<bool>().array();
     result.load(eResult.data());
 
     return result;

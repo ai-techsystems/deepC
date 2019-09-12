@@ -25,6 +25,8 @@ IsNaN.py
 LeakyRelu.py
 LRN.py
 MatMul.py
+Or.py
 Sub.py
 Tan.py
 Tanh.py
+Xor.py

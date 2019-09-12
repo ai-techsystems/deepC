@@ -22,6 +22,7 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
@@ -37,11 +38,15 @@ template <typename T> class Div : public baseOperator<T> {
 public:
   Div(std::string name = "opDiv") : baseOperator<T>(opDiv, name) {}
 
-  tensor<T> compute(tensor<T> a /*!< : N D tensor input*/,
+  tensor<float> compute(tensor<T> a /*!< : N D tensor input*/,
                     tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<T> result(resultShape);
+    tensor<float> result(resultShape);
+
+    if (!(this->template type_check<float,double,int>()))
+      throw std::invalid_argument(
+        "Constrain input and output types to numeric tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
@@ -50,15 +55,15 @@ public:
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(float) eResult;
 
-    eResult.array() = eigenVectorA.array() / eigenVectorB.array();
+    eResult.array() = eigenVectorA.template cast<float>().array() / eigenVectorB.template cast<float>().array();
     result.load(eResult.data());
 
     return result;
   }
   /*!<
-  \return The output tensor of the same shape and type as input.
+  \return The output tensor of type float and the same shape as input.
   */
 };
 } // namespace dnnc

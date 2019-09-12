@@ -39,8 +39,6 @@ public:
   NotEqual(std::string name = "opNotEqual")
       : baseOperator<T>(opNotEqual, name) {}
 
-  static bool notEqual_function(T x, T y) { return (x != y) ? true : false; }
-
   tensor<bool> compute(tensor<T> a /*!< : N D tensor input*/,
                        tensor<T> b /*!< : N D tensor input*/) {
 
@@ -56,8 +54,7 @@ public:
 
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
 
-    eResult.array() = eigenVectorA.array().binaryExpr(eigenVectorB.array(),
-                                                      &notEqual_function);
+    eResult.array() = eigenVectorA.array() != eigenVectorB.array();
     result.load(eResult.data());
 
     return result;

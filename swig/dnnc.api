@@ -34,6 +34,7 @@
 #include "operators/EyeLike.h"
 #include "operators/Flatten.h"
 #include "operators/Floor.h"
+#include "operators/FloorDiv.h"
 #include "operators/Gemm.h"
 #include "operators/GlobalAveragePool.h"
 #include "operators/GlobalLpPool.h"
@@ -58,6 +59,7 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Mul.h"
 #include "operators/Not.h"
 #include "operators/NotEqual.h"
 #include "operators/Or.h"
@@ -212,9 +214,10 @@ tensor<output> logical_and(tensor<input> &a, tensor<input> &b) {
 	And<input> op;
 	return op.compute(a, b);
 	dtype = {
-		"double" : "double",
-		"float" : "float",
-		"int" : "int"
+		"double" : "bool",
+		"float" : "bool",
+		"bool" : "bool",
+		"int" : "bool"
 	}
 }
 
@@ -227,8 +230,18 @@ tensor<output> div(tensor<input> &a, tensor<input> &b) {
 	Div<input> op;
 	return op.compute(a, b);
 	dtype = {
-		"double" : "double",
+		"double" : "float",
 		"float" : "float",
+		"int" : "float"
+	}
+}
+
+tensor<output> floor_div(tensor<input> &a, tensor<input> &b) {
+	FloorDiv<input> op;
+	return op.compute(a, b);
+	dtype = {
+		"double" : "int",
+		"float" : "int",
 		"int" : "int"
 	}
 }
@@ -484,6 +497,16 @@ tensor<float> max(std::vector<tensor<float>> a) {
   return op.compute(a);
 }
 
+tensor<output> mul(tensor<input> &a, tensor<input> &b) {
+  Mul<input> op;
+  return op.compute(a, b);
+  dtype = {
+    "int" : "int",
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
 tensor<output> not_equal(tensor<input> &a, tensor<input> &b) {
 	NotEqual<input> op;
 	return op.compute(a, b);
@@ -499,7 +522,10 @@ tensor<output> logical_not(tensor<input> &a) {
 	Not<input> op;
 	return op.compute(a);
 	dtype = {
-		"bool" : "bool"
+		"double" : "bool",
+		"float" : "bool",
+		"bool" : "bool",
+		"int" : "bool"
 	}
 }
 
@@ -507,7 +533,10 @@ tensor<output> logical_or(tensor<input> &a, tensor<input> &b) {
 	Or<input> op;
 	return op.compute(a, b);
 	dtype = {
-		"bool" : "bool"
+		"double" : "bool",
+		"float" : "bool",
+		"bool" : "bool",
+		"int" : "bool"
 	}
 }
 
@@ -552,7 +581,10 @@ tensor<output> logical_xor(tensor<input> &a, tensor<input> &b) {
 	Xor<input> op;
 	return op.compute(a, b);
 	dtype = {
-		"bool" : "bool"
+		"double" : "bool",
+		"float" : "bool",
+		"bool" : "bool",
+		"int" : "bool"
 	}
 }
 
