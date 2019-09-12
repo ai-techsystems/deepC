@@ -38,8 +38,6 @@ template <typename T> class Equal : public baseOperator<T> {
 public:
   Equal(std::string name = "opEqual") : baseOperator<T>(opEqual, name) {}
 
-  static bool equal_function(T x, T y) { return (x == y) ? true : false; }
-
   tensor<bool> compute(tensor<T> a /*!< : N D tensor input*/,
                        tensor<T> b /*!< : N D tensor input*/) {
 
@@ -55,8 +53,7 @@ public:
 
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
 
-    eResult.array() =
-        eigenVectorA.array().binaryExpr(eigenVectorB.array(), &equal_function);
+    eResult.array() = eigenVectorA.array() == eigenVectorB.array();
     result.load(eResult.data());
 
     return result;

@@ -29,11 +29,14 @@ using namespace Eigen;
 #ifdef DNNC_NOT_TEST
 #include <iostream>
 int main() {
-  bool d1[8] = {true, false, true, false, true, false, true, false};
-  tensor<bool> a(2, 2, 2);
+  // bool d1[8] = {true, false, true, false, true, false, true, false};
+  float d1[6] = {1., 2., 3., 4., 5., 0.};
+  // tensor<bool> a(2, 2, 2);
+  tensor<float> a(3, 2);
   a.load(d1);
 
-  Not<bool> m("localOpName");
+  // Not<bool> m("localOpName");
+  Not<float> m("localOpName");
   auto result = m.compute(a);
 
   std::cout << result;

@@ -21,26 +21,29 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "operators/And.h"
+#include "operators/FloorDiv.h"
 
 using namespace dnnc;
 using namespace Eigen;
 
-#ifdef DNNC_AND_TEST
+#ifdef DNNC_FLOORDIV_TEST
 #include <iostream>
 int main() {
-  float d1[6] = {1., 2., 3., 4., 5., 6.};
-  float d2[6] = {0., 2., 3., 4., 5., 6.};
-
-  tensor<float> a(2, 3);
+  float d1[24] = {1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.,
+                  1., 2., 3., 4., 5., 6,  1., 2., 3., 4., 5., 6.};
+  float d2[24] = {2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6., 1.,
+                  2., 3., 4., 5., 6,  1., 2., 3., 4., 5., 6., 1.};
+  tensor<float> a(2, 3, 2, 2);
   a.load(d1);
-  tensor<float> b(2, 3);
+  tensor<float> b(2, 3, 2, 2);
   b.load(d2);
 
-  And<float> AND("localOpName");
-  auto result = AND.compute(a, b);
+  FloorDiv<float> m("localOpName");
+  auto result = m.compute(a, b);
 
   std::cout << result;
   std::cout << "\n";
+
+  return 0;
 }
 #endif

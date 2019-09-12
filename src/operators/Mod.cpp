@@ -28,7 +28,51 @@ using namespace Eigen;
 
 #ifdef DNNC_MOD_TEST
 #include <iostream>
+
+// template <typename T>
+// void mod_test(T* a, T* b) {
+
+//   tensor<T> tensor_a(4);
+//   tensor_a.load(a);
+
+//   tensor<T> tensor_b(1);
+//   tensor_b.load(b);
+
+  
+//   // Mod<T> m("localOpName");
+//   // if (typeid(a) != typeid(float))
+//   std::cout << "Typeid = " << typeid(a).name() << "\n" << std::endl;
+//   Mod<T> m("localOpName", 1);
+//   auto result = m.compute(tensor_a, tensor_b);
+
+//   std::cout << result << std::endl;
+// }
+
 int main() {
-  // ADD YOUR TEST CODE HERE
+
+  // int a[4] = {-21, -22, -23, -24};
+  // int b[1] = {20};
+  // mod_test(a, b);
+
+  float d1[4] = {21., 22., 23., 24.};
+  float d2[4] = {20., 21., 22., 23.};
+  tensor<float> a(4);
+  a.load(d1);
+  tensor<float> b(4);
+  a.load(d2);
+  // mod_test(c, d);
+  int fmod_flag=1;
+
+  Mod<float> m("localOpName", fmod_flag);
+  auto result = m.compute(a,b);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
+  // double e[4] = {21., 22., 23., 24.};
+  // double f[1] = {20};
+  // mod_test(e, f);
+  
 }
 #endif
