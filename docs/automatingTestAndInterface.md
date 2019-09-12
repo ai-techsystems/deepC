@@ -1,7 +1,47 @@
 # Automating the Test cases and Swig interface
 
-## Test Case Automation:
+## Work-FLow:
 
+#### The following work flow should be followed only after you have added your code in 
+* **[include / operators /](https://github.com/ai-techsystems/dnnCompiler/tree/operators/include/operators)** (The .h file)
+* **[src / operators /](https://github.com/ai-techsystems/dnnCompiler/tree/operators/src/operators)** (The .cpp file)
+
+#### So now you are set to integrate your operators in python interface, by following the steps below
+
+* Go to **[swig / ](https://github.com/ai-techsystems/dnnCompiler/tree/operators/swig)** folder
+
+* Look for a file named **[dnnc.api](https://github.com/ai-techsystems/dnnCompiler/blob/operators/swig/dnnc.api)**
+
+* It's a pseudo (cpp/python) code. There are some things which you need to remember before adding your operator in this file. Head towards **[guide](#guide-)** section to learn how to add your operator inside **[dnnc.api](https://github.com/ai-techsystems/dnnCompiler/blob/operators/swig/dnnc.api)** file.
+
+* After that, run **Make command** in the same directory.
+  ```console
+  make
+  ```
+* If everything went fine, go to **[test / swig /](https://github.com/ai-techsystems/dnnCompiler/tree/operators/test/swig)**
+
+* Here are all the **[python unittest](https://docs.python.org/3/library/unittest.html)** files. Go add yours too by looking at others as demo.
+
+* To test your **unittest** file, there are 2 ways.
+  - `Option 1`: Inside **[test / swig /](https://github.com/ai-techsystems/dnnCompiler/tree/operators/test/swig)** (If your operator is **Reciprocal.py**) run the following command:
+    ```console
+    python Reciprocal.py
+    ```
+  
+  - `Option 2`: Inside **[test /](https://github.com/ai-techsystems/dnnCompiler/tree/operators/test/)** (If your operator is **Reciprocal.py**) run the following command:
+    ```console
+    python run_one.py Reciprocal.py
+    ```
+* If your operator's unittest was successful, go to **[test / swig / passingTests.txt](https://github.com/ai-techsystems/dnnCompiler/blob/operators/test/swig/passingTests.txt)** and append your operator's unittest name there, in a new line.
+
+* If your operator's unittest was unsuccessful, go to **[test / swig / failingTests.txt](https://github.com/ai-techsystems/dnnCompiler/blob/operators/test/swig/failingTests.txt)** and append your operator's unittest name there, in a new line.
+
+* After that go to **[test /](https://github.com/ai-techsystems/dnnCompiler/tree/operators/test/)** and run the following command, which will run all the passing tests listed in the **[test / swig / passingTests.txt](https://github.com/ai-techsystems/dnnCompiler/blob/operators/test/swig/passingTests.txt)**. If you added your operator there, your unittest will run too. Command:
+  ```console
+  python run_all.py
+  ```
+---
+## Test Case Automation:
 ##### We have created 2 files which will keep track of our operators, which passes or fails the test cases:
 * **[test / swig / passingTests.txt](../test/swig/passingTests.txt)**
 * **[test / swig / failingTests.txt](../test/swig/failingTests.txt)**
@@ -151,28 +191,58 @@ tensor<output> equal(tensor<input> &a, tensor<input> &b) {
 ```
 </details>
 
-### Caution :
+## Guide :
+* Everything except **dtype** block is a cpp block, and **dtype** is a python dictionary which contains all kinds of input output datatype combination possible for the operators:
+  ```python
+  dtype = {
+    "input1" : "output1",
+    "input2" : "output2",
+    "input2" : "output1",
+    ...
+  }
+  ```
 * Everything inside `dnnc.api` is **whitespace** and **newline** sensitive, so try to keep the structure similar.
 * Make sure to add a blank line between 2 operators.
 * Don't leave any blank lines inside operators' functions.
 * Don't leave more than one blank line anywhere.
-* Use comment syntax (`/*` or `*/`) in the same line as the code. 
-  - Like at front ` /* tensor<output> ... ` and at end ` } */ `
-* After adding new operator in `dnnc.api`, run the `op_gen.py` at the same directory.
+* Use comment syntax (`/*` or `*/`) in the same line as the code. See the example below
+  ```cpp
+  tensor<output> less_equal(tensor<input> &a, tensor<input> &b) {
+    LessEqual<input> op;
+    return op.compute(a, b);
+    dtype = {
+      "int" : "bool",
+      "float" : "bool",
+      "double" : "bool"
+    }
+  }
 
-* It will generate `dnnc_swig_externs.h` and `dnnc_api.cpp` file, and you are done here.
-  - If you are curious, why we are creating `dnnc_swig_externs.h`, earlier we were adding externs inside `dnnc.i` file twice,
-    but now, we will create a cpp header file and call that file twice inside `dnnc.i`. Not everything inside `dnnc.i` can
-    be automated, but we used automation, where we could.
-* Run Make command now, like you did previously. And everything will be same after that.
+  /* The below operators need to change accroding to above operators */
 
-* Everything except **dtype** block is a cpp block, and **dtype** is a python dictionary which contains all kinds of input output datatype combination possible for the operators
+  tensor<float> thresholded_relu(tensor<float> &a) {
+    ThresholdedRelu<float> op;
+    return op.compute(a);
+  }
 
-```python
-dtype = {
-  "input1" : "output1",
-  "input2" : "output2",
-  "input2" : "output1",
-  ...
-}
-```
+  /* tensor<output> logical_xor(tensor<input> &a, tensor<input> &b) {
+    Xor<input> op;
+    return op.compute(a, b);
+    dtype = {
+      "double" : "bool",
+      "float" : "bool",
+      "bool" : "bool",
+      "int" : "bool"
+    }
+  } */
+
+  tensor<output> transpose(tensor<input> &a) {
+    Transpose<input> op;
+    return op.compute(a);
+    dtype = {
+      "double" : "double",
+      "float" : "float",
+      "int" : "int",
+      "bool" : "bool"
+    }
+  }
+  ```
