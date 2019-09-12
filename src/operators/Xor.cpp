@@ -41,7 +41,7 @@ int main() {
   c.load(d3);
   tensor<int> d(2, 3);
   d.load(d4);
-  
+
   // Xor<float> m("localOpName");
   // auto result = m.compute(a, b);
   Xor<int> m("localOpName");

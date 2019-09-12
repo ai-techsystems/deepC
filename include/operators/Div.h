@@ -39,14 +39,14 @@ public:
   Div(std::string name = "opDiv") : baseOperator<T>(opDiv, name) {}
 
   tensor<float> compute(tensor<T> a /*!< : N D tensor input*/,
-                    tensor<T> b /*!< : N D tensor input*/) {
+                        tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<float> result(resultShape);
 
-    if (!(this->template type_check<float,double,int>()))
+    if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
-        "Constrain input and output types to numeric tensors.");
+          "Constrain input and output types to numeric tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
@@ -57,7 +57,8 @@ public:
 
     DNNC_EIGEN_VECTOR_CTOR(float) eResult;
 
-    eResult.array() = eigenVectorA.template cast<float>().array() / eigenVectorB.template cast<float>().array();
+    eResult.array() = eigenVectorA.template cast<float>().array() /
+                      eigenVectorB.template cast<float>().array();
     result.load(eResult.data());
 
     return result;

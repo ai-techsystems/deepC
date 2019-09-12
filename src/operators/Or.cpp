@@ -42,7 +42,7 @@ int main() {
   c.load(d3);
   tensor<int> d(2, 3);
   d.load(d4);
-  
+
   // Or<float> m("localOpName");
   // auto result = m.compute(a, b);
   Or<int> m("localOpName");

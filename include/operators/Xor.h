@@ -50,8 +50,9 @@ public:
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
 
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
-    
-    eResult.array() = eigenVectorA.template cast<bool>().array() ^ eigenVectorB.template cast<bool>().array();
+
+    eResult.array() = eigenVectorA.template cast<bool>().array() ^
+                      eigenVectorB.template cast<bool>().array();
 
     result.load(eResult.data());
 

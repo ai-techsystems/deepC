@@ -38,7 +38,6 @@ using namespace Eigen;
 //   tensor<T> tensor_b(1);
 //   tensor_b.load(b);
 
-  
 //   // Mod<T> m("localOpName");
 //   // if (typeid(a) != typeid(float))
 //   std::cout << "Typeid = " << typeid(a).name() << "\n" << std::endl;
@@ -61,10 +60,10 @@ int main() {
   tensor<float> b(4);
   a.load(d2);
   // mod_test(c, d);
-  int fmod_flag=1;
+  int fmod_flag = 1;
 
   Mod<float> m("localOpName", fmod_flag);
-  auto result = m.compute(a,b);
+  auto result = m.compute(a, b);
 
   std::cout << result;
   std::cout << "\n";
@@ -73,6 +72,5 @@ int main() {
   // double e[4] = {21., 22., 23., 24.};
   // double f[1] = {20};
   // mod_test(e, f);
-  
 }
 #endif

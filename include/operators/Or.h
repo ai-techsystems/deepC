@@ -38,7 +38,7 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
- 	  // if (!(this->template type_check<bool>()))
+    // if (!(this->template type_check<bool>()))
     //   throw std::invalid_argument(
     //     "Constrain input and output types to bool tensors.");
 
@@ -51,7 +51,8 @@ public:
 
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
 
-    eResult.array() = eigenVectorA.template cast<bool>().array() || eigenVectorB.template cast<bool>().array();
+    eResult.array() = eigenVectorA.template cast<bool>().array() ||
+                      eigenVectorB.template cast<bool>().array();
     result.load(eResult.data());
 
     return result;

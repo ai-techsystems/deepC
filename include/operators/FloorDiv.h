@@ -30,34 +30,36 @@ using namespace Eigen;
 
 namespace dnnc {
 
-/*! This does element wise binary floor division operation of two given N D tensors of
-   same size. This operator supports multidirectional (i.e., Numpy-style)
-   broadcasting.*/
+/*! This does element wise binary floor division operation of two given N D
+   tensors of same size. This operator supports multidirectional (i.e.,
+   Numpy-style) broadcasting.*/
 
 template <typename T> class FloorDiv : public baseOperator<T> {
 public:
-  FloorDiv(std::string name = "opFloorDiv") : baseOperator<T>(opFloorDiv, name) {}
+  FloorDiv(std::string name = "opFloorDiv")
+      : baseOperator<T>(opFloorDiv, name) {}
 
   tensor<int> compute(tensor<T> a /*!< : N D tensor input*/,
-                    tensor<T> b /*!< : N D tensor input*/) {
+                      tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<int> result(resultShape);
 
-    if (!(this->template type_check<float,double,int>()))
+    if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
-        "Constrain input and output types to numeric tensors.");
+          "Constrain input and output types to numeric tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for FloorDiv operator.");
-    
+
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
 
     DNNC_EIGEN_VECTOR_CTOR(int) eResult;
 
-    eResult.array() = eigenVectorA.template cast<int>().array() / eigenVectorB.template cast<int>().array();
+    eResult.array() = eigenVectorA.template cast<int>().array() /
+                      eigenVectorB.template cast<int>().array();
     result.load(eResult.data());
 
     return result;
