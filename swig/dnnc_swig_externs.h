@@ -193,6 +193,32 @@ namespace dnnc {
 		 less(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<bool> \
 		 less(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 log(tensor<float> &a) ;
+	extern tensor<double> \
+		 log(tensor<double> &a) ;
+	extern tensor<float> \
+		 logsoftmax(tensor<float> &a, int axis = 1) ;
+	extern tensor<double> \
+		 logsoftmax(tensor<double> &a, int axis = 1) ;
+	extern tensor<float> \
+		 lpnormalization(tensor<float> &a, int p = 2, int axis = -1) ;
+	extern tensor<double> \
+		 lpnormalization(tensor<double> &a, int p = 2, int axis = -1) ;
+	extern tensor<int> \
+		 matmulinteger(tensor<int> &a, tensor<int> &b, tensor<int> &c, tensor<int> &d) ;
+	extern tensor<float> \
+		 min(std::vector<tensor<float>> a) ;
+	extern tensor<double> \
+		 min(std::vector<tensor<double>> a) ;
+	extern tensor<float> \
+		 mean(std::vector<tensor<float>> a) ;
+	extern tensor<double> \
+		 mean(std::vector<tensor<double>> a) ;
+	extern tensor<float> \
+		 max(std::vector<tensor<float>> a) ;
+	extern tensor<double> \
+		 max(std::vector<tensor<double>> a) ;
 	extern tensor<bool> \
 		 less_equal(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<bool> \
@@ -201,16 +227,6 @@ namespace dnnc {
 		 less_equal(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
 		 thresholded_relu(tensor<float> &a) ;
-	extern tensor<float> \
-		 log(tensor<float> &a) ;
-	extern tensor<float> \
-		 logsoftmax(tensor<float> &a) ;
-	extern tensor<float> \
-		 lpnormalization(tensor<float> &a) ;
-	extern tensor<int> \
-		 matmulinteger(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<float> \
-		 max(std::vector<tensor<float>> a) ;
 	extern tensor<int> \
 		 mul(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \

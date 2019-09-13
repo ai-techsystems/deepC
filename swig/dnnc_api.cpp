@@ -619,6 +619,71 @@ tensor<bool> less(tensor<double> &a, tensor<double> &b) {
   return op.compute(a, b);
 }
 
+tensor<float> log(tensor<float> &a) {
+  Log<float> op;
+  return op.compute(a);
+}
+
+tensor<double> log(tensor<double> &a) {
+  Log<double> op;
+  return op.compute(a);
+}
+
+tensor<float> logsoftmax(tensor<float> &a, int axis = 1) {
+	LogSoftmax<float> op("localOpName", axis);
+	return op.compute(a);
+}
+
+tensor<double> logsoftmax(tensor<double> &a, int axis = 1) {
+	LogSoftmax<double> op("localOpName", axis);
+	return op.compute(a);
+}
+
+tensor<float> lpnormalization(tensor<float> &a, int p = 2, int axis = -1) {
+  LpNormalization<float> op("localOpName", p, axis);
+  return op.compute(a);
+}
+
+tensor<double> lpnormalization(tensor<double> &a, int p = 2, int axis = -1) {
+  LpNormalization<double> op("localOpName", p, axis);
+  return op.compute(a);
+}
+
+tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b, tensor<int> &c, tensor<int> &d) {
+	MatMulInteger<int> op;
+	return op.compute(a, b, c, d);
+}
+
+tensor<float> min(std::vector<tensor<float>> a) {
+  Min<float> op;
+  return op.compute(a);
+}
+
+tensor<double> min(std::vector<tensor<double>> a) {
+  Min<double> op;
+  return op.compute(a);
+}
+
+tensor<float> mean(std::vector<tensor<float>> a) {
+  Mean<float> op;
+  return op.compute(a);
+}
+
+tensor<double> mean(std::vector<tensor<double>> a) {
+  Mean<double> op;
+  return op.compute(a);
+}
+
+tensor<float> max(std::vector<tensor<float>> a) {
+  Max<float> op;
+  return op.compute(a);
+}
+
+tensor<double> max(std::vector<tensor<double>> a) {
+  Max<double> op;
+  return op.compute(a);
+}
+
 tensor<bool> less_equal(tensor<int> &a, tensor<int> &b) {
   LessEqual<int> op;
   return op.compute(a, b);
@@ -637,31 +702,6 @@ tensor<bool> less_equal(tensor<double> &a, tensor<double> &b) {
 tensor<float> thresholded_relu(tensor<float> &a) {
 	ThresholdedRelu<float> op;
 	return op.compute(a);
-}
-
-tensor<float> log(tensor<float> &a) {
-	Log<float> op;
-	return op.compute(a);
-}
-
-tensor<float> logsoftmax(tensor<float> &a) {
-	LogSoftmax<float> op;
-	return op.compute(a);
-}
-
-tensor<float> lpnormalization(tensor<float> &a) {
-	LpNormalization<float> op;
-	return op.compute(a);
-}
-
-tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
-	MatMulInteger<int> op;
-	return op.compute(a, b);
-}
-
-tensor<float> max(std::vector<tensor<float>> a) {
-  Max<float> op;
-  return op.compute(a);
 }
 
 tensor<int> mul(tensor<int> &a, tensor<int> &b) {
