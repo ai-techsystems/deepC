@@ -32,38 +32,136 @@ def temp_erf(x):
 
 class ErfTest(unittest.TestCase):
     def setUp(self):
-        self.len = 24
-        self.np_a = np.random.randn(self.len).astype(np.float32)
-        self.dc_a = dc.array(list(self.np_a))
+        self.len = 48
 
-    def test_Erf1D (self):
-        npr = temp_erf(self.np_a)
-        dcr = dc.erf(self.dc_a)
+        self.np_float_a = np.random.randn(self.len).astype(np.float32)
+        self.dc_float_a = dc.array(list(self.np_float_a))
+
+        self.np_double_a = np.random.randn(self.len).astype(np.float64)
+        self.dc_double_a = dc.array(list(self.np_double_a))
+
+    def test_Erf1D_float (self):
+        npr = temp_erf(self.np_float_a)
+        dcr = dc.erf(self.dc_float_a)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-    
-    def test_Erf2D (self):
-        np_a = np.reshape(self.np_a, (6,4))
-        dc_a = dc.reshape(self.dc_a, (6,4))
-        npr = temp_erf(np_a)
-        dcr = dc.erf(dc_a)
+
+    def test_Erf1D_double (self):
+        npr = temp_erf(self.np_double_a)
+        dcr = dc.erf(self.dc_double_a)
+        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf2D_float_1 (self):
+        np_float_a = np.reshape(self.np_float_a, (3,16))
+        dc_float_a = dc.reshape(self.dc_float_a, (3,16))
+        npr = temp_erf(np_float_a)
+        dcr = dc.erf(dc_float_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Erf3D (self):
-        np_a = np.reshape(self.np_a, (2,4,3))
-        dc_a = dc.reshape(self.dc_a, (2,4,3))
-        npr = temp_erf(np_a)
-        dcr = dc.erf(dc_a)
+    def test_Erf2D_float_2 (self):
+        np_float_a = np.reshape(self.np_float_a, (6,8))
+        dc_float_a = dc.reshape(self.dc_float_a, (6,8))
+        npr = temp_erf(np_float_a)
+        dcr = dc.erf(dc_float_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-    
-    def test_Erf4D (self):
-        np_a = np.reshape(self.np_a, (2,2,2,3))
-        dc_a = dc.reshape(self.dc_a, (2,2,2,3))
-        npr = temp_erf(np_a)
-        dcr = dc.erf(dc_a)
+
+    def test_Erf2D_float_3 (self):
+        np_float_a = np.reshape(self.np_float_a, (12,4))
+        dc_float_a = dc.reshape(self.dc_float_a, (12,4))
+        npr = temp_erf(np_float_a)
+        dcr = dc.erf(dc_float_a)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf2D_double_1 (self):
+        np_double_a = np.reshape(self.np_double_a, (3,16))
+        dc_double_a = dc.reshape(self.dc_double_a, (3,16))
+        npr = temp_erf(np_double_a)
+        dcr = dc.erf(dc_double_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf2D_double_2 (self):
+        np_double_a = np.reshape(self.np_double_a, (6,8))
+        dc_double_a = dc.reshape(self.dc_double_a, (6,8))
+        npr = temp_erf(np_double_a)
+        dcr = dc.erf(dc_double_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf2D_double_3 (self):
+        np_double_a = np.reshape(self.np_double_a, (12,4))
+        dc_double_a = dc.reshape(self.dc_double_a, (12,4))
+        npr = temp_erf(np_double_a)
+        dcr = dc.erf(dc_double_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf3D_float_1 (self):
+        np_float_a = np.reshape(self.np_float_a, (4,4,3))
+        dc_float_a = dc.reshape(self.dc_float_a, (4,4,3))
+        npr = temp_erf(np_float_a)
+        dcr = dc.erf(dc_float_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf3D_float_2 (self):
+        np_float_a = np.reshape(self.np_float_a, (8,2,3))
+        dc_float_a = dc.reshape(self.dc_float_a, (8,2,3))
+        npr = temp_erf(np_float_a)
+        dcr = dc.erf(dc_float_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf3D_float_3 (self):
+        np_float_a = np.reshape(self.np_float_a, (2,4,6))
+        dc_float_a = dc.reshape(self.dc_float_a, (2,4,6))
+        npr = temp_erf(np_float_a)
+        dcr = dc.erf(dc_float_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf3D_double_1 (self):
+        np_double_a = np.reshape(self.np_double_a, (4,4,3))
+        dc_double_a = dc.reshape(self.dc_double_a, (4,4,3))
+        npr = temp_erf(np_double_a)
+        dcr = dc.erf(dc_double_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf3D_double_2 (self):
+        np_double_a = np.reshape(self.np_double_a, (8,2,3))
+        dc_double_a = dc.reshape(self.dc_double_a, (8,2,3))
+        npr = temp_erf(np_double_a)
+        dcr = dc.erf(dc_double_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf3D_double_3 (self):
+        np_double_a = np.reshape(self.np_double_a, (2,4,6))
+        dc_double_a = dc.reshape(self.dc_double_a, (2,4,6))
+        npr = temp_erf(np_double_a)
+        dcr = dc.erf(dc_double_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf4D_float (self):
+        np_float_a = np.reshape(self.np_float_a, (4,2,2,3))
+        dc_float_a = dc.reshape(self.dc_float_a, (4,2,2,3))
+        npr = temp_erf(np_float_a)
+        dcr = dc.erf(dc_float_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Erf4D_double (self):
+        np_double_a = np.reshape(self.np_double_a, (4,2,2,3))
+        dc_double_a = dc.reshape(self.dc_double_a, (4,2,2,3))
+        npr = temp_erf(np_double_a)
+        dcr = dc.erf(dc_double_a)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
                 rtol=1e-3, atol=1e-3)
 
     def tearDown(self):
@@ -71,4 +169,3 @@ class ErfTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    

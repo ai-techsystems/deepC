@@ -22,33 +22,49 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Neg : public baseOperator<T> {
-  //  Neg attributes
+
+/*! This does element wise binary truedivision operation of two given N D tensors of
+   same size. This operator supports multidirectional (i.e., Numpy-style)
+   broadcasting.*/
+
+template <typename T> class TrueDiv : public baseOperator<T> {
 public:
-  Neg(std::string name = "opNeg") : baseOperator<T>(opNeg, name) {}
+  TrueDiv(std::string name = "opTrueDiv") : baseOperator<T>(opTrueDiv, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<float> compute(tensor<T> a /*!< : N D tensor input*/,
+                        tensor<T> b /*!< : N D tensor input*/) {
 
-  tensor<T> compute(tensor<T> &a /*!< ND tensor*/) {
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<float> result(resultShape);
 
-    if (!(this->template type_check<float,double,int>()))
+    if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
           "Constrain input and output types to numeric tensors.");
 
-    tensor<T> result(a.shape(), a.name());
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for TrueDiv operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
-    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
-    eResult.array() = -eigenVector.array();
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+
+    DNNC_EIGEN_VECTOR_CTOR(float) eResult;
+
+    eResult.array() = eigenVectorA.template cast<float>().array() /
+                      eigenVectorB.template cast<float>().array();
     result.load(eResult.data());
 
     return result;
   }
+  /*!<
+  \return The output tensor of type float and the same shape as input.
+  */
 };
 } // namespace dnnc

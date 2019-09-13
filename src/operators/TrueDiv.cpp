@@ -21,34 +21,29 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#pragma once
-#include "operators/baseOperator.h"
-#include <string>
+#include "operators/TrueDiv.h"
 
+using namespace dnnc;
 using namespace Eigen;
 
-namespace dnnc {
-template <typename T> class Neg : public baseOperator<T> {
-  //  Neg attributes
-public:
-  Neg(std::string name = "opNeg") : baseOperator<T>(opNeg, name) {}
+#ifdef DNNC_TRUEDIV_TEST
+#include <iostream>
+int main() {
+  float d1[24] = {1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.,
+                  1., 2., 3., 4., 5., 6,  1., 2., 3., 4., 5., 6.};
+  float d2[24] = {2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6., 1.,
+                  2., 3., 4., 5., 6,  1., 2., 3., 4., 5., 6., 1.};
+  tensor<float> a(2, 3, 2, 2);
+  a.load(d1);
+  tensor<float> b(2, 3, 2, 2);
+  b.load(d2);
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  TrueDiv<float> m("localOpName");
+  auto result = m.compute(a, b);
 
-  tensor<T> compute(tensor<T> &a /*!< ND tensor*/) {
+  std::cout << result;
+  std::cout << "\n";
 
-    if (!(this->template type_check<float,double,int>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to numeric tensors.");
-
-    tensor<T> result(a.shape(), a.name());
-
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
-    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
-    eResult.array() = -eigenVector.array();
-    result.load(eResult.data());
-
-    return result;
-  }
-};
-} // namespace dnnc
+  return 0;
+}
+#endif

@@ -65,11 +65,11 @@ namespace dnnc {
 		 logical_and(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \
 		 dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) ;
-	extern tensor<float> \
+	extern tensor<double> \
 		 div(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
 		 div(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<float> \
+	extern tensor<int> \
 		 div(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<int> \
 		 floor_div(tensor<double> &a, tensor<double> &b) ;
@@ -77,6 +77,12 @@ namespace dnnc {
 		 floor_div(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<int> \
 		 floor_div(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 true_div(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 true_div(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 true_div(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 elu(tensor<double> &a, float alpha = 1.0) ;
 	extern tensor<float> \
@@ -211,6 +217,12 @@ namespace dnnc {
 		 mul(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<double> \
 		 mul(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 neg(tensor<double> &a) ;
+	extern tensor<float> \
+		 neg(tensor<float> &a) ;
+	extern tensor<int> \
+		 neg(tensor<int> &a) ;
 	extern tensor<bool> \
 		 not_equal(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<bool> \
@@ -235,10 +247,12 @@ namespace dnnc {
 		 logical_or(tensor<bool> &a, tensor<bool> &b) ;
 	extern tensor<bool> \
 		 logical_or(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<float> \
-		 pow(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<double> \
 		 pow(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 pow(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 pow(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 sub(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \

@@ -60,6 +60,7 @@
 #include "operators/Mean.h"
 #include "operators/Min.h"
 #include "operators/Mul.h"
+#include "operators/Neg.h"
 #include "operators/Not.h"
 #include "operators/NotEqual.h"
 #include "operators/Or.h"
@@ -69,6 +70,7 @@
 #include "operators/Tanh.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
+#include "operators/TrueDiv.h"
 #include "operators/Xor.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
@@ -230,9 +232,9 @@ tensor<output> div(tensor<input> &a, tensor<input> &b) {
 	Div<input> op;
 	return op.compute(a, b);
 	dtype = {
-		"double" : "float",
+		"double" : "double",
 		"float" : "float",
-		"int" : "float"
+		"int" : "int"
 	}
 }
 
@@ -243,6 +245,16 @@ tensor<output> floor_div(tensor<input> &a, tensor<input> &b) {
 		"double" : "int",
 		"float" : "int",
 		"int" : "int"
+	}
+}
+
+tensor<output> true_div(tensor<input> &a, tensor<input> &b) {
+	TrueDiv<input> op;
+	return op.compute(a, b);
+	dtype = {
+		"double" : "float",
+		"float" : "float",
+		"int" : "float"
 	}
 }
 
@@ -507,6 +519,16 @@ tensor<output> mul(tensor<input> &a, tensor<input> &b) {
   }
 }
 
+tensor<output> neg(tensor<input> &a) {
+	Neg<input> op;
+	return op.compute(a);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int"
+	}
+}
+
 tensor<output> not_equal(tensor<input> &a, tensor<input> &b) {
 	NotEqual<input> op;
 	return op.compute(a, b);
@@ -544,8 +566,9 @@ tensor<output> pow(tensor<input> &a, tensor<input> &b) {
 	Pow<input> op;
 	return op.compute(a, b);
 	dtype = {
+    "double" : "double",
     "float" : "float",
-    "double" : "double"
+    "int" : "int"
   }
 }
 
