@@ -36,7 +36,8 @@ protected:
   // T (*fp)(T, T);
 
 public:
-  Mod(std::string name = "opMod", size_t fmod_flag = 0)
+  // Mod(std::string name = "opMod", size_t fmod_flag = 0)
+  Mod(std::string name = "opMod", int fmod_flag = 0)
       : baseOperator<T>(opMod, name) {
     this->fmod_flag = fmod_flag;
 
@@ -45,7 +46,8 @@ public:
       throw std::invalid_argument("Set fmod_flag to 1 to pass float values.");
   }
 
-  bool getAttribute(OPATTR attrName, size_t &obj) {
+  // bool getAttribute(OPATTR attrName, size_t &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_fmod) {
       obj = fmod_flag;
       return true;

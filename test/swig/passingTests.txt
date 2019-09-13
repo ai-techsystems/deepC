@@ -23,8 +23,16 @@ InstanceNormalization.py
 IsInf.py
 IsNaN.py
 LeakyRelu.py
+Less.py
+Log.py
+LogSoftmax.py
+LpNormalization.py
 LRN.py
 MatMul.py
+MatMulInteger.py
+Max.py
+Mean.py
+Min.py
 Or.py
 Sub.py
 Tan.py
