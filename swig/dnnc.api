@@ -468,6 +468,68 @@ tensor<output> less(tensor<input> &a, tensor<input> &b) {
   }
 }
 
+tensor<output> log(tensor<input> &a) {
+  Log<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> logsoftmax(tensor<input> &a, int axis = 1) {
+	LogSoftmax<input> op("localOpName", axis);
+	return op.compute(a);
+	dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> lpnormalization(tensor<input> &a, int p = 2, int axis = -1) {
+  LpNormalization<input> op("localOpName", p, axis);
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> matmulinteger(tensor<input> &a, tensor<input> &b, tensor<input> &c, tensor<input> &d) {
+	MatMulInteger<input> op;
+	return op.compute(a, b, c, d);
+  dtype = {
+	"int" : "int"
+  }
+}
+
+tensor<output> min(std::vector<tensor<input>> a) {
+  Min<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> mean(std::vector<tensor<input>> a) {
+  Mean<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> max(std::vector<tensor<input>> a) {
+  Max<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
 tensor<output> less_equal(tensor<input> &a, tensor<input> &b) {
   LessEqual<input> op;
   return op.compute(a, b);
@@ -483,31 +545,6 @@ tensor<output> less_equal(tensor<input> &a, tensor<input> &b) {
 tensor<float> thresholded_relu(tensor<float> &a) {
 	ThresholdedRelu<float> op;
 	return op.compute(a);
-}
-
-tensor<float> log(tensor<float> &a) {
-	Log<float> op;
-	return op.compute(a);
-}
-
-tensor<float> logsoftmax(tensor<float> &a) {
-	LogSoftmax<float> op;
-	return op.compute(a);
-}
-
-tensor<float> lpnormalization(tensor<float> &a) {
-	LpNormalization<float> op;
-	return op.compute(a);
-}
-
-tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
-	MatMulInteger<int> op;
-	return op.compute(a, b);
-}
-
-tensor<float> max(std::vector<tensor<float>> a) {
-  Max<float> op;
-  return op.compute(a);
 }
 
 tensor<output> mul(tensor<input> &a, tensor<input> &b) {
