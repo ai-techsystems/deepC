@@ -155,7 +155,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
   //       y=1*x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rmul__, dnnc::tensor::__rmul__, binaryfunc, nb_multiply);
+  %pybinoperator(__rmul__, dnnc::tensor::__rmul__, binaryfunc, nb_rmultiply);
   dnnc::tensor<T> __rmul__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
@@ -178,7 +178,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
   //       y=1//x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rfloordiv__, dnnc::tensor::__rfloordiv__, binaryfunc, nb_floordivide);
+  %pybinoperator(__rfloordiv__, dnnc::tensor::__rfloordiv__, binaryfunc, nb_rfloordivide);
   dnnc::tensor<int> __rfloordiv__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
@@ -201,7 +201,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
   //       y=1/x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rdiv__, dnnc::tensor::__rdiv__, binaryfunc, nb_divide);
+  %pybinoperator(__rdiv__, dnnc::tensor::__rdiv__, binaryfunc, nb_rdivide);
   dnnc::tensor<float> __rdiv__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
@@ -381,6 +381,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %template(fTensor) dnnc::tensor<float>;
 %template(dTensor) dnnc::tensor<double>;
 namespace std {
+  %template(btvec) vector<dnnc::tensor<bool> >;
   %template(itvec) vector<dnnc::tensor<int> >;
   %template(ftvec) vector<dnnc::tensor<float> >;
 }
