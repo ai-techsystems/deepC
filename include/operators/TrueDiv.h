@@ -30,11 +30,27 @@ using namespace Eigen;
 
 namespace dnnc {
 
-/*! This does element wise binary truedivision operation of two given N D tensors of
-   same size. This operator supports multidirectional (i.e., Numpy-style)
-   broadcasting.*/
+/*! This does element wise binary truedivision operation of two given N D
+   tensors of same size. This operator supports multidirectional (i.e.,
+   Numpy-style) broadcasting.*/
 
 template <typename T> class TrueDiv : public baseOperator<T> {
+  template <typename Scalar>
+  inline DNNC_EIGEN_VECTOR_CTOR(float)
+      eigenArrayDiv(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
+    return a.template cast<float>().array() / b.template cast<float>().array();
+  }
+  // Eigen does not support numeric operator for bool
+  // So specialiazation is needed to work around that limitation.
+  // Bug Ref: http://eigen.tuxfamily.org/bz/show_bug.cgi?id=426
+  inline DNNC_EIGEN_VECTOR_CTOR(float)
+      eigenArrayDiv(Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &b) {
+    throw std::invalid_argument("Division not valid for bool tensor(s)");
+    return a.template cast<float>().array() / b.template cast<float>().array();
+  }
+
 public:
   TrueDiv(std::string name = "opTrueDiv") : baseOperator<T>(opTrueDiv, name) {}
 
@@ -57,8 +73,8 @@ public:
 
     DNNC_EIGEN_VECTOR_CTOR(float) eResult;
 
-    eResult.array() = eigenVectorA.template cast<float>().array() /
-                      eigenVectorB.template cast<float>().array();
+    eResult.array() = eigenArrayDiv(eigenVectorA, eigenVectorB);
+
     result.load(eResult.data());
 
     return result;

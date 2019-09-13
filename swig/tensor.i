@@ -373,17 +373,17 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return op.compute(*$self, other);
   }
 
-  /* %pyinplaceoper(__idiv__, dnnc::tensor::__idiv__, binaryfunc, nb_inplace_true_divide);
-  dnnc::tensor<floor> __idiv__(dnnc::tensor<T>& other) {
+  %pyinplaceoper(__idiv__, dnnc::tensor::__idiv__, binaryfunc, nb_inplace_true_divide);
+  dnnc::tensor<float> __idiv__(dnnc::tensor<T>& other) {
     dnnc::TrueDiv<T> op("pythonOp");
     return op.compute(*$self, other);
   }
-  dnnc::tensor<floor> __idiv__(T scalar) {
+  dnnc::tensor<float> __idiv__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
     dnnc::TrueDiv<T> op("pythonOp");
     return op.compute(*$self, other);
-  } */
+  }
 
   /* %pyinplaceoper(__ifloordiv__, dnnc::tensor::__ifloordiv__, binaryfunc, nb_inplace_floor_divide);
   dnnc::tensor<int> __ifloordiv__(dnnc::tensor<T>& other) {

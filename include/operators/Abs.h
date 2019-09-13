@@ -34,7 +34,7 @@ public:
 
   tensor<T> compute(tensor<T> &a) {
 
-    if (!(this->template type_check<float,double,int>()))
+    if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
           "Constrain input and output types to numeric tensors.");
 
