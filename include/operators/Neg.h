@@ -34,12 +34,12 @@ public:
   Neg(std::string name = "opNeg") : baseOperator<T>(opNeg, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
+  
   tensor<T> compute(tensor<T> &a /*!< ND tensor*/) {
 
-    if (!(this->template type_check<float, double, int>()))
+  	if ((this->template type_check<bool>()))
       throw std::invalid_argument(
-          "Constrain input and output types to numeric tensors.");
+        "Constrain input and output types to numeric tensors.");
 
     tensor<T> result(a.shape(), a.name());
 

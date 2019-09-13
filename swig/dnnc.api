@@ -59,6 +59,7 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Neg.h"
 #include "operators/Mul.h"
 #include "operators/Neg.h"
 #include "operators/Not.h"
@@ -619,5 +620,15 @@ tensor<output> transpose(tensor<input> &a) {
 		"float" : "float",
 		"int" : "int",
 		"bool" : "bool"
+	}
+}
+
+tensor<output> neg(tensor<input> &a) {
+	Neg<input> op;
+	return op.compute(a);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int"
 	}
 }

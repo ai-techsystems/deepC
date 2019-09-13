@@ -29,6 +29,7 @@ using namespace Eigen;
 #ifdef DNNC_NEG_TEST
 #include <iostream>
 int main() {
+
   float d1[6] = {1., 2., 3., 4., 5., 0.};
   tensor<float> a(3, 2);
   a.load(d1);
