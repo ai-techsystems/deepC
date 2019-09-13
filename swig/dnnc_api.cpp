@@ -59,6 +59,7 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Neg.h"
 #include "operators/Mul.h"
 #include "operators/Not.h"
 #include "operators/NotEqual.h"
@@ -792,21 +793,35 @@ tensor<double> transpose(tensor<double> &a) {
 	return op.compute(a);
 }
 
-
 tensor<float> transpose(tensor<float> &a) {
 	Transpose<float> op;
 	return op.compute(a);
 }
-
 
 tensor<int> transpose(tensor<int> &a) {
 	Transpose<int> op;
 	return op.compute(a);
 }
 
-
 tensor<bool> transpose(tensor<bool> &a) {
 	Transpose<bool> op;
+	return op.compute(a);
+}
+
+tensor<double> neg(tensor<double> &a) {
+	Neg<double> op;
+	return op.compute(a);
+}
+
+
+tensor<float> neg(tensor<float> &a) {
+	Neg<float> op;
+	return op.compute(a);
+}
+
+
+tensor<int> neg(tensor<int> &a) {
+	Neg<int> op;
 	return op.compute(a);
 }
 

@@ -269,5 +269,11 @@ namespace dnnc {
 		 transpose(tensor<int> &a) ;
 	extern tensor<bool> \
 		 transpose(tensor<bool> &a) ;
+	extern tensor<double> \
+		 neg(tensor<double> &a) ;
+	extern tensor<float> \
+		 neg(tensor<float> &a) ;
+	extern tensor<int> \
+		 neg(tensor<int> &a) ;
 
 }
