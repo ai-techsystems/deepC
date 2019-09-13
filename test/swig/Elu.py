@@ -33,14 +33,24 @@ class EluTest(unittest.TestCase):
     def setUp(self):
         self.len = 24
         self.alpha = 2.0
-        self.np_a = np.random.randn(self.len).astype(np.float32)
-        self.dc_a = dc.array(list(self.np_a))
+        
+        self.np_float_a = np.random.randn(self.len).astype(np.float32)
+        self.dc_float_a = dc.array(list(self.np_float_a))
+
+        self.np_double_a = np.random.randn(self.len).astype(np.float64)
+        self.dc_double_a = dc.array(list(self.np_double_a))
 
     # Elu by default takes 1D tensor only
-    def test_Elu1D (self):
-        npr = temp_elu(self.np_a,self.alpha)
-        dcr = dc.elu(self.dc_a,self.alpha)
+    def test_Elu1D_float (self):
+        npr = temp_elu(self.np_float_a,self.alpha)
+        dcr = dc.elu(self.dc_float_a,self.alpha)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+    
+    def test_Elu1D_double (self):
+        npr = temp_elu(self.np_double_a,self.alpha)
+        dcr = dc.elu(self.dc_double_a,self.alpha)
+        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float64),
                 rtol=1e-3, atol=1e-3)
     
     '''

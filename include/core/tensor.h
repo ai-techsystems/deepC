@@ -208,7 +208,6 @@ public:
     return result;
   }
   /// \brief identifier of the tensor
-  /// \brief identifier of the tensor
   size_t identifier() const {
     return reinterpret_cast<size_t>(_mem_layout - 0xfff);
   }

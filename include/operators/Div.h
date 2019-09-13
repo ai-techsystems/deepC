@@ -38,11 +38,11 @@ template <typename T> class Div : public baseOperator<T> {
 public:
   Div(std::string name = "opDiv") : baseOperator<T>(opDiv, name) {}
 
-  tensor<float> compute(tensor<T> a /*!< : N D tensor input*/,
-                        tensor<T> b /*!< : N D tensor input*/) {
+  tensor<T> compute(tensor<T> a /*!< : N D tensor input*/,
+                    tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<float> result(resultShape);
+    tensor<T> result(resultShape);
 
     if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
@@ -55,16 +55,15 @@ public:
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(float) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
-    eResult.array() = eigenVectorA.template cast<float>().array() /
-                      eigenVectorB.template cast<float>().array();
+    eResult.array() = eigenVectorA.array() / eigenVectorB.array();
     result.load(eResult.data());
 
     return result;
   }
   /*!<
-  \return The output tensor of type float and the same shape as input.
+  \return The output tensor of the same shape and type as input.
   */
 };
 } // namespace dnnc

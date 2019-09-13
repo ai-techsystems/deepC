@@ -60,6 +60,7 @@
 #include "operators/Mean.h"
 #include "operators/Min.h"
 #include "operators/Mul.h"
+#include "operators/Neg.h"
 #include "operators/Not.h"
 #include "operators/NotEqual.h"
 #include "operators/Or.h"
@@ -69,6 +70,7 @@
 #include "operators/Tanh.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
+#include "operators/TrueDiv.h"
 #include "operators/Xor.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
@@ -297,7 +299,7 @@ tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c
 	return op.compute(a, b, c);
 }
 
-tensor<float> div(tensor<double> &a, tensor<double> &b) {
+tensor<double> div(tensor<double> &a, tensor<double> &b) {
 	Div<double> op;
 	return op.compute(a, b);
 }
@@ -307,7 +309,7 @@ tensor<float> div(tensor<float> &a, tensor<float> &b) {
 	return op.compute(a, b);
 }
 
-tensor<float> div(tensor<int> &a, tensor<int> &b) {
+tensor<int> div(tensor<int> &a, tensor<int> &b) {
 	Div<int> op;
 	return op.compute(a, b);
 }
@@ -324,6 +326,21 @@ tensor<int> floor_div(tensor<float> &a, tensor<float> &b) {
 
 tensor<int> floor_div(tensor<int> &a, tensor<int> &b) {
 	FloorDiv<int> op;
+	return op.compute(a, b);
+}
+
+tensor<float> true_div(tensor<double> &a, tensor<double> &b) {
+	TrueDiv<double> op;
+	return op.compute(a, b);
+}
+
+tensor<float> true_div(tensor<float> &a, tensor<float> &b) {
+	TrueDiv<float> op;
+	return op.compute(a, b);
+}
+
+tensor<float> true_div(tensor<int> &a, tensor<int> &b) {
+	TrueDiv<int> op;
 	return op.compute(a, b);
 }
 
@@ -662,6 +679,21 @@ tensor<double> mul(tensor<double> &a, tensor<double> &b) {
   return op.compute(a, b);
 }
 
+tensor<double> neg(tensor<double> &a) {
+	Neg<double> op;
+	return op.compute(a);
+}
+
+tensor<float> neg(tensor<float> &a) {
+	Neg<float> op;
+	return op.compute(a);
+}
+
+tensor<int> neg(tensor<int> &a) {
+	Neg<int> op;
+	return op.compute(a);
+}
+
 tensor<bool> not_equal(tensor<double> &a, tensor<double> &b) {
 	NotEqual<double> op;
 	return op.compute(a, b);
@@ -722,13 +754,18 @@ tensor<bool> logical_or(tensor<int> &a, tensor<int> &b) {
 	return op.compute(a, b);
 }
 
+tensor<double> pow(tensor<double> &a, tensor<double> &b) {
+	Pow<double> op;
+	return op.compute(a, b);
+}
+
 tensor<float> pow(tensor<float> &a, tensor<float> &b) {
 	Pow<float> op;
 	return op.compute(a, b);
 }
 
-tensor<double> pow(tensor<double> &a, tensor<double> &b) {
-	Pow<double> op;
+tensor<int> pow(tensor<int> &a, tensor<int> &b) {
+	Pow<int> op;
 	return op.compute(a, b);
 }
 
