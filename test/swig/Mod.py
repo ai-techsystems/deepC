@@ -28,6 +28,7 @@ import unittest
 class ModTest(unittest.TestCase):
     def setUp(self):
         self.len = 24
+        self.fmod_flag = 1
         self.np_a = np.random.randn(self.len).astype(np.float32)
         self.np_b = np.random.randn(self.len).astype(np.float32)
         self.dc_a = dc.array(list(self.np_a));
@@ -35,7 +36,7 @@ class ModTest(unittest.TestCase):
 
     def test_Mod1D (self):
         npr = np.mod(self.np_a, self.np_b)
-        dcr = dc.mod(self.dc_a, self.dc_b)
+        dcr = dc.mod(self.dc_a, self.dc_b, self.fmod_flag)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -45,7 +46,7 @@ class ModTest(unittest.TestCase):
         dc_a = dc.reshape(self.dc_a, (6,4));
         dc_b = dc.reshape(self.dc_b, (6,4));
         npr = np.mod(np_a, np_b);
-        dcr = dc.mod(dc_a, dc_b);
+        dcr = dc.mod(dc_a, dc_b, self.fmod_flag);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -56,7 +57,7 @@ class ModTest(unittest.TestCase):
         dc_b = dc.reshape(self.dc_b, (2,4,3));
 
         npr = np.mod(np_a, np_b);
-        dcr = dc.mod(dc_a, dc_b);
+        dcr = dc.mod(dc_a, dc_b, self.fmod_flag);
 
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
@@ -68,7 +69,7 @@ class ModTest(unittest.TestCase):
         dc_b = dc.reshape(self.dc_b, (2,2,2,3));
 
         npr = np.mod(np_a, np_b);
-        dcr = dc.mod(dc_a, dc_b);
+        dcr = dc.mod(dc_a, dc_b, self.fmod_flag);
 
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)

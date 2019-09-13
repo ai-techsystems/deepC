@@ -59,7 +59,7 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
-#include "operators/Neg.h"
+#include "operators/Mod.h"
 #include "operators/Mul.h"
 #include "operators/Neg.h"
 #include "operators/Not.h"
@@ -685,6 +685,21 @@ tensor<double> max(std::vector<tensor<double>> a) {
   return op.compute(a);
 }
 
+tensor<double> mod(tensor<double> &a, tensor<double> &b, int fmod_flag = 0) {
+	Mod<double> op("localOpName", fmod_flag);
+	return op.compute(a, b);
+}
+
+tensor<float> mod(tensor<float> &a, tensor<float> &b, int fmod_flag = 0) {
+	Mod<float> op("localOpName", fmod_flag);
+	return op.compute(a, b);
+}
+
+tensor<int> mod(tensor<int> &a, tensor<int> &b, int fmod_flag = 0) {
+	Mod<int> op("localOpName", fmod_flag);
+	return op.compute(a, b);
+}
+
 tensor<bool> less_equal(tensor<int> &a, tensor<int> &b) {
   LessEqual<int> op;
   return op.compute(a, b);
@@ -884,24 +899,6 @@ tensor<bool> transpose(tensor<bool> &a) {
 	Transpose<bool> op;
 	return op.compute(a);
 }
-
-tensor<double> neg(tensor<double> &a) {
-	Neg<double> op;
-	return op.compute(a);
-}
-
-
-tensor<float> neg(tensor<float> &a) {
-	Neg<float> op;
-	return op.compute(a);
-}
-
-
-tensor<int> neg(tensor<int> &a) {
-	Neg<int> op;
-	return op.compute(a);
-}
-
 
 
 }
