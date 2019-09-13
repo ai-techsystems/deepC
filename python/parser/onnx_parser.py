@@ -18,7 +18,7 @@
 # under the License.
 # pylint: disable=invalid-name, unused-argument
 #
-# This file is part of DNN compiler maintained at 
+# This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 #
 # Author: Colin Lu
@@ -27,11 +27,13 @@
 import onnx
 import sys
 
+import onnx3_dtypes
+
 def get_node_symbol(node):
 	symbol = ""
 	symbol += node.op_type + '\n'
 	symbol += '\t"' + node.name + '"\n'
-	
+
 	symbol += '\t[ '
 	for elem in node.input:
 		symbol += '[\"' + elem + '\"] '
@@ -108,14 +110,14 @@ def get_initializer_symbol(initializer):
 	float_data_types = [1, 14] # data_type values which store data in the float_data field (including complex)
 	int32_data_types = [2, 3, 4, 5, 6, 9, 10] # data_type values which store data in int32_data
 	int64_data_types = [7] # data_type values which store data in int64_data
-	
+
 	if initializer.raw_data != b'': # if the raw_data field is not empty
 		symbol += '\t[ ' + str(initializer.raw_data) + ' ]\n'
-	elif initializer.data_type in float_data_types:
+        elif initializer.data_type in dt.type_FLOAT():
 		symbol += '\t[ ' + str(initializer.float_data) + ' ]\n'
-	elif initializer.data_type in int32_data_types:
+        elif initializer.data_type in dt.type_INT()+dt.type_BOOL():
 		symbol += '\t[ ' + str(initializer.int32_data) + ' ]\n'
-	elif initializer.data_type in int64_data_types:
+        elif initializer.data_type == dt.type_INT64():
 		symbol += '\t[ ' + str(initializer.int64_data) + ' ]\n'
 
 	symbol += '\n'
@@ -128,7 +130,7 @@ def get_symbol_table(onnx_filename):
 	nodes = graph.node
 
 	output = ""
-	
+
 	for node in nodes:
 		output += get_node_symbol(node)
 
