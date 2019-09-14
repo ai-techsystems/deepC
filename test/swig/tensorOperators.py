@@ -87,12 +87,12 @@ class tensorOperatorsTest(unittest.TestCase):
         dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
 
         # FloorDiv
-        # temp_zeros = self.zeros.copy()
-        # temp_zeros //= self.ones
-        # dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
-        # temp_zeros = self.zeros.copy()
-        # temp_zeros //= 1
-        # dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
+        temp_zeros = self.zeros.copy()
+        temp_zeros //= self.ones
+        dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
+        temp_zeros = self.zeros.copy()
+        temp_zeros //= 1
+        dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
 
         # Pow
         temp_zeros = self.zeros.copy()

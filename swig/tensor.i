@@ -385,7 +385,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return op.compute(*$self, other);
   }
 
-  /* %pyinplaceoper(__ifloordiv__, dnnc::tensor::__ifloordiv__, binaryfunc, nb_inplace_floor_divide);
+  /*%pyinplaceoper(__ifloordiv__, dnnc::tensor::__ifloordiv__, binaryfunc, nb_inplace_floor_divide);
   dnnc::tensor<int> __ifloordiv__(dnnc::tensor<T>& other) {
     dnnc::FloorDiv<T> op("pythonOp");
     return op.compute(*$self, other);
@@ -395,7 +395,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     other.load(&scalar);
     dnnc::FloorDiv<T> op("pythonOp");
     return op.compute(*$self, other);
-  } */
+  }*/
 
   %pyinplaceoper(__ipow__, dnnc::tensor::__ipow__, binaryfunc, nb_inplace_power);
   dnnc::tensor<T> __ipow__(dnnc::tensor<T>& other) {
