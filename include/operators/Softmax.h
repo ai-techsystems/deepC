@@ -28,11 +28,14 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns the tensor resulted from performing the sigmoid operation \f$ {Softmax}(x_{i}) = \frac{\exp(x_i)}{\sum_j \exp(x_j)} \f$
+ * elementwise on the input tensor A .
+ */
 template <typename T> class Softmax : public baseOperator<T> {
   //  Softmax attributes
 
 protected:
-  int axis = 1;
+  int axis = 1; /*!< : Attribute : axis (default axis=1)*/
 
 public:
   Softmax(std::string name = "opSoftmax") : baseOperator<T>(opSoftmax, name) {}
@@ -54,7 +57,7 @@ public:
     return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
   }
 
-  tensor<T> compute(tensor<T> &a) {
+  tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Softmax operator.*/) {
     if (!compare())
       throw std::invalid_argument(
           "Constrain a and output types to float tensors.");
