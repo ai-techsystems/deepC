@@ -621,6 +621,90 @@ tensor<bool> transpose(tensor<bool> &a) {
 	return op.compute(a);
 }
 
+	
+tensor<float> sigmoid(tensor<float> &a) {
+	Sigmoid<float> op;
+	return op.compute(a);
+}
+
+	
+tensor<double> sigmoid(tensor<double> &a) {
+	Sigmoid<float> op;
+	return op.compute(a);
+}
+
+	
+tensor<float> sign(tensor<float> &a) {
+	Sign<float> op;
+	return op.compute(a);
+}
+
+	
+tensor<double> sign(tensor<double> &a) {
+	Sign<double> op;
+	return op.compute(a);
+}
+
+	
+tensor<float> sin(tensor<float> &a) {
+	Sin<float> op;
+	return op.compute(a);
+}
+
+	
+tensor<double> sin(tensor<double> &a) {
+	Sin<double> op;
+	return op.compute(a);
+}
+
+	
+tensor<float> sinh(tensor<float> &a) {
+	Sinh<float> op;
+	return op.compute(a);
+}
+
+	
+tensor<double> sinh(tensor<double> &a) {
+	Sinh<double> op;
+	return op.compute(a);
+}
+
+	
+tensor<float> softplus(tensor<float> &a) {
+	Softplus<float> op;
+	return op.compute(a);
+}
+
+	
+tensor<double> softplus(tensor<double> &a) {
+	Softplus<double> op;
+	return op.compute(a);
+}
+
+	
+tensor<float> softsign(tensor<float> &a) {
+	Softsign<float> op;
+	return op.compute(a);
+}
+
+	
+tensor<double> softsign(tensor<double> &a) {
+	Softsign<double> op;
+	return op.compute(a);
+}
+
+	
+tensor<float> sqrt(tensor<float> &a) {
+	Sqrt<float> op;
+	return op.compute(a);
+}
+
+	
+tensor<double> sqrt(tensor<double> &a) {
+	Sqrt<double> op;
+	return op.compute(a);
+}
+
 
 
 }
