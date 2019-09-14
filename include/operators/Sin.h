@@ -27,43 +27,32 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns the tensor resulted from performing the sin operation \f$ h(x) =  \sin(x) \f$
+ * elementwise on the input tensor A .
+ */
 template <typename T> class Sin : public baseOperator<T> {
 protected:
 public:
   Sin(std::string name = "opSin") : baseOperator<T>(opSin, name) {}
 
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
-
-  static float sin_func(T x) { return sin(x); }
+  
 
   // NOT GOOD to return by value
-  tensor<T> compute(tensor<T> &a) {
-    if (!compare())
+  tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Sin operator.*/) {
+
+     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    tensor<T> result(a.shape(), a.name());
 
-    if (a.rank() == 2) {
-      tensor<T> result(a.shape()[0], a.shape()[1]);
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&sin_func);
-      ;
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
-      result.load(eResult.data());
+    eResult.array() = sin(eigenVector.array());
 
-      return result;
-    } else if (a.rank() == 3) {
-      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&sin_func);
-      ;
-
-      result.load(eResult.data());
-
-      return result;
-    } else
-      throw std::invalid_argument("tensor dimensions not appropriate.");
+    result.load(eResult.data());
+    return result;
   }
 };
 } // namespace dnnc
