@@ -1,4 +1,5 @@
 tensorSanity.py
+tensorAssignmentOperators.py
 tensorOperators.py
 Add.py
 Broadcast.py
