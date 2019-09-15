@@ -4,3 +4,4 @@ Log.py
 MatMulInteger.py
 Mean.py
 Min.py
+Mod.py

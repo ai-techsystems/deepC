@@ -59,6 +59,7 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Mod.h"
 #include "operators/Neg.h"
 #include "operators/Mul.h"
 #include "operators/Not.h"
@@ -607,5 +608,15 @@ tensor<output> neg(tensor<input> &a) {
 		"double" : "double",
 		"float" : "float",
 		"int" : "int"
+	}
+}
+
+tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod = 0) {
+	Mod<input> op("localOpName", fmod);
+	return op.compute(a, b);
+	dtype = {
+		"int" : "int",
+		"float" : "float",
+		"double" : "double"
 	}
 }

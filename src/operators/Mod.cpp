@@ -28,39 +28,19 @@ using namespace Eigen;
 
 #ifdef DNNC_MOD_TEST
 #include <iostream>
+#include <math.h>
 
-// template <typename T>
-// void mod_test(T* a, T* b) {
-
-//   tensor<T> tensor_a(4);
-//   tensor_a.load(a);
-
-//   tensor<T> tensor_b(1);
-//   tensor_b.load(b);
-
-//   // Mod<T> m("localOpName");
-//   // if (typeid(a) != typeid(float))
-//   std::cout << "Typeid = " << typeid(a).name() << "\n" << std::endl;
-//   Mod<T> m("localOpName", 1);
-//   auto result = m.compute(tensor_a, tensor_b);
-
-//   std::cout << result << std::endl;
-// }
 
 int main() {
 
-  // int a[4] = {-21, -22, -23, -24};
-  // int b[1] = {20};
-  // mod_test(a, b);
-
   float d1[4] = {21., 22., 23., 24.};
-  float d2[4] = {20., 21., 22., 23.};
+  float d2[4] = {20., 20., 20., 20.};
   tensor<float> a(4);
   a.load(d1);
   tensor<float> b(4);
-  a.load(d2);
-  // mod_test(c, d);
+  b.load(d1);
   int fmod_flag = 1;
+  // std::cout << fmod(21.0, 21.0);
 
   Mod<float> m("localOpName", fmod_flag);
   auto result = m.compute(a, b);
@@ -68,9 +48,21 @@ int main() {
   std::cout << result;
   std::cout << "\n";
 
+  int d1_int[4] = {21, 22, 23, 24};
+  int d2_int[4] = {20};
+  tensor<int> a_int(4);
+  a_int.load(d1_int);
+  tensor<int> b_int(1);
+  b_int.load(d2_int);
+  // int fmod_flag = 0;
+
+  Mod<int> m_int("localOpName");
+  auto result_int = m_int.compute(a_int, b_int);
+
+  std::cout << result_int;
+  std::cout << "\n";  
+
   return 0;
-  // double e[4] = {21., 22., 23., 24.};
-  // double f[1] = {20};
-  // mod_test(e, f);
+
 }
 #endif

@@ -275,5 +275,11 @@ namespace dnnc {
 		 neg(tensor<float> &a) ;
 	extern tensor<int> \
 		 neg(tensor<int> &a) ;
+	extern tensor<int> \
+		 mod(tensor<int> &a, tensor<int> &b, int fmod = 0) ;
+	extern tensor<float> \
+		 mod(tensor<float> &a, tensor<float> &b, int fmod = 0) ;
+	extern tensor<double> \
+		 mod(tensor<double> &a, tensor<double> &b, int fmod = 0) ;
 
 }
