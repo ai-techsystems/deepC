@@ -667,3 +667,65 @@ tensor<output> transpose(tensor<input> &a) {
 		"bool" : "bool"
 	}
 }
+
+tensor<output> sigmoid(tensor<input> &a) {
+	Sigmoid<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float"
+	}
+}
+
+tensor<output> sign(tensor<input> &a) {
+	Sign<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> sin(tensor<input> &a) {
+	Sin<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> sinh(tensor<input> &a) {
+	Sinh<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> softplus(tensor<input> &a) {
+	Softplus<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> softsign(tensor<input> &a) {
+	Softsign<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> sqrt(tensor<input> &a) {
+	Sqrt<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
