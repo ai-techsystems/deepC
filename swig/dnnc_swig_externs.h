@@ -305,5 +305,35 @@ namespace dnnc {
 		 transpose(tensor<int> &a) ;
 	extern tensor<bool> \
 		 transpose(tensor<bool> &a) ;
+	extern tensor<float> \
+		 sigmoid(tensor<float> &a) ;
+	extern tensor<double> \
+		 sigmoid(tensor<double> &a) ;
+	extern tensor<float> \
+		 sign(tensor<float> &a) ;
+	extern tensor<double> \
+		 sign(tensor<double> &a) ;
+	extern tensor<float> \
+		 sin(tensor<float> &a) ;
+	extern tensor<double> \
+		 sin(tensor<double> &a) ;
+	extern tensor<float> \
+		 sinh(tensor<float> &a) ;
+	extern tensor<double> \
+		 sinh(tensor<double> &a) ;
+	extern tensor<float> \
+		 softplus(tensor<float> &a) ;
+	extern tensor<double> \
+		 softplus(tensor<double> &a) ;
+	extern tensor<float> \
+		 softsign(tensor<float> &a) ;
+	extern tensor<double> \
+		 softsign(tensor<double> &a) ;
+	extern tensor<float> \
+		 sqrt(tensor<float> &a) ;
+	extern tensor<double> \
+		 sqrt(tensor<double> &a) ;
+
+}
 
 }
