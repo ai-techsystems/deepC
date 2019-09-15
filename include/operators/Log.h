@@ -28,29 +28,29 @@
 using namespace Eigen;
 
 namespace dnnc {
+  /*! Calculates the natural logarithm of the given input tensor, element-wise.
+  \f$ y = \ln \left ( x \right ) \f$ */
 template <typename T> class Log : public baseOperator<T> {
-  //  Log attributes
-  // None
+ 
 public:
   Log(std::string name = "opLog") : baseOperator<T>(opLog, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
-
-  tensor<T> compute(tensor<T> &input) {
-    if (!compare())
+ tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
+      if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    tensor<T> result(input.shape(), input.name());
+    tensor<T> result(a.shape(), a.name());
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
-    for (size_t i = 0; i < input.length(); i++) {
-      result[i] = log(input[i]); // element-wise
-    }
+    eResult.array() = log(eigenVector.array());
+
+    result.load(eResult.data());
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape as input.
+  */
 };
 } // namespace dnnc

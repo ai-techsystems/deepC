@@ -175,6 +175,7 @@ enum OPCODE {
   opTile,
   opTopK,
   opTranspose,
+  opTrueDiv,
   opUnsqueeze,
   opUpsample,
   opWhere,

@@ -32,49 +32,188 @@ def temp_flatten(x, shape, axis):
 
 class FlattenTest(unittest.TestCase):
     def setUp(self):
-        self.len = 24
-        self.np_a = np.random.randn(self.len).astype(np.float32)
-        self.dc_a = dc.array(list(self.np_a))
+        self.len = 48
 
-    def test_Flatten1D (self):
-        shape = (1,24)
+        self.np_bool_a = np.random.randn(self.len).astype(np.bool)
+        self.dc_bool_a = dc.array(list(self.np_bool_a))
+        
+        self.np_int_a = np.random.randn(self.len).astype(np.int)
+        self.dc_int_a = dc.array(list(self.np_int_a))
+        
+        self.np_float_a = np.random.randn(self.len).astype(np.float32)
+        self.dc_float_a = dc.array(list(self.np_float_a))
+
+        self.np_double_a = np.random.randn(self.len).astype(np.float64)
+        self.dc_double_a = dc.array(list(self.np_double_a))
+
+    def test_Flatten1D_bool (self):
         axis = 0
-        npr = temp_flatten(self.np_a,shape,axis)
-        dcr = dc.flatten(self.dc_a,axis)
-        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+        shape = (1,48)
+        npr = temp_flatten(self.np_bool_a, shape, axis)
+        dcr = dc.flatten(self.dc_bool_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
                 rtol=1e-3, atol=1e-3)
         np.testing.assert_equal(npr.shape, dcr.shape())
-    
-    def test_Flatten2D (self):
-        shape = (6,4)
-        axis = 1
-        np_a = np.reshape(self.np_a, shape)
-        dc_a = dc.reshape(self.dc_a, shape)
-        npr = temp_flatten(np_a,shape,axis)
-        dcr = dc.flatten(dc_a,axis)
+
+    def test_Flatten1D_int (self):
+        axis = 0
+        shape = (1,48)
+        npr = temp_flatten(self.np_int_a, shape, axis)
+        dcr = dc.flatten(self.dc_int_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten1D_float (self):
+        axis = 0
+        shape = (1,48)
+        npr = temp_flatten(self.np_float_a, shape, axis)
+        dcr = dc.flatten(self.dc_float_a, axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
         np.testing.assert_equal(npr.shape, dcr.shape())
 
-    def test_Flatten3D (self):
-        shape = (2,4,3)
+    def test_Flatten1D_double (self):
+        axis = 0
+        shape = (1,48)
+        npr = temp_flatten(self.np_double_a, shape, axis)
+        dcr = dc.flatten(self.dc_double_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+
+    def test_Flatten2D_bool (self):
         axis = 2
-        np_a = np.reshape(self.np_a, shape)
-        dc_a = dc.reshape(self.dc_a, shape)
-        npr = temp_flatten(np_a,shape,axis)
-        dcr = dc.flatten(dc_a,axis)
+        shape = (8,6)
+        np_bool_a = np.reshape(self.np_bool_a, shape)
+        dc_bool_a = dc.reshape(self.dc_bool_a, shape)
+        npr = temp_flatten(np_bool_a, shape, axis)
+        dcr = dc.flatten(dc_bool_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten2D_int (self):
+        axis = 2
+        shape = (8,6)
+        np_int_a = np.reshape(self.np_int_a, shape)
+        dc_int_a = dc.reshape(self.dc_int_a, shape)
+        npr = temp_flatten(np_int_a, shape, axis)
+        dcr = dc.flatten(dc_int_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten2D_float (self):
+        axis = 2
+        shape = (8,6)
+        np_float_a = np.reshape(self.np_float_a, shape)
+        dc_float_a = dc.reshape(self.dc_float_a, shape)
+        npr = temp_flatten(np_float_a, shape, axis)
+        dcr = dc.flatten(dc_float_a, axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
         np.testing.assert_equal(npr.shape, dcr.shape())
-    
-    def test_Flatten4D (self):
-        shape = (2,2,2,3)
-        axis = 4
-        np_a = np.reshape(self.np_a, shape)
-        dc_a = dc.reshape(self.dc_a, shape)
-        npr = temp_flatten(np_a,shape,axis)
-        dcr = dc.flatten(dc_a,axis)
+
+    def test_Flatten2D_double (self):
+        axis = 2
+        shape = (8,6)
+        np_double_a = np.reshape(self.np_double_a, shape)
+        dc_double_a = dc.reshape(self.dc_double_a, shape)
+        npr = temp_flatten(np_double_a, shape, axis)
+        dcr = dc.flatten(dc_double_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+
+    def test_Flatten3D_bool (self):
+        axis = 2
+        shape = (4,4,3)
+        np_bool_a = np.reshape(self.np_bool_a, shape)
+        dc_bool_a = dc.reshape(self.dc_bool_a, shape)
+        npr = temp_flatten(np_bool_a, shape, axis)
+        dcr = dc.flatten(dc_bool_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten3D_int (self):
+        axis = 2
+        shape = (4,4,3)
+        np_int_a = np.reshape(self.np_int_a, shape)
+        dc_int_a = dc.reshape(self.dc_int_a, shape)
+        npr = temp_flatten(np_int_a, shape, axis)
+        dcr = dc.flatten(dc_int_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten3D_float (self):
+        axis = 2
+        shape = (4,4,3)
+        np_float_a = np.reshape(self.np_float_a, shape)
+        dc_float_a = dc.reshape(self.dc_float_a, shape)
+        npr = temp_flatten(np_float_a, shape, axis)
+        dcr = dc.flatten(dc_float_a, axis)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten3D_double (self):
+        axis = 2
+        shape = (4,4,3)
+        np_double_a = np.reshape(self.np_double_a, shape)
+        dc_double_a = dc.reshape(self.dc_double_a, shape)
+        npr = temp_flatten(np_double_a, shape, axis)
+        dcr = dc.flatten(dc_double_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+
+    def test_Flatten4D_bool (self):
+        axis = 3
+        shape = (4,2,2,3)
+        np_bool_a = np.reshape(self.np_bool_a, shape)
+        dc_bool_a = dc.reshape(self.dc_bool_a, shape)
+        npr = temp_flatten(np_bool_a, shape, axis)
+        dcr = dc.flatten(dc_bool_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.bool),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten4D_int (self):
+        axis = 3
+        shape = (4,2,2,3)
+        np_int_a = np.reshape(self.np_int_a, shape)
+        dc_int_a = dc.reshape(self.dc_int_a, shape)
+        npr = temp_flatten(np_int_a, shape, axis)
+        dcr = dc.flatten(dc_int_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten4D_float (self):
+        axis = 3
+        shape = (4,2,2,3)
+        np_float_a = np.reshape(self.np_float_a, shape)
+        dc_float_a = dc.reshape(self.dc_float_a, shape)
+        npr = temp_flatten(np_float_a, shape, axis)
+        dcr = dc.flatten(dc_float_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+        np.testing.assert_equal(npr.shape, dcr.shape())
+
+    def test_Flatten4D_double (self):
+        axis = 3
+        shape = (4,2,2,3)
+        np_double_a = np.reshape(self.np_double_a, shape)
+        dc_double_a = dc.reshape(self.dc_double_a, shape)
+        npr = temp_flatten(np_double_a, shape, axis)
+        dcr = dc.flatten(dc_double_a, axis)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
                 rtol=1e-3, atol=1e-3)
         np.testing.assert_equal(npr.shape, dcr.shape())
 

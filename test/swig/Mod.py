@@ -68,6 +68,7 @@ class ModTest(unittest.TestCase):
         dc_a_float = dc.reshape(self.dc_a_float, (2,2,2,3));
         dc_b_float = dc.reshape(self.dc_b_float, (2,2,2,3));
 
+
         npr = np.mod(np_a_float, np_b_float);
         dcr = dc.mod(dc_a_float, dc_b_float, self.fmod_flag);
 

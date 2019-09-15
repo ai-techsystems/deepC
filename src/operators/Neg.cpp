@@ -34,12 +34,11 @@ int main() {
   tensor<float> a(3, 2);
   a.load(d1);
 
-  tensor<float> b(3, 2);
-  b.load(d1);
-
   Neg<float> m("localOpName");
   auto result = m.compute(a);
 
+  std::cout << result;
+  std::cout << "\n";
   return 0;
 }
 #endif

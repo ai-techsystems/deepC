@@ -34,6 +34,7 @@ namespace dnnc {
  * support).
  */
 template <typename T> class Less : public baseOperator<T> {
+  
 public:
   Less(std::string name = "opLess") : baseOperator<T>(opLess, name) {}
 

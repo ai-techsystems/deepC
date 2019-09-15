@@ -65,11 +65,11 @@ namespace dnnc {
 		 logical_and(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \
 		 dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) ;
-	extern tensor<float> \
+	extern tensor<double> \
 		 div(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
 		 div(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<float> \
+	extern tensor<int> \
 		 div(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<int> \
 		 floor_div(tensor<double> &a, tensor<double> &b) ;
@@ -77,6 +77,12 @@ namespace dnnc {
 		 floor_div(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<int> \
 		 floor_div(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 true_div(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 true_div(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 true_div(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 elu(tensor<double> &a, float alpha = 1.0) ;
 	extern tensor<float> \
@@ -187,6 +193,32 @@ namespace dnnc {
 		 less(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<bool> \
 		 less(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 log(tensor<float> &a) ;
+	extern tensor<double> \
+		 log(tensor<double> &a) ;
+	extern tensor<float> \
+		 logsoftmax(tensor<float> &a, int axis = 1) ;
+	extern tensor<double> \
+		 logsoftmax(tensor<double> &a, int axis = 1) ;
+	extern tensor<float> \
+		 lpnormalization(tensor<float> &a, int p = 2, int axis = -1) ;
+	extern tensor<double> \
+		 lpnormalization(tensor<double> &a, int p = 2, int axis = -1) ;
+	extern tensor<int> \
+		 matmulinteger(tensor<int> &a, tensor<int> &b, tensor<int> &c, tensor<int> &d) ;
+	extern tensor<float> \
+		 min(std::vector<tensor<float>> a) ;
+	extern tensor<double> \
+		 min(std::vector<tensor<double>> a) ;
+	extern tensor<float> \
+		 mean(std::vector<tensor<float>> a) ;
+	extern tensor<double> \
+		 mean(std::vector<tensor<double>> a) ;
+	extern tensor<float> \
+		 max(std::vector<tensor<float>> a) ;
+	extern tensor<double> \
+		 max(std::vector<tensor<double>> a) ;
 	extern tensor<bool> \
 		 less_equal(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<bool> \
@@ -195,22 +227,18 @@ namespace dnnc {
 		 less_equal(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
 		 thresholded_relu(tensor<float> &a) ;
-	extern tensor<float> \
-		 log(tensor<float> &a) ;
-	extern tensor<float> \
-		 logsoftmax(tensor<float> &a) ;
-	extern tensor<float> \
-		 lpnormalization(tensor<float> &a) ;
-	extern tensor<int> \
-		 matmulinteger(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<float> \
-		 max(std::vector<tensor<float>> a) ;
 	extern tensor<int> \
 		 mul(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \
 		 mul(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<double> \
 		 mul(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 neg(tensor<double> &a) ;
+	extern tensor<float> \
+		 neg(tensor<float> &a) ;
+	extern tensor<int> \
+		 neg(tensor<int> &a) ;
 	extern tensor<bool> \
 		 not_equal(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<bool> \
@@ -235,10 +263,12 @@ namespace dnnc {
 		 logical_or(tensor<bool> &a, tensor<bool> &b) ;
 	extern tensor<bool> \
 		 logical_or(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<float> \
-		 pow(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<double> \
 		 pow(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 pow(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 pow(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 sub(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
@@ -269,8 +299,10 @@ namespace dnnc {
 		 transpose(tensor<int> &a) ;
 	extern tensor<bool> \
 		 transpose(tensor<bool> &a) ;
+	extern tensor<float> \
+		 sigmoid(tensor<float> &a) ;
 	extern tensor<double> \
-		 neg(tensor<double> &a) ;
+		 sigmoid(tensor<double> &a) ;
 	extern tensor<float> \
 		 neg(tensor<float> &a) ;
 	extern tensor<int> \
@@ -281,5 +313,31 @@ namespace dnnc {
 		 mod(tensor<float> &a, tensor<float> &b, int fmod = 0) ;
 	extern tensor<double> \
 		 mod(tensor<double> &a, tensor<double> &b, int fmod = 0) ;
+		 sign(tensor<float> &a) ;
+	extern tensor<double> \
+		 sign(tensor<double> &a) ;
+	extern tensor<float> \
+		 sin(tensor<float> &a) ;
+	extern tensor<double> \
+		 sin(tensor<double> &a) ;
+	extern tensor<float> \
+		 sinh(tensor<float> &a) ;
+	extern tensor<double> \
+		 sinh(tensor<double> &a) ;
+	extern tensor<float> \
+		 softplus(tensor<float> &a) ;
+	extern tensor<double> \
+		 softplus(tensor<double> &a) ;
+	extern tensor<float> \
+		 softsign(tensor<float> &a) ;
+	extern tensor<double> \
+		 softsign(tensor<double> &a) ;
+	extern tensor<float> \
+		 sqrt(tensor<float> &a) ;
+	extern tensor<double> \
+		 sqrt(tensor<double> &a) ;
+
+}
+
 
 }

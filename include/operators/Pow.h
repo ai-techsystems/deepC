@@ -39,13 +39,13 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+          "Constrain input and output types to numeric tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
-          "tensor dimenions not appropriate for Equal operator.");
+          "tensor dimenions not appropriate for Pow operator.");
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);

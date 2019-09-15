@@ -62,6 +62,7 @@
 #include "operators/Mod.h"
 #include "operators/Neg.h"
 #include "operators/Mul.h"
+#include "operators/Neg.h"
 #include "operators/Not.h"
 #include "operators/NotEqual.h"
 #include "operators/Or.h"
@@ -71,7 +72,15 @@
 #include "operators/Tanh.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
+#include "operators/TrueDiv.h"
 #include "operators/Xor.h"
+#include "operators/Sigmoid.h"
+#include "operators/Sign.h"
+#include "operators/Sin.h"
+#include "operators/Sinh.h"
+#include "operators/Softplus.h"
+#include "operators/Softsign.h"
+#include "operators/Sqrt.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -299,7 +308,7 @@ tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c
 	return op.compute(a, b, c);
 }
 
-tensor<float> div(tensor<double> &a, tensor<double> &b) {
+tensor<double> div(tensor<double> &a, tensor<double> &b) {
 	Div<double> op;
 	return op.compute(a, b);
 }
@@ -309,7 +318,7 @@ tensor<float> div(tensor<float> &a, tensor<float> &b) {
 	return op.compute(a, b);
 }
 
-tensor<float> div(tensor<int> &a, tensor<int> &b) {
+tensor<int> div(tensor<int> &a, tensor<int> &b) {
 	Div<int> op;
 	return op.compute(a, b);
 }
@@ -326,6 +335,21 @@ tensor<int> floor_div(tensor<float> &a, tensor<float> &b) {
 
 tensor<int> floor_div(tensor<int> &a, tensor<int> &b) {
 	FloorDiv<int> op;
+	return op.compute(a, b);
+}
+
+tensor<float> true_div(tensor<double> &a, tensor<double> &b) {
+	TrueDiv<double> op;
+	return op.compute(a, b);
+}
+
+tensor<float> true_div(tensor<float> &a, tensor<float> &b) {
+	TrueDiv<float> op;
+	return op.compute(a, b);
+}
+
+tensor<float> true_div(tensor<int> &a, tensor<int> &b) {
+	TrueDiv<int> op;
 	return op.compute(a, b);
 }
 
@@ -604,6 +628,86 @@ tensor<bool> less(tensor<double> &a, tensor<double> &b) {
   return op.compute(a, b);
 }
 
+tensor<float> log(tensor<float> &a) {
+  Log<float> op;
+  return op.compute(a);
+}
+
+tensor<double> log(tensor<double> &a) {
+  Log<double> op;
+  return op.compute(a);
+}
+
+tensor<float> logsoftmax(tensor<float> &a, int axis = 1) {
+	LogSoftmax<float> op("localOpName", axis);
+	return op.compute(a);
+}
+
+tensor<double> logsoftmax(tensor<double> &a, int axis = 1) {
+	LogSoftmax<double> op("localOpName", axis);
+	return op.compute(a);
+}
+
+tensor<float> lpnormalization(tensor<float> &a, int p = 2, int axis = -1) {
+  LpNormalization<float> op("localOpName", p, axis);
+  return op.compute(a);
+}
+
+tensor<double> lpnormalization(tensor<double> &a, int p = 2, int axis = -1) {
+  LpNormalization<double> op("localOpName", p, axis);
+  return op.compute(a);
+}
+
+tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b, tensor<int> &c, tensor<int> &d) {
+	MatMulInteger<int> op;
+	return op.compute(a, b, c, d);
+}
+
+tensor<float> min(std::vector<tensor<float>> a) {
+  Min<float> op;
+  return op.compute(a);
+}
+
+tensor<double> min(std::vector<tensor<double>> a) {
+  Min<double> op;
+  return op.compute(a);
+}
+
+tensor<float> mean(std::vector<tensor<float>> a) {
+  Mean<float> op;
+  return op.compute(a);
+}
+
+tensor<double> mean(std::vector<tensor<double>> a) {
+  Mean<double> op;
+  return op.compute(a);
+}
+
+tensor<float> max(std::vector<tensor<float>> a) {
+  Max<float> op;
+  return op.compute(a);
+}
+
+tensor<double> max(std::vector<tensor<double>> a) {
+  Max<double> op;
+  return op.compute(a);
+}
+
+tensor<double> mod(tensor<double> &a, tensor<double> &b, int fmod_flag = 0) {
+	Mod<double> op("localOpName", fmod_flag);
+	return op.compute(a, b);
+}
+
+tensor<float> mod(tensor<float> &a, tensor<float> &b, int fmod_flag = 0) {
+	Mod<float> op("localOpName", fmod_flag);
+	return op.compute(a, b);
+}
+
+tensor<int> mod(tensor<int> &a, tensor<int> &b, int fmod_flag = 0) {
+	Mod<int> op("localOpName", fmod_flag);
+	return op.compute(a, b);
+}
+
 tensor<bool> less_equal(tensor<int> &a, tensor<int> &b) {
   LessEqual<int> op;
   return op.compute(a, b);
@@ -624,31 +728,6 @@ tensor<float> thresholded_relu(tensor<float> &a) {
 	return op.compute(a);
 }
 
-tensor<float> log(tensor<float> &a) {
-	Log<float> op;
-	return op.compute(a);
-}
-
-tensor<float> logsoftmax(tensor<float> &a) {
-	LogSoftmax<float> op;
-	return op.compute(a);
-}
-
-tensor<float> lpnormalization(tensor<float> &a) {
-	LpNormalization<float> op;
-	return op.compute(a);
-}
-
-tensor<int> matmulinteger(tensor<int> &a, tensor<int> &b) {
-	MatMulInteger<int> op;
-	return op.compute(a, b);
-}
-
-tensor<float> max(std::vector<tensor<float>> a) {
-  Max<float> op;
-  return op.compute(a);
-}
-
 tensor<int> mul(tensor<int> &a, tensor<int> &b) {
   Mul<int> op;
   return op.compute(a, b);
@@ -662,6 +741,21 @@ tensor<float> mul(tensor<float> &a, tensor<float> &b) {
 tensor<double> mul(tensor<double> &a, tensor<double> &b) {
   Mul<double> op;
   return op.compute(a, b);
+}
+
+tensor<double> neg(tensor<double> &a) {
+	Neg<double> op;
+	return op.compute(a);
+}
+
+tensor<float> neg(tensor<float> &a) {
+	Neg<float> op;
+	return op.compute(a);
+}
+
+tensor<int> neg(tensor<int> &a) {
+	Neg<int> op;
+	return op.compute(a);
 }
 
 tensor<bool> not_equal(tensor<double> &a, tensor<double> &b) {
@@ -724,13 +818,18 @@ tensor<bool> logical_or(tensor<int> &a, tensor<int> &b) {
 	return op.compute(a, b);
 }
 
+tensor<double> pow(tensor<double> &a, tensor<double> &b) {
+	Pow<double> op;
+	return op.compute(a, b);
+}
+
 tensor<float> pow(tensor<float> &a, tensor<float> &b) {
 	Pow<float> op;
 	return op.compute(a, b);
 }
 
-tensor<double> pow(tensor<double> &a, tensor<double> &b) {
-	Pow<double> op;
+tensor<int> pow(tensor<int> &a, tensor<int> &b) {
+	Pow<int> op;
 	return op.compute(a, b);
 }
 
@@ -808,9 +907,19 @@ tensor<bool> transpose(tensor<bool> &a) {
 	Transpose<bool> op;
 	return op.compute(a);
 }
+	
+tensor<float> sigmoid(tensor<float> &a) {
+	Sigmoid<float> op;
+	return op.compute(a);
+}
+	
+tensor<double> sigmoid(tensor<double> &a) {
+	Sigmoid<double> op;
+	return op.compute(a);
+}
 
-tensor<double> neg(tensor<double> &a) {
-	Neg<double> op;
+tensor<float> sign(tensor<float> &a) {
+	Sign<float> op;
 	return op.compute(a);
 }
 
@@ -837,6 +946,62 @@ tensor<float> mod(tensor<float> &a, tensor<float> &b, int fmod = 0) {
 tensor<double> mod(tensor<double> &a, tensor<double> &b, int fmod = 0) {
 	Mod<double> op("localOpName", fmod);
 	return op.compute(a, b);
+
+tensor<double> sign(tensor<double> &a) {
+	Sign<double> op;
+	return op.compute(a);
+}
+
+tensor<float> sin(tensor<float> &a) {
+	Sin<float> op;
+	return op.compute(a);
+}
+
+tensor<double> sin(tensor<double> &a) {
+	Sin<double> op;
+	return op.compute(a);
+}
+
+tensor<float> sinh(tensor<float> &a) {
+	Sinh<float> op;
+	return op.compute(a);
+}
+
+tensor<double> sinh(tensor<double> &a) {
+	Sinh<double> op;
+	return op.compute(a);
+}
+
+tensor<float> softplus(tensor<float> &a) {
+	Softplus<float> op;
+	return op.compute(a);
+}
+
+tensor<double> softplus(tensor<double> &a) {
+	Softplus<double> op;
+	return op.compute(a);
+}
+
+tensor<float> softsign(tensor<float> &a) {
+	Softsign<float> op;
+	return op.compute(a);
+}
+
+tensor<double> softsign(tensor<double> &a) {
+	Softsign<double> op;
+	return op.compute(a);
+}
+
+tensor<float> sqrt(tensor<float> &a) {
+	Sqrt<float> op;
+	return op.compute(a);
+}
+
+
+tensor<double> sqrt(tensor<double> &a) {
+	Sqrt<double> op;
+	return op.compute(a);
+
 }
 
 

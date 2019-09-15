@@ -30,35 +30,35 @@ using namespace Eigen;
 
 namespace dnnc {
 
-/*! This does element wise binary floor division operation of two given N D
+/*! This does element wise binary truedivision operation of two given N D
    tensors of same size. This operator supports multidirectional (i.e.,
    Numpy-style) broadcasting.*/
 
-template <typename T> class FloorDiv : public baseOperator<T> {
-template <typename Scalar>
-  inline DNNC_EIGEN_VECTOR_CTOR(int)
+template <typename T> class TrueDiv : public baseOperator<T> {
+  template <typename Scalar>
+  inline DNNC_EIGEN_VECTOR_CTOR(float)
       eigenArrayDiv(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
                     Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
-    return a.template cast<int>().array() / b.template cast<int>().array();
+    return a.template cast<float>().array() / b.template cast<float>().array();
   }
   // Eigen does not support numeric operator for bool
   // So specialiazation is needed to work around that limitation.
   // Bug Ref: http://eigen.tuxfamily.org/bz/show_bug.cgi?id=426
-  inline DNNC_EIGEN_VECTOR_CTOR(int)
+  inline DNNC_EIGEN_VECTOR_CTOR(float)
       eigenArrayDiv(Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &a,
                     Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &b) {
     throw std::invalid_argument("Division not valid for bool tensor(s)");
-    return a.template cast<int>().array() / b.template cast<int>().array();
+    return a.template cast<float>().array() / b.template cast<float>().array();
   }
-public:
-  FloorDiv(std::string name = "opFloorDiv")
-      : baseOperator<T>(opFloorDiv, name) {}
 
-  tensor<int> compute(tensor<T> a /*!< : N D tensor input*/,
-                      tensor<T> b /*!< : N D tensor input*/) {
+public:
+  TrueDiv(std::string name = "opTrueDiv") : baseOperator<T>(opTrueDiv, name) {}
+
+  tensor<float> compute(tensor<T> a /*!< : N D tensor input*/,
+                        tensor<T> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<int> result(resultShape);
+    tensor<float> result(resultShape);
 
     if (!(this->template type_check<float, double, int>()))
       throw std::invalid_argument(
@@ -66,12 +66,12 @@ public:
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
-          "tensor dimenions not appropriate for FloorDiv operator.");
+          "tensor dimenions not appropriate for TrueDiv operator.");
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(int) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(float) eResult;
 
     eResult.array() = eigenArrayDiv(eigenVectorA, eigenVectorB);
 
@@ -80,7 +80,7 @@ public:
     return result;
   }
   /*!<
-  \return The output tensor of type int and the same shape as input.
+  \return The output tensor of type float and the same shape as input.
   */
 };
 } // namespace dnnc
