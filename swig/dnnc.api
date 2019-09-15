@@ -73,6 +73,13 @@
 #include "operators/Transpose.h"
 #include "operators/TrueDiv.h"
 #include "operators/Xor.h"
+#include "operators/Sigmoid.h"
+#include "operators/Sign.h"
+#include "operators/Sin.h"
+#include "operators/Sinh.h"
+#include "operators/Softplus.h"
+#include "operators/Softsign.h"
+#include "operators/Sqrt.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
