@@ -39,3 +39,10 @@ Sub.py
 Tan.py
 Tanh.py
 Xor.py
+Sigmoid.py
+Sin.py
+Sinh.py
+Sqrt.py
+Softplus.py
+Softsign.py
+Sign.py
