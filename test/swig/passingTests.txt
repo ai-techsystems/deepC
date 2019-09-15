@@ -2,7 +2,6 @@ tensorSanity.py
 tensorOperators.py
 Add.py
 Broadcast.py
-DequantizeLinear.py
 Div.py
 Elu.py
 Equal.py
@@ -23,15 +22,7 @@ InstanceNormalization.py
 IsInf.py
 IsNaN.py
 LeakyRelu.py
-LRN.py
 MatMul.py
 Sub.py
 Tan.py
 Tanh.py
-Sigmoid.py
-Sin.py
-Sinh.py
-Sqrt.py
-Softplus.py
-Softsign.py
-Sign.py

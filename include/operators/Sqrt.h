@@ -27,30 +27,33 @@
 using namespace Eigen;
 
 namespace dnnc {
-/*! Returns the tensor resulted from performing the sin operation \f$ h(x) =  \sqrt x \f$
- * elementwise on the input tensor A .
- */
 template <typename T> class Sqrt : public baseOperator<T> {
 protected:
 public:
   Sqrt(std::string name = "opSqrt") : baseOperator<T>(opSqrt, name) {}
-
+  static bool compare() {
+    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
+  }
 
   // NOT GOOD to return by value
-  tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Sqrt operator.*/) {
-    if (!(this->template type_check<float, double>()))
+  tensor<T> compute(tensor<T> &a) {
+    if (!compare())
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    tensor<T> result(a.shape(), a.name());
-
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
-    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
-
-    eResult.array() = sqrt(eigenVector.array());
-
-    result.load(eResult.data());
-    return result;
+    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    if (a.rank() == 2) {
+      tensor<T> result(a.shape()[0], a.shape()[1]);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.cwiseSqrt();
+      result.load(eResult.data());
+      return result;
+    } else if (a.rank() == 3) {
+      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
+      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.cwiseSqrt();
+      result.load(eResult.data());
+      return result;
+    } else
+      throw std::invalid_argument("tensor dimensions not appropriate.");
   }
 };
 } // namespace dnnc
