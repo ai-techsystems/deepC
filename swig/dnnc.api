@@ -60,7 +60,6 @@
 #include "operators/Mean.h"
 #include "operators/Min.h"
 #include "operators/Mod.h"
-#include "operators/Neg.h"
 #include "operators/Mul.h"
 #include "operators/Neg.h"
 #include "operators/Not.h"
@@ -733,16 +732,6 @@ tensor<output> sqrt(tensor<input> &a) {
 	Sqrt<input> op;
 	return op.compute(a);
 	dtype = {
-		"float" : "float",
-		"double" : "double"
-	}
-}
-
-tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod = 0) {
-	Mod<input> op("localOpName", fmod);
-	return op.compute(a, b);
-	dtype = {
-		"int" : "int",
 		"float" : "float",
 		"double" : "double"
 	}
