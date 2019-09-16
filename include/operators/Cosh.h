@@ -27,17 +27,15 @@
 #include <typeinfo>
 using namespace Eigen;
 
-namespace dnnc
-{
-  template <typename T> class Cosh : public baseOperator<T>
-  {
-    public:
-      Cosh(std::string name = "opCosh") : baseOperator<T>(opCosh, name) {}
+namespace dnnc {
+template <typename T> class Cosh : public baseOperator<T> {
+public:
+  Cosh(std::string name = "opCosh") : baseOperator<T>(opCosh, name) {}
 
-  tensor<T> compute(tensor<T> a)
-  {
+  tensor<T> compute(tensor<T> a) {
     if (!(this->template type_check<float, double>()))
-      throw std::invalid_argument("Constrain input and output types to float tensors.");
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
     DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
@@ -46,5 +44,5 @@ namespace dnnc
     result.load(eResult.data());
     return result;
   }
- };
+};
 } // namespace dnnc

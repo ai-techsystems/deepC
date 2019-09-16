@@ -28,8 +28,7 @@ using namespace Eigen;
 
 #ifdef DNNC_CLIP_TEST
 #include <iostream>
-int main()
-{
+int main() {
   float d1[12] = {1., -2., 0.3, 4., 2.5, 6., 1., -2., 3., 3.4, 0., 6.};
   tensor<float> a(4, 3);
   a.load(d1);

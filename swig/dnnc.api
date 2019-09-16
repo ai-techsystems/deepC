@@ -81,6 +81,10 @@
 #include "operators/Softplus.h"
 #include "operators/Softsign.h"
 #include "operators/Sqrt.h"
+#include "operators/Clip.h"
+#include "operators/Ceil.h"
+#include "operators/Cos.h"
+#include "operators/Cosh.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -676,7 +680,6 @@ tensor<output> transpose(tensor<input> &a) {
 	}
 }
 
-<<<<<<< Updated upstream
 tensor<output> sigmoid(tensor<input> &a) {
 	Sigmoid<input> op;
 	return op.compute(a);
@@ -739,16 +742,6 @@ tensor<output> sqrt(tensor<input> &a) {
 	}
 }
 
-tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod = 0) {
-	Mod<input> op("localOpName", fmod);
-	return op.compute(a, b);
-	dtype = {
-		"int" : "int",
-		"float" : "float",
-		"double" : "double"
-	}
-}
-=======
 tensor<output> ceil(tensor<input> &a){
   Ceil<input> op;
   return op.compute(a);
@@ -758,9 +751,9 @@ tensor<output> ceil(tensor<input> &a){
   }
 }
 
-tensor<output> clip(tensor<input> &a, tensor<input> &min, tensor<input> &max){
+tensor<output> clip(tensor<input> &a, input min, input max){
   Clip<input> op;
-  return op.compute(a);
+  return op.compute(a, min, max);
   dtype = {
     "float" : "float",
     "double" : "double"
@@ -784,4 +777,3 @@ tensor<output> cosh(tensor<input> &a){
     "double" : "double"
   }
 }
->>>>>>> Stashed changes

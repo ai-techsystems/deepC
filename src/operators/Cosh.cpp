@@ -29,8 +29,7 @@ using namespace Eigen;
 #ifdef DNNC_COSH_TEST
 #include <iostream>
 
-int main()
-{
+int main() {
   float d1[6] = {1., 2., 3., 4., 5., 6.};
 
   tensor<float> a(6);

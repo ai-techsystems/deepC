@@ -34,10 +34,10 @@ template <typename T> class Ceil : public baseOperator<T> {
 public:
   Ceil(std::string name = "opCeil") : baseOperator<T>(opCeil, name) {}
 
-  tensor<T> compute(tensor<T> a)
-  {
+  tensor<T> compute(tensor<T> a) {
     if (!(this->template type_check<float, double>()))
-      throw std::invalid_argument("Constrain input and output types to float tensors.");
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
     DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
@@ -47,6 +47,5 @@ public:
     result.load(eResult.data());
     return result;
   }
-
 };
 } // namespace dnnc

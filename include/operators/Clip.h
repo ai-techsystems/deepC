@@ -28,27 +28,25 @@
 
 using namespace Eigen;
 
-namespace dnnc
-{
-  template <typename T> class Clip : public baseOperator<T> {
+namespace dnnc {
+template <typename T> class Clip : public baseOperator<T> {
   //  Clip attributes
-  public:
-    Clip(std::string name = "opClip") : baseOperator<T>(opClip, name) {}
+public:
+  Clip(std::string name = "opClip") : baseOperator<T>(opClip, name) {}
 
-  static T clipper(T x, T min, T max)
-  {
-    if(x>max)
+  static T clipper(T x, T min, T max) {
+    if (x > max)
       return max;
-    else if (x<min)
+    else if (x < min)
       return min;
     else
       return x;
   }
 
-  tensor<T> compute(tensor<T> a,T &min, T &max)
-  {
+  tensor<T> compute(tensor<T> a, T &min, T &max) {
     if (!(this->template type_check<float, double>()))
-      throw std::invalid_argument("Constrain input and output types to float tensors.");
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
     DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
@@ -57,7 +55,6 @@ namespace dnnc
     eResult.array() = eigenVector.array().unaryExpr(c0);
     result.load(eResult.data());
     return result;
-
   }
 };
 } // namespace dnnc

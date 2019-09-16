@@ -29,9 +29,9 @@ using namespace Eigen;
 #ifdef DNNC_CEIL_TEST
 #include <iostream>
 
-int main()
-{
-  float d1[12] = {1.98, -2.564, 3.67, 4.432, 5.86, 6.6344861, 1., -2., 3., 4., 5., 6.};
+int main() {
+  float d1[12] = {1.98, -2.564, 3.67, 4.432, 5.86, 6.6344861,
+                  1.,   -2.,    3.,   4.,    5.,   6.};
   tensor<float> a(2, 2, 3);
   a.load(d1);
   Ceil<float> m("localOpName");
