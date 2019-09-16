@@ -219,12 +219,6 @@ namespace dnnc {
 		 max(std::vector<tensor<float>> a) ;
 	extern tensor<double> \
 		 max(std::vector<tensor<double>> a) ;
-	extern tensor<double> \
-		 mod(tensor<double> &a, tensor<double> &b, int fmod_flag = 0) ;
-	extern tensor<float> \
-		 mod(tensor<float> &a, tensor<float> &b, int fmod_flag = 0) ;
-	extern tensor<int> \
-		 mod(tensor<int> &a, tensor<int> &b, int fmod_flag = 0) ;
 	extern tensor<bool> \
 		 less_equal(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<bool> \
@@ -310,6 +304,15 @@ namespace dnnc {
 	extern tensor<double> \
 		 sigmoid(tensor<double> &a) ;
 	extern tensor<float> \
+		 neg(tensor<float> &a) ;
+	extern tensor<int> \
+		 neg(tensor<int> &a) ;
+	extern tensor<int> \
+		 mod(tensor<int> &a, tensor<int> &b, int fmod = 0) ;
+	extern tensor<float> \
+		 mod(tensor<float> &a, tensor<float> &b, int fmod = 0) ;
+	extern tensor<double> \
+		 mod(tensor<double> &a, tensor<double> &b, int fmod = 0) ;
 		 sign(tensor<float> &a) ;
 	extern tensor<double> \
 		 sign(tensor<double> &a) ;
@@ -335,5 +338,6 @@ namespace dnnc {
 		 sqrt(tensor<double> &a) ;
 
 }
+
 
 }

@@ -30,6 +30,8 @@ LogSoftmax.py
 LpNormalization.py
 LRN.py
 MatMul.py
+Mul.py
+Neg.py
 MatMulInteger.py
 Max.py
 Mean.py
