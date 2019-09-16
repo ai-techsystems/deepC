@@ -28,7 +28,20 @@ using namespace Eigen;
 
 #ifdef DNNC_COS_TEST
 #include <iostream>
-int main() {
-  // ADD YOUR TEST CODE HERE
+
+int main()
+{
+  float d1[6] = {1., 2., 3., 4., 5., 6.};
+
+  tensor<float> a(6);
+  a.load(d1);
+
+  Cos<float> m("localOpName");
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

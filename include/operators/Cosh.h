@@ -24,20 +24,27 @@
 #pragma once
 #include "operators/baseOperator.h"
 #include <string>
-
+#include <typeinfo>
 using namespace Eigen;
 
-namespace dnnc {
-template <typename T> class Cosh : public baseOperator<T> {
-  //  Cosh attributes
-public:
-  Cosh(std::string name = "opCosh") : baseOperator<T>(opCosh, name) {}
+namespace dnnc
+{
+  template <typename T> class Cosh : public baseOperator<T>
+  {
+    public:
+      Cosh(std::string name = "opCosh") : baseOperator<T>(opCosh, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<T> compute(tensor<T> a)
+  {
+    if (!(this->template type_check<float, double>()))
+      throw std::invalid_argument("Constrain input and output types to float tensors.");
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    tensor<T> result(a.shape(), a.name());
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    eResult.array() = Eigen::cosh(eigenVector.array());
+    result.load(eResult.data());
+    return result;
   }
-};
+ };
 } // namespace dnnc
