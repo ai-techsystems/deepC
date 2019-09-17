@@ -14,7 +14,7 @@
 
 * **[Add operators in python interface](#add-operators-in-python-interface)**
 
-* **[Add unittests for the operator testing](#add-unittests-for-operator-testing)**
+* **[Add unittests for operator testing](#add-unittests-for-operator-testing)**
 
 * **[Work-Flow (Usage and commands for updating code)](#work-flow)**
 
@@ -564,7 +564,7 @@ tensor<output> equal(tensor<input> &a, tensor<input> &b) {
 	```
 
 
-## Add unittests for the operator testing
+## Add unittests for operator testing
 
 #### Test Case Automation:
 ##### We have created 2 files which will keep track of our operators, which passes or fails the test cases:
