@@ -30,12 +30,12 @@
 using namespace Eigen;
 
 namespace dnnc {
-  /*! Returns the tensor resulted 
-   * from Element-wise mean of each of the input tensors (
-   * with Numpy-style broadcasting support).
+/*! Returns the tensor resulted
+ * from Element-wise mean of each of the input tensors (
+ * with Numpy-style broadcasting support).
  */
 template <typename T> class Mean : public baseOperator<T> {
- 
+
   T meanEl(std::vector<T> &v) {
     T sum = 0;
     if (v.size() == 0)
@@ -50,40 +50,37 @@ template <typename T> class Mean : public baseOperator<T> {
 public:
   Mean(std::string name = "opMean") : baseOperator<T>(opMean, name) {}
 
-  tensor<T> compute(std::vector<tensor<T>> inputs  /*!<[float,double]: ND tensors */ ) {
+  tensor<T>
+  compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-   if (inputs.size() == 0) {
+    if (inputs.size() == 0) {
       throw std::invalid_argument(
           "Mean operator requires non-zero size input vector.");
       return tensor<T>(0);
     }
 
-    try
-    {
-     std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
+    try {
+      std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
       tensor<T> result(resultShape);
-    // compute element wise mean
-    for (size_t i = 0; i < result.length(); i++) {
-      std::vector<T> elVector;
-      for (size_t j = 0; j < inputs.size(); j++)
-        elVector.push_back(inputs[j][i]);
+      // compute element wise mean
+      for (size_t i = 0; i < result.length(); i++) {
+        std::vector<T> elVector;
+        for (size_t j = 0; j < inputs.size(); j++)
+          elVector.push_back(inputs[j][i]);
 
-     
-      result[i] = meanEl(elVector);
-    }
-    return result;
-     
-    }
-    catch(const std::exception& e)
-    {
-      std::cout <<"operands could not be broadcast together with given shapes!!!"<<"\n";
+        result[i] = meanEl(elVector);
+      }
+      return result;
+
+    } catch (const std::exception &e) {
+      std::cout
+          << "operands could not be broadcast together with given shapes!!!"
+          << "\n";
       return 1;
     }
   }
-
-
 };
 } // namespace dnnc

@@ -35,15 +35,13 @@ protected:
   int fmod = 0;
 
 public:
-  Mod(std::string name = "opMod", int fmod = 0)
-      : baseOperator<T>(opMod, name) {
+  Mod(std::string name = "opMod", int fmod = 0) : baseOperator<T>(opMod, name) {
     this->fmod = fmod;
 
     // Check for fmod or not
     if ((fmod == 0) && ((this->template type_check<float, double>())))
       throw std::invalid_argument("Set fmod to 1 to pass float values.");
   }
-
 
   bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_fmod) {

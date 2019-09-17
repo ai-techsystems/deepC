@@ -35,7 +35,7 @@ namespace dnnc {
    Numpy-style) broadcasting.*/
 
 template <typename T> class FloorDiv : public baseOperator<T> {
-template <typename Scalar>
+  template <typename Scalar>
   inline DNNC_EIGEN_VECTOR_CTOR(int)
       eigenArrayDiv(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
                     Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
@@ -50,6 +50,7 @@ template <typename Scalar>
     throw std::invalid_argument("Division not valid for bool tensor(s)");
     return a.template cast<int>().array() / b.template cast<int>().array();
   }
+
 public:
   FloorDiv(std::string name = "opFloorDiv")
       : baseOperator<T>(opFloorDiv, name) {}

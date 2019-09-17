@@ -24,17 +24,16 @@
 #include "operators/baseOperator.h"
 #include <string>
 
-using namespace Eigen; 
+using namespace Eigen;
 namespace dnnc {
-/*! Returns the tensor resulted from performing the sigmoid operation \f$ h(x) =  \log({\mathrm{1} + e^x }) \f$
- * elementwise on the input tensor A .
- */ 
+/*! Returns the tensor resulted from performing the sigmoid operation \f$ h(x) =
+ * \log({\mathrm{1} + e^x }) \f$ elementwise on the input tensor A .
+ */
 template <typename T> class Softplus : public baseOperator<T> {
 protected:
 public:
   Softplus(std::string name = "opSoftplus")
       : baseOperator<T>(opSoftplus, name) {}
-
 
   static T softplus_func(T x) { return log(1 + exp(x)); }
 

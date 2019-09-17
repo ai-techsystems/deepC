@@ -48,7 +48,6 @@ int main() {
   std::cout << result;
   std::cout << "\n";
 
-
 #define DNNC_HIGHRANK_SUPPORT
   int i1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
   int i2[8] = {1, 2, 3, 4, 5, 6, 7, 8};
@@ -69,7 +68,6 @@ int main() {
   dnnc::tensor<int> iresult = m1.compute(e, f, g, h);
 
   std::cout << iresult << "\n";
-
 
   return 0;
 }

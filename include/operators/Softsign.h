@@ -27,10 +27,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-  
-/*! Returns the tensor resulted from performing the sigmoid operation \f$ h(x) =  \frac{x }{\mathrm{1} + |x| } \f$
- * elementwise on the input tensor A .
- */ 
+
+/*! Returns the tensor resulted from performing the sigmoid operation \f$ h(x) =
+ * \frac{x }{\mathrm{1} + |x| } \f$ elementwise on the input tensor A .
+ */
 template <typename T> class Softsign : public baseOperator<T> {
 protected:
 public:
@@ -38,7 +38,6 @@ public:
       : baseOperator<T>(opSoftsign, name) {}
 
   static T softsign_func(T x) { return (x / (1 + abs(x))); }
-
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Softsign operator.*/) {

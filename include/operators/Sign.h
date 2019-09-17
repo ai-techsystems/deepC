@@ -27,15 +27,13 @@
 using namespace Eigen;
 
 namespace dnnc {
-  /*! Returns the tensor resulted from performing the sign operation 
+/*! Returns the tensor resulted from performing the sign operation
  * elementwise on the input tensor A .
- */ 
+ */
 template <typename T> class Sign : public baseOperator<T> {
 protected:
 public:
   Sign(std::string name = "opSign") : baseOperator<T>(opSign, name) {}
-
-  
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Sign operator.*/) {
@@ -44,11 +42,11 @@ public:
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
-     DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
-     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
-     eResult.array() = sign(eigenVector.array());
-     result.load(eResult.data());
-     return result;
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    eResult.array() = sign(eigenVector.array());
+    result.load(eResult.data());
+    return result;
   }
 };
 } // namespace dnnc

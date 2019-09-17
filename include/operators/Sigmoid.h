@@ -27,31 +27,29 @@
 using namespace Eigen;
 
 namespace dnnc {
-/*! Returns the tensor resulted from performing the sigmoid operation \f$ h_ \theta (x) =  \frac{\mathrm{1} }{\mathrm{1} + e^-x } \f$
- * elementwise on the input tensor A .
- */  
+/*! Returns the tensor resulted from performing the sigmoid operation \f$ h_
+ * \theta (x) =  \frac{\mathrm{1} }{\mathrm{1} + e^-x } \f$ elementwise on the
+ * input tensor A .
+ */
 template <typename T> class Sigmoid : public baseOperator<T> {
 protected:
 public:
   Sigmoid(std::string name = "opSigmoid") : baseOperator<T>(opSigmoid, name) {}
 
-  
-
   static T sigmoid_func(T x) { return (1 / (1 + exp(-x))); }
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> a /*!< : Input operand([float,double]: ND tensor) for the Sigmoid operator.*/) {
-      if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-     tensor<T> result(a.shape(), a.name());
-     DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
-     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
-     eResult.array() = eigenVector.array().unaryExpr(&sigmoid_func);
-     result.load(eResult.data());
-     return result;
-
+    tensor<T> result(a.shape(), a.name());
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    eResult.array() = eigenVector.array().unaryExpr(&sigmoid_func);
+    result.load(eResult.data());
+    return result;
   }
 };
 } // namespace dnnc

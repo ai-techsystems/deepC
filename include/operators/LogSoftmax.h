@@ -30,8 +30,8 @@
 using namespace Eigen;
 
 namespace dnnc {
-/*! The operator computes the logsoftmax (log of softmax) values for each layer in 
-  * the batch of the given input. */
+/*! The operator computes the logsoftmax (log of softmax) values for each layer
+ * in the batch of the given input. */
 /*! Input does not need to explicitly be a 2D vector; rather, it will be coerced
  * into one: */
 /*! A tensor of N-dimension \f$ [a_0, a_1, ..., a_{k-1}, a_k, ..., a_{n-1}] \f$
@@ -41,22 +41,23 @@ template <typename T> class LogSoftmax : public baseOperator<T> {
   //  LogSoftmax attributes
 protected:
   // default
-  int axis = 1; /*!< Describes the axis of the inputs when coerced to 2D; defaults to
-            one because the 0th axis most likely describes the batch_size */
+  int axis =
+      1; /*!< Describes the axis of the inputs when coerced to 2D; defaults to
+     one because the 0th axis most likely describes the batch_size */
 public:
-  LogSoftmax(std::string name = "opLogSoftmax", int axis=1)
+  LogSoftmax(std::string name = "opLogSoftmax", int axis = 1)
       : baseOperator<T>(opLogSoftmax, name) {
-        this-> axis = axis;
-      }
+    this->axis = axis;
+  }
 
- bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_axis) {
       obj = axis;
       return true;
     }
     return false;
   }
-   
+
   tensor<T> compute(tensor<T> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
@@ -80,19 +81,20 @@ public:
 
     DNNC_EIGEN_MATRIX(eigenMatrix1, a);
     for (int i = 0; i < int(a.shape()[0]); i++) {
-      float sum=0;float e_x=0;
+      float sum = 0;
+      float e_x = 0;
       float max_x = eigenMatrix1.row(i).maxCoeff(&max_index);
-      
+
       for (int j = 0; j < int(a.shape()[1]); j++) {
-        e_x = exp(eigenMatrix1(i,j) - max_x);
-       sum += e_x;
+        e_x = exp(eigenMatrix1(i, j) - max_x);
+        sum += e_x;
       }
       for (int j = 0; j < int(a.shape()[1]); j++) {
-        result(i,j) = eigenMatrix1(i,j) - max_x - log(sum); 
+        result(i, j) = eigenMatrix1(i, j) - max_x - log(sum);
       }
     }
     result.reshape(original_shape);
     return result;
-  }  
+  }
 };
 } // namespace dnnc

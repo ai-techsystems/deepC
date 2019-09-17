@@ -28,15 +28,15 @@
 using namespace Eigen;
 
 namespace dnnc {
-  /*! Calculates the natural logarithm of the given input tensor, element-wise.
-  \f$ y = \ln \left ( x \right ) \f$ */
+/*! Calculates the natural logarithm of the given input tensor, element-wise.
+\f$ y = \ln \left ( x \right ) \f$ */
 template <typename T> class Log : public baseOperator<T> {
- 
+
 public:
   Log(std::string name = "opLog") : baseOperator<T>(opLog, name) {}
 
- tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
-      if (!(this->template type_check<float, double>()))
+  tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

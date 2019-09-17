@@ -30,7 +30,6 @@ using namespace Eigen;
 #include <iostream>
 #include <math.h>
 
-
 int main() {
 
   float d1[4] = {21., 22., 23., 24.};
@@ -60,9 +59,8 @@ int main() {
   auto result_int = m_int.compute(a_int, b_int);
 
   std::cout << result_int;
-  std::cout << "\n";  
+  std::cout << "\n";
 
   return 0;
-
 }
 #endif

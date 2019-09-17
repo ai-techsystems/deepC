@@ -27,20 +27,18 @@
 using namespace Eigen;
 
 namespace dnnc {
-/*! Returns the tensor resulted from performing the sin operation \f$ h(x) =  \sinh(x) \f$
- * elementwise on the input tensor A .
+/*! Returns the tensor resulted from performing the sin operation \f$ h(x) =
+ * \sinh(x) \f$ elementwise on the input tensor A .
  */
 template <typename T> class Sinh : public baseOperator<T> {
 protected:
 public:
   Sinh(std::string name = "opSinh") : baseOperator<T>(opSinh, name) {}
 
-  
-
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Sinh operator.*/) {
 
-     if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

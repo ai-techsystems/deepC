@@ -19,7 +19,7 @@
 //
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
-// normalize(https://en.wikipedia.org/wiki/Norm_(mathematics)) 
+// normalize(https://en.wikipedia.org/wiki/Norm_(mathematics))
 // Eigen cwise unsupported-tensors(written TODO in original doc)
 //
 
@@ -30,22 +30,26 @@
 using namespace Eigen;
 
 namespace dnnc {
- /*! Given a matrix, apply Lp-normalization along the provided axis.*/   
+/*! Given a matrix, apply Lp-normalization along the provided axis.*/
 /*! The formula for Lp-norm is given by:
     \f$ \left \| x \right \|_{1} = \sum_{i=1}^{n}\left | x_{i} \right | \f$ */
- /* \f$ \left \| x \right \|_{2} = \sum_{i=1}^{n}\sqrt{\left ( x_{i} \right )^{2}} \f$ */
+/* \f$ \left \| x \right \|_{2} = \sum_{i=1}^{n}\sqrt{\left ( x_{i} \right
+ * )^{2}} \f$ */
 template <typename T> class LpNormalization : public baseOperator<T> {
-  //  LpNormalization attributes  
+  //  LpNormalization attributes
 protected:
-  int p = 2; /*!< p value of the Lp norm used to pool over the input data.Only L1 norm and L2 norm are supported */
+  int p = 2; /*!< p value of the Lp norm used to pool over the input data.Only
+                L1 norm and L2 norm are supported */
   int axis = -1; /*!< axis to apply normalization.
-                  * Since axis is int it can be 0 or 1(-1 indicates last axis i.e. 1). */
+                  * Since axis is int it can be 0 or 1(-1 indicates last axis
+                  * i.e. 1). */
 public:
-  LpNormalization(std::string name = "opLpNormalization",  int p = 2, int axis=-1)
+  LpNormalization(std::string name = "opLpNormalization", int p = 2,
+                  int axis = -1)
       : baseOperator<T>(opLpNormalization, name) {
-        this-> p = p;
-        this-> axis = axis;
-      }
+    this->p = p;
+    this->axis = axis;
+  }
 
   bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_p) {
@@ -58,11 +62,11 @@ public:
     return false;
   }
 
-tensor<T> compute(tensor<T> &a  /*!<[float,double]: 2D tensor*/ ) {
+  tensor<T> compute(tensor<T> &a /*!<[float,double]: 2D tensor*/) {
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
-    if(a.rank()!=2){
+    if (a.rank() != 2) {
       throw std::invalid_argument(
           "Constrain input and output types should be matrix.");
     }
@@ -89,7 +93,7 @@ tensor<T> compute(tensor<T> &a  /*!<[float,double]: 2D tensor*/ ) {
       }
     }
 
-    else if ((axis == 1 || axis==-1) && p == 1) {
+    else if ((axis == 1 || axis == -1) && p == 1) {
       int i, j;
       for (i = 0; i < int(a.shape()[0]); i++) {
         float sum = 0;
@@ -117,7 +121,7 @@ tensor<T> compute(tensor<T> &a  /*!<[float,double]: 2D tensor*/ ) {
     }
 
     // default cases
-    else if ((axis == 1 || axis==-1) && p == 2) {
+    else if ((axis == 1 || axis == -1) && p == 2) {
       int i, j;
       for (i = 0; i < int(a.shape()[0]); i++) {
         float sum = 0;
@@ -126,15 +130,13 @@ tensor<T> compute(tensor<T> &a  /*!<[float,double]: 2D tensor*/ ) {
         }
         for (j = 0; j < int(a.shape()[1]); j++) {
           result(i, j) = eigenMatrixA(i, j) / sqrt(sum);
-         
         }
-       
       }
     }
- return result;
+    return result;
   }
-   /*!<
-  \return The output matrix after normalization.
-  */
+  /*!<
+ \return The output matrix after normalization.
+ */
 };
 } // namespace dnnc

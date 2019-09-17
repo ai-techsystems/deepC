@@ -28,7 +28,5 @@ using namespace Eigen;
 
 #ifdef DNNC_MUL_TEST
 #include <iostream>
-int main() {
-  
-}
+int main() {}
 #endif

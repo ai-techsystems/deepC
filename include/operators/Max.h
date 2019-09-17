@@ -30,9 +30,9 @@
 using namespace Eigen;
 
 namespace dnnc {
-  /*! Returns the tensor resulted 
-   * from Element-wise max of each of the input tensors (
-   * with Numpy-style broadcasting support).
+/*! Returns the tensor resulted
+ * from Element-wise max of each of the input tensors (
+ * with Numpy-style broadcasting support).
  */
 template <typename T> class Max : public baseOperator<T> {
   //  Max attributes
@@ -50,8 +50,9 @@ template <typename T> class Max : public baseOperator<T> {
 public:
   Max(std::string name = "opMax") : baseOperator<T>(opMax, name) {}
 
-  tensor<T> compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
-    
+  tensor<T>
+  compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
+
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
@@ -61,30 +62,28 @@ public:
           "Max operator requires non-zero size input vector.");
       return tensor<T>(0);
     }
-    
-    try
-    {
-     std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
-      tensor<T> result(resultShape);
-    // compute element wise max
-    for (size_t i = 0; i < result.length(); i++) {
-      std::vector<T> elVector;
-      for (size_t j = 0; j < inputs.size(); j++)
-        elVector.push_back(inputs[j][i]);
 
-     
-      result[i] = maxEl(elVector);
-    }
-    return result;
-     
-    }
-    catch(const std::exception& e)
-    {
-      std::cout <<"operands could not be broadcast together with given shapes!!!"<<"\n";
+    try {
+      std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
+      tensor<T> result(resultShape);
+      // compute element wise max
+      for (size_t i = 0; i < result.length(); i++) {
+        std::vector<T> elVector;
+        for (size_t j = 0; j < inputs.size(); j++)
+          elVector.push_back(inputs[j][i]);
+
+        result[i] = maxEl(elVector);
+      }
+      return result;
+
+    } catch (const std::exception &e) {
+      std::cout
+          << "operands could not be broadcast together with given shapes!!!"
+          << "\n";
       return 1;
     }
-    
-   // std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);   
+
+    // std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
   }
 };
 } // namespace dnnc

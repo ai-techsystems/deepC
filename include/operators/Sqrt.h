@@ -27,14 +27,13 @@
 using namespace Eigen;
 
 namespace dnnc {
-/*! Returns the tensor resulted from performing the sin operation \f$ h(x) =  \sqrt x \f$
- * elementwise on the input tensor A .
+/*! Returns the tensor resulted from performing the sin operation \f$ h(x) =
+ * \sqrt x \f$ elementwise on the input tensor A .
  */
 template <typename T> class Sqrt : public baseOperator<T> {
 protected:
 public:
   Sqrt(std::string name = "opSqrt") : baseOperator<T>(opSqrt, name) {}
-
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Sqrt operator.*/) {
