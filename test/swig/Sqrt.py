@@ -27,8 +27,10 @@ import unittest
 
 class SqrtTest(unittest.TestCase):
     def setUp(self):
+        np.seterr(all="ignore")   # Numpy raises warnings while calling np.sqrt()
         self.len = 24
-        self.np_a = np.random.randn(self.len).astype(np.float32)
+        self.np_a = np.random.randn(self.len).astype(np.float64)
+        # self.np_a += 2 * self.np_a
         self.dc_a = dc.array(list(self.np_a))
 
     def test_Sqrt1D (self):
