@@ -80,14 +80,18 @@
 #include "operators/Softplus.h"
 #include "operators/Softsign.h"
 #include "operators/Sqrt.h"
+#include "operators/Clip.h"
+#include "operators/Ceil.h"
+#include "operators/Cos.h"
+#include "operators/Cosh.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
 /*## (Don't remove the '##', it indicates the split line)
-The code above this commented block will be copied as it is. 
+The code above this commented block will be copied as it is.
 Keep in mind, this file is "\n" and "whitespace" sensitive,
-so try to keep the structure similar. 
+so try to keep the structure similar.
 Do not comment out any line in between 2 operator functions.
 Every operator function is seperated by a blank line.
 So don't leave empty line anywhere else other than in between 2 operators.
@@ -735,4 +739,40 @@ tensor<output> sqrt(tensor<input> &a) {
 		"float" : "float",
 		"double" : "double"
 	}
+}
+
+tensor<output> ceil(tensor<input> &a){
+  Ceil<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> clip(tensor<input> &a, input min, input max){
+  Clip<input> op;
+  return op.compute(a, min, max);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> cos(tensor<input> &a){
+  Cos<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+tensor<output> cosh(tensor<input> &a){
+  Cosh<input> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
 }
