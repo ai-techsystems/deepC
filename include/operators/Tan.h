@@ -40,7 +40,7 @@ public:
   tensor<T> compute(tensor<T> &a) {
     if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
-        "Constrain input and output types to float tensors.");
+          "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 
@@ -61,7 +61,7 @@ public:
       Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&Tan_func);
       result.load(eResult.data());
       return result;
-    } 
+    }
      else if(a.rank()==4)
      {
              tensor<T> result(a.shape()[0], a.shape()[1]), a.shape()[2],
@@ -71,7 +71,6 @@ public:
      }
     else
       throw std::invalid_argument("tensor dimenions not appropriate.");*/
-
   }
 };
 } // namespace dnnc

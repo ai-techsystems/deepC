@@ -274,10 +274,15 @@ protected:
 public:
   baseOperator(OPCODE op, std::string name = "") : _op(op), _name(name) {}
 
+  /*!< return name of the operator */
+  inline std::string name () { return _name; }
+  /*!< return OPCODE of the operator */
+  inline OPCODE symbol() { return _op; }
+
   template <typename attrType>
   bool getAttribute(OPATTR attrName, attrType &obj);
 
-  /*!< Constrain input and output types.*/
+  /*!< Constrain input and output types for onnx.*/
   template <typename... Types> bool type_check() {
     std::vector<std::type_index> allowed_types;
     allowed_types.insert(allowed_types.end(), {typeid(Types)...});
@@ -292,10 +297,20 @@ public:
   /*!<
    \return Returns true if T is one of the types specified
    */
-  void compute(void);
-  tensor<T> compute(tensor<T> in1);
-  tensor<T> compute(tensor<T> &in1);
-  tensor<T> compute(tensor<T> in1, tensor<T> in2);
-  tensor<T> compute(tensor<T> &in1, tensor<T> &in2);
+  virtual void compute(void);
+  virtual tensor<T> compute(tensor<T> in1);
+  virtual tensor<T> compute(tensor<T> &in1);
+  virtual tensor<T> compute(tensor<T> in1, tensor<T> in2);
+  virtual tensor<T> compute(tensor<T> &in1, tensor<T> &in2);
 };
+
+template <typename T>
+struct opCmp {
+  bool operator() (const baseOperator<T>& lhs, const baseOperator<T>& rhs) {
+    return lhs.symbol()==rhs.symbol() ? 
+        lhs.name() < rhs.name() : 
+        lhs.symbol() < rhs.symbol() ;
+  }
+};
+
 } // namespace dnnc

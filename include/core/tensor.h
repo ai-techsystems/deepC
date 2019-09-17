@@ -159,6 +159,13 @@ public:
 
     return *this;
   }
+  /// \brief Comparison Operator
+  bool operator==(const tensor &other) {
+    return 
+        _mem_layout == other._mem_layout &&
+        _shape      == other._shape && 
+        _name       == other._name ;
+  }
   ~tensor() {
     if (_ref)
       --(*_ref);
@@ -198,7 +205,6 @@ public:
 
     return result;
   }
-  /// \brief identifier of the tensor
   /// \brief identifier of the tensor
   size_t identifier() const {
     return reinterpret_cast<size_t>(_mem_layout - 0xfff);
@@ -455,4 +461,12 @@ public:
   }
 
 }; // class tensor
+
+template <typename T>
+struct tensorCmp {
+  bool operator()(const tensor<T>& lhs, const tensor<T>& rhs) {
+    return lhs.identifier() < rhs.identifier();
+  }
+} ;
+
 } // namespace dnnc

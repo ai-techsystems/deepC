@@ -21,40 +21,33 @@
 # This file is part of DNN compiler maintained at 
 # https://github.com/ai-techsystems/dnnCompiler
 #
+include ../../Makefile.common
 
-GCC=/usr/bin/g++
-LD=/usr/bin/ld
-PYTHON=/usr/bin/python3
-SWIG=/usr/bin/swig
+#MODULE=$(shell ${CURDIR})
+MODULE=graph
+LIB=$(LIB_DIR)/lib$(MODULE).so
 
-ROOT_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-EIGEN_INCLUDES=-isystem $(ROOT_DIR)/packages/eigen-eigen-323c052e1731
-DNNC_INCLUDES= -I$(ROOT_DIR)/include 
-PY_INCLUDES= -I/usr/include/python3.6
 
-LD_FLAGS=-shared 
-CPP_FLAGS=-O3 -Wall -std=c++17 -fPIC -march=native -msse2
-SWIG_FLAGS=-python -c++ -Wall -builtin
-ifneq (,$(findstring $(FAST_SWIG),nN))
-SWIG_FLAGS=-python -c++ -Wall 
-endif
+all:$(LIB)
 
-OBJ_DIR=./obj
-LIB_DIR=./lib
+CPP_SRCS=$(wildcard *.cpp)
+OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
+$(OBJ_DIR)/%.o:%.cpp
+	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
+	@echo "compiling $<"
+	$(GCC) $(CPP_FLAGS) $(EIGEN_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
 
-MKDIR_P=mkdir -p
-LN_S=ln -s
-RM_F=rm -rf
+$(LIB):$(OBJECTS)
+	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
+	$(GCC) $(LD_FLAGS) $(OBJECTS) -o $@
 
-ifneq (,$(findstring $(DEBUG),yY))
-CPP_FLAGS=-Wall -std=c++17 -fPIC -g
-endif
+clean:
+	$(RM_F) $(OBJ_DIR) $(LIB_DIR) 
 
-ifneq (,$(findstring $(LMCHECK),yY))
-CPP_FLAGS=-Wall -std=c++17 -fPIC -D_DEBUG -g -lmcheck
-endif
+.DEFAULT: all
+.PHONY: print_vars
 
-ifneq (,$(findstring $(PROF),yY))
-CPP_FLAGS=-pg -Wall -std=c++17 -fPIC 
-endif
-
+print_vars:
+	@echo $(MODULE)
+	@echo $(CPP_SRCS)
+	@echo $(OBJECTS)
