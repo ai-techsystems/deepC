@@ -33,11 +33,7 @@ template <typename T> class Xor : public baseOperator<T> {
 public:
   Xor(std::string name = "opXor") : baseOperator<T>(opXor, name) {}
 
-  tensor<T> compute(tensor<T> a, tensor<T> b) {
-
-    if (!(this->template type_check<bool>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to bool tensors.");
+  tensor<bool> compute(tensor<T> a, tensor<T> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);

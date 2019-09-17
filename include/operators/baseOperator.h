@@ -303,11 +303,11 @@ public:
   /*!<
    \return True if T is one of the types specified else False
    */
-  virtual void compute(void);
-  virtual tensor<T> compute(tensor<T> in1);
-  virtual tensor<T> compute(tensor<T> &in1);
-  virtual tensor<T> compute(tensor<T> in1, tensor<T> in2);
-  virtual tensor<T> compute(tensor<T> &in1, tensor<T> &in2);
+  void compute(void);
+  tensor<T> compute(tensor<T> in1);
+  tensor<T> compute(tensor<T> &in1);
+  tensor<T> compute(tensor<T> in1, tensor<T> in2);
+  tensor<T> compute(tensor<T> &in1, tensor<T> &in2);
 };
 
 template <typename T> struct opCmp {
