@@ -66,6 +66,7 @@
 #include "operators/NotEqual.h"
 #include "operators/Or.h"
 #include "operators/Pow.h"
+#include "operators/Reciprocal.h"
 #include "operators/Sub.h"
 #include "operators/Tan.h"
 #include "operators/Tanh.h"
@@ -478,6 +479,17 @@ tensor<output> less(tensor<input> &a, tensor<input> &b) {
     "double" : "bool"
   }
 }
+
+tensor<output> reciprocal(tensor<input> &a) {
+  Reciprocal<input> op("localOpName");
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+/* The below operators need to change accroding to above operators */
 
 tensor<output> log(tensor<input> &a) {
   Log<input> op;

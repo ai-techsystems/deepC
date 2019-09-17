@@ -67,6 +67,7 @@
 #include "operators/NotEqual.h"
 #include "operators/Or.h"
 #include "operators/Pow.h"
+#include "operators/Reciprocal.h"
 #include "operators/Sub.h"
 #include "operators/Tan.h"
 #include "operators/Tanh.h"
@@ -721,6 +722,20 @@ tensor<bool> less_equal(tensor<float> &a, tensor<float> &b) {
 tensor<bool> less_equal(tensor<double> &a, tensor<double> &b) {
   LessEqual<double> op;
   return op.compute(a, b);
+}
+
+tensor<float> reciprocal(tensor<float> &a) {
+  Reciprocal<float> op("localOpName");
+  return op.compute(a);
+}
+tensor<float> thresholded_relu(tensor<float> &a) {
+	ThresholdedRelu<float> op;
+	return op.compute(a);
+}
+
+tensor<double> reciprocal(tensor<double> &a) {
+  Reciprocal<double> op("localOpName");
+  return op.compute(a);
 }
 
 tensor<float> thresholded_relu(tensor<float> &a) {

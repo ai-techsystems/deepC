@@ -189,6 +189,10 @@ namespace dnnc {
 		 leakyrelu(tensor<double> &a, float alpha = 0.01) ;
 	extern tensor<bool> \
 		 less(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 reciprocal(tensor<float> &a) ;
+	extern tensor<double> \
+		 reciprocal(tensor<double> &a) ;
 	extern tensor<bool> \
 		 less(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<bool> \
