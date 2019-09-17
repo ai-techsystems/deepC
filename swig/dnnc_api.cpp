@@ -60,7 +60,6 @@
 #include "operators/Mean.h"
 #include "operators/Min.h"
 #include "operators/Mod.h"
-#include "operators/Neg.h"
 #include "operators/Mul.h"
 #include "operators/Neg.h"
 #include "operators/Not.h"
@@ -82,6 +81,10 @@
 #include "operators/Softplus.h"
 #include "operators/Softsign.h"
 #include "operators/Sqrt.h"
+#include "operators/Clip.h"
+#include "operators/Ceil.h"
+#include "operators/Cos.h"
+#include "operators/Cosh.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -629,6 +632,16 @@ tensor<bool> less(tensor<double> &a, tensor<double> &b) {
   return op.compute(a, b);
 }
 
+tensor<float> reciprocal(tensor<float> &a) {
+  Reciprocal<float> op("localOpName");
+  return op.compute(a);
+}
+
+tensor<double> reciprocal(tensor<double> &a) {
+  Reciprocal<double> op("localOpName");
+  return op.compute(a);
+}
+
 tensor<float> log(tensor<float> &a) {
   Log<float> op;
   return op.compute(a);
@@ -722,20 +735,6 @@ tensor<bool> less_equal(tensor<float> &a, tensor<float> &b) {
 tensor<bool> less_equal(tensor<double> &a, tensor<double> &b) {
   LessEqual<double> op;
   return op.compute(a, b);
-}
-
-tensor<float> reciprocal(tensor<float> &a) {
-  Reciprocal<float> op("localOpName");
-  return op.compute(a);
-}
-tensor<float> thresholded_relu(tensor<float> &a) {
-	ThresholdedRelu<float> op;
-	return op.compute(a);
-}
-
-tensor<double> reciprocal(tensor<double> &a) {
-  Reciprocal<double> op("localOpName");
-  return op.compute(a);
 }
 
 tensor<float> thresholded_relu(tensor<float> &a) {
@@ -922,14 +921,9 @@ tensor<bool> transpose(tensor<bool> &a) {
 	Transpose<bool> op;
 	return op.compute(a);
 }
-	
+
 tensor<float> sigmoid(tensor<float> &a) {
 	Sigmoid<float> op;
-	return op.compute(a);
-}
-	
-tensor<double> sigmoid(tensor<double> &a) {
-	Sigmoid<double> op;
 	return op.compute(a);
 }
 
@@ -937,30 +931,6 @@ tensor<float> sign(tensor<float> &a) {
 	Sign<float> op;
 	return op.compute(a);
 }
-
-tensor<float> neg(tensor<float> &a) {
-	Neg<float> op;
-	return op.compute(a);
-}
-
-tensor<int> neg(tensor<int> &a) {
-	Neg<int> op;
-	return op.compute(a);
-}
-
-tensor<int> mod(tensor<int> &a, tensor<int> &b, int fmod = 0) {
-	Mod<int> op("localOpName", fmod);
-	return op.compute(a, b);
-}
-
-tensor<float> mod(tensor<float> &a, tensor<float> &b, int fmod = 0) {
-	Mod<float> op("localOpName", fmod);
-	return op.compute(a, b);
-}
-
-tensor<double> mod(tensor<double> &a, tensor<double> &b, int fmod = 0) {
-	Mod<double> op("localOpName", fmod);
-	return op.compute(a, b);
 
 tensor<double> sign(tensor<double> &a) {
 	Sign<double> op;
@@ -1012,11 +982,49 @@ tensor<float> sqrt(tensor<float> &a) {
 	return op.compute(a);
 }
 
-
 tensor<double> sqrt(tensor<double> &a) {
 	Sqrt<double> op;
 	return op.compute(a);
+}
 
+tensor<float> ceil(tensor<float> &a){
+  Ceil<float> op;
+  return op.compute(a);
+}
+
+tensor<double> ceil(tensor<double> &a){
+  Ceil<double> op;
+  return op.compute(a);
+}
+
+tensor<float> clip(tensor<float> &a, float min, float max){
+  Clip<float> op;
+  return op.compute(a, min, max);
+}
+
+tensor<double> clip(tensor<double> &a, double min, double max){
+  Clip<double> op;
+  return op.compute(a, min, max);
+}
+
+tensor<float> cos(tensor<float> &a){
+  Cos<float> op;
+  return op.compute(a);
+}
+
+tensor<double> cos(tensor<double> &a){
+  Cos<double> op;
+  return op.compute(a);
+}
+
+tensor<float> cosh(tensor<float> &a){
+  Cosh<float> op;
+  return op.compute(a);
+}
+
+tensor<double> cosh(tensor<double> &a){
+  Cosh<double> op;
+  return op.compute(a);
 }
 
 
