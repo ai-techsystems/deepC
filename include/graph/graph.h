@@ -28,30 +28,26 @@ namespace dnnc {
  * for deep neural network. Singleton by design, and light by
  * construction, it lives throughout the life of program and dies
  * with it.
-*/
+ */
 class graph {
 protected:
-  string       _name;
+  string _name;
   set<const node, nodeCmp> _nodeSet;
   set<const edge, edgeCmp> _edgeSet;
 
   // prohibited methods for singleton instance
-  graph()                              {}
-  graph           (const graph& other) {}
-  graph& operator=(const graph& other) {}
+  graph() {}
+  graph(const graph &other) {}
+  graph &operator=(const graph &other) {}
 
 public:
-
-  static graph& theGraph() {
-    static graph _graph; /*!< only one graph can be created, (singleton by design) */
+  static graph &theGraph() {
+    static graph
+        _graph; /*!< only one graph can be created, (singleton by design) */
     return _graph;
   }
   void setName(std::string name) { _name = name; }
   bool registerNode(node);
-
-
 };
-graph& theGraph() {
-  return theGraph();
-}
+graph &theGraph() { return theGraph(); }
 } // namespace dnnc

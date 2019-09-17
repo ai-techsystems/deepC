@@ -275,7 +275,7 @@ public:
   baseOperator(OPCODE op, std::string name = "") : _op(op), _name(name) {}
 
   /*!< return name of the operator */
-  inline std::string name () { return _name; }
+  inline std::string name() { return _name; }
   /*!< return OPCODE of the operator */
   inline OPCODE symbol() { return _op; }
 
@@ -304,12 +304,10 @@ public:
   virtual tensor<T> compute(tensor<T> &in1, tensor<T> &in2);
 };
 
-template <typename T>
-struct opCmp {
-  bool operator() (const baseOperator<T>& lhs, const baseOperator<T>& rhs) {
-    return lhs.symbol()==rhs.symbol() ? 
-        lhs.name() < rhs.name() : 
-        lhs.symbol() < rhs.symbol() ;
+template <typename T> struct opCmp {
+  bool operator()(const baseOperator<T> &lhs, const baseOperator<T> &rhs) {
+    return lhs.symbol() == rhs.symbol() ? lhs.name() < rhs.name()
+                                        : lhs.symbol() < rhs.symbol();
   }
 };
 

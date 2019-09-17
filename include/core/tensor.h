@@ -161,10 +161,8 @@ public:
   }
   /// \brief Comparison Operator
   bool operator==(const tensor &other) {
-    return 
-        _mem_layout == other._mem_layout &&
-        _shape      == other._shape && 
-        _name       == other._name ;
+    return _mem_layout == other._mem_layout && _shape == other._shape &&
+           _name == other._name;
   }
   ~tensor() {
     if (_ref)
@@ -462,11 +460,10 @@ public:
 
 }; // class tensor
 
-template <typename T>
-struct tensorCmp {
-  bool operator()(const tensor<T>& lhs, const tensor<T>& rhs) {
+template <typename T> struct tensorCmp {
+  bool operator()(const tensor<T> &lhs, const tensor<T> &rhs) {
     return lhs.identifier() < rhs.identifier();
   }
-} ;
+};
 
 } // namespace dnnc

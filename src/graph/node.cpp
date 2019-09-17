@@ -23,14 +23,13 @@
 
 #include "graph/node.h"
 
-
 #ifdef DNNC_NODE_TEST
 #include "operators/Add.h"
 using namespace dnnc;
 
 int main() {
   Add<float> op;
-  node<float, int, int> node(baseOperator<float*> op) ;
+  node<float, int, int> node(baseOperator<float *> op);
   return 0;
 }
 

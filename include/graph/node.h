@@ -24,62 +24,58 @@
 
 #include "core/tensor.h"
 #include "operators/baseOperator.h"
-#include <vector>
 #include <any>
+#include <vector>
 
 namespace dnnc {
 
 /*! Graph node
  * */
 /*! Compute Graph Node.
- *       It represents basic computational unit (like adder/multiplier) available in
- *       underlying hardware.
+ *       It represents basic computational unit (like adder/multiplier)
+ * available in underlying hardware.
  * */
-template <class T, class Tf, class Tt> class edge ;
-template <class T, class Ti, class To>
-class node {
+template <class T, class Tf, class Tt> class edge;
+template <class T, class Ti, class To> class node {
 protected:
-    // TODO: add node attributes like level, graph-input, graph-output, 
-    //       placeholder, const, variable etc.
-  baseOperator<T>*                   _op ;  /*!< operator aka symbol */
-  std::vector<edge<T, std::any, Ti>> _ins;  /*!< inputs, i.e. tensors coming to   this node */
-  std::vector<edge<T, To, std::any>> _outs; /*!< outputs, i.e tensors going  from this node */
+  // TODO: add node attributes like level, graph-input, graph-output,
+  //       placeholder, const, variable etc.
+  baseOperator<T> *_op; /*!< operator aka symbol */
+  std::vector<edge<T, std::any, Ti>>
+      _ins; /*!< inputs, i.e. tensors coming to   this node */
+  std::vector<edge<T, To, std::any>>
+      _outs; /*!< outputs, i.e tensors going  from this node */
 public:
-  node(baseOperator<T>* op) : _op(op) {
-    assert(op);
-  }
-  ~node() {
-    delete _op;
-  }
-  inline bool hasInput(tensor<Ti>& in) {
+  node(baseOperator<T> *op) : _op(op) { assert(op); }
+  ~node() { delete _op; }
+  inline bool hasInput(tensor<Ti> &in) {
     return std::find(_ins.begin(), _ins.end(), in);
   }
-  inline bool hasOutput(tensor<To>& out) {
+  inline bool hasOutput(tensor<To> &out) {
     return std::find(_outs.begin(), _outs.end(), out);
   }
-  bool addInput(tensor<Ti>& in) {
-    if ( hasInput(in) )
+  bool addInput(tensor<Ti> &in) {
+    if (hasInput(in))
       return false;
     _ins.push_back(in);
     return true;
   }
-  bool addOutput(tensor<To>& out) {
-    if ( hasOutput(out) )
+  bool addOutput(tensor<To> &out) {
+    if (hasOutput(out))
       return false;
     _outs.push_back(out);
     return true;
   }
 };
 
-template <class T, class Tf, class Tt>
-class edge {
+template <class T, class Tf, class Tt> class edge {
 protected:
   const node<T, std::any, Tf> _from;
   const node<T, Tt, std::any> _to;
+
 public:
-  edge(const node<T, std::any, Tf> f, const node<T, Tt, std::any> t) :
-      _from(f), _to(t)
-  {}
+  edge(const node<T, std::any, Tf> f, const node<T, Tt, std::any> t)
+      : _from(f), _to(t) {}
 };
 
 } // namespace dnnc
