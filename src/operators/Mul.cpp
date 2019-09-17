@@ -29,6 +29,6 @@ using namespace Eigen;
 #ifdef DNNC_MUL_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  
 }
 #endif

@@ -33,11 +33,20 @@ template <typename T> class Not : public baseOperator<T> {
 public:
   Not(std::string name = "opNot") : baseOperator<T>(opNot, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<bool> compute(tensor<T> &a /*!< ND tensor*/) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    // if (!(this->template type_check<bool>()))
+    //   throw std::invalid_argument(
+    //     "Constrain input and output types to bool tensors.");
+
+    tensor<bool> result(a.shape(), a.name());
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    eResult.array() = !eigenVector.template cast<bool>().array();
+    result.load(eResult.data());
+
+    return result;
   }
 };
 } // namespace dnnc

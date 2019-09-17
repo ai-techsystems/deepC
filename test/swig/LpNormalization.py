@@ -25,48 +25,64 @@ sys.path.append(os.path.abspath('..'+os.path.sep+'..'+os.path.sep+'swig'));
 
 import dnnc as dc
 import numpy as np
-from sklearn import preprocessing
+
 import unittest
+
 
 
 class LpNormalizationTest(unittest.TestCase):
     def setUp(self):
-        self.len = 9
+        self.len = 24
         self.np_a = np.random.randn(self.len).astype(np.float32)
         self.dc_a = dc.array(list(self.np_a));
+        self.axis = 1
+        self.p = 2
 
-    '''def test_LpNormalization1D (self):
-        np_a = np.reshape(self.np_a, (1,-1))
-        np_a= np.reshape(np.random.randn(12).astype(np.float32),(1,-1))
-        dc_a = dc.reshape(self.dc_a, (1,-1));
-        npr=preprocessing.normalize(self.np_a)
-        #npr = np.linalg.norm(self.np_a,axis=0)
-        #print(npr) 
-        dcr = dc.lpnormalization(self.dc_a)
-        #print(dcr)
-        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
-              rtol=1e-3, atol=1e-3)'''
+    def norm_2(self,x):
+        return x/np.linalg.norm(x,ord=self.p) 
+    def norm_1(self,x):
+        return x/np.linalg.norm(x,ord=1)  
 
-    def test_LpNormalization2D (self):
-        np_a = np.reshape(self.np_a, (3,3))
-        dc_a = dc.reshape(self.dc_a, (3,3));
-        npr=preprocessing.normalize(np_a,axis=1)
-        print(npr)
-        dcr = dc.lpnormalization(dc_a);
-       
-        print(dcr)
+    def test_LpNormalization2D_1 (self):
+        np_a = np.reshape(self.np_a, (4,6))
+        dc_a = dc.reshape(self.dc_a, (4,6));
+        npr = np.apply_along_axis(self.norm_2,self.axis,np_a)
+        dcr = dc.lpnormalization(dc_a, self.p, self.axis);  
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-   ''' def test_LpNormalization3D (self):
-        np_a = np.reshape(self.np_a, (2,2,3))
-        dc_a = dc.reshape(self.dc_a, (2,2,3));
-
-        npr=preprocessing.normalize(np_a,axis=1)
-        dcr = dc.lpnormalization(dc_a);
-
+    def test_LpNormalization2D_2 (self):
+        np_a = np.reshape(self.np_a, (12,2))
+        dc_a = dc.reshape(self.dc_a, (12,2));
+        axis = 0
+        p = 2
+        npr = np.apply_along_axis(self.norm_2,axis,np_a)
+        dcr = dc.lpnormalization(dc_a, p, axis);  
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
-                rtol=1e-3, atol=1e-3)'''
+                rtol=1e-3, atol=1e-3)
+
+    def test_LpNormalization2D_3 (self):
+        np_a = np.reshape(self.np_a, (8,3))
+        dc_a = dc.reshape(self.dc_a, (8,3));
+        axis = 0
+        p = 1
+        npr = np.apply_along_axis(self.norm_1,axis,np_a)
+        dcr = dc.lpnormalization(dc_a, p, axis);  
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_LpNormalization2D_4 (self):
+        np_a = np.reshape(self.np_a, (8,3))
+        dc_a = dc.reshape(self.dc_a, (8,3));
+        axis = 1
+        p = 1
+        npr = np.apply_along_axis(self.norm_1,axis,np_a)
+        dcr = dc.lpnormalization(dc_a, p, axis);  
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def tearDown(self):
+        return "test finished"
 
 if __name__ == '__main__':
     unittest.main()

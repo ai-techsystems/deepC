@@ -27,47 +27,31 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns the tensor resulted from performing the sigmoid operation \f$ h_ \theta (x) =  \frac{\mathrm{1} }{\mathrm{1} + e^-x } \f$
+ * elementwise on the input tensor A .
+ */  
 template <typename T> class Sigmoid : public baseOperator<T> {
 protected:
 public:
   Sigmoid(std::string name = "opSigmoid") : baseOperator<T>(opSigmoid, name) {}
 
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
+  
 
-  static float sigmoid_func(T x) { return (1 / (1 + exp(-x))); }
+  static T sigmoid_func(T x) { return (1 / (1 + exp(-x))); }
 
   // NOT GOOD to return by value
-  tensor<T> compute(tensor<T> &a) {
-    if (!compare())
+  tensor<T> compute(tensor<T> a /*!< : Input operand([float,double]: ND tensor) for the Sigmoid operator.*/) {
+      if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+     tensor<T> result(a.shape(), a.name());
+     DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+     eResult.array() = eigenVector.array().unaryExpr(&sigmoid_func);
+     result.load(eResult.data());
+     return result;
 
-    if (a.rank() == 2) {
-      tensor<T> result(a.shape()[0], a.shape()[1]);
-      Matrix<T, Dynamic, Dynamic> eResult =
-          eigenMatrixA.unaryExpr(&sigmoid_func);
-      ;
-
-      result.load(eResult.data());
-
-      return result;
-    }
-
-    else if (a.rank() == 3) {
-      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
-      Matrix<T, Dynamic, Dynamic> eResult =
-          eigenMatrixA.unaryExpr(&sigmoid_func);
-      ;
-
-      result.load(eResult.data());
-
-      return result;
-    } else
-      throw std::invalid_argument("tensor dimensions not appropriate.");
   }
 };
 } // namespace dnnc

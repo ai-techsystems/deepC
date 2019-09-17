@@ -29,6 +29,18 @@ using namespace Eigen;
 #ifdef DNNC_NOT_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  // bool d1[8] = {true, false, true, false, true, false, true, false};
+  float d1[6] = {1., 2., 3., 4., 5., 0.};
+  // tensor<bool> a(2, 2, 2);
+  tensor<float> a(3, 2);
+  a.load(d1);
+
+  // Not<bool> m("localOpName");
+  Not<float> m("localOpName");
+  auto result = m.compute(a);
+
+  std::cout << result;
+  std::cout << "\n";
+  return 0;
 }
 #endif

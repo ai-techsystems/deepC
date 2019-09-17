@@ -34,12 +34,15 @@ public:
 
   tensor<T> compute(tensor<T> &a) {
 
-    tensor<T> result(a.shape());
+    if (!(this->template type_check<float, double, int>()))
+      throw std::invalid_argument(
+          "Constrain input and output types to numeric tensors.");
 
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    tensor<T> result(a.shape(), a.name());
 
-    Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.cwiseAbs();
-
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    eResult.array() = abs(eigenVector.array());
     result.load(eResult.data());
 
     return result;

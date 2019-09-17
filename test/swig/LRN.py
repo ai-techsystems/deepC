@@ -92,7 +92,7 @@ class LRNTest(unittest.TestCase):
         for n, c, h,w in np.ndindex(np_a.shape):
             square_sum[n, c, h,w] = sum(np_a[n,max(0, c - int(math.floor((self.size - 1) / 2))):min(5, c + int(math.ceil((self.size - 1) / 2)) + 1),h,w] ** 2)
         npr = np_a / ((self.bias + (self.alpha / self.size) * square_sum) ** self.beta)
-        dcr = dc.lrn(dc_a)
+        dcr = dc.lrn(dc_a,self.size)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -103,7 +103,7 @@ class LRNTest(unittest.TestCase):
         for n, c, h,w in np.ndindex(np_a.shape):
             square_sum[n, c, h,w] = sum(np_a[n,max(0, c - int(math.floor((self.size - 1) / 2))):min(5, c + int(math.ceil((self.size - 1) / 2)) + 1),h,w] ** 2)
         npr = np_a / ((self.bias + (self.alpha / self.size) * square_sum) ** self.beta)
-        dcr = dc.lrn(dc_a)
+        dcr = dc.lrn(dc_a,self.size)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -122,7 +122,7 @@ class LRNTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_LRN4D_1 (self):
+    def test_LRN4D_4 (self):
         np_a = np.reshape(self.np_a, (2,2,1,6))
         dc_a = dc.reshape(self.dc_a, (2,2,1,6))
         self.alpha = 0.0002

@@ -29,6 +29,19 @@ using namespace Eigen;
 #ifdef DNNC_CLIP_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[12] = {1., -2., 0.3, 4., 2.5, 6., 1., -2., 3., 3.4, 0., 6.};
+  tensor<float> a(4, 3);
+  a.load(d1);
+  // tensor<float> b(3,2); b.load(d2);
+  float min = -1.0;
+  float max = 1.0;
+  Clip<float> m("localOpName");
+  std::cout << a << "\n";
+  auto result = m.compute(a, min, max);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

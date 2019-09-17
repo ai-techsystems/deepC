@@ -33,7 +33,7 @@ DNNC_INCLUDES= -I$(ROOT_DIR)/include
 PY_INCLUDES= -I/usr/include/python3.6
 
 LD_FLAGS=-shared 
-CPP_FLAGS=-O3 -Wall -std=c++14 -fPIC -march=native -msse2
+CPP_FLAGS=-O3 -Wall -std=c++17 -fPIC -march=native -msse2
 SWIG_FLAGS=-python -c++ -Wall -builtin
 ifneq (,$(findstring $(FAST_SWIG),nN))
 SWIG_FLAGS=-python -c++ -Wall 
@@ -47,14 +47,14 @@ LN_S=ln -s
 RM_F=rm -rf
 
 ifneq (,$(findstring $(DEBUG),yY))
-CPP_FLAGS=-Wall -std=c++14 -fPIC -g
+CPP_FLAGS=-Wall -std=c++17 -fPIC -g
 endif
 
 ifneq (,$(findstring $(LMCHECK),yY))
-CPP_FLAGS=-Wall -std=c++14 -fPIC -D_DEBUG -g -lmcheck
+CPP_FLAGS=-Wall -std=c++17 -fPIC -D_DEBUG -g -lmcheck
 endif
 
 ifneq (,$(findstring $(PROF),yY))
-CPP_FLAGS=-pg -Wall -std=c++14 -fPIC 
+CPP_FLAGS=-pg -Wall -std=c++17 -fPIC 
 endif
 

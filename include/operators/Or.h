@@ -33,12 +33,27 @@ template <typename T> class Or : public baseOperator<T> {
 public:
   Or(std::string name = "opOr") : baseOperator<T>(opOr, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  tensor<T> compute(tensor<T> a, tensor<T> b) {
+  tensor<bool> compute(tensor<T> a, tensor<T> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<T> result(resultShape);
+    tensor<bool> result(resultShape);
+
+    // if (!(this->template type_check<bool>()))
+    //   throw std::invalid_argument(
+    //     "Constrain input and output types to bool tensors.");
+
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for Or operator.");
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+
+    eResult.array() = eigenVectorA.template cast<bool>().array() ||
+                      eigenVectorB.template cast<bool>().array();
+    result.load(eResult.data());
 
     return result;
   }

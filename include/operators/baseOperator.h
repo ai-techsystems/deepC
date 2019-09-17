@@ -75,6 +75,7 @@ enum OPCODE {
   opEyeLike,
   opFlatten,
   opFloor,
+  opFloorDiv,
   opGRU,
   opGather,
   opGemm,
@@ -82,6 +83,7 @@ enum OPCODE {
   opGlobalLpPool,
   opGlobalMaxPool,
   opGreater,
+  opGreaterEqual,
   opHardSigmoid,
   opHardmax,
   opIdentity,
@@ -93,6 +95,7 @@ enum OPCODE {
   opLSTM,
   opLeakyRelu,
   opLess,
+  opLessEqual,
   opLog,
   opLogSoftmax,
   opLoop,
@@ -113,6 +116,7 @@ enum OPCODE {
   opNonMaxSuppression,
   opNonZero,
   opNot,
+  opNotEqual,
   opOneHot,
   opOr,
   opPRelu,
@@ -171,6 +175,7 @@ enum OPCODE {
   opTile,
   opTopK,
   opTranspose,
+  opTrueDiv,
   opUnsqueeze,
   opUpsample,
   opWhere,
@@ -277,7 +282,6 @@ public:
   template <typename attrType>
   bool getAttribute(OPATTR attrName, attrType &obj);
 
-  /*!< Constrain input and output types.*/
   template <typename... Types> bool type_check() {
     std::vector<std::type_index> allowed_types;
     allowed_types.insert(allowed_types.end(), {typeid(Types)...});
@@ -289,8 +293,9 @@ public:
     }
     return checker;
   }
+  /*!< Constrain input and output types.*/
   /*!<
-   \return Returns true if T is one of the types specified
+   \return True if T is one of the types specified else False
    */
   void compute(void);
   tensor<T> compute(tensor<T> in1);
