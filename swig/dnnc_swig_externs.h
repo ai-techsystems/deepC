@@ -168,7 +168,9 @@ extern tensor<float> \
 extern tensor<double> \
 		 leakyrelu(tensor<double> &a, float alpha = 0.01) ;
 extern tensor<float> \
-		 thresholded_relu(tensor<float> &a) ;
+		 reciprocal(tensor<float> &a) ;
+extern tensor<double> \
+		 reciprocal(tensor<double> &a) ;
 extern tensor<bool> \
 		 less(tensor<float> &a, tensor<float> &b) ;
 extern tensor<float> \

@@ -34,9 +34,24 @@ public:
   Reciprocal(std::string name = "opReciprocal")
       : baseOperator<T>(opReciprocal, name) {}
 
+  static T reciprocal_function(T x) { return (x > 0) ? (1 / x) : x; }
+
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  void compute(void) {
+  tensor<T> compute(tensor<T> &a) {
+    if (!(this->template type_check<float, double>()))
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+
+    tensor<T> result(a.shape());
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+
+    // eResult.array() = eigenVector.array().unaryExpr(reciprocal_function);
+    eResult.array() = eigenVector.array().inverse();
+    result.load(eResult.data());
+
+    return result;
     // CHANGE return-type and args
     // AND ADD YOUR FUNCTIONAL CODE HERE
   }

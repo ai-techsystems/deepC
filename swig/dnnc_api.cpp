@@ -55,6 +55,7 @@
 #include "operators/Max.h"
 #include "operators/Mean.h"
 #include "operators/Min.h"
+#include "operators/Reciprocal.h"
 #include "operators/Sub.h"
 #include "operators/ThresholdedRelu.h"
 #include "operators/Transpose.h"
@@ -540,6 +541,19 @@ tensor<double> leakyrelu(tensor<double> &a, float alpha = 0.01) {
   return op.compute(a);
 }
 
+tensor<float> reciprocal(tensor<float> &a) {
+  Reciprocal<float> op("localOpName");
+  return op.compute(a);
+}
+tensor<float> thresholded_relu(tensor<float> &a) {
+	ThresholdedRelu<float> op;
+	return op.compute(a);
+}
+
+tensor<double> reciprocal(tensor<double> &a) {
+  Reciprocal<double> op("localOpName");
+  return op.compute(a);
+}
 tensor<float> thresholded_relu(tensor<float> &a) {
 	ThresholdedRelu<float> op;
 	return op.compute(a);
