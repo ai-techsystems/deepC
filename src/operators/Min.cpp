@@ -40,8 +40,8 @@ int main() {
   tensor<float> fTensor2(1, 12);
   fTensor2.load(data2);
 
-  std::cout << fTensor1 << std::endl;
-  std::cout << fTensor2 << std::endl;
+  // std::cout << fTensor1 << std::endl;
+  // std::cout << fTensor2 << std::endl;
 
   std::vector<tensor<float>> vt;
   vt.push_back(fTensor1);

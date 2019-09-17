@@ -22,6 +22,7 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
@@ -33,17 +34,27 @@ template <typename T> class And : public baseOperator<T> {
 public:
   And(std::string name = "opAnd") : baseOperator<T>(opAnd, name) {}
 
-  tensor<T> compute(tensor<T> a, tensor<T> b) {
+  tensor<bool> compute(tensor<T> a, tensor<T> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<T> result(resultShape);
+    tensor<bool> result(resultShape);
+
+    // if (!(this->template type_check<bool>()))
+    //   throw std::invalid_argument(
+    //     "Constrain input and output types to bool tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
-          "tensor dimenions aren't appropriate for AND operator.");
-    for (size_t i = 0; i < a.length(); i++) {
-      result[i] = a[i] && b[i];
-    }
+          "tensor dimenions not appropriate for Or operator.");
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+
+    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+
+    eResult.array() = eigenVectorA.template cast<bool>().array() &&
+                      eigenVectorB.template cast<bool>().array();
+    result.load(eResult.data());
 
     return result;
   }

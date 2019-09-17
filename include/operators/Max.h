@@ -22,6 +22,7 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 #include <vector>
@@ -29,6 +30,10 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns the tensor resulted
+ * from Element-wise max of each of the input tensors (
+ * with Numpy-style broadcasting support).
+ */
 template <typename T> class Max : public baseOperator<T> {
   //  Max attributes
   T maxEl(std::vector<T> &v) {
@@ -45,13 +50,12 @@ template <typename T> class Max : public baseOperator<T> {
 public:
   Max(std::string name = "opMax") : baseOperator<T>(opMax, name) {}
 
-  tensor<T> compute(std::vector<tensor<T>> inputs) {
-    // TODO: broadcasting requirements.
-    // 1. find the tensors with largest rank
-    // 2. determine shape with largest dimension of each rank among largest rank
-    // tensors found in step1.
-    // 3. create a result tensor with this new shape
-    // 4. broadcast other tensors to result vector.
+  tensor<T>
+  compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
+
+    if (!(this->template type_check<float, double>()))
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
 
     if (inputs.size() == 0) {
       throw std::invalid_argument(
@@ -59,19 +63,27 @@ public:
       return tensor<T>(0);
     }
 
-    std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
+    try {
+      std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
+      tensor<T> result(resultShape);
+      // compute element wise max
+      for (size_t i = 0; i < result.length(); i++) {
+        std::vector<T> elVector;
+        for (size_t j = 0; j < inputs.size(); j++)
+          elVector.push_back(inputs[j][i]);
 
-    tensor<T> result(resultShape);
+        result[i] = maxEl(elVector);
+      }
+      return result;
 
-    // compute element wise max
-    for (size_t i = 0; i < result.length(); i++) {
-      std::vector<T> elVector;
-      for (size_t j = 0; j < inputs.size(); j++)
-        elVector.push_back(inputs[j][i]);
-
-      result[i] = maxEl(elVector);
+    } catch (const std::exception &e) {
+      std::cout
+          << "operands could not be broadcast together with given shapes!!!"
+          << "\n";
+      return 1;
     }
-    return result;
+
+    // std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);
   }
 };
 } // namespace dnnc

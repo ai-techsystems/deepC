@@ -31,25 +31,41 @@ using namespace Eigen;
 int main() {
   int d1[6] = {1, 2, 3, 4, 5, 6};
   int d2[6] = {1, 2, 3, 4, 5, 6};
+  int d3[1] = {0};
+  int d4[1] = {0};
   tensor<int> a(2, 3);
   a.load(d1);
   tensor<int> b(3, 2);
   b.load(d2);
+  tensor<int> c(1);
+  c.load(d3);
+  tensor<int> d(1);
+  d.load(d4);
 
   MatMulInteger<int> m("localOpName");
-  auto result = m.compute(a, b);
+  auto result = m.compute(a, b, c, d);
 
   std::cout << result;
   std::cout << "\n";
+
 #define DNNC_HIGHRANK_SUPPORT
   int i1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
   int i2[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-  dnnc::tensor<int> c(2, 2, 2);
-  c.load(i1);
-  dnnc::tensor<int> d(2, 2, 2);
-  d.load(i2);
-  MatMulInteger<int> m1("localfloat");
-  dnnc::tensor<int> iresult = m1.compute(c, d);
+  int i3[1] = {0};
+  int i4[1] = {0};
+
+  dnnc::tensor<int> e(2, 2, 2);
+  e.load(i1);
+  dnnc::tensor<int> f(2, 2, 2);
+  f.load(i2);
+
+  dnnc::tensor<int> g(1);
+  g.load(i3);
+  dnnc::tensor<int> h(1);
+  h.load(i4);
+
+  MatMulInteger<int> m1("localint");
+  dnnc::tensor<int> iresult = m1.compute(e, f, g, h);
 
   std::cout << iresult << "\n";
 

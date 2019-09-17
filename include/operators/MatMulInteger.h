@@ -20,6 +20,8 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
+// TODO: a_zero_point, b_zero_point
+
 #pragma once
 #include "operators/baseOperator.h"
 #include <string>
@@ -27,15 +29,27 @@
 using namespace Eigen;
 
 namespace dnnc {
+/* Matrix product that behaves like numpy.matmul */
 template <typename T> class MatMulInteger : public baseOperator<T> {
 protected:
   //  MatMulInteger attributes
-  //  NONE
+  // NONE
 public:
   MatMulInteger(std::string name = "opMatMulInteger")
       : baseOperator<T>(opMatMulInteger, name) {}
 
-  tensor<int> compute(tensor<T> &a, tensor<T> &b) {
+  tensor<int>
+  compute(tensor<T> &a /*!<Input tensor A. */
+          ,
+          tensor<T> &b /*!<Input tensor B. */
+          ,
+          tensor<T> a_zero_point /*!<Zero point tensor for input 'A'. */
+          ,
+          tensor<T> b_zero_point /*!<Scale tensor for input 'B'.*/) {
+
+    if (!(this->template type_check<int>()))
+      throw std::invalid_argument(
+          "Constrain input and output types to int tensors.");
 
     if ((a.rank() == 1 && b.rank() == 1)) {
       if (a.length() != b.length())
@@ -124,5 +138,8 @@ public:
 
     return tensor<int>();
   }
+  /*!<
+  \return The output matrix after multiplication(integer).
+  */
 };
 } // namespace dnnc

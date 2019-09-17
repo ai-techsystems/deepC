@@ -20,7 +20,6 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-
 #pragma once
 #include "operators/baseOperator.h"
 #include <string>
@@ -28,28 +27,30 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns the tensor resulted from performing the sin operation \f$ h(x) =
+ * \sinh(x) \f$ elementwise on the input tensor A .
+ */
 template <typename T> class Sinh : public baseOperator<T> {
-  //  Sinh attributes
+protected:
 public:
   Sinh(std::string name = "opSinh") : baseOperator<T>(opSinh, name) {}
 
-  static float Sinh_func(T x) { return sinh(x); }
-
   // NOT GOOD to return by value
-  tensor<T> compute(tensor<T> &a) {
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-    if (a.rank() == 2) {
-      tensor<T> result(a.shape()[0], a.shape()[1]);
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&Sinh_func);
-      result.load(eResult.data());
-      return result;
-    } else if (a.rank() == 3) {
-      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&Sinh_func);
-      result.load(eResult.data());
-      return result;
-    } else
-      throw std::invalid_argument("tensor dimensions not appropriate.");
+  tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Sinh operator.*/) {
+
+    if (!(this->template type_check<float, double>()))
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+
+    tensor<T> result(a.shape(), a.name());
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+
+    eResult.array() = sinh(eigenVector.array());
+
+    result.load(eResult.data());
+    return result;
   }
 };
 } // namespace dnnc

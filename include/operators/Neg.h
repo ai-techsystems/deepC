@@ -35,9 +35,20 @@ public:
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<T> compute(tensor<T> &a /*!< ND tensor*/) {
+
+    if ((this->template type_check<bool>()))
+      throw std::invalid_argument(
+          "Constrain input and output types to numeric tensors.");
+
+    tensor<T> result(a.shape(), a.name());
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    eResult.array() = -eigenVector.array();
+    result.load(eResult.data());
+
+    return result;
   }
 };
 } // namespace dnnc

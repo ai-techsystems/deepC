@@ -27,51 +27,26 @@
 using namespace Eigen;
 
 namespace dnnc {
+/*! Returns the tensor resulted from performing the sign operation
+ * elementwise on the input tensor A .
+ */
 template <typename T> class Sign : public baseOperator<T> {
 protected:
 public:
   Sign(std::string name = "opSign") : baseOperator<T>(opSign, name) {}
 
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
-
-  static float sign_func(T x) {
-    if (x > 0) {
-      return 1;
-    } else if (x < 0) {
-      return -1;
-    } else {
-      return 0;
-    }
-  }
-
   // NOT GOOD to return by value
-  tensor<T> compute(tensor<T> &a) {
-    if (!compare())
+  tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Sign operator.*/) {
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-
-    if (a.rank() == 2) {
-      tensor<T> result(a.shape()[0], a.shape()[1]);
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&sign_func);
-      ;
-
-      result.load(eResult.data());
-
-      return result;
-    } else if (a.rank() == 3) {
-      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA.unaryExpr(&sign_func);
-      ;
-
-      result.load(eResult.data());
-
-      return result;
-    } else
-      throw std::invalid_argument("tensor dimensions not appropriate.");
+    tensor<T> result(a.shape(), a.name());
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    eResult.array() = sign(eigenVector.array());
+    result.load(eResult.data());
+    return result;
   }
 };
 } // namespace dnnc

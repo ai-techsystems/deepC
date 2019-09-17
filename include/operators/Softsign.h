@@ -27,47 +27,34 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! Returns the tensor resulted from performing the sigmoid operation \f$ h(x) =
+ * \frac{x }{\mathrm{1} + |x| } \f$ elementwise on the input tensor A .
+ */
 template <typename T> class Softsign : public baseOperator<T> {
 protected:
 public:
   Softsign(std::string name = "opSoftsign")
       : baseOperator<T>(opSoftsign, name) {}
 
-  static float softsign_func(T x) { return (x / (1 + abs(x))); }
-
-  static bool compare() {
-    return ((typeid(T) == typeid(float)) || (typeid(T) == typeid(double)));
-  }
+  static T softsign_func(T x) { return (x / (1 + abs(x))); }
 
   // NOT GOOD to return by value
-  tensor<T> compute(tensor<T> &a) {
+  tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Softsign operator.*/) {
 
-    if (!compare())
+    if (!(this->template type_check<float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    tensor<T> result(a.shape(), a.name());
 
-    if (a.rank() == 2) {
-      tensor<T> result(a.shape()[0], a.shape()[1]);
-      Matrix<T, Dynamic, Dynamic> eResult =
-          eigenMatrixA.unaryExpr(&softsign_func);
-      ;
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
-      result.load(eResult.data());
+    eResult.array() = eigenVector.array().unaryExpr(&softsign_func);
 
-      return result;
-    } else if (a.rank() == 3) {
-      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2]);
-      Matrix<T, Dynamic, Dynamic> eResult =
-          eigenMatrixA.unaryExpr(&softsign_func);
-      ;
-
-      result.load(eResult.data());
-
-      return result;
-    } else
-      throw std::invalid_argument("tensor dimensions not appropriate.");
+    result.load(eResult.data());
+    return result;
   }
 };
 } // namespace dnnc

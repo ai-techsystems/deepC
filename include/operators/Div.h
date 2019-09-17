@@ -22,6 +22,7 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
@@ -42,6 +43,10 @@ public:
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
+
+    if (!(this->template type_check<float, double, int>()))
+      throw std::invalid_argument(
+          "Constrain input and output types to numeric tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(

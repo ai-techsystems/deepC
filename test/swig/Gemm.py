@@ -33,61 +33,163 @@ def temp_gemm(np_a, np_b, np_c, alpha, beta, transA, transB):
 
 class GemmTest(unittest.TestCase):
     def setUp(self):
-        self.len_a_b = 12
-        self.len_c = 9
+        self.len_a_b = 48
+        self.len_c = 64
         self.alpha = 0.5
         self.beta = 0.5
-        self.np_a = np.random.randn(self.len_a_b).astype(np.float32)
-        self.np_b = np.random.randn(self.len_a_b).astype(np.float32)
-        self.np_c = np.random.randn(self.len_c).astype(np.float32)
-        self.dc_a = dc.array(list(self.np_a))
-        self.dc_b = dc.array(list(self.np_b))
-        self.dc_c = dc.array(list(self.np_c))
-    '''
-    def test_Gemm1D (self):
-        npr = temp_gemm(self.np_a, self.np_b)
-        dcr = dc.gemm(self.dc_a, self.dc_b)
-        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
-                rtol=1e-3, atol=1e-3)
-    '''
-    def test_Gemm2D (self):
+
+        self.np_float_a = np.random.randn(self.len_a_b).astype(np.float32)
+        self.np_float_b = np.random.randn(self.len_a_b).astype(np.float32)
+        self.np_float_c = np.random.randn(self.len_c).astype(np.float32)
+        self.dc_float_a = dc.array(list(self.np_float_a))
+        self.dc_float_b = dc.array(list(self.np_float_b))
+        self.dc_float_c = dc.array(list(self.np_float_c))
+        
+        self.np_double_a = np.random.randn(self.len_a_b).astype(np.double)
+        self.np_double_b = np.random.randn(self.len_a_b).astype(np.double)
+        self.np_double_c = np.random.randn(self.len_c).astype(np.double)
+        self.dc_double_a = dc.array(list(self.np_double_a))
+        self.dc_double_b = dc.array(list(self.np_double_b))
+        self.dc_double_c = dc.array(list(self.np_double_c))
+
+    # Gemm by default takes 2D tensor only
+
+    def test_Gemm2D_float_1 (self):
+        shape_a = (8,6) 
+        shape_b = (6,8) 
+        shape_c = (8,8) 
         transA = 0
         transB = 0
-        np_a = np.reshape(self.np_a, (3,4))
-        np_b = np.reshape(self.np_b, (4,3))
-        np_c = np.reshape(self.np_c, (3,3))
-        dc_a = dc.reshape(self.dc_a, (3,4))
-        dc_b = dc.reshape(self.dc_b, (4,3))
-        dc_c = dc.reshape(self.dc_c, (3,3))
-        npr = temp_gemm(np_a, np_b, np_c, self.alpha, self.beta, transA, transB)
-        dcr = dc.gemm(dc_a, dc_b, dc_c, self.alpha, self.beta, transA, transB)
-        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
-                rtol=1e-3, atol=1e-3)
-    '''
-    def test_Gemm3D (self):
-        np_a = np.reshape(self.np_a, (2,4,3))
-        np_b = np.reshape(self.np_b, (2,4,3))
-        dc_a = dc.reshape(self.dc_a, (2,4,3))
-        dc_b = dc.reshape(self.dc_b, (2,4,3))
-
-        npr = temp_gemm(np_a, np_b)
-        dcr = dc.gemm(dc_a, dc_b)
-
+        np_float_a = np.reshape(self.np_float_a, shape_a)
+        np_float_b = np.reshape(self.np_float_b, shape_b)
+        np_float_c = np.reshape(self.np_float_c, shape_c)
+        dc_float_a = dc.reshape(self.dc_float_a, shape_a)
+        dc_float_b = dc.reshape(self.dc_float_b, shape_b)
+        dc_float_c = dc.reshape(self.dc_float_c, shape_c)
+        npr = temp_gemm(np_float_a, np_float_b, np_float_c, self.alpha, self.beta, transA, transB)
+        dcr = dc.gemm(dc_float_a, dc_float_b, dc_float_c, self.alpha, self.beta, transA, transB)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_Gemm4D (self):
-        np_a = np.reshape(self.np_a, (2,2,2,3))
-        np_b = np.reshape(self.np_b, (2,2,2,3))
-        dc_a = dc.reshape(self.dc_a, (2,2,2,3))
-        dc_b = dc.reshape(self.dc_b, (2,2,2,3))
-
-        npr = temp_gemm(np_a, np_b)
-        dcr = dc.gemm(dc_a, dc_b)
-
+    def test_Gemm2D_float_2 (self):
+        shape_a = (8,6) 
+        shape_b = (8,6) 
+        shape_c = (8,8) 
+        transA = 0
+        transB = 1
+        np_float_a = np.reshape(self.np_float_a, shape_a)
+        np_float_b = np.reshape(self.np_float_b, shape_b)
+        np_float_c = np.reshape(self.np_float_c, shape_c)
+        dc_float_a = dc.reshape(self.dc_float_a, shape_a)
+        dc_float_b = dc.reshape(self.dc_float_b, shape_b)
+        dc_float_c = dc.reshape(self.dc_float_c, shape_c)
+        npr = temp_gemm(np_float_a, np_float_b, np_float_c, self.alpha, self.beta, transA, transB)
+        dcr = dc.gemm(dc_float_a, dc_float_b, dc_float_c, self.alpha, self.beta, transA, transB)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-    '''
+        
+    def test_Gemm2D_float_3 (self):
+        shape_a = (6,8) 
+        shape_b = (6,8) 
+        shape_c = (8,8) 
+        transA = 1
+        transB = 0
+        np_float_a = np.reshape(self.np_float_a, shape_a)
+        np_float_b = np.reshape(self.np_float_b, shape_b)
+        np_float_c = np.reshape(self.np_float_c, shape_c)
+        dc_float_a = dc.reshape(self.dc_float_a, shape_a)
+        dc_float_b = dc.reshape(self.dc_float_b, shape_b)
+        dc_float_c = dc.reshape(self.dc_float_c, shape_c)
+        npr = temp_gemm(np_float_a, np_float_b, np_float_c, self.alpha, self.beta, transA, transB)
+        dcr = dc.gemm(dc_float_a, dc_float_b, dc_float_c, self.alpha, self.beta, transA, transB)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+        
+    def test_Gemm2D_float_4 (self):
+        shape_a = (6,8) 
+        shape_b = (8,6) 
+        shape_c = (8,8) 
+        transA = 1
+        transB = 1
+        np_float_a = np.reshape(self.np_float_a, shape_a)
+        np_float_b = np.reshape(self.np_float_b, shape_b)
+        np_float_c = np.reshape(self.np_float_c, shape_c)
+        dc_float_a = dc.reshape(self.dc_float_a, shape_a)
+        dc_float_b = dc.reshape(self.dc_float_b, shape_b)
+        dc_float_c = dc.reshape(self.dc_float_c, shape_c)
+        npr = temp_gemm(np_float_a, np_float_b, np_float_c, self.alpha, self.beta, transA, transB)
+        dcr = dc.gemm(dc_float_a, dc_float_b, dc_float_c, self.alpha, self.beta, transA, transB)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+        
+    def test_Gemm2D_double_1 (self):
+        shape_a = (8,6) 
+        shape_b = (6,8) 
+        shape_c = (8,8) 
+        transA = 0
+        transB = 0
+        np_double_a = np.reshape(self.np_double_a, shape_a)
+        np_double_b = np.reshape(self.np_double_b, shape_b)
+        np_double_c = np.reshape(self.np_double_c, shape_c)
+        dc_double_a = dc.reshape(self.dc_double_a, shape_a)
+        dc_double_b = dc.reshape(self.dc_double_b, shape_b)
+        dc_double_c = dc.reshape(self.dc_double_c, shape_c)
+        npr = temp_gemm(np_double_a, np_double_b, np_double_c, self.alpha, self.beta, transA, transB)
+        dcr = dc.gemm(dc_double_a, dc_double_b, dc_double_c, self.alpha, self.beta, transA, transB)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.double),
+                rtol=1e-3, atol=1e-3)
+
+    def test_Gemm2D_double_2 (self):
+        shape_a = (8,6) 
+        shape_b = (8,6) 
+        shape_c = (8,8) 
+        transA = 0
+        transB = 1
+        np_double_a = np.reshape(self.np_double_a, shape_a)
+        np_double_b = np.reshape(self.np_double_b, shape_b)
+        np_double_c = np.reshape(self.np_double_c, shape_c)
+        dc_double_a = dc.reshape(self.dc_double_a, shape_a)
+        dc_double_b = dc.reshape(self.dc_double_b, shape_b)
+        dc_double_c = dc.reshape(self.dc_double_c, shape_c)
+        npr = temp_gemm(np_double_a, np_double_b, np_double_c, self.alpha, self.beta, transA, transB)
+        dcr = dc.gemm(dc_double_a, dc_double_b, dc_double_c, self.alpha, self.beta, transA, transB)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.double),
+                rtol=1e-3, atol=1e-3)
+        
+    def test_Gemm2D_double_3 (self):
+        shape_a = (6,8) 
+        shape_b = (6,8) 
+        shape_c = (8,8) 
+        transA = 1
+        transB = 0
+        np_double_a = np.reshape(self.np_double_a, shape_a)
+        np_double_b = np.reshape(self.np_double_b, shape_b)
+        np_double_c = np.reshape(self.np_double_c, shape_c)
+        dc_double_a = dc.reshape(self.dc_double_a, shape_a)
+        dc_double_b = dc.reshape(self.dc_double_b, shape_b)
+        dc_double_c = dc.reshape(self.dc_double_c, shape_c)
+        npr = temp_gemm(np_double_a, np_double_b, np_double_c, self.alpha, self.beta, transA, transB)
+        dcr = dc.gemm(dc_double_a, dc_double_b, dc_double_c, self.alpha, self.beta, transA, transB)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.double),
+                rtol=1e-3, atol=1e-3)
+        
+    def test_Gemm2D_double_4 (self):
+        shape_a = (6,8) 
+        shape_b = (8,6) 
+        shape_c = (8,8) 
+        transA = 1
+        transB = 1
+        np_double_a = np.reshape(self.np_double_a, shape_a)
+        np_double_b = np.reshape(self.np_double_b, shape_b)
+        np_double_c = np.reshape(self.np_double_c, shape_c)
+        dc_double_a = dc.reshape(self.dc_double_a, shape_a)
+        dc_double_b = dc.reshape(self.dc_double_b, shape_b)
+        dc_double_c = dc.reshape(self.dc_double_c, shape_c)
+        npr = temp_gemm(np_double_a, np_double_b, np_double_c, self.alpha, self.beta, transA, transB)
+        dcr = dc.gemm(dc_double_a, dc_double_b, dc_double_c, self.alpha, self.beta, transA, transB)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.double),
+                rtol=1e-3, atol=1e-3)
+
     def tearDown(self):
         return "test finished"
 

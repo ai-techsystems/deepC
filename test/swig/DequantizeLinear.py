@@ -35,9 +35,9 @@ class DequantizeLinearTest(unittest.TestCase):
         self.np_x = np.random.randn(self.len).astype(np.int)
         self.np_x_scale = np.random.randn(1).astype(np.float32)
         self.np_x_zero_point = np.random.randn(1).astype(np.int)
-        self.dc_x = dc.array(list(self.np_x))
+        self.dc_x = dc.array(list(self.np_x)).asTypeInt()
         self.dc_x_scale = dc.array(list(self.np_x_scale))
-        self.dc_x_zero_point = dc.array(list(self.np_x_zero_point))
+        self.dc_x_zero_point = dc.array(list(self.np_x_zero_point)).asTypeInt()
 
     def test_DequantizeLinear1D (self):
         npr = temp_dequantize_linear(self.np_x, self.np_x_scale, self.np_x_zero_point)
@@ -45,7 +45,7 @@ class DequantizeLinearTest(unittest.TestCase):
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_DequantizeLinear2D (self):
+    def test_DequantizeLinear2D_1 (self):
         np_x = np.reshape(self.np_x, (6,4))
         dc_x = dc.reshape(self.dc_x, (6,4))
         npr = temp_dequantize_linear(np_x, self.np_x_scale, self.np_x_zero_point)
@@ -53,7 +53,23 @@ class DequantizeLinearTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_DequantizeLinear3D (self):
+    def test_DequantizeLinear2D_2 (self):
+        np_x = np.reshape(self.np_x, (3,8))
+        dc_x = dc.reshape(self.dc_x, (3,8))
+        npr = temp_dequantize_linear(np_x, self.np_x_scale, self.np_x_zero_point)
+        dcr = dc.dequantize_linear(dc_x, self.dc_x_scale, self.dc_x_zero_point)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_DequantizeLinear2D_3 (self):
+        np_x = np.reshape(self.np_x, (12,2))
+        dc_x = dc.reshape(self.dc_x, (12,2))
+        npr = temp_dequantize_linear(np_x, self.np_x_scale, self.np_x_zero_point)
+        dcr = dc.dequantize_linear(dc_x, self.dc_x_scale, self.dc_x_zero_point)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_DequantizeLinear3D_1 (self):
         np_x = np.reshape(self.np_x, (2,4,3))
         dc_x = dc.reshape(self.dc_x, (2,4,3))
         npr = temp_dequantize_linear(np_x, self.np_x_scale, self.np_x_zero_point)
@@ -61,13 +77,38 @@ class DequantizeLinearTest(unittest.TestCase):
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
-    def test_DequantizeLinear4D (self):
+    def test_DequantizeLinear3D_2 (self):
+        np_x = np.reshape(self.np_x, (4,2,3))
+        dc_x = dc.reshape(self.dc_x, (4,2,3))
+        npr = temp_dequantize_linear(np_x, self.np_x_scale, self.np_x_zero_point)
+        dcr = dc.dequantize_linear(dc_x, self.dc_x_scale, self.dc_x_zero_point)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+    
+    def test_DequantizeLinear3D_3 (self):
+        np_x = np.reshape(self.np_x, (2,2,6))
+        dc_x = dc.reshape(self.dc_x, (2,2,6))
+        npr = temp_dequantize_linear(np_x, self.np_x_scale, self.np_x_zero_point)
+        dcr = dc.dequantize_linear(dc_x, self.dc_x_scale, self.dc_x_zero_point)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+
+    def test_DequantizeLinear4D_1 (self):
         np_x = np.reshape(self.np_x, (2,2,2,3))
         dc_x = dc.reshape(self.dc_x, (2,2,2,3))
         npr = temp_dequantize_linear(np_x, self.np_x_scale, self.np_x_zero_point)
         dcr = dc.dequantize_linear(dc_x, self.dc_x_scale, self.dc_x_zero_point)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
+
+    def test_DequantizeLinear4D_2 (self):
+        np_x = np.reshape(self.np_x, (2,3,2,2))
+        dc_x = dc.reshape(self.dc_x, (2,3,2,2))
+        npr = temp_dequantize_linear(np_x, self.np_x_scale, self.np_x_zero_point)
+        dcr = dc.dequantize_linear(dc_x, self.dc_x_scale, self.dc_x_zero_point)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
+                rtol=1e-3, atol=1e-3)
+        # np.testing.assert_equal()
 
     def tearDown(self):
         return "test finished"

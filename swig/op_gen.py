@@ -55,7 +55,7 @@ def remove_dtype(s):
 	return s
 
 def get_swig_extern(s):
-	s = "extern "+s.split("{")[0].replace(">","> \\\n\t\t",1)+";\n"
+	s = "\textern "+s.split("{")[0].replace(">","> \\\n\t\t",1)+";\n"
 	return s
 
 def main():
