@@ -74,12 +74,12 @@
 	- And it will be written :	
 		> your_username/dnnCompiler	
 		> forked from ai-techsystems/dnnCompiler
-* Click on the **Clone or Download button** and copy the link.
+* Choose active development branch (e.g. `operators`),  click on the **Clone or Download button** and copy the link.
 	- It will look like (https://github.com/your_username/dnnCompiler.git)
-* Go to your terminal and go to any directory under which you want to clone the repo and open terminal.
+* Choose active development Go to your terminal and go to any directory under which you want to clone the repo and open terminal.
 	- Paste the link you copied after typing `git clone `. It will look like this :	
 		```console
-		git clone https://github.com/your_username/dnnCompiler.git
+		git clone --single-branch -b operators https://github.com/your_username/dnnCompiler.git
 		```
 
 ### Changing branch
