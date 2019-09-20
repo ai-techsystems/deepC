@@ -50,7 +50,8 @@ namespace dnnc {
 /*! And this formulation became part of dnn compiler operator implementation.
  * The operator is O(n) where n = Number of elements in the tensor =
  * N*C*D1…*Dk.*/
-template <typename T> class InstanceNormalization : public baseOperator<T> {
+template <typename T>
+class InstanceNormalization : public baseOperator<T, T, T> {
 protected:
   float epsilon = 1e-05; /*!< In case variance goes to zero and to avoid
                             division by zero. */
@@ -58,7 +59,7 @@ protected:
 public:
   InstanceNormalization(std::string name = "opInstanceNormalization",
                         float epsilon = 1e-05)
-      : baseOperator<T>(opInstanceNormalization) {
+      : baseOperator<T, T, T>(opInstanceNormalization) {
     this->epsilon = epsilon;
   }
   bool getAttribute(OPATTR attrName, float &obj) {
@@ -73,7 +74,7 @@ public:
               input /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/,
           tensor<T> &scale /*!<  1D vector of dimension C.*/,
           tensor<T> &B /*!< : 1D vector of dimension C.*/) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

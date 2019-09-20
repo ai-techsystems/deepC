@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Tanh : public baseOperator<T> {
+template <typename T> class Tanh : public baseOperator<T, T, T> {
   //  Tanh attributes
 public:
-  Tanh(std::string name = "opTanh") : baseOperator<T>(opTanh, name) {}
+  Tanh(std::string name = "opTanh") : baseOperator<T, T, T>(opTanh, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
@@ -39,13 +39,13 @@ public:
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = tanh(eigenVector.array());

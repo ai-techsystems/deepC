@@ -28,26 +28,27 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Xor : public baseOperator<T> {
+template <typename To, typename Ti>
+class Xor : public baseOperator<To, Ti, Ti> {
 
 public:
-  Xor(std::string name = "opXor") : baseOperator<T>(opXor, name) {}
+  Xor(std::string name = "opXor") : baseOperator<To, Ti, Ti>(opXor, name) {}
 
-  tensor<bool> compute(tensor<T> a, tensor<T> b) {
+  tensor<To> compute(tensor<Ti> a, tensor<Ti> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
-    // if (!(this->template type_check<bool>()))
-    //   throw std::invalid_argument(
-    //     "Constrain input and output types to float tensors.");
+    // if (!(this->template type_check<bool>(typeid(Ti))))
+    //  throw std::invalid_argument(
+    //      "Constrain input and output types to float tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Xor operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
 
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
 

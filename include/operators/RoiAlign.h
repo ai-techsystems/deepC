@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class RoiAlign : public baseOperator<T> {
+template <typename T> class RoiAlign : public baseOperator<T, T, T> {
   //  RoiAlign attributes
 public:
   RoiAlign(std::string name = "opRoiAlign")
-      : baseOperator<T>(opRoiAlign, name) {}
+      : baseOperator<T, T, T>(opRoiAlign, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

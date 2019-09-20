@@ -20,25 +20,14 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
+// tensor.i
+//
 
-#pragma once
-#include "operators/baseOperator.h"
-#include <string>
+%ignore *::operator=;
+%ignore *::operator[];
+%include <std_set.i>
+//%include "graph/graph.h"
+%{
+//#include <graph/graph.h> 
+%}
 
-using namespace Eigen;
-
-namespace dnnc {
-template <typename T> class BitShift : public baseOperator<T, T, T> {
-  //  BitShift attributes
-public:
-  BitShift(std::string name = "opBitShift")
-      : baseOperator<T, T, T>(opBitShift, name) {}
-
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
-  }
-};
-} // namespace dnnc

@@ -28,7 +28,7 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Conv : public baseOperator<T> {
+template <typename T> class Conv : public baseOperator<T, T, T> {
   //  Conv attributes
 protected:
   std::string auto_pad;
@@ -43,7 +43,7 @@ public:
        std::vector<int> dilations = {}, int group = 1,
        std::vector<DIMENSION> kernal_shape = {}, std::vector<size_t> pads = {},
        std::vector<size_t> strides = {1})
-      : baseOperator<T>(opConv, "opConv") {}
+      : baseOperator<T, T, T>(opConv, "opConv") {}
 
   /*bool getAttribute<int>(OPATTR attrName, std::vector<size_t> &obj) {
   if (attrName == attr_kernal_shape) {

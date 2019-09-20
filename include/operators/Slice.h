@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Slice : public baseOperator<T> {
+template <typename T> class Slice : public baseOperator<T, T, T> {
   //  Slice attributes
 public:
-  Slice(std::string name = "opSlice") : baseOperator<T>(opSlice, name) {}
+  Slice(std::string name = "opSlice") : baseOperator<T, T, T>(opSlice, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

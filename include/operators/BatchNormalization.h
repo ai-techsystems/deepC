@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class BatchNormalization : public baseOperator<T> {
+template <typename T> class BatchNormalization : public baseOperator<T, T, T> {
   //  BatchNormalization attributes
 public:
   BatchNormalization(std::string name = "opBatchNormalization")
-      : baseOperator<T>(opBatchNormalization, name) {}
+      : baseOperator<T, T, T>(opBatchNormalization, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

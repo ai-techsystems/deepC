@@ -21,11 +21,9 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 #
-# Author: Colin Lu
-# Date: July 18, 2019
-
 import onnx
 import sys
+import dnnc as dc
 
 import onnx3_dtypes
 
@@ -123,16 +121,18 @@ def get_initializer_symbol(initializer):
   symbol += '\n'
   return symbol
 
-def get_symbol_table(onnx_filename):
+def load_onnx(onnx_filename):
   model = onnx.load(onnx_filename)
 
   graph = model.graph
+
+  #dc_graph = dc.graph(graph.name);
+
   nodes = graph.node
-
-  output = "Graph " + graph.name + "\n"
-
   for node in nodes:
-    output += get_node_symbol(node)
+    op_name = node.op_type; # Add, MatMul etc.
+    if ( op_name != 'Constant' ):
+        #add node to graph.
 
   for i in graph.input:
     output += get_io_symbol(i, True)
@@ -145,19 +145,8 @@ def get_symbol_table(onnx_filename):
 
   return output
 
-
-def parse(onnx_filename, output_file, onnx_output_file=None):
-  print("writing to", output_file)
-  with open(output_file, "w") as f:
-    f.write(get_symbol_table(onnx_filename))
-
-  if onnx_output_file is not None:
-    model = onnx.load(onnx_filename)
-    with open(onnx_output_file, "w") as f:
-      f.write(str(model))
-
 if __name__ == "__main__":
-  if len(sys.argv) >= 4:
-    parse(sys.argv[1], sys.argv[2], sys.argv[3])
+  if len(sys.argv) >= 2:
+    load_onnx(sys.argv[1])
   else:
-    parse(sys.argv[1], sys.argv[2])
+    print("Usage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")

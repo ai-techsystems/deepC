@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ConvTranspose : public baseOperator<T> {
+template <typename T> class ConvTranspose : public baseOperator<T, T, T> {
   //  ConvTranspose attributes
 public:
   ConvTranspose(std::string name = "opConvTranspose")
-      : baseOperator<T>(opConvTranspose, name) {}
+      : baseOperator<T, T, T>(opConvTranspose, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

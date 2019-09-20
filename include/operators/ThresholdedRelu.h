@@ -28,12 +28,12 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ThresholdedRelu : public baseOperator<T> {
+template <typename T> class ThresholdedRelu : public baseOperator<T, T, T> {
   //  ThresholdedRelu attributes
   float alpha = 1.0; // alpha's default value.
 public:
   ThresholdedRelu(std::string name = "opThresholdedRelu")
-      : baseOperator<T>(opThresholdedRelu, name) {}
+      : baseOperator<T, T, T>(opThresholdedRelu, name) {}
 
   bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_alpha) {

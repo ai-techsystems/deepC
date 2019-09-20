@@ -21,28 +21,32 @@
 # This file is part of DNN compiler maintained at 
 # https://github.com/ai-techsystems/dnnCompiler
 #
+include ../../Makefile.common
 
-# CORE must be first, all others depend on CORE
-MAKEFLAGS += -j8
+MODULE=graph
+LIB=$(LIB_DIR)/lib$(MODULE).so
 
-all:CORE OPERATORS GRAPH
 
-FORCE:
+all:$(LIB)
 
-CORE: FORCE
-	$(MAKE) -C core
+CPP_SRCS=$(wildcard *.cpp)
+OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
+$(OBJ_DIR)/%.o:%.cpp
+	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
+	@echo "compiling $<"
+	$(GCC) $(CPP_FLAGS) $(EIGEN_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
 
-OPERATORS: CORE
-	$(MAKE) -C operators
-
-GRAPH: OPERATORS
-	$(MAKE) -C graph
+$(LIB):$(OBJECTS)
+	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
+	$(GCC) $(LD_FLAGS) $(OBJECTS) -o $@
 
 clean:
-	$(MAKE) -C core clean
-	$(MAKE) -C operators clean
+	$(RM_F) $(OBJ_DIR) $(LIB_DIR) 
 
+.DEFAULT: all
 .PHONY: print_vars
 
 print_vars:
-	@echo 
+	@echo $(MODULE)
+	@echo $(CPP_SRCS)
+	@echo $(OBJECTS)

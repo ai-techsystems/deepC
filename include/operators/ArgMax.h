@@ -28,10 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ArgMax : public baseOperator<T> {
+template <typename T> class ArgMax : public baseOperator<T, T, T> {
   //  ArgMax attributes
 public:
-  ArgMax(std::string name = "opArgMax") : baseOperator<T>(opArgMax, name) {}
+  ArgMax(std::string name = "opArgMax")
+      : baseOperator<T, T, T>(opArgMax, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

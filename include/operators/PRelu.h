@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class PRelu : public baseOperator<T> {
+template <typename T> class PRelu : public baseOperator<T, T, T> {
   //  PRelu attributes
 public:
-  PRelu(std::string name = "opPRelu") : baseOperator<T>(opPRelu, name) {}
+  PRelu(std::string name = "opPRelu") : baseOperator<T, T, T>(opPRelu, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

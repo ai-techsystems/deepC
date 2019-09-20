@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class RandomUniformLike : public baseOperator<T> {
+template <typename T> class RandomUniformLike : public baseOperator<T, T, T> {
   //  RandomUniformLike attributes
 public:
   RandomUniformLike(std::string name = "opRandomUniformLike")
-      : baseOperator<T>(opRandomUniformLike, name) {}
+      : baseOperator<T, T, T>(opRandomUniformLike, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

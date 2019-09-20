@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Where : public baseOperator<T> {
+template <typename T> class Where : public baseOperator<T, T, T> {
   //  Where attributes
 public:
-  Where(std::string name = "opWhere") : baseOperator<T>(opWhere, name) {}
+  Where(std::string name = "opWhere") : baseOperator<T, T, T>(opWhere, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

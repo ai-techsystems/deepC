@@ -41,7 +41,7 @@ namespace dnnc {
 /*! and then apply \f$ Y[n, c, d1, ..., dk] = X[n, c, d1, ...,
  * dk]/\begin{pmatrix}bias + \alpha*square\_sum[n, c, d1, ..., dk]
  * \end{pmatrix}^{beta} \f$ */
-template <typename T> class LRN : public baseOperator<T> {
+template <typename T> class LRN : public baseOperator<T, T, T> {
 protected:
   float alpha = 0.0001; /*!< Scaling parameter.*/
   float beta = 0.75;    /*!< The exponent.*/
@@ -51,7 +51,7 @@ protected:
 public:
   LRN(int size, std::string name = "opLRN", float alpha = 0.0001,
       float beta = 0.75, float bias = 1.0)
-      : baseOperator<T>(opLRN, name) {
+      : baseOperator<T, T, T>(opLRN, name) {
     this->alpha = alpha;
     this->beta = beta;
     this->bias = bias;
@@ -82,7 +82,7 @@ public:
     C is the number of channels, and H and W are the height and the width of the data.
     For non image case, the dimensions are in the form of  \f$(N * C * D1 * D2* ...* Dn)\f$,
      where N is the batch size.*/) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Atan : public baseOperator<T> {
+template <typename T> class Atan : public baseOperator<T, T, T> {
 
 public:
-  Atan(std::string name = "opAtan") : baseOperator<T>(opAtan, name) {}
+  Atan(std::string name = "opAtan") : baseOperator<T, T, T>(opAtan, name) {}
 
   tensor<T> compute(tensor<T> &a) {
 

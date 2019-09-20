@@ -32,14 +32,15 @@ namespace dnnc {
  * {Softmax}(x_{i}) = \frac{\exp(x_i)}{\sum_j \exp(x_j)} \f$ elementwise on the
  * input tensor A .
  */
-template <typename T> class Softmax : public baseOperator<T> {
+template <typename T> class Softmax : public baseOperator<T, T, T> {
   //  Softmax attributes
 
 protected:
   int axis = 1; /*!< : Attribute : axis (default axis=1)*/
 
 public:
-  Softmax(std::string name = "opSoftmax") : baseOperator<T>(opSoftmax, name) {}
+  Softmax(std::string name = "opSoftmax")
+      : baseOperator<T, T, T>(opSoftmax, name) {}
 
   bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_axis) {
@@ -55,7 +56,7 @@ public:
   }
 
   tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Softmax operator.*/) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
@@ -64,7 +65,7 @@ public:
 
       tensor<T> result(a.shape()[0], a.shape()[1]);
 
-      DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+      DNNC_EIGEN_MATRIX(eigenMatrixA, T, a);
 
       if (axis == 1) {
         int i, j;

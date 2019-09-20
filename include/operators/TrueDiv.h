@@ -34,7 +34,8 @@ namespace dnnc {
    tensors of same size. This operator supports multidirectional (i.e.,
    Numpy-style) broadcasting.*/
 
-template <typename T> class TrueDiv : public baseOperator<T> {
+template <typename To, typename Ti>
+class TrueDiv : public baseOperator<To, Ti, Ti> {
   template <typename Scalar>
   inline DNNC_EIGEN_VECTOR_CTOR(float)
       eigenArrayDiv(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
@@ -52,15 +53,16 @@ template <typename T> class TrueDiv : public baseOperator<T> {
   }
 
 public:
-  TrueDiv(std::string name = "opTrueDiv") : baseOperator<T>(opTrueDiv, name) {}
+  TrueDiv(std::string name = "opTrueDiv")
+      : baseOperator<To, Ti, Ti>(opTrueDiv, name) {}
 
-  tensor<float> compute(tensor<T> a /*!< : N D tensor input*/,
-                        tensor<T> b /*!< : N D tensor input*/) {
+  tensor<To> compute(tensor<Ti> a /*!< : N D tensor input*/,
+                     tensor<Ti> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<float> result(resultShape);
 
-    if (!(this->template type_check<float, double, int>()))
+    if (!(this->template type_check<float, double, int>(typeid(Ti))))
       throw std::invalid_argument(
           "Constrain input and output types to numeric tensors.");
 
@@ -68,8 +70,8 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for TrueDiv operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
 
     DNNC_EIGEN_VECTOR_CTOR(float) eResult;
 

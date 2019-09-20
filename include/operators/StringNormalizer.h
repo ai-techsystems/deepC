@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class StringNormalizer : public baseOperator<T> {
+template <typename T> class StringNormalizer : public baseOperator<T, T, T> {
   //  StringNormalizer attributes
 public:
   StringNormalizer(std::string name = "opStringNormalizer")
-      : baseOperator<T>(opStringNormalizer, name) {}
+      : baseOperator<T, T, T>(opStringNormalizer, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

@@ -29,31 +29,32 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class And : public baseOperator<T> {
+template <typename To, typename Ti>
+class And : public baseOperator<To, Ti, Ti> {
   //  And attributes
 public:
-  And(std::string name = "opAnd") : baseOperator<T>(opAnd, name) {}
+  And(std::string name = "opAnd") : baseOperator<To, Ti, Ti>(opAnd, name) {}
 
-  tensor<bool> compute(tensor<T> a, tensor<T> b) {
+  tensor<To> compute(tensor<Ti> a, tensor<Ti> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<bool> result(resultShape);
+    tensor<To> result(resultShape);
 
-    // if (!(this->template type_check<bool>()))
-    //   throw std::invalid_argument(
-    //     "Constrain input and output types to bool tensors.");
+    if (!(this->template type_check<bool>(typeid(Ti))))
+      throw std::invalid_argument("Constrain input tensors to bool types.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Or operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(To) eResult;
 
     eResult.array() = eigenVectorA.template cast<bool>().array() &&
                       eigenVectorB.template cast<bool>().array();
+
     result.load(eResult.data());
 
     return result;

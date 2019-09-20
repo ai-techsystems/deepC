@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class NonMaxSuppression : public baseOperator<T> {
+template <typename T> class NonMaxSuppression : public baseOperator<T, T, T> {
   //  NonMaxSuppression attributes
 public:
   NonMaxSuppression(std::string name = "opNonMaxSuppression")
-      : baseOperator<T>(opNonMaxSuppression, name) {}
+      : baseOperator<T, T, T>(opNonMaxSuppression, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

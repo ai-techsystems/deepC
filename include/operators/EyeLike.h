@@ -40,7 +40,7 @@ default, the main diagonal is populated with ones, but attribute
 /*! \f$ A_{(i,j)}=1\;,\;\;\;for\;\;i=j-k\;;\\A_{(i,j)}=0\;,\;\;\;for\;\;i\neq
  * j-k \f$*/
 
-template <typename T> class EyeLike : public baseOperator<T> {
+template <typename T> class EyeLike : public baseOperator<T, T, T> {
 protected:
   int k = 0; /*!< (Optional) Index of the diagonal to be populated
                with ones. Default is 0. If T2 is the output, this
@@ -50,7 +50,7 @@ protected:
 
 public:
   EyeLike(std::string name = "opEyeLike", int k = 0)
-      : baseOperator<T>(opEyeLike, name) {
+      : baseOperator<T, T, T>(opEyeLike, name) {
     this->k = k;
   }
 

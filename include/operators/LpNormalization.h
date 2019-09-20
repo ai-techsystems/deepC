@@ -35,7 +35,8 @@ namespace dnnc {
     \f$ \left \| x \right \|_{1} = \sum_{i=1}^{n}\left | x_{i} \right | \f$ */
 /* \f$ \left \| x \right \|_{2} = \sum_{i=1}^{n}\sqrt{\left ( x_{i} \right
  * )^{2}} \f$ */
-template <typename T> class LpNormalization : public baseOperator<T> {
+
+template <typename T> class LpNormalization : public baseOperator<T, T, T> {
   //  LpNormalization attributes
 protected:
   int p = 2; /*!< p value of the Lp norm used to pool over the input data.Only
@@ -46,7 +47,7 @@ protected:
 public:
   LpNormalization(std::string name = "opLpNormalization", int p = 2,
                   int axis = -1)
-      : baseOperator<T>(opLpNormalization, name) {
+      : baseOperator<T, T, T>(opLpNormalization, name) {
     this->p = p;
     this->axis = axis;
   }
@@ -63,7 +64,7 @@ public:
   }
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: 2D tensor*/) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     if (a.rank() != 2) {
@@ -77,7 +78,7 @@ public:
 
     tensor<T> result(a.shape(), a.name());
 
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
+    DNNC_EIGEN_MATRIX(eigenMatrixA, T, a);
 
     if (axis == 0 && p == 1) {
       int i, j;

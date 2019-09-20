@@ -3,9 +3,10 @@
 
 ## 📛 Introduction 
 
-dnn Compiler is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like FPGAs, eFPGAs and other embedded devices like raspberry-pi, odroid, arduino, risc-V and others.
+dnn Compiler is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like FPGAs, eFPGAs and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ) and others.
 
 dnn Compiler is ahead of time compiler producing optimized executable based on [LLVM compiler tool chain](https://llvm.org/) and [openAcc](https://www.openacc.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
+
 
 ## 📝 Design
 
@@ -15,7 +16,7 @@ Main component of **dnn Compiler** has been designed to represent and optimize t
 
 Read more at [high level design document](docs/highLevelDesign.md) 
 
-## PreRequisites
+## 💧 PreRequisites
 
 * [ONNX](https://github.com/onnx/onnx#installation)
 * [LLVM](https://apt.llvm.org)
@@ -45,11 +46,21 @@ make
 
 #### 📜 Output
 ```
-[ 50%] Building CXX object CMakeFiles/dnnc.dir/src/main.cc.o
-[ 66%] Building CXX object CMakeFiles/dnnc.dir/onnx-operators.pb.cc.o
-[ 83%] Building CXX object CMakeFiles/dnnc.dir/onnx.pb.cc.o
-[100%] Linking CXX executable dnnc
-[100%] Built target dnnc
+find include src swig -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
+make -C src
+make[1]: Entering directory 'dnnCompiler/src'
+make -C core
+make[2]: Entering directory 'dnnCompiler/src/core'
+compiling broadcast.cpp
+/usr/bin/g++ -O3 -Wall -std=c++14 -fPIC -march=native -msse2 \
+    -isystem ./packages/eigen-eigen-323c052e1731 -I./include \
+    -c broadcast.cpp -o obj/broadcast.o
+compiling tensor.cpp
+...
+...
+/usr/bin/g++ -shared  ./obj/dnnc_swig.o ./obj/dnnc_pyutils.o ./obj/dnnc_api.o -o lib/libdnnc.so
+ln -s -f lib/libdnnc.so _dnnc.so
+/usr/bin/python3 ../test/swig/basic.py
 ```
 
 ## 🏃‍♂️ Usage
@@ -65,6 +76,8 @@ reading CNTK graph from mnist/model.onnx
 populating graph ...
 ```
 
+---
+
 ## ➕ Contribute
 
 dnn Compiler adopts apache committer model, we aim to create an open source project that is maintained and owned by the community. Checkout the Contributor Guide.
@@ -72,7 +85,12 @@ dnn Compiler adopts apache committer model, we aim to create an open source proj
 ## 🙏 Acknowledgement 
 We acknowledge the efforts predecessor projects like [LLVM](https://llvm.org/), [ONNX](https://onnx.ai/) etc. to make this project a reality.
 
-
 ---
+
+## 🕵️‍♂️ Why compiler❔
+dnnCompiler is targeted towards devices with small formfactor like microcontrollers, which are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable. 
+
+By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
+
 
 **🚧 Project Under Development.** *Stay tuned. We plan to release the first version in the third quarter of 2019.*

@@ -28,26 +28,26 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Or : public baseOperator<T> {
+template <typename To, typename Ti> class Or : public baseOperator<To, Ti, Ti> {
   //  Or attributes
 public:
-  Or(std::string name = "opOr") : baseOperator<T>(opOr, name) {}
+  Or(std::string name = "opOr") : baseOperator<To, Ti, Ti>(opOr, name) {}
 
-  tensor<bool> compute(tensor<T> a, tensor<T> b) {
+  tensor<To> compute(tensor<Ti> a, tensor<Ti> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
-    // if (!(this->template type_check<bool>()))
-    //   throw std::invalid_argument(
-    //     "Constrain input and output types to bool tensors.");
+    // if (!(this->template type_check<bool>(typeid(Ti))))
+    //  throw std::invalid_argument(
+    //      "Constrain input and output types to bool tensors.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Or operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
 
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
 

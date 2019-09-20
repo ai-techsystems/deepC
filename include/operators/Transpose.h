@@ -28,18 +28,18 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Transpose : public baseOperator<T> {
+template <typename T> class Transpose : public baseOperator<T, T, T> {
   //  Transpose attributes
 public:
   Transpose(std::string name = "opTranspose")
-      : baseOperator<T>(opTranspose, name) {}
+      : baseOperator<T, T, T>(opTranspose, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   tensor<T> compute(tensor<T> &a) {
 
     tensor<T> result(a.shape(), a.name());
-    DNNC_EIGEN_MATRIX(eigenMatrix, a);
+    DNNC_EIGEN_MATRIX(eigenMatrix, T, a);
     // DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     Matrix<T, Dynamic, Dynamic, RowMajor> eResult(a.shape()[0], a.shape()[1]);
     eResult = eigenMatrix.transpose();

@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class QLinearConv : public baseOperator<T> {
+template <typename T> class QLinearConv : public baseOperator<T, T, T> {
   //  QLinearConv attributes
 public:
   QLinearConv(std::string name = "opQLinearConv")
-      : baseOperator<T>(opQLinearConv, name) {}
+      : baseOperator<T, T, T>(opQLinearConv, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
