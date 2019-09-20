@@ -29,10 +29,10 @@ using namespace Eigen;
 
 namespace dnnc {
 /*! Identity operator*/
-template <typename T> class Identity : public baseOperator<T> {
+template <typename T> class Identity : public baseOperator<T, T, T> {
 public:
   Identity(std::string name = "opIdentity")
-      : baseOperator<T>(opIdentity, name) {}
+      : baseOperator<T, T, T>(opIdentity, name) {}
   tensor<T> compute(tensor<T> &a /*!< Input tensor */) { return a; }
   /*!<
   \return Tensor to copy input into.

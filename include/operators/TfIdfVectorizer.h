@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class TfIdfVectorizer : public baseOperator<T> {
+template <typename T> class TfIdfVectorizer : public baseOperator<T, T, T> {
   //  TfIdfVectorizer attributes
 public:
   TfIdfVectorizer(std::string name = "opTfIdfVectorizer")
-      : baseOperator<T>(opTfIdfVectorizer, name) {}
+      : baseOperator<T, T, T>(opTfIdfVectorizer, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

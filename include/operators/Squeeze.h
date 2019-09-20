@@ -28,10 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Squeeze : public baseOperator<T> {
+template <typename T> class Squeeze : public baseOperator<T, T, T> {
   //  Squeeze attributes
 public:
-  Squeeze(std::string name = "opSqueeze") : baseOperator<T>(opSqueeze, name) {}
+  Squeeze(std::string name = "opSqueeze")
+      : baseOperator<T, T, T>(opSqueeze, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

@@ -23,7 +23,7 @@
 #
 
 # TensorProto.DataType
-# reference: onnx/onnx.proto3, like 319
+# reference: onnx/onnx.proto3, line 319
 UNDEFINED = 0;
 FLOAT = 1;   # float
 UINT8 = 2;   # uint8_t

@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ReduceSum : public baseOperator<T> {
+template <typename T> class ReduceSum : public baseOperator<T, T, T> {
   //  ReduceSum attributes
 public:
   ReduceSum(std::string name = "opReduceSum")
-      : baseOperator<T>(opReduceSum, name) {}
+      : baseOperator<T, T, T>(opReduceSum, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

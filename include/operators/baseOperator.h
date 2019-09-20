@@ -269,31 +269,32 @@ enum OPATTR {
   attr_weights
 };
 
-template <typename T> class baseOperator {
+template <typename To, typename Ti1, typename Ti2> class baseOperator {
 protected:
   OPCODE _op;
   std::string _name;
 
-  T *tensorMem(tensor<T> &t) { return t._mem_layout; }
+  template <typename T> T *tensorMem(tensor<T> &t) { return t._mem_layout; }
 
 public:
   baseOperator(OPCODE op, std::string name = "") : _op(op), _name(name) {}
 
+  virtual ~baseOperator() {}
+
   /*!< return name of the operator */
-  inline std::string name() { return _name; }
+  virtual inline std::string name() { return _name; }
   /*!< return OPCODE of the operator */
-  inline OPCODE symbol() { return _op; }
+  virtual inline OPCODE symbol() { return _op; }
 
   template <typename attrType>
   bool getAttribute(OPATTR attrName, attrType &obj);
 
-  /*!< Constrain input and output types for onnx.*/
-  template <typename... Types> bool type_check() {
+  template <typename... Types> bool type_check(const std::type_info &typi) {
     std::vector<std::type_index> allowed_types;
     allowed_types.insert(allowed_types.end(), {typeid(Types)...});
     bool checker = false;
     for (size_t i = 0; i < allowed_types.size(); i++) {
-      checker = (allowed_types[i] == std::type_index(typeid(T)));
+      checker = (allowed_types[i] == std::type_index(typi));
       if (checker)
         break;
     }
@@ -303,18 +304,22 @@ public:
   /*!<
    \return True if T is one of the types specified else False
    */
-  void compute(void);
-  tensor<T> compute(tensor<T> in1);
-  tensor<T> compute(tensor<T> &in1);
-  tensor<T> compute(tensor<T> in1, tensor<T> in2);
-  tensor<T> compute(tensor<T> &in1, tensor<T> &in2);
+  tensor<To> NOT_SUPPORTED() {
+    throw std::invalid_argument("operator not supported.");
+    return tensor<To>();
+  }
+  virtual tensor<To> compute(tensor<Ti1> in1) { return NOT_SUPPORTED(); }
+  virtual tensor<To> compute(tensor<Ti1> &in1) { return NOT_SUPPORTED(); }
+  virtual tensor<To> compute(tensor<Ti1> in1, tensor<Ti2> in2) {
+    return NOT_SUPPORTED();
+  }
 };
 
-template <typename T> struct opCmp {
-  bool operator()(const baseOperator<T> &lhs, const baseOperator<T> &rhs) {
+template <typename To, typename Ti1, typename Ti2> struct opCmp {
+  bool operator()(const baseOperator<To, Ti1, Ti2> &lhs,
+                  const baseOperator<To, Ti1, Ti2> &rhs) {
     return lhs.symbol() == rhs.symbol() ? lhs.name() < rhs.name()
                                         : lhs.symbol() < rhs.symbol();
   }
 };
-
 } // namespace dnnc

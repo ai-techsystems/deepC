@@ -237,6 +237,8 @@ namespace dnnc {
 		 less_equal(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
 		 thresholded_relu(tensor<float> &a) ;
+	extern tensor<double> \
+		 thresholded_relu(tensor<double> &a) ;
 	extern tensor<int> \
 		 mul(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \

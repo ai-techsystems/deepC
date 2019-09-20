@@ -28,23 +28,23 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Reciprocal : public baseOperator<T> {
+template <typename T> class Reciprocal : public baseOperator<T, T, T> {
   //  Reciprocal attributes
 public:
   Reciprocal(std::string name = "opReciprocal")
-      : baseOperator<T>(opReciprocal, name) {}
+      : baseOperator<T, T, T>(opReciprocal, name) {}
 
   static T reciprocal_function(T x) { return (x > 0) ? (1 / x) : x; }
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   tensor<T> compute(tensor<T> &a) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape());
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     // eResult.array() = eigenVector.array().unaryExpr(reciprocal_function);

@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Loop : public baseOperator<T> {
+template <typename T> class Loop : public baseOperator<T, T, T> {
   //  Loop attributes
 public:
-  Loop(std::string name = "opLoop") : baseOperator<T>(opLoop, name) {}
+  Loop(std::string name = "opLoop") : baseOperator<T, T, T>(opLoop, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

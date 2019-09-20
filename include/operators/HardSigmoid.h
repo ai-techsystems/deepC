@@ -30,7 +30,7 @@ namespace dnnc {
 /*!  Applies HardSigmoid function \f$ y=\max (0,\min(1,alpha*x+beta)) \f$
  * elementwise
  */
-template <typename T> class HardSigmoid : public baseOperator<T> {
+template <typename T> class HardSigmoid : public baseOperator<T, T, T> {
 protected:
   float alpha = 0.2;
   float beta = 0.5;
@@ -38,7 +38,7 @@ protected:
 public:
   HardSigmoid(std::string name = "opHardSigmoid", float alpha = 0.2,
               float beta = 0.5)
-      : baseOperator<T>(opHardSigmoid, name) {
+      : baseOperator<T, T, T>(opHardSigmoid, name) {
     this->alpha = alpha;
     this->beta = beta;
   }
@@ -60,12 +60,12 @@ public:
   }
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     tensor<T> result(a.shape(), a.name());
     // max(0, min(1, alpha * x + beta))
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     auto c0 = std::bind(Hard_Sigmoid, std::placeholders::_1, alpha, beta);
     eResult.array() = eigenVector.array().unaryExpr(c0);

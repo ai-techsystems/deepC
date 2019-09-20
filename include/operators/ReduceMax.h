@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ReduceMax : public baseOperator<T> {
+template <typename T> class ReduceMax : public baseOperator<T, T, T> {
   //  ReduceMax attributes
 public:
   ReduceMax(std::string name = "opReduceMax")
-      : baseOperator<T>(opReduceMax, name) {}
+      : baseOperator<T, T, T>(opReduceMax, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

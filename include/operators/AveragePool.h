@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class AveragePool : public baseOperator<T> {
+template <typename T> class AveragePool : public baseOperator<T, T, T> {
   //  AveragePool attributes
 public:
   AveragePool(std::string name = "opAveragePool")
-      : baseOperator<T>(opAveragePool, name) {}
+      : baseOperator<T, T, T>(opAveragePool, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

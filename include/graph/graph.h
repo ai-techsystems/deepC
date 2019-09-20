@@ -22,6 +22,7 @@
 //
 #pragma once
 #include <graph/node.h>
+#include <set>
 
 namespace dnnc {
 /*!< This is a directed graph representing data flow graph
@@ -31,9 +32,9 @@ namespace dnnc {
  */
 class graph {
 protected:
-  string _name;
-  set<const node, nodeCmp> _nodeSet;
-  set<const edge, edgeCmp> _edgeSet;
+  std::string _name;
+  std::set<const node, nodeCmp> _nodeSet;
+  std::set<const edge, edgeCmp> _edgeSet;
 
   // prohibited methods for singleton instance
   graph() {}

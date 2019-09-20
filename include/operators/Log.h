@@ -30,18 +30,18 @@ using namespace Eigen;
 namespace dnnc {
 /*! Calculates the natural logarithm of the given input tensor, element-wise.
 \f$ y = \ln \left ( x \right ) \f$ */
-template <typename T> class Log : public baseOperator<T> {
+template <typename T> class Log : public baseOperator<T, T, T> {
 
 public:
-  Log(std::string name = "opLog") : baseOperator<T>(opLog, name) {}
+  Log(std::string name = "opLog") : baseOperator<T, T, T>(opLog, name) {}
 
   tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = log(eigenVector.array());

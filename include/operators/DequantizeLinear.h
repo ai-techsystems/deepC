@@ -35,10 +35,11 @@ namespace dnnc {
 /*! Constraints: \f$x_{scale}\f$ and \f$x_{0}\f$ must have same shape.
  \f$x_{0}\f$ and \f$ x \f$ must have same type (8-bit/32-bit integer tensor)*/
 
-template <typename T> class DequantizeLinear : public baseOperator<T> {
+template <typename To, typename Ti>
+class DequantizeLinear : public baseOperator<To, Ti, Ti> {
 public:
   DequantizeLinear(std::string name = "opDequantizeLinear")
-      : baseOperator<T>(opDequantizeLinear, name) {}
+      : baseOperator<To, Ti, Ti>(opDequantizeLinear, name) {}
 
   /*
   static T dequantize_linear_function (T a, float a_scale, float a_zero_point) {
@@ -51,10 +52,10 @@ public:
   }
   */
 
-  tensor<float>
-  compute(tensor<int> &a /*!<N-D quantized input tensor to be de-quantized*/,
+  tensor<To>
+  compute(tensor<Ti> &a /*!<N-D quantized input tensor to be de-quantized*/,
           tensor<float> &x_scale /*!<Scalar tensor*/,
-          tensor<int> &x_zero_point /*!<Scalar tensor*/) {
+          tensor<Ti> &x_zero_point /*!<Scalar tensor*/) {
     if (x_scale.shape() != x_zero_point.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for DequantizeLinear operator.");

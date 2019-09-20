@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class MaxUnpool : public baseOperator<T> {
+template <typename T> class MaxUnpool : public baseOperator<T, T, T> {
   //  MaxUnpool attributes
 public:
   MaxUnpool(std::string name = "opMaxUnpool")
-      : baseOperator<T>(opMaxUnpool, name) {}
+      : baseOperator<T, T, T>(opMaxUnpool, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

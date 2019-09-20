@@ -216,7 +216,7 @@ tensor<output> matmul(tensor<input> &a, tensor<input> &b) {
 }
 
 tensor<output> add(tensor<input> &a, tensor<input> &b) {
-	Add<input> op;
+	Add<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "double",
@@ -226,7 +226,7 @@ tensor<output> add(tensor<input> &a, tensor<input> &b) {
 }
 
 tensor<output> logical_and(tensor<input> &a, tensor<input> &b) {
-	And<input> op;
+	And<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "bool",
@@ -236,9 +236,13 @@ tensor<output> logical_and(tensor<input> &a, tensor<input> &b) {
 	}
 }
 
-tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) {
-	DequantizeLinear<int> op;
+tensor<output> dequantize_linear(tensor<input> &a, tensor<float> &b, tensor<input> &c) {
+	DequantizeLinear<output, input> op;
 	return op.compute(a, b, c);
+	dtype = {
+		"int" : "float",
+		"int" : "float"
+	}
 }
 
 tensor<output> div(tensor<input> &a, tensor<input> &b) {
@@ -252,7 +256,7 @@ tensor<output> div(tensor<input> &a, tensor<input> &b) {
 }
 
 tensor<output> floor_div(tensor<input> &a, tensor<input> &b) {
-	FloorDiv<input> op;
+	FloorDiv<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "int",
@@ -262,7 +266,7 @@ tensor<output> floor_div(tensor<input> &a, tensor<input> &b) {
 }
 
 tensor<output> true_div(tensor<input> &a, tensor<input> &b) {
-	TrueDiv<input> op;
+	TrueDiv<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "float",
@@ -281,7 +285,7 @@ tensor<output> elu(tensor<input> &a, float alpha = 1.0) {
 }
 
 tensor<output> equal(tensor<input> &a, tensor<input> &b) {
-	Equal<input> op;
+	Equal<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "bool",
@@ -377,7 +381,7 @@ tensor<output> global_max_pool(tensor<input> &a) {
 }
 
 tensor<output> greater(tensor<input> &a, tensor<input> &b) {
-  Greater<input> op;
+  Greater<output, input> op;
   return op.compute(a, b);
   dtype = {
     "int" : "bool",
@@ -387,7 +391,7 @@ tensor<output> greater(tensor<input> &a, tensor<input> &b) {
 }
 
 tensor<output> greater_equal(tensor<input> &a, tensor<input> &b) {
-  GreaterEqual<input> op;
+  GreaterEqual<output, input> op;
   return op.compute(a, b);
   dtype = {
     "int" : "bool",
@@ -435,7 +439,7 @@ tensor<output> instancenormalization(tensor<input> &a, tensor<input> &scale,tens
 }
 
 tensor<output> isinf(tensor<input> &a, int detect_positive = 1,int detect_negative = 1) {
-  IsInf<input> op("localOpName", detect_positive, detect_negative);
+  IsInf<output, input> op("localOpName", detect_positive, detect_negative);
   return op.compute(a);
   dtype = {
     "float" : "bool",
@@ -444,7 +448,7 @@ tensor<output> isinf(tensor<input> &a, int detect_positive = 1,int detect_negati
 }
 
 tensor<output> isnan(tensor<input> &a) {
-  IsNaN<input> op;
+  IsNaN<output, input> op;
   return op.compute(a);
   dtype = {
     "float" : "bool",
@@ -471,7 +475,7 @@ tensor<output> leakyrelu(tensor<input> &a, float alpha = 0.01) {
 }
 
 tensor<output> less(tensor<input> &a, tensor<input> &b) {
-  Less<input> op;
+  Less<output, input> op;
   return op.compute(a, b);
   dtype = {
     "int" : "bool",
@@ -564,7 +568,7 @@ tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod_flag = 0) {
 }
 
 tensor<output> less_equal(tensor<input> &a, tensor<input> &b) {
-  LessEqual<input> op;
+  LessEqual<output, input> op;
   return op.compute(a, b);
   dtype = {
     "int" : "bool",
@@ -573,9 +577,13 @@ tensor<output> less_equal(tensor<input> &a, tensor<input> &b) {
   }
 }
 
-tensor<float> thresholded_relu(tensor<float> &a) {
-	ThresholdedRelu<float> op;
-	return op.compute(a);
+tensor<output> thresholded_relu(tensor<input> &a) {
+  ThresholdedRelu<output> op;
+  return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
 }
 
 tensor<output> mul(tensor<input> &a, tensor<input> &b) {
@@ -599,7 +607,7 @@ tensor<output> neg(tensor<input> &a) {
 }
 
 tensor<output> not_equal(tensor<input> &a, tensor<input> &b) {
-	NotEqual<input> op;
+	NotEqual<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "bool",
@@ -610,7 +618,7 @@ tensor<output> not_equal(tensor<input> &a, tensor<input> &b) {
 }
 
 tensor<output> logical_not(tensor<input> &a) {
-	Not<input> op;
+	Not<output, input> op;
 	return op.compute(a);
 	dtype = {
 		"double" : "bool",
@@ -621,7 +629,7 @@ tensor<output> logical_not(tensor<input> &a) {
 }
 
 tensor<output> logical_or(tensor<input> &a, tensor<input> &b) {
-	Or<input> op;
+	Or<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "bool",
@@ -670,7 +678,7 @@ tensor<output> tanh(tensor<input> &a) {
 }
 
 tensor<output> logical_xor(tensor<input> &a, tensor<input> &b) {
-	Xor<input> op;
+	Xor<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "bool",

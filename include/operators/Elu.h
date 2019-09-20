@@ -36,13 +36,13 @@ namespace dnnc {
 /*! And this formulation became part of dnn compiler operator implementation.
  * The operator is O(n) where n = Number of elements in the tensor*/
 
-template <typename T> class Elu : public baseOperator<T> {
+template <typename T> class Elu : public baseOperator<T, T, T> {
 protected:
   float alpha = 1.0; /*!< Coefficient of ELU. */
 
 public:
   Elu(std::string name = "opElu", float alpha = 1.0)
-      : baseOperator<T>(opElu, name) {
+      : baseOperator<T, T, T>(opElu, name) {
     this->alpha = alpha;
   }
 
@@ -60,7 +60,7 @@ public:
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
@@ -70,7 +70,7 @@ public:
 
     tensor<T> result(a.shape(), a.name());
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     auto c0 = std::bind(elu_function, std::placeholders::_1, alpha);
     eResult.array() = eigenVector.array().unaryExpr(c0);

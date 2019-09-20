@@ -25,13 +25,16 @@
 # CORE must be first, all others depend on CORE
 MAKEFLAGS += -j8
 
-all:CORE OPERATORS
+all:CORE OPERATORS GRAPH
 
 CORE:
 	$(MAKE) -C core
 
 OPERATORS: CORE
 	$(MAKE) -C operators
+
+GRAPH: OPERATORS
+	$(MAKE) -C graph
 
 clean:
 	$(MAKE) -C core clean

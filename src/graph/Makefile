@@ -23,7 +23,6 @@
 #
 include ../../Makefile.common
 
-#MODULE=$(shell ${CURDIR})
 MODULE=graph
 LIB=$(LIB_DIR)/lib$(MODULE).so
 

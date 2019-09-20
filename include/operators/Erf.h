@@ -31,18 +31,18 @@ namespace dnnc {
 
 /*! Computes the error function of the given input tensor element-wise.*/
 
-template <typename T> class Erf : public baseOperator<T> {
+template <typename T> class Erf : public baseOperator<T, T, T> {
 public:
-  Erf(std::string name = "opErf") : baseOperator<T>(opErf, name) {}
+  Erf(std::string name = "opErf") : baseOperator<T, T, T>(opErf, name) {}
 
   tensor<T> compute(tensor<T> &a /*!< : N D tensor input*/) {
     tensor<T> result(a.shape(), a.name());
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = erf(eigenVector.array());

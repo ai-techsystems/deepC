@@ -33,19 +33,19 @@ namespace dnnc {
  where the floor is, \f$y = floor(x)\f$ The function is applied to the tensor
  elementwise.*/
 
-template <typename T> class Floor : public baseOperator<T> {
+template <typename T> class Floor : public baseOperator<T, T, T> {
 public:
-  Floor(std::string name = "opFloor") : baseOperator<T>(opFloor, name) {}
+  Floor(std::string name = "opFloor") : baseOperator<T, T, T>(opFloor, name) {}
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = floor(eigenVector.array());

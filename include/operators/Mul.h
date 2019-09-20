@@ -28,18 +28,18 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Mul : public baseOperator<T> {
+template <typename T> class Mul : public baseOperator<T, T, T> {
   //  Mul attributes
 public:
-  Mul(std::string name = "opMul") : baseOperator<T>(opMul, name) {}
+  Mul(std::string name = "opMul") : baseOperator<T, T, T>(opMul, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
   tensor<T> compute(tensor<T> &a, tensor<T> &b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);
 
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 

@@ -28,8 +28,11 @@
 using namespace dnnc;
 
 int main() {
-  Add<float> op;
-  node<float, int, int> node(baseOperator<float *> op);
+  Add<float, float> *op = new Add<float, float>("graph node");
+  baseOperator<float, float, float> *bop = op;
+  node add1(op);
+  node add2(bop);
+  std::cout << bop << std::endl;
   return 0;
 }
 

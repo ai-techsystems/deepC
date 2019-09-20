@@ -39,15 +39,15 @@
 namespace dnnc {
 typedef size_t INDEX;
 typedef size_t DIMENSION;
-enum INIT_TYPE { INIT_NONE = 0, INIT_RANDOM, INIT_ZERO, INIT_ONE };
+enum INIT_TYPE { INIT_NONE = 0, INIT_RANDOM, INIT_ZERO, INIT_ONE, INIT_VALUE };
 
-template <typename T> class baseOperator;
+template <class To, class Ti1, class Ti2> class baseOperator;
 template <typename T> class tensor;
 template <typename T> static tensor<T> NULL_TENSOR;
 
 // Tensor with arbitrary rank.
 template <typename T> class tensor {
-  friend class baseOperator<T>;
+  template <class To, class Ti1, class Ti2> friend class baseOperator;
 
 protected:
   //////////// protected members /////////////////
@@ -75,7 +75,7 @@ protected:
 
   /// \brief only constructors call init method. Argument type
   /// INIT_TYPE initializes _mem_layout to 0, 1, random or uninitialized.
-  void init(INIT_TYPE fill = INIT_NONE) {
+  void init(INIT_TYPE fill = INIT_NONE, T val = 0) {
 
     init_ref();
 
@@ -99,6 +99,9 @@ protected:
     } else if (fill == INIT_ONE) {
       for (size_t i = 0; i < msize; i++)
         _mem_layout[i] = static_cast<T>(1);
+    } else if (fill == INIT_VALUE) {
+      for (size_t i = 0; i < msize; i++)
+        _mem_layout[i] = val;
     }
   }
 
@@ -108,14 +111,14 @@ public:
   /// CTOR 1: Use this contructor with shape vector and to initialize
   ///         with zero, one, or random numbers.
   tensor(std::vector<DIMENSION> dimn, std::string n = "",
-         INIT_TYPE fill = INIT_NONE)
+         INIT_TYPE fill = INIT_NONE, T init_val = 0)
       : _ref(0x0), _mem_layout(0x0), _name(n), _shape(dimn) {
-    init(fill);
+    init(fill, init_val);
   }
   /// CTOR 1a: Use this contructor with upto 4 dimensions to initialize with
   ///          zero, one, or random numbers.
   tensor(DIMENSION x = 0, DIMENSION y = 0, DIMENSION z = 0, DIMENSION w = 0,
-         std::string n = "", INIT_TYPE fill = INIT_NONE)
+         std::string n = "", INIT_TYPE fill = INIT_NONE, T init_val = 0)
       : _ref(0x0), _mem_layout(0x0), _name(n) {
     if (x) {
       _shape.push_back(x);
@@ -126,7 +129,7 @@ public:
       if (w)
         _shape.push_back(w);
     }
-    init(fill);
+    init(fill, init_val);
   }
   /// USE WITH CAUTION.
   /// CTOR 2: Use this contructor to handover the externally allocated and
@@ -161,8 +164,16 @@ public:
   }
   /// \brief Comparison Operator
   bool operator==(const tensor &other) {
-    return _mem_layout == other._mem_layout && _shape == other._shape &&
-           _name == other._name;
+    if (_mem_layout == other._mem_layout) {
+      return _shape == other._shape ? true : false;
+    }
+    if (_shape != other._shape)
+      return false;
+    for (size_t i = 0; i < length(); i++) {
+      if (!(_mem_layout[i] == other._mem_layout[i]))
+        return false;
+    }
+    return true;
   }
   ~tensor() {
     if (_ref)

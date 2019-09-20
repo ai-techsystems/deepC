@@ -31,24 +31,24 @@ namespace dnnc {
 /*! Returns the tensor resulted from performing the sigmoid operation \f$ h(x) =
  * \frac{x }{\mathrm{1} + |x| } \f$ elementwise on the input tensor A .
  */
-template <typename T> class Softsign : public baseOperator<T> {
+template <typename T> class Softsign : public baseOperator<T, T, T> {
 protected:
 public:
   Softsign(std::string name = "opSoftsign")
-      : baseOperator<T>(opSoftsign, name) {}
+      : baseOperator<T, T, T>(opSoftsign, name) {}
 
   static T softsign_func(T x) { return (x / (1 + abs(x))); }
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Softsign operator.*/) {
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = eigenVector.array().unaryExpr(&softsign_func);

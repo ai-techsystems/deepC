@@ -28,10 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Concat : public baseOperator<T> {
+template <typename T> class Concat : public baseOperator<T, T, T> {
   //  Concat attributes
 public:
-  Concat(std::string name = "opConcat") : baseOperator<T>(opConcat, name) {}
+  Concat(std::string name = "opConcat")
+      : baseOperator<T, T, T>(opConcat, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
