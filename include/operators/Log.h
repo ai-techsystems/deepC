@@ -36,6 +36,7 @@ public:
   Log(std::string name = "opLog") : baseOperator<T, T, T>(opLog, name) {}
 
   tensor<T> compute(tensor<T> a /*!<[float,double]: ND tensor*/) {
+
     if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");

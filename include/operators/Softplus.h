@@ -29,6 +29,7 @@ namespace dnnc {
 /*! Returns the tensor resulted from performing the sigmoid operation \f$ h(x) =
  * \log({\mathrm{1} + e^x }) \f$ elementwise on the input tensor A .
  */
+
 template <typename T> class Softplus : public baseOperator<T, T, T> {
 protected:
 public:

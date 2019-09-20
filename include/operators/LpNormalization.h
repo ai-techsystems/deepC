@@ -35,6 +35,7 @@ namespace dnnc {
     \f$ \left \| x \right \|_{1} = \sum_{i=1}^{n}\left | x_{i} \right | \f$ */
 /* \f$ \left \| x \right \|_{2} = \sum_{i=1}^{n}\sqrt{\left ( x_{i} \right
  * )^{2}} \f$ */
+
 template <typename T> class LpNormalization : public baseOperator<T, T, T> {
   //  LpNormalization attributes
 protected:
