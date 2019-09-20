@@ -29,24 +29,25 @@ namespace dnnc {
 /*! Returns the tensor resulted from performing the sigmoid operation \f$ h(x) =
  * \log({\mathrm{1} + e^x }) \f$ elementwise on the input tensor A .
  */
-template <typename T> class Softplus : public baseOperator<T> {
+
+template <typename T> class Softplus : public baseOperator<T, T, T> {
 protected:
 public:
   Softplus(std::string name = "opSoftplus")
-      : baseOperator<T>(opSoftplus, name) {}
+      : baseOperator<T, T, T>(opSoftplus, name) {}
 
   static T softplus_func(T x) { return log(1 + exp(x)); }
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Softplus operator.*/) {
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = eigenVector.array().unaryExpr(&softplus_func);

@@ -34,9 +34,9 @@ namespace dnnc {
    same size. This operator supports multidirectional (i.e., Numpy-style)
    broadcasting.*/
 
-template <typename T> class Div : public baseOperator<T> {
+template <typename T> class Div : public baseOperator<T, T, T> {
 public:
-  Div(std::string name = "opDiv") : baseOperator<T>(opDiv, name) {}
+  Div(std::string name = "opDiv") : baseOperator<T, T, T>(opDiv, name) {}
 
   tensor<T> compute(tensor<T> a /*!< : N D tensor input*/,
                     tensor<T> b /*!< : N D tensor input*/) {
@@ -44,7 +44,7 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
 
-    if (!(this->template type_check<float, double, int>()))
+    if (!(this->template type_check<float, double, int>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to numeric tensors.");
 
@@ -52,8 +52,8 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Div operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);
 
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 

@@ -30,20 +30,20 @@ namespace dnnc {
 /*! Returns the tensor resulted from performing the sin operation \f$ h(x) =
  * \sqrt x \f$ elementwise on the input tensor A .
  */
-template <typename T> class Sqrt : public baseOperator<T> {
+template <typename T> class Sqrt : public baseOperator<T, T, T> {
 protected:
 public:
-  Sqrt(std::string name = "opSqrt") : baseOperator<T>(opSqrt, name) {}
+  Sqrt(std::string name = "opSqrt") : baseOperator<T, T, T>(opSqrt, name) {}
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Sqrt operator.*/) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = sqrt(eigenVector.array());

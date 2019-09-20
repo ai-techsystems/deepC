@@ -34,7 +34,7 @@ namespace dnnc {
  * from Element-wise max of each of the input tensors (
  * with Numpy-style broadcasting support).
  */
-template <typename T> class Max : public baseOperator<T> {
+template <typename T> class Max : public baseOperator<T, T, T> {
   //  Max attributes
   T maxEl(std::vector<T> &v) {
     T max = 0;
@@ -48,12 +48,12 @@ template <typename T> class Max : public baseOperator<T> {
   }
 
 public:
-  Max(std::string name = "opMax") : baseOperator<T>(opMax, name) {}
+  Max(std::string name = "opMax") : baseOperator<T, T, T>(opMax, name) {}
 
   tensor<T>
   compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

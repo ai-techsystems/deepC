@@ -28,9 +28,9 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Asin : public baseOperator<T> {
+template <typename T> class Asin : public baseOperator<T, T, T> {
 public:
-  Asin(std::string name = "opAsin") : baseOperator<T>(opAsin, name) {}
+  Asin(std::string name = "opAsin") : baseOperator<T, T, T>(opAsin, name) {}
 
   tensor<T> compute(tensor<T> &a) {
 

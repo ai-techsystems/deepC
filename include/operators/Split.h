@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Split : public baseOperator<T> {
+template <typename T> class Split : public baseOperator<T, T, T> {
   //  Split attributes
 public:
-  Split(std::string name = "opSplit") : baseOperator<T>(opSplit, name) {}
+  Split(std::string name = "opSplit") : baseOperator<T, T, T>(opSplit, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

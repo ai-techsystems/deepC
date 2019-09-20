@@ -28,20 +28,21 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Not : public baseOperator<T> {
+template <typename To, typename Ti>
+class Not : public baseOperator<To, Ti, Ti> {
   //  Not attributes
 public:
-  Not(std::string name = "opNot") : baseOperator<T>(opNot, name) {}
+  Not(std::string name = "opNot") : baseOperator<To, Ti, Ti>(opNot, name) {}
 
-  tensor<bool> compute(tensor<T> &a /*!< ND tensor*/) {
+  tensor<To> compute(tensor<Ti> &a /*!< ND tensor*/) {
 
-    // if (!(this->template type_check<bool>()))
+    // if (!(this->template type_check<bool>(typeid(Ti))))
     //   throw std::invalid_argument(
     //     "Constrain input and output types to bool tensors.");
 
     tensor<bool> result(a.shape(), a.name());
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, Ti, a);
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
     eResult.array() = !eigenVector.template cast<bool>().array();
     result.load(eResult.data());

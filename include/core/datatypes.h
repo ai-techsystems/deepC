@@ -27,30 +27,35 @@
 
 namespace dnnc {
 // enum for target machine.
-typedef enum DNNC_DataType {
-  DNNC_NOTYPE = 0,
-  DNNC_FLOAT = 1,
-  DNNC_DOUBLE = 2,
-  DNNC_INT32 = 3,
-  DNNC_UINT8 = 4,
-  DNNC_INT16 = 5,
-  DNNC_INT8 = 6,
-  DNNC_STRING = 7,
-  DNNC_INT64 = 9,
-  DNNC_BOOL = 10,
-  DNNC_QINT8 = 11,    // Quantized int8
-  DNNC_QUINT8 = 12,   // Quantized uint8
-  DNNC_QINT32 = 13,   // Quantized int32
-  DNNC_BFLOAT16 = 14, // Float32 truncated to 16 bits.
-  DNNC_QINT16 = 15,   // Quantized int16
-  DNNC_QUINT16 = 16,  // Quantized uint16
-  DNNC_UINT16 = 17,
-  DNNC_HALF = 19,
-  DNNC_UINT32 = 20,
-  DNNC_UINT64 = 21,
-  DNNC_RESOURCE = 22,
-  DNNC_VARIANT = 23,
-} DNNC_DataType;
+enum DNNC_DataType {
+  /*<! This code is for ONNX TensorProto.DataType
+       Reference: onnx/onnx.proto3, line 319 */
+  NOTYPE = 0,
+  FLOAT = 1,  /*!< float */
+  UINT8 = 2,  /*!< uint8_t */
+  INT8 = 3,   /*!< int8_t */
+  UINT16 = 4, /*!< uint16_t */
+  INT16 = 5,  /*!< int16_t */
+  INT32 = 6,  /*!< int32_t */
+  INT64 = 7,  /*!< int64_t */
+  STRING = 8, /*!< string */
+  BOOL = 9,   /*!< bool */
+
+  /*!< IEEE754 half-precision floating-point format (16 bits wide).
+       This format has 1 sign bit, 5 exponent bits, and 10 mantissa bits.*/
+  FLOAT16 = 10,
+  DOUBLE = 11,
+  UINT32 = 12,
+  UINT64 = 13,
+  COMPLEX64 = 14,  /*!< complex with float32 real and imaginary components */
+  COMPLEX128 = 15, /*!< complex with float64 real and imaginary components */
+
+  /*!< Non-IEEE floating-point format based on IEEE754 single-precision
+       floating-point number truncated to 16 bits.
+       This format has 1 sign bit, 8 exponent bits, and 7 mantissa bits. */
+  BFLOAT16 = 16
+
+};
 
 static const char *dtype_str[] = {
     "int8_t",      /* a */

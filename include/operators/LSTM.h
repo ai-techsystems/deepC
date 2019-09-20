@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class LSTM : public baseOperator<T> {
+template <typename T> class LSTM : public baseOperator<T, T, T> {
   //  LSTM attributes
 public:
-  LSTM(std::string name = "opLSTM") : baseOperator<T>(opLSTM, name) {}
+  LSTM(std::string name = "opLSTM") : baseOperator<T, T, T>(opLSTM, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

@@ -28,10 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Scatter : public baseOperator<T> {
+template <typename T> class Scatter : public baseOperator<T, T, T> {
   //  Scatter attributes
 public:
-  Scatter(std::string name = "opScatter") : baseOperator<T>(opScatter, name) {}
+  Scatter(std::string name = "opScatter")
+      : baseOperator<T, T, T>(opScatter, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

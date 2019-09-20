@@ -273,42 +273,42 @@ tensor<int> matmul(tensor<int> &a, tensor<int> &b) {
 }
 
 tensor<double> add(tensor<double> &a, tensor<double> &b) {
-	Add<double> op;
+	Add<double, double> op;
 	return op.compute(a, b);
 }
 
 tensor<float> add(tensor<float> &a, tensor<float> &b) {
-	Add<float> op;
+	Add<float, float> op;
 	return op.compute(a, b);
 }
 
 tensor<int> add(tensor<int> &a, tensor<int> &b) {
-	Add<int> op;
+	Add<int, int> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_and(tensor<double> &a, tensor<double> &b) {
-	And<double> op;
+	And<bool, double> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_and(tensor<float> &a, tensor<float> &b) {
-	And<float> op;
+	And<bool, float> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_and(tensor<bool> &a, tensor<bool> &b) {
-	And<bool> op;
+	And<bool, bool> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_and(tensor<int> &a, tensor<int> &b) {
-	And<int> op;
+	And<bool, int> op;
 	return op.compute(a, b);
 }
 
 tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) {
-	DequantizeLinear<int> op;
+	DequantizeLinear<float, int> op;
 	return op.compute(a, b, c);
 }
 
@@ -328,32 +328,32 @@ tensor<int> div(tensor<int> &a, tensor<int> &b) {
 }
 
 tensor<int> floor_div(tensor<double> &a, tensor<double> &b) {
-	FloorDiv<double> op;
+	FloorDiv<int, double> op;
 	return op.compute(a, b);
 }
 
 tensor<int> floor_div(tensor<float> &a, tensor<float> &b) {
-	FloorDiv<float> op;
+	FloorDiv<int, float> op;
 	return op.compute(a, b);
 }
 
 tensor<int> floor_div(tensor<int> &a, tensor<int> &b) {
-	FloorDiv<int> op;
+	FloorDiv<int, int> op;
 	return op.compute(a, b);
 }
 
 tensor<float> true_div(tensor<double> &a, tensor<double> &b) {
-	TrueDiv<double> op;
+	TrueDiv<float, double> op;
 	return op.compute(a, b);
 }
 
 tensor<float> true_div(tensor<float> &a, tensor<float> &b) {
-	TrueDiv<float> op;
+	TrueDiv<float, float> op;
 	return op.compute(a, b);
 }
 
 tensor<float> true_div(tensor<int> &a, tensor<int> &b) {
-	TrueDiv<int> op;
+	TrueDiv<float, int> op;
 	return op.compute(a, b);
 }
 
@@ -368,22 +368,22 @@ tensor<float> elu(tensor<float> &a, float alpha = 1.0) {
 }
 
 tensor<bool> equal(tensor<double> &a, tensor<double> &b) {
-	Equal<double> op;
+	Equal<bool, double> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> equal(tensor<float> &a, tensor<float> &b) {
-	Equal<float> op;
+	Equal<bool, float> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> equal(tensor<bool> &a, tensor<bool> &b) {
-	Equal<bool> op;
+	Equal<bool, bool> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> equal(tensor<int> &a, tensor<int> &b) {
-	Equal<int> op;
+	Equal<bool, int> op;
 	return op.compute(a, b);
 }
 
@@ -498,32 +498,32 @@ tensor<double> global_max_pool(tensor<double> &a) {
 }
 
 tensor<bool> greater(tensor<int> &a, tensor<int> &b) {
-  Greater<int> op;
+  Greater<bool, int> op;
   return op.compute(a, b);
 }
 
 tensor<bool> greater(tensor<float> &a, tensor<float> &b) {
-  Greater<float> op;
+  Greater<bool, float> op;
   return op.compute(a, b);
 }
 
 tensor<bool> greater(tensor<double> &a, tensor<double> &b) {
-  Greater<double> op;
+  Greater<bool, double> op;
   return op.compute(a, b);
 }
 
 tensor<bool> greater_equal(tensor<int> &a, tensor<int> &b) {
-  GreaterEqual<int> op;
+  GreaterEqual<bool, int> op;
   return op.compute(a, b);
 }
 
 tensor<bool> greater_equal(tensor<float> &a, tensor<float> &b) {
-  GreaterEqual<float> op;
+  GreaterEqual<bool, float> op;
   return op.compute(a, b);
 }
 
 tensor<bool> greater_equal(tensor<double> &a, tensor<double> &b) {
-  GreaterEqual<double> op;
+  GreaterEqual<bool, double> op;
   return op.compute(a, b);
 }
 
@@ -578,22 +578,22 @@ tensor<double> instancenormalization(tensor<double> &a, tensor<double> &scale,te
 }
 
 tensor<bool> isinf(tensor<float> &a, int detect_positive = 1,int detect_negative = 1) {
-  IsInf<float> op("localOpName", detect_positive, detect_negative);
+  IsInf<bool, float> op("localOpName", detect_positive, detect_negative);
   return op.compute(a);
 }
 
 tensor<bool> isinf(tensor<double> &a, int detect_positive = 1,int detect_negative = 1) {
-  IsInf<double> op("localOpName", detect_positive, detect_negative);
+  IsInf<bool, double> op("localOpName", detect_positive, detect_negative);
   return op.compute(a);
 }
 
 tensor<bool> isnan(tensor<float> &a) {
-  IsNaN<float> op;
+  IsNaN<bool, float> op;
   return op.compute(a);
 }
 
 tensor<bool> isnan(tensor<double> &a) {
-  IsNaN<double> op;
+  IsNaN<bool, double> op;
   return op.compute(a);
 }
 
@@ -618,17 +618,17 @@ tensor<double> leakyrelu(tensor<double> &a, float alpha = 0.01) {
 }
 
 tensor<bool> less(tensor<int> &a, tensor<int> &b) {
-  Less<int> op;
+  Less<bool, int> op;
   return op.compute(a, b);
 }
 
 tensor<bool> less(tensor<float> &a, tensor<float> &b) {
-  Less<float> op;
+  Less<bool, float> op;
   return op.compute(a, b);
 }
 
 tensor<bool> less(tensor<double> &a, tensor<double> &b) {
-  Less<double> op;
+  Less<bool, double> op;
   return op.compute(a, b);
 }
 
@@ -723,23 +723,28 @@ tensor<int> mod(tensor<int> &a, tensor<int> &b, int fmod_flag = 0) {
 }
 
 tensor<bool> less_equal(tensor<int> &a, tensor<int> &b) {
-  LessEqual<int> op;
+  LessEqual<bool, int> op;
   return op.compute(a, b);
 }
 
 tensor<bool> less_equal(tensor<float> &a, tensor<float> &b) {
-  LessEqual<float> op;
+  LessEqual<bool, float> op;
   return op.compute(a, b);
 }
 
 tensor<bool> less_equal(tensor<double> &a, tensor<double> &b) {
-  LessEqual<double> op;
+  LessEqual<bool, double> op;
   return op.compute(a, b);
 }
 
 tensor<float> thresholded_relu(tensor<float> &a) {
-	ThresholdedRelu<float> op;
-	return op.compute(a);
+  ThresholdedRelu<float> op;
+  return op.compute(a);
+}
+
+tensor<double> thresholded_relu(tensor<double> &a) {
+  ThresholdedRelu<double> op;
+  return op.compute(a);
 }
 
 tensor<int> mul(tensor<int> &a, tensor<int> &b) {
@@ -773,62 +778,62 @@ tensor<int> neg(tensor<int> &a) {
 }
 
 tensor<bool> not_equal(tensor<double> &a, tensor<double> &b) {
-	NotEqual<double> op;
+	NotEqual<bool, double> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> not_equal(tensor<float> &a, tensor<float> &b) {
-	NotEqual<float> op;
+	NotEqual<bool, float> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> not_equal(tensor<bool> &a, tensor<bool> &b) {
-	NotEqual<bool> op;
+	NotEqual<bool, bool> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> not_equal(tensor<int> &a, tensor<int> &b) {
-	NotEqual<int> op;
+	NotEqual<bool, int> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_not(tensor<double> &a) {
-	Not<double> op;
+	Not<bool, double> op;
 	return op.compute(a);
 }
 
 tensor<bool> logical_not(tensor<float> &a) {
-	Not<float> op;
+	Not<bool, float> op;
 	return op.compute(a);
 }
 
 tensor<bool> logical_not(tensor<bool> &a) {
-	Not<bool> op;
+	Not<bool, bool> op;
 	return op.compute(a);
 }
 
 tensor<bool> logical_not(tensor<int> &a) {
-	Not<int> op;
+	Not<bool, int> op;
 	return op.compute(a);
 }
 
 tensor<bool> logical_or(tensor<double> &a, tensor<double> &b) {
-	Or<double> op;
+	Or<bool, double> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_or(tensor<float> &a, tensor<float> &b) {
-	Or<float> op;
+	Or<bool, float> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_or(tensor<bool> &a, tensor<bool> &b) {
-	Or<bool> op;
+	Or<bool, bool> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_or(tensor<int> &a, tensor<int> &b) {
-	Or<int> op;
+	Or<bool, int> op;
 	return op.compute(a, b);
 }
 
@@ -883,22 +888,22 @@ tensor<double> tanh(tensor<double> &a) {
 }
 
 tensor<bool> logical_xor(tensor<double> &a, tensor<double> &b) {
-	Xor<double> op;
+	Xor<bool, double> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_xor(tensor<float> &a, tensor<float> &b) {
-	Xor<float> op;
+	Xor<bool, float> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_xor(tensor<bool> &a, tensor<bool> &b) {
-	Xor<bool> op;
+	Xor<bool, bool> op;
 	return op.compute(a, b);
 }
 
 tensor<bool> logical_xor(tensor<int> &a, tensor<int> &b) {
-	Xor<int> op;
+	Xor<bool, int> op;
 	return op.compute(a, b);
 }
 
@@ -1022,10 +1027,12 @@ tensor<float> cosh(tensor<float> &a){
   return op.compute(a);
 }
 
+
 tensor<double> cosh(tensor<double> &a){
   Cosh<double> op;
   return op.compute(a);
 }
+
 
 
 }

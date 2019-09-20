@@ -35,14 +35,14 @@ namespace dnnc {
 /*! A tensor of N-dimension \f$ [a_0, a_1, ..., a_{k-1}, a_k, ..., a_{n-1}] \f$
  * where k is a attribute ,will be coerced into 2-D \f$ [a_0 * ... * a_{k-1},
  * a_k * ... * a_{n-1}] \f$ .*/
-template <typename T> class Hardmax : public baseOperator<T> {
+template <typename T> class Hardmax : public baseOperator<T, T, T> {
 protected:
   int axis =
       1; /*!< Describes the axis of the inputs when coerced to 2D; defaults to
             one because the 0th axis most likely describes the batch_size */
 public:
   Hardmax(std::string name = "opHardmax", int axis = 0)
-      : baseOperator<T>(opHardmax, name) {
+      : baseOperator<T, T, T>(opHardmax, name) {
     this->axis = axis;
   }
   bool getAttribute(OPATTR attrName, int &obj) {
@@ -53,7 +53,7 @@ public:
     return false;
   }
   tensor<T> compute(tensor<T> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     if (axis >= int(a.rank()))
@@ -73,7 +73,7 @@ public:
 
     Eigen::MatrixXf::Index max_index;
 
-    DNNC_EIGEN_MATRIX(eigenMatrix1, a);
+    DNNC_EIGEN_MATRIX(eigenMatrix1, T, a);
     for (int j = 0; j < int(a.shape()[1]); j++) {
       eigenMatrix1.col(j).maxCoeff(&max_index);
       for (int i = 0; i < int(a.shape()[0]); i++) {

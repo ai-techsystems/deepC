@@ -27,12 +27,13 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class MatMul : public baseOperator<T> {
+template <typename T> class MatMul : public baseOperator<T, T, T> {
 protected:
   //  MatMul attributes
   //  NONE
 public:
-  MatMul(std::string name = "opMatMul") : baseOperator<T>(opMatMul, name) {}
+  MatMul(std::string name = "opMatMul")
+      : baseOperator<T, T, T>(opMatMul, name) {}
   tensor<T> compute(tensor<T> &a, tensor<T> &b) {
 
     if ((a.rank() == 1 && b.rank() == 1)) {
@@ -53,8 +54,8 @@ public:
 
       tensor<T> result(a.shape()[0], b.shape()[1]);
 
-      DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-      DNNC_EIGEN_MATRIX(eigenMatrixB, b);
+      DNNC_EIGEN_MATRIX(eigenMatrixA, T, a);
+      DNNC_EIGEN_MATRIX(eigenMatrixB, T, b);
 
       Matrix<T, Dynamic, Dynamic, RowMajor> eResult =
           eigenMatrixA * eigenMatrixB;
@@ -69,8 +70,8 @@ public:
 
       tensor<T> result(a.shape()[0], a.shape()[1], b.shape()[2]);
 
-      DNNC_EIGEN_TENSOR_MAP(eigenTensorA, a);
-      DNNC_EIGEN_TENSOR_MAP(eigenTensorB, b);
+      DNNC_EIGEN_TENSOR_MAP(eigenTensorA, T, a);
+      DNNC_EIGEN_TENSOR_MAP(eigenTensorB, T, b);
 
       Tensor<T, 3, RowMajor> eResult(a.shape()[0], a.shape()[1], b.shape()[2]);
 
@@ -101,8 +102,8 @@ public:
 
       tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2], b.shape()[3]);
 
-      DNNC_EIGEN_TENSOR4D_MAP(eigenTensorA, a);
-      DNNC_EIGEN_TENSOR4D_MAP(eigenTensorB, b);
+      DNNC_EIGEN_TENSOR4D_MAP(eigenTensorA, T, a);
+      DNNC_EIGEN_TENSOR4D_MAP(eigenTensorB, T, b);
 
       array<IndexPair<long>, 3> dims = {
           IndexPair<long>(1, 0), IndexPair<long>(2, 1), IndexPair<long>(3, 2)};

@@ -44,7 +44,7 @@ transA is non-zero, same for B and transB.\n This operator supports
 unidirectional broadcasting (tensor C should be
 unidirectional broadcastable to tensor A * B)*/
 
-template <typename T> class Gemm : public baseOperator<T> {
+template <typename T> class Gemm : public baseOperator<T, T, T> {
 protected:
   float alpha =
       1.0; /*!< Scalar multiplier for the product of input tensors A * B */
@@ -55,7 +55,7 @@ protected:
 public:
   Gemm(std::string name = "opGemm", float alpha = 1.0, float beta = 1.0,
        int transA = 0, int transB = 0)
-      : baseOperator<T>(opGemm, name) {
+      : baseOperator<T, T, T>(opGemm, name) {
     this->alpha = alpha;
     this->beta = beta;
     this->transA = transA;
@@ -96,14 +96,14 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Gemm operator.");
 
-    if (!(this->template type_check<float, double, int>()))
+    if (!(this->template type_check<float, double, int>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float and int tensors.");
 
     tensor<T> result(c.shape(), c.name());
-    DNNC_EIGEN_MATRIX(eigenMatrixA, a);
-    DNNC_EIGEN_MATRIX(eigenMatrixB, b);
-    DNNC_EIGEN_MATRIX(eigenMatrixC, c);
+    DNNC_EIGEN_MATRIX(eigenMatrixA, T, a);
+    DNNC_EIGEN_MATRIX(eigenMatrixB, T, b);
+    DNNC_EIGEN_MATRIX(eigenMatrixC, T, c);
     Matrix<T, Dynamic, Dynamic, RowMajor> eResult(c.shape()[0], c.shape()[1]);
     // DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 

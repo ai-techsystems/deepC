@@ -34,7 +34,7 @@ namespace dnnc {
  * from Element-wise min of each of the input tensors (
  * with Numpy-style broadcasting support).
  */
-template <typename T> class Min : public baseOperator<T> {
+template <typename T> class Min : public baseOperator<T, T, T> {
 
   T minEl(std::vector<T> &v) {
     T min = 0;
@@ -48,11 +48,11 @@ template <typename T> class Min : public baseOperator<T> {
   }
 
 public:
-  Min(std::string name = "opMin") : baseOperator<T>(opMin, name) {}
+  Min(std::string name = "opMin") : baseOperator<T, T, T>(opMin, name) {}
 
   tensor<T>
   compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

@@ -28,10 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Expand : public baseOperator<T> {
+template <typename T> class Expand : public baseOperator<T, T, T> {
   //  Expand attributes
 public:
-  Expand(std::string name = "opExpand") : baseOperator<T>(opExpand, name) {}
+  Expand(std::string name = "opExpand")
+      : baseOperator<T, T, T>(opExpand, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

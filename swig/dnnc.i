@@ -69,6 +69,7 @@ namespace std {
 }
 
 %include "tensor.i"
+%include "graph.i"
 
 %{
 %}

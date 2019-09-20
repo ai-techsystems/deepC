@@ -28,10 +28,10 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Pow : public baseOperator<T> {
+template <typename T> class Pow : public baseOperator<T, T, T> {
   //  Pow attributes
 public:
-  Pow(std::string name = "opPow") : baseOperator<T>(opPow, name) {}
+  Pow(std::string name = "opPow") : baseOperator<T, T, T>(opPow, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
   tensor<T> compute(tensor<T> a, tensor<T> b) {
@@ -39,7 +39,7 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
 
-    if (!(this->template type_check<float, double, int>()))
+    if (!(this->template type_check<float, double, int>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to numeric tensors.");
 
@@ -47,8 +47,8 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Pow operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);
 
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 

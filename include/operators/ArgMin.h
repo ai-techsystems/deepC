@@ -28,10 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ArgMin : public baseOperator<T> {
+template <typename T> class ArgMin : public baseOperator<T, T, T> {
   //  ArgMin attributes
 public:
-  ArgMin(std::string name = "opArgMin") : baseOperator<T>(opArgMin, name) {}
+  ArgMin(std::string name = "opArgMin")
+      : baseOperator<T, T, T>(opArgMin, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

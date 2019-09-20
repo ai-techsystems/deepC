@@ -32,19 +32,19 @@ namespace dnnc {
 /*! Calculates the exponential of the given input tensor, element-wise.
  \f$ y = e^x \f$ */
 
-template <typename T> class Exp : public baseOperator<T> {
+template <typename T> class Exp : public baseOperator<T, T, T> {
 public:
-  Exp(std::string name = "opExp") : baseOperator<T>(opExp, name) {}
+  Exp(std::string name = "opExp") : baseOperator<T, T, T>(opExp, name) {}
 
   tensor<T> compute(tensor<T> &a /*!< : N D tensor input*/) {
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
 
     eResult.array() = exp(eigenVector.array());

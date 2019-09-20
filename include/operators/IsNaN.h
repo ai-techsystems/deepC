@@ -29,16 +29,18 @@ using namespace Eigen;
 
 namespace dnnc {
 /*! Returns which elements of the input are NaN.*/
-template <typename T> class IsNaN : public baseOperator<T> {
+template <typename To, typename Ti>
+class IsNaN : public baseOperator<To, Ti, Ti> {
 public:
-  IsNaN(std::string name = "opIsNaN") : baseOperator<T>(opIsNaN, name) {}
+  IsNaN(std::string name = "opIsNaN")
+      : baseOperator<To, Ti, Ti>(opIsNaN, name) {}
 
-  tensor<bool> compute(tensor<T> &a) {
-    if (!(this->template type_check<float, double>()))
+  tensor<To> compute(tensor<Ti> &a) {
+    if (!(this->template type_check<float, double>(typeid(Ti))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     tensor<bool> result(a.shape(), a.name());
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, Ti, a);
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
     eResult.array() = eigenVector.array().isNaN();
 

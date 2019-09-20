@@ -31,13 +31,13 @@ namespace dnnc {
 /*! GlobalLpPool consumes an input tensor X and applies lp pool pooling across
  * the values in the same channel. This is equivalent to LpPool with kernel size
  * equal to the spatial dimension of input tensor.*/
-template <typename T> class GlobalLpPool : public baseOperator<T> {
+template <typename T> class GlobalLpPool : public baseOperator<T, T, T> {
 protected:
   int p = 2; /*!< p value of the Lp norm used to pool over the input data. */
 
 public:
   GlobalLpPool(std::string name = "opGlobalLpPool", int p = 2)
-      : baseOperator<T>(opGlobalLpPool, name) {
+      : baseOperator<T, T, T>(opGlobalLpPool, name) {
     this->p = p;
   }
   bool getAttribute(OPATTR attrName, int &obj) {
@@ -50,7 +50,7 @@ public:
   tensor<T> compute(
       tensor<T> a /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/) {
 
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
@@ -68,7 +68,7 @@ public:
     for (int i = 2; i < int(a.rank()); i++)
       shape.push_back(1);
 
-    DNNC_EIGEN_TENSOR_MAP(eigenTensor, a);
+    DNNC_EIGEN_TENSOR_MAP(eigenTensor, T, a);
     eigenTensor = eigenTensor.abs();
     eigenTensor = eigenTensor.pow(p);
     tensor<T> result(shape);

@@ -28,11 +28,11 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Multinomial : public baseOperator<T> {
+template <typename T> class Multinomial : public baseOperator<T, T, T> {
   //  Multinomial attributes
 public:
   Multinomial(std::string name = "opMultinomial")
-      : baseOperator<T>(opMultinomial, name) {}
+      : baseOperator<T, T, T>(opMultinomial, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 

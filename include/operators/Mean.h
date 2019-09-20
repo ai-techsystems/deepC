@@ -34,7 +34,7 @@ namespace dnnc {
  * from Element-wise mean of each of the input tensors (
  * with Numpy-style broadcasting support).
  */
-template <typename T> class Mean : public baseOperator<T> {
+template <typename T> class Mean : public baseOperator<T, T, T> {
 
   T meanEl(std::vector<T> &v) {
     T sum = 0;
@@ -48,11 +48,11 @@ template <typename T> class Mean : public baseOperator<T> {
   }
 
 public:
-  Mean(std::string name = "opMean") : baseOperator<T>(opMean, name) {}
+  Mean(std::string name = "opMean") : baseOperator<T, T, T>(opMean, name) {}
 
   tensor<T>
   compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

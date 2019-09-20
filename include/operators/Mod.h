@@ -29,17 +29,18 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Mod : public baseOperator<T> {
+template <typename T> class Mod : public baseOperator<T, T, T> {
   //  Mod attributes
 protected:
   int fmod = 0;
 
 public:
-  Mod(std::string name = "opMod", int fmod = 0) : baseOperator<T>(opMod, name) {
+  Mod(std::string name = "opMod", int fmod = 0)
+      : baseOperator<T, T, T>(opMod, name) {
     this->fmod = fmod;
 
     // Check for fmod or not
-    if ((fmod == 0) && ((this->template type_check<float, double>())))
+    if ((fmod == 0) && ((this->template type_check<float, double>(typeid(T)))))
       throw std::invalid_argument("Set fmod to 1 to pass float values.");
   }
 
@@ -65,8 +66,8 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Mod operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);
 
     DNNC_EIGEN_VECTOR_CTOR(T) eigen_result;
 

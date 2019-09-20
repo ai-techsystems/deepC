@@ -29,18 +29,18 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Ceil : public baseOperator<T> {
+template <typename T> class Ceil : public baseOperator<T, T, T> {
   //  Ceil attributes
 public:
-  Ceil(std::string name = "opCeil") : baseOperator<T>(opCeil, name) {}
+  Ceil(std::string name = "opCeil") : baseOperator<T, T, T>(opCeil, name) {}
 
   tensor<T> compute(tensor<T> a) {
-    if (!(this->template type_check<float, double>()))
+    if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
     tensor<T> result(a.shape(), a.name());
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;
     eResult.array() = Eigen::ceil(eigenVector.array());
 

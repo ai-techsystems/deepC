@@ -38,6 +38,8 @@ $(DNNC_API_CPPS): $(API_MODULES)
 	@echo "generating APIs from $<"
 	$(PYTHON) ./op_gen.py
 
+dnnc.i:tensor.i graph.i
+
 SWIG_MODULES=dnnc.i
 SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)
 $(SWIG_CPPS):$(SWIG_MODULES) 

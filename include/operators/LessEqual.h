@@ -33,22 +33,23 @@ namespace dnnc {
  * logical operation elementwise on the input tensors A and B (with Numpy-style
  * broadcasting support).
  */
-template <typename T> class LessEqual : public baseOperator<T> {
+template <typename To, typename Ti>
+class LessEqual : public baseOperator<To, Ti, Ti> {
 public:
   LessEqual(std::string name = "opLessEqual")
-      : baseOperator<T>(opLessEqual, name) {}
+      : baseOperator<To, Ti, Ti>(opLessEqual, name) {}
 
   tensor<bool>
-  compute(tensor<T> &a /*!< First input operand for the logical operator.*/,
-          tensor<T> &b /*!< Second input operand for the logical operator.*/) {
+  compute(tensor<Ti> &a /*!< First input operand for the logical operator.*/,
+          tensor<Ti> &b /*!< Second input operand for the logical operator.*/) {
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for LessEqual operator.");
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
     eResult.array() = eigenVectorA.array() <= eigenVectorB.array();
     result.load(eResult.data());
