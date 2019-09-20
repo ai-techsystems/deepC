@@ -47,3 +47,4 @@ Sqrt.py
 Softplus.py
 Softsign.py
 Sign.py
+Slice.py
