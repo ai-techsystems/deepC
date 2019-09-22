@@ -36,9 +36,9 @@ public:
 
   tensor<To> compute(tensor<Ti> &a /*!< ND tensor*/) {
 
+    // This check is for ONNX standard
     // if (!(this->template type_check<bool>(typeid(Ti))))
-    //   throw std::invalid_argument(
-    //     "Constrain input and output types to bool tensors.");
+    //   throw std::invalid_argument("Constrain input tensors to bool types.");
 
     tensor<bool> result(a.shape(), a.name());
 

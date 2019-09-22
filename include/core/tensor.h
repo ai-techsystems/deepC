@@ -163,7 +163,7 @@ public:
     return *this;
   }
   /// \brief Comparison Operator
-  bool operator==(const tensor &other) {
+  /* bool operator==(const tensor &other) {
     if (_mem_layout == other._mem_layout) {
       return _shape == other._shape ? true : false;
     }
@@ -174,7 +174,7 @@ public:
         return false;
     }
     return true;
-  }
+  } */
   ~tensor() {
     if (_ref)
       --(*_ref);
