@@ -2,6 +2,8 @@ build/
 obj/
 lib/
 __pycache__/
+swig/dnnc_api.cpp
+swig/dnnc_swig_externs.h
 
 *.o
 *.so
@@ -14,7 +16,7 @@ a.out
 *.7z
 *.tar
 *.rar
-
+*.pyc
 *.log
 
 *.cflags

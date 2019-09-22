@@ -55,6 +55,12 @@ namespace dnnc {
 		 add(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<int> \
 		 add(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 abs(tensor<double> &a) ;
+	extern tensor<float> \
+		 abs(tensor<float> &a) ;
+	extern tensor<int> \
+		 abs(tensor<int> &a) ;
 	extern tensor<bool> \
 		 logical_and(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<bool> \
@@ -329,6 +335,10 @@ namespace dnnc {
 		 softplus(tensor<float> &a) ;
 	extern tensor<double> \
 		 softplus(tensor<double> &a) ;
+	extern tensor<float> \
+		 softmax(tensor<float> &a, int axis = 1) ;
+	extern tensor<double> \
+		 softmax(tensor<double> &a, int axis = 1) ;
 	extern tensor<float> \
 		 softsign(tensor<float> &a) ;
 	extern tensor<double> \

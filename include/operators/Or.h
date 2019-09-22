@@ -38,9 +38,9 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
+    // This check is for ONNX standard
     // if (!(this->template type_check<bool>(typeid(Ti))))
-    //  throw std::invalid_argument(
-    //      "Constrain input and output types to bool tensors.");
+    //   throw std::invalid_argument("Constrain input tensors to bool types.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(

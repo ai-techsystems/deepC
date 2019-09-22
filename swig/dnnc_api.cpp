@@ -24,6 +24,7 @@
 
 #include "core/tensor.h"
 #include "operators/Add.h"
+#include "operators/Abs.h"
 #include "operators/And.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
@@ -79,6 +80,7 @@
 #include "operators/Sin.h"
 #include "operators/Sinh.h"
 #include "operators/Softplus.h"
+#include "operators/Softmax.h"
 #include "operators/Softsign.h"
 #include "operators/Sqrt.h"
 #include "operators/Clip.h"
@@ -286,6 +288,21 @@ tensor<float> add(tensor<float> &a, tensor<float> &b) {
 tensor<int> add(tensor<int> &a, tensor<int> &b) {
 	Add<int, int> op;
 	return op.compute(a, b);
+}
+
+tensor<double> abs(tensor<double> &a) {
+	Abs<double> op;
+	return op.compute(a);
+}
+
+tensor<float> abs(tensor<float> &a) {
+	Abs<float> op;
+	return op.compute(a);
+}
+
+tensor<int> abs(tensor<int> &a) {
+	Abs<int> op;
+	return op.compute(a);
 }
 
 tensor<bool> logical_and(tensor<double> &a, tensor<double> &b) {
@@ -970,6 +987,16 @@ tensor<float> softplus(tensor<float> &a) {
 
 tensor<double> softplus(tensor<double> &a) {
 	Softplus<double> op;
+	return op.compute(a);
+}
+
+tensor<float> softmax(tensor<float> &a, int axis = 1) {
+	Softmax<float> op("localOpName", axis);
+	return op.compute(a);
+}
+
+tensor<double> softmax(tensor<double> &a, int axis = 1) {
+	Softmax<double> op("localOpName", axis);
 	return op.compute(a);
 }
 

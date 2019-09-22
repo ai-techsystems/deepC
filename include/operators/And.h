@@ -40,12 +40,13 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
 
-    if (!(this->template type_check<bool>(typeid(Ti))))
-      throw std::invalid_argument("Constrain input tensors to bool types.");
+    // This check is for ONNX standard
+    // if (!(this->template type_check<bool>(typeid(Ti))))
+    //   throw std::invalid_argument("Constrain input tensors to bool types.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
-          "tensor dimenions not appropriate for Or operator.");
+          "tensor dimenions not appropriate for And operator.");
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
