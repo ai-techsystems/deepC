@@ -467,11 +467,11 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return op.compute(*$self, other);
   }
   // swig wraps tensor<T>::operator== as __eq__
-  %pycompare(__eq__, dnnc::tensor::__eq__, Py_EQ);
+  /* %pycompare(__eq__, dnnc::tensor::__eq__, Py_EQ);
   dnnc::tensor<bool> __eq__(dnnc::tensor<T>& other) {
     dnnc::Equal<bool, T> op;
     return op.compute(*$self, other);
-  }
+  } */
   %pycompare(__ne__, dnnc::tensor::__ne__, Py_NE);
   dnnc::tensor<bool> __ne__(dnnc::tensor<T>& other) {
     dnnc::NotEqual<bool, T> op;
