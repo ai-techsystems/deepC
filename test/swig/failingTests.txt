@@ -1,3 +1,4 @@
+Div.py
 Less.py
 LpNormalization.py
 Log.py
@@ -5,4 +6,6 @@ MatMulInteger.py
 Mean.py
 Min.py
 Mod.py
+tensorOperators.py
 tensorAssignmentOperators.py
+tensorOperatorsGenerated.py

@@ -1,9 +1,7 @@
 tensorSanity.py
-tensorOperators.py
 Add.py
 Broadcast.py
 DequantizeLinear.py
-Div.py
 Elu.py
 Equal.py
 Erf.py
@@ -47,3 +45,4 @@ Sqrt.py
 Softplus.py
 Softsign.py
 Sign.py
+Slice.py

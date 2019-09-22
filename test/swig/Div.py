@@ -46,40 +46,42 @@ class DivTest(unittest.TestCase):
         self.dc_double_b = dc.array(list(self.np_double_b))
 
 
-    # def test_Div1D_int (self):
-    #     npr = np.divide(self.np_int_a, self.np_int_b)
-    #     dcr = dc.div(self.dc_int_a, self.dc_int_b)
-    #     np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.int),
-    #             rtol=1e-3, atol=1e-3)
+    def test_Div1D_int (self):
+        # npr = np.floor_divide(self.np_int_a, self.np_int_b)
+        npr = np.true_divide(self.np_int_a, self.np_int_b)
+        dcr = dc.div(self.dc_int_a, self.dc_int_b)
+        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.int),
+                rtol=1e-3, atol=1e-3)
 
     def test_Div1D_float (self):
-        npr = np.divide(self.np_float_a, self.np_float_b)
+        npr = np.true_divide(self.np_float_a, self.np_float_b)
         dcr = dc.div(self.dc_float_a, self.dc_float_b)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
     def test_Div1D_double (self):
-        npr = np.divide(self.np_double_a, self.np_double_b)
+        npr = np.true_divide(self.np_double_a, self.np_double_b)
         dcr = dc.div(self.dc_double_a, self.dc_double_b)
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float64),
                 rtol=1e-3, atol=1e-3)
 
-    # def test_Div2D_int (self):
-    #     np_int_a = np.reshape(self.np_int_a, (6,8))
-    #     np_int_b = np.reshape(self.np_int_b, (6,8))
-    #     dc_int_a = dc.reshape(self.dc_int_a, (6,8))
-    #     dc_int_b = dc.reshape(self.dc_int_b, (6,8))
-    #     npr = np.divide(np_int_a, np_int_b)
-    #     dcr = dc.div(dc_int_a, dc_int_b)
-    #     np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
-    #             rtol=1e-3, atol=1e-3)
+    def test_Div2D_int (self):
+        np_int_a = np.reshape(self.np_int_a, (6,8))
+        np_int_b = np.reshape(self.np_int_b, (6,8))
+        dc_int_a = dc.reshape(self.dc_int_a, (6,8))
+        dc_int_b = dc.reshape(self.dc_int_b, (6,8))
+        # npr = np.floor_divide(np_int_a, np_int_b)
+        npr = np.true_divide(np_int_a, np_int_b)
+        dcr = dc.div(dc_int_a, dc_int_b)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
+                rtol=1e-3, atol=1e-3)
 
     def test_Div2D_float (self):
         np_float_a = np.reshape(self.np_float_a, (6,8))
         np_float_b = np.reshape(self.np_float_b, (6,8))
         dc_float_a = dc.reshape(self.dc_float_a, (6,8))
         dc_float_b = dc.reshape(self.dc_float_b, (6,8))
-        npr = np.divide(np_float_a, np_float_b)
+        npr = np.true_divide(np_float_a, np_float_b)
         dcr = dc.div(dc_float_a, dc_float_b)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
@@ -89,27 +91,27 @@ class DivTest(unittest.TestCase):
         np_double_b = np.reshape(self.np_double_b, (6,8))
         dc_double_a = dc.reshape(self.dc_double_a, (6,8))
         dc_double_b = dc.reshape(self.dc_double_b, (6,8))
-        npr = np.divide(np_double_a, np_double_b)
+        npr = np.true_divide(np_double_a, np_double_b)
         dcr = dc.div(dc_double_a, dc_double_b)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
                 rtol=1e-3, atol=1e-3)
 
-    # def test_Div3D_int (self):
-    #     np_int_a = np.reshape(self.np_int_a, (4,4,3))
-    #     np_int_b = np.reshape(self.np_int_b, (4,4,3))
-    #     dc_int_a = dc.reshape(self.dc_int_a, (4,4,3))
-    #     dc_int_b = dc.reshape(self.dc_int_b, (4,4,3))
-    #     npr = np.divide(np_int_a, np_int_b)
-    #     dcr = dc.div(dc_int_a, dc_int_b)
-    #     np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
-    #             rtol=1e-3, atol=1e-3)
+    def test_Div3D_int (self):
+        np_int_a = np.reshape(self.np_int_a, (4,4,3))
+        np_int_b = np.reshape(self.np_int_b, (4,4,3))
+        dc_int_a = dc.reshape(self.dc_int_a, (4,4,3))
+        dc_int_b = dc.reshape(self.dc_int_b, (4,4,3))
+        npr = np.true_divide(np_int_a, np_int_b)
+        dcr = dc.div(dc_int_a, dc_int_b)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
+                rtol=1e-3, atol=1e-3)
 
     def test_Div3D_float (self):
         np_float_a = np.reshape(self.np_float_a, (4,4,3))
         np_float_b = np.reshape(self.np_float_b, (4,4,3))
         dc_float_a = dc.reshape(self.dc_float_a, (4,4,3))
         dc_float_b = dc.reshape(self.dc_float_b, (4,4,3))
-        npr = np.divide(np_float_a, np_float_b)
+        npr = np.true_divide(np_float_a, np_float_b)
         dcr = dc.div(dc_float_a, dc_float_b)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
@@ -119,27 +121,27 @@ class DivTest(unittest.TestCase):
         np_double_b = np.reshape(self.np_double_b, (4,4,3))
         dc_double_a = dc.reshape(self.dc_double_a, (4,4,3))
         dc_double_b = dc.reshape(self.dc_double_b, (4,4,3))
-        npr = np.divide(np_double_a, np_double_b)
+        npr = np.true_divide(np_double_a, np_double_b)
         dcr = dc.div(dc_double_a, dc_double_b)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
                 rtol=1e-3, atol=1e-3)
 
-    # def test_Div4D_int (self):
-    #     np_int_a = np.reshape(self.np_int_a, (4,2,2,3))
-    #     np_int_b = np.reshape(self.np_int_b, (4,2,2,3))
-    #     dc_int_a = dc.reshape(self.dc_int_a, (4,2,2,3))
-    #     dc_int_b = dc.reshape(self.dc_int_b, (4,2,2,3))
-    #     npr = np.divide(np_int_a, np_int_b)
-    #     dcr = dc.div(dc_int_a, dc_int_b)
-    #     np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
-    #             rtol=1e-3, atol=1e-3)
+    def test_Div4D_int (self):
+        np_int_a = np.reshape(self.np_int_a, (4,2,2,3))
+        np_int_b = np.reshape(self.np_int_b, (4,2,2,3))
+        dc_int_a = dc.reshape(self.dc_int_a, (4,2,2,3))
+        dc_int_b = dc.reshape(self.dc_int_b, (4,2,2,3))
+        npr = np.true_divide(np_int_a, np_int_b)
+        dcr = dc.div(dc_int_a, dc_int_b)
+        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.int),
+                rtol=1e-3, atol=1e-3)
 
     def test_Div4D_float (self):
         np_float_a = np.reshape(self.np_float_a, (4,2,2,3))
         np_float_b = np.reshape(self.np_float_b, (4,2,2,3))
         dc_float_a = dc.reshape(self.dc_float_a, (4,2,2,3))
         dc_float_b = dc.reshape(self.dc_float_b, (4,2,2,3))
-        npr = np.divide(np_float_a, np_float_b)
+        npr = np.true_divide(np_float_a, np_float_b)
         dcr = dc.div(dc_float_a, dc_float_b)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
@@ -149,7 +151,7 @@ class DivTest(unittest.TestCase):
         np_double_b = np.reshape(self.np_double_b, (4,2,2,3))
         dc_double_a = dc.reshape(self.dc_double_a, (4,2,2,3))
         dc_double_b = dc.reshape(self.dc_double_b, (4,2,2,3))
-        npr = np.divide(np_double_a, np_double_b)
+        npr = np.true_divide(np_double_a, np_double_b)
         dcr = dc.div(dc_double_a, dc_double_b)
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float64),
                 rtol=1e-3, atol=1e-3)
