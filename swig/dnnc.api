@@ -24,6 +24,7 @@
 
 #include "core/tensor.h"
 #include "operators/Add.h"
+#include "operators/Abs.h"
 #include "operators/And.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
@@ -79,12 +80,14 @@
 #include "operators/Sin.h"
 #include "operators/Sinh.h"
 #include "operators/Softplus.h"
+#include "operators/Softmax.h"
 #include "operators/Softsign.h"
 #include "operators/Sqrt.h"
 #include "operators/Clip.h"
 #include "operators/Ceil.h"
 #include "operators/Cos.h"
 #include "operators/Cosh.h"
+#include "operators/Slice.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -218,6 +221,16 @@ tensor<output> matmul(tensor<input> &a, tensor<input> &b) {
 tensor<output> add(tensor<input> &a, tensor<input> &b) {
 	Add<output, input> op;
 	return op.compute(a, b);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int"
+	}
+}
+
+tensor<output> abs(tensor<input> &a) {
+	Abs<input> op;
+	return op.compute(a);
 	dtype = {
 		"double" : "double",
 		"float" : "float",
@@ -743,6 +756,15 @@ tensor<output> softplus(tensor<input> &a) {
 	}
 }
 
+tensor<output> softmax(tensor<input> &a, int axis = 1) {
+	Softmax<input> op("localOpName", axis);
+	return op.compute(a);
+	dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
 tensor<output> softsign(tensor<input> &a) {
 	Softsign<input> op;
 	return op.compute(a);
@@ -796,3 +818,18 @@ tensor<output> cosh(tensor<input> &a){
     "double" : "double"
   }
 }
+
+tensor<output> slice(tensor<input> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) {
+	Slice<input> op;
+	return op.compute(a, start, end, axes, steps);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int",
+		"bool" : "bool"
+	}
+} 

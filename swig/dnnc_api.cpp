@@ -24,6 +24,7 @@
 
 #include "core/tensor.h"
 #include "operators/Add.h"
+#include "operators/Abs.h"
 #include "operators/And.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
@@ -79,12 +80,14 @@
 #include "operators/Sin.h"
 #include "operators/Sinh.h"
 #include "operators/Softplus.h"
+#include "operators/Softmax.h"
 #include "operators/Softsign.h"
 #include "operators/Sqrt.h"
 #include "operators/Clip.h"
 #include "operators/Ceil.h"
 #include "operators/Cos.h"
 #include "operators/Cosh.h"
+#include "operators/Slice.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -285,6 +288,21 @@ tensor<float> add(tensor<float> &a, tensor<float> &b) {
 tensor<int> add(tensor<int> &a, tensor<int> &b) {
 	Add<int, int> op;
 	return op.compute(a, b);
+}
+
+tensor<double> abs(tensor<double> &a) {
+	Abs<double> op;
+	return op.compute(a);
+}
+
+tensor<float> abs(tensor<float> &a) {
+	Abs<float> op;
+	return op.compute(a);
+}
+
+tensor<int> abs(tensor<int> &a) {
+	Abs<int> op;
+	return op.compute(a);
 }
 
 tensor<bool> logical_and(tensor<double> &a, tensor<double> &b) {
@@ -972,6 +990,16 @@ tensor<double> softplus(tensor<double> &a) {
 	return op.compute(a);
 }
 
+tensor<float> softmax(tensor<float> &a, int axis = 1) {
+	Softmax<float> op("localOpName", axis);
+	return op.compute(a);
+}
+
+tensor<double> softmax(tensor<double> &a, int axis = 1) {
+	Softmax<double> op("localOpName", axis);
+	return op.compute(a);
+}
+
 tensor<float> softsign(tensor<float> &a) {
 	Softsign<float> op;
 	return op.compute(a);
@@ -1027,10 +1055,48 @@ tensor<float> cosh(tensor<float> &a){
   return op.compute(a);
 }
 
-
 tensor<double> cosh(tensor<double> &a){
   Cosh<double> op;
   return op.compute(a);
+}
+
+tensor<double> slice(tensor<double> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) {
+	Slice<double> op;
+	return op.compute(a, start, end, axes, steps);
+}
+
+
+tensor<float> slice(tensor<float> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) {
+	Slice<float> op;
+	return op.compute(a, start, end, axes, steps);
+}
+
+
+tensor<int> slice(tensor<int> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) {
+	Slice<int> op;
+	return op.compute(a, start, end, axes, steps);
+}
+
+
+tensor<bool> slice(tensor<bool> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) {
+	Slice<bool> op;
+	return op.compute(a, start, end, axes, steps);
 }
 
 

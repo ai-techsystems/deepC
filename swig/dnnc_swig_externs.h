@@ -55,6 +55,12 @@ namespace dnnc {
 		 add(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<int> \
 		 add(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 abs(tensor<double> &a) ;
+	extern tensor<float> \
+		 abs(tensor<float> &a) ;
+	extern tensor<int> \
+		 abs(tensor<int> &a) ;
 	extern tensor<bool> \
 		 logical_and(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<bool> \
@@ -330,6 +336,10 @@ namespace dnnc {
 	extern tensor<double> \
 		 softplus(tensor<double> &a) ;
 	extern tensor<float> \
+		 softmax(tensor<float> &a, int axis = 1) ;
+	extern tensor<double> \
+		 softmax(tensor<double> &a, int axis = 1) ;
+	extern tensor<float> \
 		 softsign(tensor<float> &a) ;
 	extern tensor<double> \
 		 softsign(tensor<double> &a) ;
@@ -353,5 +363,29 @@ namespace dnnc {
 		 cosh(tensor<float> &a);
 	extern tensor<double> \
 		 cosh(tensor<double> &a);
+	extern tensor<double> \
+		 slice(tensor<double> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) ;
+	extern tensor<float> \
+		 slice(tensor<float> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) ;
+	extern tensor<int> \
+		 slice(tensor<int> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) ;
+	extern tensor<bool> \
+		 slice(tensor<bool> &a, 
+	             tensor<size_t> &start, 
+		     tensor<size_t> &end, 
+		     tensor<int> axes = NULL_TENSOR<int>, 
+		     tensor<size_t> steps = NULL_TENSOR<size_t>) ;
 
 }

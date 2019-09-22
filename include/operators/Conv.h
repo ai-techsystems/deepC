@@ -30,14 +30,60 @@ using namespace Eigen;
 namespace dnnc {
 template <typename T> class Conv : public baseOperator<T, T, T> {
   //  Conv attributes
+protected:
+  std::string auto_pad;
+  std::vector<int> dilations;
+  int group;
+  std::vector<DIMENSION> kernal_shape;
+  std::vector<size_t> pads;
+  std::vector<size_t> strides;
+
 public:
-  Conv(std::string name = "opConv") : baseOperator<T, T, T>(opConv, name) {}
+  Conv(std::string name = "opConv", std::string auto_pad = "NOTSET",
+       std::vector<int> dilations = {}, int group = 1,
+       std::vector<DIMENSION> kernal_shape = {}, std::vector<size_t> pads = {},
+       std::vector<size_t> strides = {1})
+      : baseOperator<T, T, T>(opConv, "opConv") {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  /*bool getAttribute<int>(OPATTR attrName, std::vector<size_t> &obj) {
+  if (attrName == attr_kernal_shape) {
+    obj = kernal_shape;
+    return true;
+  } else if (attrName == attr_pads) {
+    obj = pads;
+    return true;
+  } else if (attrName == attr_strides) {
+    obj = strides;
+    return true;
   }
-};
+  return false;
+}
+
+bool getAttribute<int>(OPATTR attrName, std::vector<int> &obj) {
+  if (attrName == attr_dilations) {
+    obj = dilations;
+    return true;
+  }
+  return false;
+}
+
+bool getAttribute<int>(OPATTR attrName, int &obj) {
+  if (attrName == attr_group) {
+    obj = group;
+    return true;
+  }
+  return false;
+}
+
+bool getAttribute<int>(OPATTR attrName, string &obj) {
+  if (attrName == attr_auto_pad) {
+    obj = auto_pad;
+    return true;
+  }
+  return false;
+  } */
+
+  tensor<T> compute(tensor<T> &X, tensor<T> &W, tensor<T> &B) {}
+
+}; // template class
 } // namespace dnnc

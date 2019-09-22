@@ -480,11 +480,13 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 }
 %template(bTensor) dnnc::tensor<bool>;
 %template(iTensor) dnnc::tensor<int>;
+%template(uTensor) dnnc::tensor<size_t>;
 %template(fTensor) dnnc::tensor<float>;
 %template(dTensor) dnnc::tensor<double>;
 namespace std {
   %template(btvec) vector<dnnc::tensor<bool> >;
   %template(itvec) vector<dnnc::tensor<int> >;
+  %template(utvec) vector<dnnc::tensor<size_t> >;
   %template(ftvec) vector<dnnc::tensor<float> >;
 }
 

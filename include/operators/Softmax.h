@@ -20,6 +20,8 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
+// Eigen cwise unsupported-tensors(written TODO in original doc)
+// computing softmax as per axis(https://en.wikipedia.org/wiki/Softmax_function)
 
 #pragma once
 #include "operators/baseOperator.h"
@@ -28,19 +30,25 @@
 using namespace Eigen;
 
 namespace dnnc {
-/*! Returns the tensor resulted from performing the sigmoid operation \f$
- * {Softmax}(x_{i}) = \frac{\exp(x_i)}{\sum_j \exp(x_j)} \f$ elementwise on the
- * input tensor A .
- */
+/*! The operator computes the logsoftmax (log of softmax) values for each layer
+ * in the batch of the given input. */
+/*! Input does not need to explicitly be a 2D vector; rather, it will be coerced
+ * into one: */
+/*! A tensor of N-dimension \f$ [a_0, a_1, ..., a_{k-1}, a_k, ..., a_{n-1}] \f$
+ * where k is a attribute ,will be coerced into 2-D \f$ [a_0 * ... * a_{k-1},
+ * a_k * ... * a_{n-1}] \f$ .*/
 template <typename T> class Softmax : public baseOperator<T, T, T> {
   //  Softmax attributes
-
 protected:
-  int axis = 1; /*!< : Attribute : axis (default axis=1)*/
-
+  // default
+  int axis =
+      1; /*!< Describes the axis of the inputs when coerced to 2D; defaults to
+     one because the 0th axis most likely describes the batch_size */
 public:
-  Softmax(std::string name = "opSoftmax")
-      : baseOperator<T, T, T>(opSoftmax, name) {}
+  Softmax(std::string name = "opSoftmax", int axis = 1)
+      : baseOperator<T, T, T>(opSoftmax, name) {
+    this->axis = axis;
+  }
 
   bool getAttribute(OPATTR attrName, int &obj) {
     if (attrName == attr_axis) {
@@ -49,56 +57,45 @@ public:
     }
     return false;
   }
-  void setAttribute(OPATTR attrName, int &obj) {
-    if (attrName == attr_axis) {
-      axis = obj;
-    }
-  }
 
-  tensor<T> compute(tensor<T> &a /*!< : Input operand([float,double]: ND tensor) for the Softmax operator.*/) {
+  tensor<T> compute(tensor<T> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
+
     if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+      throw std::invalid_argument("Constrain input tensors to float types.");
 
-    // For 2D
-    if (a.rank() == 2) {
+    if (axis >= int(a.rank()))
+      std::invalid_argument("Reshaping failed");
+    std::vector<size_t> original_shape = a.shape();
+    size_t axis1 = 1;
+    size_t axis2 = 1;
+    for (int i = 0; i < axis; i++) {
+      axis1 *= a.shape()[i];
+    }
+    if (axis1 > a.length())
+      std::invalid_argument("Reshaping failed.Check Axis");
+    axis2 = a.length() / axis1;
+    std::vector<size_t> shape{axis1, axis2};
+    a.reshape(shape);
+    tensor<T> result(a.shape()[0], a.shape()[1]);
 
-      tensor<T> result(a.shape()[0], a.shape()[1]);
+    Eigen::MatrixXf::Index max_index;
 
-      DNNC_EIGEN_MATRIX(eigenMatrixA, T, a);
+    DNNC_EIGEN_MATRIX(eigenMatrix1, T, a);
+    for (int i = 0; i < int(a.shape()[0]); i++) {
+      float sum = 0;
+      float e_x = 0;
+      float max_x = eigenMatrix1.row(i).maxCoeff(&max_index);
 
-      if (axis == 1) {
-        int i, j;
-        for (i = 0; i < int(a.shape()[0]); i++) {
-          float sum = 0;
-          for (j = 0; j < int(a.shape()[1]); j++) {
-            sum += exp(eigenMatrixA(i, j));
-          }
-          for (j = 0; j < int(a.shape()[1]); j++) {
-            eigenMatrixA(i, j) = exp(eigenMatrixA(i, j)) / (sum);
-          }
-        }
+      for (int j = 0; j < int(a.shape()[1]); j++) {
+        e_x = exp(eigenMatrix1(i, j) - max_x);
+        sum += e_x;
       }
-      if (axis == 0) {
-        int i, j;
-        for (i = 0; i < int(a.shape()[1]); i++) {
-          float sum = 0;
-          for (j = 0; j < int(a.shape()[0]); j++) {
-            sum += exp(eigenMatrixA(j, i));
-          }
-          for (j = 0; j < int(a.shape()[0]); j++) {
-            eigenMatrixA(j, i) = exp(eigenMatrixA(j, i)) / (sum);
-          }
-        }
+      for (int j = 0; j < int(a.shape()[1]); j++) {
+        result(i, j) = e_x / (sum);
       }
-
-      Matrix<T, Dynamic, Dynamic> eResult = eigenMatrixA;
-      result.load(eResult.data());
-
-      return result;
-    } else
-      throw std::invalid_argument(
-          "tensor dimensions not appropriate for softmax operator.");
+    }
+    result.reshape(original_shape);
+    return result;
   }
 };
 } // namespace dnnc
