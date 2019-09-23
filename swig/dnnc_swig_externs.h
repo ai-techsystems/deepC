@@ -377,5 +377,11 @@ namespace dnnc {
 		     tensor<size_t> &end, 
 		     tensor<int> axes = NULL_TENSOR<int>, 
 		     tensor<size_t> steps = NULL_TENSOR<size_t>) ;
+	extern tensor<float> \
+		 prelu(tensor<float> &a, tensor<float> &slope) ;
+	extern tensor<double> \
+		 prelu(tensor<double> &a, tensor<double> &slope) ;
+	extern tensor<int> \
+		 prelu(tensor<int> &a, tensor<int> &slope) ;
 
 }
