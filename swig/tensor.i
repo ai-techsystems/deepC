@@ -30,6 +30,7 @@
 %include "core/tensor.h"
 %include "dnnc_swig_externs.h"
 %{
+#include <Python.h>
 #include <object.h> // where Py_LT, Pt_GT are defined.
 #include "core/tensor.h"
 #include "operators/Add.h"
@@ -112,9 +113,33 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     dnnc::Add<T, T> op("pythonOp");
     return op.compute(*$self, other);
   }
-  dnnc::tensor<T> __add__(T scalar) {
+  dnnc::tensor<T> __add__(dnnc::tensor<bool>& other) {
+    dnnc::Add<T, T> op("pythonOp");
+    return op.compute(*$self, other.asType<T>());
+  }
+  dnnc::tensor<T> __add__(dnnc::tensor<int>& other) {
+    dnnc::Add<T, T> op("pythonOp");
+    return op.compute(*$self, other.asType<T>());
+  }
+  dnnc::tensor<T> __add__(dnnc::tensor<float>& other) {
+    dnnc::Add<T, T> op("pythonOp");
+    return op.compute(*$self, other.asType<T>());
+  }
+  dnnc::tensor<T> __add__(PyObject *scalar) {
+    T data ;
+    if (PyBool_Check(scalar)) {
+      data = scalar == Py_True ? true : false ;
+    } else if (PyLong_Check(scalar)) {
+      data = PyLong_AsLong(scalar);
+    } else if (PyFloat_Check(scalar)) {
+      data = PyFloat_AsDouble(scalar);
+    } else {
+      throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+      return dnnc::NULL_TENSOR<T>;
+    }
+
     dnnc::tensor<T> other(1);
-    other.load(&scalar);
+    other.load(&data);
 
     dnnc::Add<T, T> op("pythonOp");
     return op.compute(*$self, other);
