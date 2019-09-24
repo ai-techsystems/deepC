@@ -147,9 +147,21 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   // 'swig -builtin' option limits all reverse operator from being overloaded.
   //       y=1+x; #(whre x and y are tensors) will not work
   %pybinoperator(__radd__, dnnc::tensor::__radd__, binaryfunc, nb_radd);
-  dnnc::tensor<T> __radd__(T scalar) {
+  dnnc::tensor<T> __radd__(PyObject* scalar) {
+    T data ;
+    if (PyBool_Check(scalar)) {
+      data = scalar == Py_True ? true : false ;
+    } else if (PyLong_Check(scalar)) {
+      data = PyLong_AsLong(scalar);
+    } else if (PyFloat_Check(scalar)) {
+      data = PyFloat_AsDouble(scalar);
+    } else {
+      throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+      return dnnc::NULL_TENSOR<T>;
+    }
+
     dnnc::tensor<T> other(1);
-    other.load(&scalar);
+    other.load(&data);
 
     dnnc::Add<T, T> op("pythonOp");
     return op.compute(*$self, other);
@@ -503,11 +515,11 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return op.compute(*$self, other);
   }
 }
-%template(bTensor) dnnc::tensor<bool>;
-%template(iTensor) dnnc::tensor<int>;
-%template(uTensor) dnnc::tensor<size_t>;
-%template(fTensor) dnnc::tensor<float>;
-%template(dTensor) dnnc::tensor<double>;
+%template(boolTensor)   dnnc::tensor<bool>;
+%template(intTensor)    dnnc::tensor<int>;
+%template(uLongTensor)  dnnc::tensor<size_t>;
+%template(flostTensor)  dnnc::tensor<float>;
+%template(doubleTensor) dnnc::tensor<double>;
 namespace std {
   %template(btvec) vector<dnnc::tensor<bool> >;
   %template(itvec) vector<dnnc::tensor<int> >;
