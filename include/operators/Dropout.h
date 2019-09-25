@@ -29,16 +29,35 @@ using namespace Eigen;
 
 namespace dnnc {
 template <typename T> class Dropout : public baseOperator<T, T, T> {
+protected:
+  float ratio = 0.5; /*!< The ratio of random dropout. */
   //  Dropout attributes
 public:
-  Dropout(std::string name = "opDropout")
-      : baseOperator<T, T, T>(opDropout, name) {}
-
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  Dropout(std::string name = "opDropout", float ratio = 0.5)
+      : baseOperator<T, T, T>(opDropout, name) {
+    this->ratio = ratio;
   }
+
+  bool getAttribute(OPATTR attrName, float &obj) {
+    if (attrName == attr_ratio) {
+      obj = ratio;
+      return true;
+    }
+    return false;
+  }
+
+  tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
+
+    if (!(this->template type_check<float, double>(typeid(T))))
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+
+    // Dropout is a NOOP for compiler. During training, it zeros 
+    // a fraction (attribute ratio) of the tensor a.
+    return a;
+  }
+  /*!<
+  \return The output tensor of the same shape and dtype as input.
+  */
 };
 } // namespace dnnc

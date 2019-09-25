@@ -109,21 +109,17 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   
   /* binary operators */
   %pybinoperator(__add__, dnnc::tensor::__add__, binaryfunc, nb_add);
-  dnnc::tensor<T> __add__(dnnc::tensor<T>& other) {
-    dnnc::Add<T, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
   dnnc::tensor<T> __add__(dnnc::tensor<bool>& other) {
-    dnnc::Add<T, T> op("pythonOp");
-    return op.compute(*$self, other.asType<T>());
+    return dnnc::add(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __add__(dnnc::tensor<int>& other) {
-    dnnc::Add<T, T> op("pythonOp");
-    return op.compute(*$self, other.asType<T>());
+    return dnnc::add(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __add__(dnnc::tensor<size_t>& other) {
+    return dnnc::add(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __add__(dnnc::tensor<float>& other) {
-    dnnc::Add<T, T> op("pythonOp");
-    return op.compute(*$self, other.asType<T>());
+    return dnnc::add(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __add__(PyObject *scalar) {
     T data ;
