@@ -9,3 +9,4 @@ Mod.py
 tensorOperators.py
 tensorAssignmentOperators.py
 tensorOperatorsGenerated.py
+Slice.py

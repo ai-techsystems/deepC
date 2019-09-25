@@ -109,6 +109,21 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   
   /* binary operators */
   %pybinoperator(__add__, dnnc::tensor::__add__, binaryfunc, nb_add);
+  
+  dnnc::tensor<int> __add__<bool>(dnnc::tensor<int>& other) {
+    // this returns int while passing bool and int - Gunjan
+    return dnnc::add(*$self, other);
+  }
+  dnnc::tensor<T> __add__(dnnc::tensor<bool>& other) {
+    return dnnc::add(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __add__(dnnc::tensor<int>& other) {
+    return dnnc::add(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __add__(dnnc::tensor<float>& other) {
+    return dnnc::add(*$self, other).asType<T>();
+  }
+  /*
   dnnc::tensor<T> __add__(dnnc::tensor<T>& other) {
     dnnc::Add<T, T> op("pythonOp");
     return op.compute(*$self, other);
@@ -125,6 +140,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     dnnc::Add<T, T> op("pythonOp");
     return op.compute(*$self, other.asType<T>());
   }
+  */
   dnnc::tensor<T> __add__(PyObject *scalar) {
     T data ;
     if (PyBool_Check(scalar)) {
@@ -517,8 +533,8 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 }
 %template(boolTensor)   dnnc::tensor<bool>;
 %template(intTensor)    dnnc::tensor<int>;
-%template(uLongTensor)  dnnc::tensor<size_t>;
-%template(flostTensor)  dnnc::tensor<float>;
+/*%template(uLongTensor)  dnnc::tensor<size_t>;*/
+%template(floatTensor)  dnnc::tensor<float>;
 %template(doubleTensor) dnnc::tensor<double>;
 namespace std {
   %template(btvec) vector<dnnc::tensor<bool> >;

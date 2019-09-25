@@ -94,7 +94,9 @@
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
-/*## (Don't remove the '##', it indicates the split line)
+<\/>
+
+/* (Don't remove the '<\/>', it indicates the split line)
 The code above this commented block will be copied as it is.
 Keep in mind, this file is "\n" and "whitespace" sensitive,
 so try to keep the structure similar.
@@ -103,8 +105,71 @@ Every operator function is seperated by a blank line.
 So don't leave empty line anywhere else other than in between 2 operators.
 The code below will be modified according to the dtype.
 DO NOT NAME TENSOR VARIABLES AS 'INPUT' go for 'a', 'b' etc
-Note: Not all of them are modified to input output format
-I have updated my part, you should update yours too. */
+Note: Not all of them are modified to input output format */
+
+tensor<output> add(tensor<input1> &a, tensor<input2> &b) {
+	Add<output, output> op;
+	return op.compute(a, b);
+	dtype = {
+		"double" : [
+					["double","double"],
+					["double","float"],
+					["double","int"],
+					["double","bool"],
+					["float","double"],
+					["int","double"],
+					["bool","double"],
+				],
+		"float" : [
+					["float","float"],
+					["float","int"],
+					["float","bool"],
+					["int","float"],
+					["bool","float"],
+				],
+		"int" : [
+					["int","int"],
+					["int","bool"],
+					["bool","int"],
+				],
+		"bool" : [
+					["bool","bool"],
+				],
+	}
+}
+
+tensor<output> sub(tensor<input1> &a, tensor<input2> &b) {
+	Sub<output> op;
+	return op.compute(a, b);
+	dtype = {
+		"double" : [
+					["double","double"],
+					["double","float"],
+					["double","int"],
+					["double","bool"],
+					["float","double"],
+					["int","double"],
+					["bool","double"],
+				],
+		"float" : [
+					["float","float"],
+					["float","int"],
+					["float","bool"],
+					["int","float"],
+					["bool","float"],
+				],
+		"int" : [
+					["int","int"],
+					["int","bool"],
+					["bool","int"],
+				],
+		"bool" : [
+					["bool","bool"],
+				],
+	}
+}
+
+<\/>
 
 tensor<float> array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
 	return tensor<float>(x, y, z, w, "", dnnc::INIT_RANDOM);
@@ -212,16 +277,6 @@ tensor<output> reshape(tensor<input> &tens_obj, PyObject *newShape) {
 
 tensor<output> matmul(tensor<input> &a, tensor<input> &b) {
 	MatMul<input> op;
-	return op.compute(a, b);
-	dtype = {
-		"double" : "double",
-		"float" : "float",
-		"int" : "int"
-	}
-}
-
-tensor<output> add(tensor<input> &a, tensor<input> &b) {
-	Add<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : "double",
@@ -680,16 +735,6 @@ tensor<output> pow(tensor<input> &a, tensor<input> &b) {
     "float" : "float",
     "int" : "int"
   }
-}
-
-tensor<output> sub(tensor<input> &a, tensor<input> &b) {
-	Sub<input> op;
-	return op.compute(a, b);
-	dtype = {
-		"double" : "double",
-		"float" : "float",
-		"int" : "int"
-	}
 }
 
 tensor<output> tan(tensor<input> &a) {
