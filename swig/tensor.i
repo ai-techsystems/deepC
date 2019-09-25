@@ -518,7 +518,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %template(boolTensor)   dnnc::tensor<bool>;
 %template(intTensor)    dnnc::tensor<int>;
 %template(uLongTensor)  dnnc::tensor<size_t>;
-%template(flostTensor)  dnnc::tensor<float>;
+%template(floatTensor)  dnnc::tensor<float>;
 %template(doubleTensor) dnnc::tensor<double>;
 namespace std {
   %template(btvec) vector<dnnc::tensor<bool> >;
