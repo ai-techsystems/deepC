@@ -21,6 +21,88 @@
 // https://github.com/ai-techsystems/dnnCompiler
 
 namespace dnnc {
+	extern tensor<double> \
+		 add(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 add(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 add(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 add(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 add(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 add(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 add(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 add(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 add(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 add(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 add(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<float> \
+		 add(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 add(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<float> \
+		 add(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 add(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 add(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<size_t> \
+		 add(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 add(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<size_t> \
+		 add(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<size_t> \
+		 add(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 add(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 add(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 add(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 add(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 add(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 sub(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 sub(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 sub(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 sub(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 sub(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 sub(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 sub(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 sub(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 sub(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 sub(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<float> \
+		 sub(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 sub(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 sub(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 sub(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 sub(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 sub(tensor<bool> &a, tensor<bool> &b) ;
 	extern tensor<float> \
 		 array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
 	extern tensor<float> \
@@ -50,12 +132,6 @@ namespace dnnc {
 	extern tensor<int> \
 		 matmul(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
-		 add(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<float> \
-		 add(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<int> \
-		 add(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<double> \
 		 abs(tensor<double> &a) ;
 	extern tensor<float> \
 		 abs(tensor<float> &a) ;
@@ -77,6 +153,10 @@ namespace dnnc {
 		 div(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<int> \
 		 div(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 dropout(tensor<double> &a, float ratio = 0.5) ;
+	extern tensor<float> \
+		 dropout(tensor<float> &a, float ratio = 0.5) ;
 	extern tensor<int> \
 		 floor_div(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<int> \
@@ -109,6 +189,10 @@ namespace dnnc {
 		 exp(tensor<double> &a) ;
 	extern tensor<float> \
 		 exp(tensor<float> &a) ;
+	extern tensor<double> \
+		 expand(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 expand(tensor<float> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 eye_like(tensor<double> &a, int k = 0) ;
 	extern tensor<float> \
@@ -287,12 +371,6 @@ namespace dnnc {
 		 pow(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<int> \
 		 pow(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<double> \
-		 sub(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<float> \
-		 sub(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<int> \
-		 sub(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \
 		 tan(tensor<float> &a) ;
 	extern tensor<double> \
@@ -387,5 +465,4 @@ namespace dnnc {
 		     tensor<size_t> &end, 
 		     tensor<int> axes = NULL_TENSOR<int>, 
 		     tensor<size_t> steps = NULL_TENSOR<size_t>) ;
-
 }
