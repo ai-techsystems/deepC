@@ -275,26 +275,26 @@ tensorOperators = {
 			"bool_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				# "float_scalar",		# Dnnc doesn't support
-				# "float_tensor_2",		# Dnnc doesn't support
-				# "int_scalar",			# Dnnc doesn't support
-				# "int_tensor_2",		# Dnnc doesn't support
+				"float_scalar",		# Dnnc doesn't support
+				"float_tensor_2",		# Dnnc doesn't support
+				"int_scalar",			# Dnnc doesn't support
+				"int_tensor_2",		# Dnnc doesn't support
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
-				# "float_scalar",		# Dnnc doesn't support
-				# "float_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",		# Dnnc doesn't support
+				"float_scalar",		# Dnnc doesn't support
+				"float_tensor_2",		# Dnnc doesn't support
 				"int_scalar",
 				"int_tensor_2",
 			],
 			"float_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",		# Dnnc doesn't support
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
-				# "int_tensor_2",		# Dnnc doesn't support
+				"int_tensor_2",		# Dnnc doesn't support
 			],
 		},
 		"sub" : {

@@ -28,10 +28,12 @@
 #include "operators/And.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
+#include "operators/Dropout.h"
 #include "operators/Elu.h"
 #include "operators/Equal.h"
 #include "operators/Erf.h"
 #include "operators/Exp.h"
+#include "operators/Expand.h"
 #include "operators/EyeLike.h"
 #include "operators/Flatten.h"
 #include "operators/Floor.h"
@@ -345,6 +347,16 @@ tensor<int> div(tensor<int> &a, tensor<int> &b) {
 	return op.compute(a, b);
 }
 
+tensor<double> dropout(tensor<double> &a, float ratio = 0.5) {
+	Dropout<double> op("localOpName", ratio);
+	return op.compute(a);
+}
+
+tensor<float> dropout(tensor<float> &a, float ratio = 0.5) {
+	Dropout<float> op("localOpName", ratio);
+	return op.compute(a);
+}
+
 tensor<int> floor_div(tensor<double> &a, tensor<double> &b) {
 	FloorDiv<int, double> op;
 	return op.compute(a, b);
@@ -423,6 +435,16 @@ tensor<double> exp(tensor<double> &a) {
 tensor<float> exp(tensor<float> &a) {
 	Exp<float> op;
 	return op.compute(a);
+}
+
+tensor<double> expand(tensor<double> &a, tensor<int> &b) {
+	Expand<double,int> op;
+	return op.compute(a, b);
+}
+
+tensor<float> expand(tensor<float> &a, tensor<int> &b) {
+	Expand<float,int> op;
+	return op.compute(a, b);
 }
 
 tensor<double> eye_like(tensor<double> &a, int k = 0) {

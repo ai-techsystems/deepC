@@ -28,10 +28,12 @@
 #include "operators/And.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
+#include "operators/Dropout.h"
 #include "operators/Elu.h"
 #include "operators/Equal.h"
 #include "operators/Erf.h"
 #include "operators/Exp.h"
+#include "operators/Expand.h"
 #include "operators/EyeLike.h"
 #include "operators/Flatten.h"
 #include "operators/Floor.h"
@@ -268,6 +270,15 @@ tensor<output> div(tensor<input> &a, tensor<input> &b) {
 	}
 }
 
+tensor<output> dropout(tensor<input> &a, float ratio = 0.5) {
+	Dropout<input> op("localOpName", ratio);
+	return op.compute(a);
+	dtype = {
+		"double" : "double",
+		"float" : "float"
+	}
+}
+
 tensor<output> floor_div(tensor<input> &a, tensor<input> &b) {
 	FloorDiv<output, input> op;
 	return op.compute(a, b);
@@ -320,6 +331,15 @@ tensor<output> erf(tensor<input> &a) {
 tensor<output> exp(tensor<input> &a) {
 	Exp<input> op;
 	return op.compute(a);
+	dtype = {
+		"double" : "double",
+		"float" : "float"
+	}
+}
+
+tensor<output> expand(tensor<input> &a, tensor<int> &b) {
+	Expand<output,int> op;
+	return op.compute(a, b);
 	dtype = {
 		"double" : "double",
 		"float" : "float"

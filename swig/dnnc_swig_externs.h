@@ -77,6 +77,10 @@ namespace dnnc {
 		 div(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<int> \
 		 div(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 dropout(tensor<double> &a, float ratio = 0.5) ;
+	extern tensor<float> \
+		 dropout(tensor<float> &a, float ratio = 0.5) ;
 	extern tensor<int> \
 		 floor_div(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<int> \
@@ -109,6 +113,10 @@ namespace dnnc {
 		 exp(tensor<double> &a) ;
 	extern tensor<float> \
 		 exp(tensor<float> &a) ;
+	extern tensor<double> \
+		 expand(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 expand(tensor<float> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 eye_like(tensor<double> &a, int k = 0) ;
 	extern tensor<float> \
