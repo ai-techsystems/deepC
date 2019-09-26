@@ -29,6 +29,18 @@ using namespace Eigen;
 #ifdef DNNC_PRELU_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float x[4] = {-2.3, 4.5, -2.0, 4.};
+  float slope[1] = {5.0};
+
+  tensor<float> x_tensor(4);
+  x_tensor.load(x);
+
+  tensor<float> slope_tensor(1);
+  slope_tensor.load(slope);
+
+  PRelu<float> op;
+  auto result = op.compute(x_tensor, slope_tensor);
+
+  std::cout << result << std::endl;
 }
 #endif
