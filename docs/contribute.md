@@ -4,6 +4,31 @@
   
   ## Code Review
   
+  ### How to Merge Pull Request (permissions needed) 
+  **Steps**
+  
+  1. clone, 
+  1. inspect, 
+  1. compile, 
+  1. run tests, 
+  1. merge.
+  1. and push
+    
+  **Git Receipe for the steps**
+```
+   set PullRequest=71; # PR number on github.com
+   set branch=operators
+   git clone --single-branch -b ${branch} https://github.com/ai-techsystems/dnnCompiler.git
+   cd dnnCompiler
+   git fetch origin pull/${PullRequest}/head
+
+   git checkout operators
+   git merge --no-ff operators
+   # resolve conflicts
+   # compile and run tests.
+   git push origin ${branch}set PullRequest=71; # PR number on github.com
+```
+  
   ## Document
   
   ## Committer Guide
