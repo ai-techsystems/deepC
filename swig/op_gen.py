@@ -21,18 +21,6 @@
 
 import ast
 
-''' we don't need it as of now
-
-dtype_precedence_dict = {
-	"double" : 16, 	# 8
-	"float" : 14, 	# 4
-	"long" : 10,	# 4
-	"int" : 8, 		# 4
-	"short" : 6, 	# 2
-	"bool" : 4,		# 2
-	"char" : 2,  	# 1 
-}
-'''
 
 def check_comments(s):
 	if "*/" in s:
@@ -88,43 +76,193 @@ def change_dtype(output,i):
 
 def change_compute(s):
 	dtype = s.split(".asType<")[1].split(">")[0]
-	if s[s.find(".asType")-1:s.find(".asType")] == "a":
-		s = s.replace("return op.compute(a, b);","return op.compute("+dtype+"_a, b);")
-	elif s[s.find(".asType")-1:s.find(".asType")] == "b":
-		s = s.replace("return op.compute(a, b);","return op.compute(a, "+dtype+"_b);")
+	if s.count("asType<") == 1:
+		if s[s.find(".asType")-1:s.find(".asType")] == "a":
+			s = s.replace("return op.compute(a, b);","return op.compute("+dtype+"_a, b);")
+		elif s[s.find(".asType")-1:s.find(".asType")] == "b":
+			s = s.replace("return op.compute(a, b);","return op.compute(a, "+dtype+"_b);")
+	elif s.count("asType<") == 2:
+		s = s.replace("return op.compute(a, b);","return op.compute("+dtype+"_a, "+dtype+"_b);")
+	else:
+		raise Exception("asType() count is wrong, try again!")
+	return s
+
+
+def overload_python_operator(dc_operator, operator_python):
+	s = '''
+	def __<operand>__(self, other):
+		return dc.<operator>(self, other)
+
+	def __r<operand>__(self, other):
+		return dc.<operator>(other, self)
+'''
+	s = s.replace("<operator>",dc_operator).replace("<operand>",operator_python)
+	return s
+
+
+def tensor_swig_helper_comparison(operator_header, operator_python):
+
+	s = '''
+  /*  Comparison <operator>  */
+    %pycompare(__<operand>__, dnnc::tensor::__<operand>__, Py_<operand_upper>);
+  dnnc::tensor<bool> __<operand>__(dnnc::tensor<T>& other) {
+    dnnc::<operator><bool, T> op;
+    return op.compute(*$self, other);
+  }
+'''
+	s = s.replace("<operator>",operator_header).replace("<operand>",operator_python).replace("<operand_upper>",operator_python.upper()) + "\n\n"
+	return s
+
+
+def tensor_swig_helper_logical(operator_header, operator_python):
+
+	s = '''
+  /*  Logical <operator>  */
+  %pybinoperator(__<operand>__, dnnc::tensor::__<operand>__, binaryfunc, nb_<operand>);
+  dnnc::tensor<bool> __<operand>__(dnnc::tensor<T>& other) {
+    dnnc::<operator><bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  dnnc::tensor<bool> __<operand>__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::<operator><bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  %pybinoperator(__r<operand>__, dnnc::tensor::__r<operand>__, binaryfunc, nb_r<operand>);
+  dnnc::tensor<bool> __r<operand>__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::<operator><bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+
+
+
+  /*  Assignment <operator>  */
+  %pyinplaceoper(__i<operand>__, dnnc::tensor::__i<operand>__, binaryfunc, nb_inplace_<operand>);
+  dnnc::tensor<bool> __i<operand>__(dnnc::tensor<T>& other) {
+    dnnc::<operator><bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  dnnc::tensor<bool> __i<operand>__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+    dnnc::<operator><bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+'''
+	s = s.replace("<operator>",operator_header).replace("<operand>",operator_python) + "\n\n"
+	return s
+
+
+def tensor_swig_helper_binary(dc_operator, operator_header, operator_python):
+	
+	s = '''
+  /*  Binary <operator>  */
+  %pybinoperator(__<operand>__, dnnc::tensor::__<operand>__, binaryfunc, nb_<operand>);
+  dnnc::tensor<T> __<operand>__(dnnc::tensor<bool>& other) {
+  return dnnc::<dc_operator>(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __<operand>__(dnnc::tensor<int>& other) {
+  return dnnc::<dc_operator>(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __<operand>__(dnnc::tensor<size_t>& other) {
+  return dnnc::<dc_operator>(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __<operand>__(dnnc::tensor<float>& other) {
+  return dnnc::<dc_operator>(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __<operand>__(PyObject *scalar) {
+  T data ;
+  if (PyBool_Check(scalar)) {
+    data = scalar == Py_True ? true : false ;
+  } else if (PyLong_Check(scalar)) {
+    data = PyLong_AsLong(scalar);
+  } else if (PyFloat_Check(scalar)) {
+    data = PyFloat_AsDouble(scalar);
+  } else {
+    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+    return dnnc::NULL_TENSOR<T>;
+  }
+  
+  dnnc::tensor<T> other(1);
+  other.load(&data);
+  
+  dnnc::<operator><T, T> op("pythonOp");
+  return op.compute(*$self, other);
+  }
+  // 'swig -builtin' option limits all reverse operator from being overloaded.
+  //       y=1+x; #(whre x and y are tensors) will not work
+  %pybinoperator(__r<operand>__, dnnc::tensor::__r<operand>__, binaryfunc, nb_r<operand>);
+  dnnc::tensor<T> __r<operand>__(PyObject* scalar) {
+  T data ;
+  if (PyBool_Check(scalar)) {
+    data = scalar == Py_True ? true : false ;
+  } else if (PyLong_Check(scalar)) {
+    data = PyLong_AsLong(scalar);
+  } else if (PyFloat_Check(scalar)) {
+    data = PyFloat_AsDouble(scalar);
+  } else {
+    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+    return dnnc::NULL_TENSOR<T>;
+  }
+  
+  dnnc::tensor<T> other(1);
+  other.load(&data);
+  
+  dnnc::<operator><T, T> op("pythonOp");
+  return op.compute(*$self, other);
+  }
+
+
+
+    /*  Assignment <operator>  */
+  %pyinplaceoper(__i<operand>__, dnnc::tensor::__i<operand>__, binaryfunc, nb_inplace_<operand>);
+  dnnc::tensor<T> __i<operand>__(dnnc::tensor<T>& other) {
+    dnnc::<operator><T, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  dnnc::tensor<T> __i<operand>__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+    dnnc::<operator><T, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+'''
+	s = s.replace("<operator>",operator_header).replace("<operand>",operator_python).replace("<dc_operator>",dc_operator) + "\n\n"
 	return s
 
 
 def binary_operators(s):
-	cpp_file = swig_extern_file = ""
+	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
 
-	for content in s.split("\n\n"):
-		if "<output>" not in content:
+	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
 
-			if "dtype" in content:
-				raise Exception("input output not mentioned, try again!")
-
-			temp = content + "\n\n"
-			temp = change_dtype(temp)
-			cpp_file += temp.replace("\n","\n\t")
-			temp = get_swig_extern(temp)
-			swig_extern_file += temp
-			continue
-
-		if "dtype" not in content:
-			raise Exception("dtype not mentioned, try again!")
+	temp_content = s.split("\n\n")[1]
+	for dc_operator, dc_operator_values in operator_list.items():
+		
+		content = temp_content[:]
+		
+		operator_header, operator_python = dc_operator_values
+		content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
 
 		dtype = get_dtype_dictionary(content)
 		content = remove_dtype(content)
-
+		
 		if "dtype" in content:
 			raise Exception("dtype block could not be removed, try again!")
+
+		tensor_swig_helper_file += tensor_swig_helper_binary(dc_operator, operator_header, operator_python)
+		py_file += overload_python_operator(dc_operator, operator_python)
 
 		for output, input_2d in dtype.items():
 			for i, input_1d in enumerate(input_2d):
 
 				temp_typecast = ") {\n"
-				temp = content.replace("output",output) + "\n"
+				temp = content.replace("output",output) + "\n\n"
 				for j, input in enumerate(input_1d):
 					
 					temp = temp.replace("input"+str(j+1),input)
@@ -138,7 +276,104 @@ def binary_operators(s):
 				temp = get_swig_extern(temp)
 				swig_extern_file += temp
 
-	return cpp_file, swig_extern_file
+	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
+
+
+def logical_operators(s):
+	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
+
+	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
+
+	temp_content = s.split("\n\n")[1]
+	for dc_operator, dc_operator_values in operator_list["logical"].items():
+		
+		content = temp_content[:]
+		
+		operator_header, operator_python = dc_operator_values
+		content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
+
+		dtype = get_dtype_dictionary(content)
+		content = remove_dtype(content)
+		
+		if "dtype" in content:
+			raise Exception("dtype block could not be removed, try again!")
+
+		tensor_swig_helper_file += tensor_swig_helper_logical(operator_header, operator_python)
+		py_file += overload_python_operator(dc_operator, operator_python)
+
+		for output, input_2d in dtype.items():
+			for input_1d in input_2d:
+				input1, input2 = input_1d
+				temp_typecast = ") {\n"
+				
+				if (input1 != output):
+					temp_typecast += change_dtype(output,1)
+				if (input2 != output):
+					temp_typecast += change_dtype(output,2)
+
+				temp = content.replace("input1",input1).replace("input2",input2).replace("input",output).replace("output",output) + "\n\n"
+				temp = temp.replace(") {\n",temp_typecast)
+
+				if "asType" in temp:
+					temp = change_compute(temp)
+				cpp_file += temp.replace("\n","\n\t")
+				temp = get_swig_extern(temp)
+				swig_extern_file += temp
+
+	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
+
+
+
+def comparison_operators(s, dtype_precedence_dict):
+	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
+
+	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
+
+	temp_content = s.split("\n\n")[1]
+	for dc_operator, dc_operator_values in operator_list["comparison"].items():
+		
+		content = temp_content[:]
+		
+		operator_header, operator_python = dc_operator_values
+		content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
+
+		dtype = get_dtype_dictionary(content)
+		content = remove_dtype(content)
+		
+		if "dtype" in content:
+			raise Exception("dtype block could not be removed, try again!")
+
+		tensor_swig_helper_file += tensor_swig_helper_comparison(operator_header, operator_python)
+		py_file += overload_python_operator(dc_operator, operator_python)
+
+		for output, input_2d in dtype.items():
+			for input_1d in input_2d:
+				input1, input2 = input_1d
+				temp_typecast = ") {\n"
+				
+				input = ""
+				if (input1 != input2):
+					if (dtype_precedence_dict[input1] > dtype_precedence_dict[input2]):
+						input = input1
+						temp_typecast += change_dtype(input,2)
+					elif (dtype_precedence_dict[input1] < dtype_precedence_dict[input2]):
+						input = input2
+						temp_typecast += change_dtype(input,1)
+					else:
+						raise Exception("different datatypes can't have same precedence, try again!")
+				else:
+					input = input1
+
+				temp = content.replace("input1",input1).replace("input2",input2).replace("input",input).replace("output",output) + "\n\n"
+				temp = temp.replace(") {\n",temp_typecast)
+
+				if "asType" in temp:
+					temp = change_compute(temp)
+				cpp_file += temp.replace("\n","\n\t")
+				temp = get_swig_extern(temp)
+				swig_extern_file += temp
+
+	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
 
 
 def normal_operators(s):
@@ -174,10 +409,19 @@ def normal_operators(s):
 	return cpp_file, swig_extern_file
 
 
+def generate_py_file(s):
+	s += '''
+import dnnc as dc
+
+class mydnnc(dc):
+'''
+	return s
+
+
 def main():
 	try:
 		with open ( "dnnc.api" , "r") as f:
-			print("Reading dnnc.api")
+			print("Reading 'dnnc.api'")
 			contents = f.read()
 	except:
 		print("'dnnc.api' not found !")
@@ -189,21 +433,40 @@ def main():
 		split_position = contents.find(split_string,1)
 		cpp_file = contents[:split_position] + "\nnamespace dnnc {\n\n\t"
 		swig_extern_file = contents.split("#include")[0] + "namespace dnnc {\n"
+		py_file = generate_py_file(contents.split("#include")[0])
+		tensor_swig_helper_file = ""
 		
 		contents = remove_comments(contents)
 		if check_comments(contents):
 			return 1
-		
-		temp_cpp_file , temp_swig_extern_file = binary_operators(contents[split_position:].split(split_string)[1])
+
+		dtype_precedence_dict = ast.literal_eval(contents[split_position:].split(split_string)[1].split("dtype_precedence_dict = ")[1])
+
+		temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = binary_operators(contents[split_position:].split(split_string)[2][:-1])
 		cpp_file += temp_cpp_file
 		swig_extern_file += temp_swig_extern_file
+		tensor_swig_helper_file += temp_tensor_swig_helper_file
+		py_file += temp_py_file
 
-		temp_cpp_file , temp_swig_extern_file = normal_operators(contents[split_position:].split(split_string)[2])
+		temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = logical_operators(contents[split_position:].split(split_string)[3][:-1])
+		cpp_file += temp_cpp_file
+		swig_extern_file += temp_swig_extern_file
+		tensor_swig_helper_file += temp_tensor_swig_helper_file
+		py_file += temp_py_file
+
+		temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = comparison_operators(contents[split_position:].split(split_string)[3][:-1], dtype_precedence_dict)
+		cpp_file += temp_cpp_file
+		swig_extern_file += temp_swig_extern_file
+		tensor_swig_helper_file += temp_tensor_swig_helper_file
+		py_file += temp_py_file
+
+		temp_cpp_file, temp_swig_extern_file = normal_operators(contents[split_position:].split(split_string)[4])
 		cpp_file += temp_cpp_file
 		swig_extern_file += temp_swig_extern_file
 
 		cpp_file += "\n}\n"
 		swig_extern_file += "}\n"
+		py_file = "# " + py_file.replace("\n//", "\n#")[3:]
 
 		with open ("dnnc_api.cpp" ,"w") as f:
 			print("Saving 'dnnc_api.cpp'")
@@ -212,6 +475,32 @@ def main():
 		with open ("dnnc_swig_externs.h" ,"w") as f:
 			print("Saving 'dnnc_swig_externs.h'")
 			f.write(swig_extern_file)
+
+		# with open ("mydnnc.py" ,"w") as f:
+		# 	print("Saving 'mydnnc.py'")
+		# 	f.write(py_file)
+
+		try:
+			with open ("tensor.i", "r") as f:
+				s = f.read()
+		except:
+			print("'tensor.i' not found !")
+			return 1
+		else:
+			comment = "// <\\/>"
+
+			# Uncomment the below line to stop adding these operators in 'tensor.i'
+			# tensor_swig_helper_file = "\n\n\n"
+			
+			try:
+				s = s.split(comment)[0] + comment + tensor_swig_helper_file + comment + s.split(comment)[2]
+			except:
+				print("'"+comment+"' not found 'tensor.i'!")
+				return 1
+			else:
+				with open ("tensor.i" ,"w") as f:
+					print("Saving 'tensor.i'")
+					f.write(s)
 
 
 if __name__=="__main__":

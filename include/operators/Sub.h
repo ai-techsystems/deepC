@@ -28,7 +28,8 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Sub : public baseOperator<T, T, T> {
+template <typename To, typename Ti>
+class Sub : public baseOperator<To, Ti, Ti> {
   template <typename Scalar>
   inline DNNC_EIGEN_VECTOR_CTOR(Scalar)
       eigenArraySub(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
@@ -49,25 +50,25 @@ template <typename T> class Sub : public baseOperator<T, T, T> {
   }
 
 public:
-  Sub(std::string name = "opSub") : baseOperator<T, T, T>(opSub, name) {}
+  Sub(std::string name = "opSub") : baseOperator<To, Ti, Ti>(opSub, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  tensor<T> compute(tensor<T> a /*!< : N D tensor input*/,
-                    tensor<T> b /*!< : N D tensor input*/) {
+  tensor<To> compute(tensor<Ti> a /*!< : N D tensor input*/,
+                     tensor<Ti> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<T> result(resultShape);
+    tensor<To> result(resultShape);
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Sub operator.");
     // Written for arbitrary Dimension.
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(T)
+    DNNC_EIGEN_VECTOR_CTOR(To)
     eResult = eigenArraySub(eigenVectorA, eigenVectorB);
 
     result.load(eResult.data());
