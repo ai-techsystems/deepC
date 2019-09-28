@@ -106,271 +106,68 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     dnnc::Not<bool, T> op("pythonOp");
     return op.compute(*$self);
   }
-  
-  /* binary operators */
+
+
+// <\/>
+  /*  Binary Add  */
   %pybinoperator(__add__, dnnc::tensor::__add__, binaryfunc, nb_add);
   dnnc::tensor<T> __add__(dnnc::tensor<bool>& other) {
-    return dnnc::add(*$self, other).asType<T>();
+  return dnnc::add(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __add__(dnnc::tensor<int>& other) {
-    return dnnc::add(*$self, other).asType<T>();
+  return dnnc::add(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __add__(dnnc::tensor<size_t>& other) {
-    return dnnc::add(*$self, other).asType<T>();
+  return dnnc::add(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __add__(dnnc::tensor<float>& other) {
-    return dnnc::add(*$self, other).asType<T>();
+  return dnnc::add(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __add__(PyObject *scalar) {
-    T data ;
-    if (PyBool_Check(scalar)) {
-      data = scalar == Py_True ? true : false ;
-    } else if (PyLong_Check(scalar)) {
-      data = PyLong_AsLong(scalar);
-    } else if (PyFloat_Check(scalar)) {
-      data = PyFloat_AsDouble(scalar);
-    } else {
-      throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-      return dnnc::NULL_TENSOR<T>;
-    }
-
-    dnnc::tensor<T> other(1);
-    other.load(&data);
-
-    dnnc::Add<T, T> op("pythonOp");
-    return op.compute(*$self, other);
+  T data ;
+  if (PyBool_Check(scalar)) {
+    data = scalar == Py_True ? true : false ;
+  } else if (PyLong_Check(scalar)) {
+    data = PyLong_AsLong(scalar);
+  } else if (PyFloat_Check(scalar)) {
+    data = PyFloat_AsDouble(scalar);
+  } else {
+    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+    return dnnc::NULL_TENSOR<T>;
+  }
+  
+  dnnc::tensor<T> other(1);
+  other.load(&data);
+  
+  dnnc::Add<T, T> op("pythonOp");
+  return op.compute(*$self, other);
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
   //       y=1+x; #(whre x and y are tensors) will not work
   %pybinoperator(__radd__, dnnc::tensor::__radd__, binaryfunc, nb_radd);
   dnnc::tensor<T> __radd__(PyObject* scalar) {
-    T data ;
-    if (PyBool_Check(scalar)) {
-      data = scalar == Py_True ? true : false ;
-    } else if (PyLong_Check(scalar)) {
-      data = PyLong_AsLong(scalar);
-    } else if (PyFloat_Check(scalar)) {
-      data = PyFloat_AsDouble(scalar);
-    } else {
-      throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-      return dnnc::NULL_TENSOR<T>;
-    }
-
-    dnnc::tensor<T> other(1);
-    other.load(&data);
-
-    dnnc::Add<T, T> op("pythonOp");
-    return op.compute(*$self, other);
+  T data ;
+  if (PyBool_Check(scalar)) {
+    data = scalar == Py_True ? true : false ;
+  } else if (PyLong_Check(scalar)) {
+    data = PyLong_AsLong(scalar);
+  } else if (PyFloat_Check(scalar)) {
+    data = PyFloat_AsDouble(scalar);
+  } else {
+    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+    return dnnc::NULL_TENSOR<T>;
+  }
+  
+  dnnc::tensor<T> other(1);
+  other.load(&data);
+  
+  dnnc::Add<T, T> op("pythonOp");
+  return op.compute(*$self, other);
   }
 
-  %pybinoperator(__sub__, dnnc::tensor::__sub__, binaryfunc, nb_subtract);
-  dnnc::tensor<T> __sub__(dnnc::tensor<T>& other) {
-    dnnc::Sub<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<T> __sub__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
 
-    dnnc::Sub<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1-x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rsub__, dnnc::tensor::__rsub__, binaryfunc, nb_rsubtract);
-  dnnc::tensor<T> __rsub__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
 
-    dnnc::Sub<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-  %pybinoperator(__mul__, dnnc::tensor::__mul__, binaryfunc, nb_multiply);
-  dnnc::tensor<T> __mul__(dnnc::tensor<T>& other) {
-    dnnc::Mul<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<T> __mul__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Mul<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1*x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rmul__, dnnc::tensor::__rmul__, binaryfunc, nb_rmultiply);
-  dnnc::tensor<T> __rmul__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Mul<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-  %pybinoperator(__floordiv__, dnnc::tensor::__floordiv__, binaryfunc, nb_floor_divide);
-  dnnc::tensor<int> __floordiv__(dnnc::tensor<T>& other) {
-    dnnc::FloorDiv<int, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<int> __floordiv__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::FloorDiv<int, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1//x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rfloordiv__, dnnc::tensor::__rfloordiv__, binaryfunc, nb_rfloor_divide);
-  dnnc::tensor<int> __rfloordiv__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::FloorDiv<int, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-  %pybinoperator(__div__, dnnc::tensor::__div__, binaryfunc, nb_divide);
-  dnnc::tensor<float> __div__(dnnc::tensor<T>& other) {
-    dnnc::TrueDiv<float, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<float> __div__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::TrueDiv<float, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1/x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rdiv__, dnnc::tensor::__rdiv__, binaryfunc, nb_rdivide);
-  dnnc::tensor<float> __rdiv__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::TrueDiv<float, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-  /* %pybinoperator(__mod__, dnnc::tensor::__mod__, binaryfunc, nb_remainder);
-  dnnc::tensor<T> __mod__(dnnc::tensor<T>& other) {
-    dnnc::Mod<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<T> __mod__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Mod<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1%x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rmod__, dnnc::tensor::__rmod__, binaryfunc, nb_remainder);
-  dnnc::tensor<T> __rmod__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Mod<T> op("pythonOp");
-    return op.compute(*$self, other);
-  } */
-
-  %pybinoperator(__and__, dnnc::tensor::__and__, binaryfunc, nb_and);
-  dnnc::tensor<bool> __and__(dnnc::tensor<T>& other) {
-    dnnc::And<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<bool> __and__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::And<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1&x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rand__, dnnc::tensor::__rand__, binaryfunc, nb_rand);
-  dnnc::tensor<bool> __rand__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::And<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-  %pybinoperator(__or__, dnnc::tensor::__or__, binaryfunc, nb_or);
-  dnnc::tensor<bool> __or__(dnnc::tensor<T>& other) {
-    dnnc::Or<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<bool> __or__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Or<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1|x; #(whre x and y are tensors) will not work
-  %pybinoperator(__ror__, dnnc::tensor::__ror__, binaryfunc, nb_ror);
-  dnnc::tensor<bool> __ror__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Or<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-  %pybinoperator(__xor__, dnnc::tensor::__xor__, binaryfunc, nb_xor);
-  dnnc::tensor<bool> __xor__(dnnc::tensor<T>& other) {
-    dnnc::Xor<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<bool> __xor__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Xor<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1^x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rxor__, dnnc::tensor::__rxor__, binaryfunc, nb_rxor);
-  dnnc::tensor<bool> __rxor__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Xor<bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-  %pybinoperator(__pow__, dnnc::tensor::__pow__, binaryfunc, nb_power);
-  dnnc::tensor<T> __pow__(dnnc::tensor<T>& other) {
-    dnnc::Pow<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<T> __pow__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Pow<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1**x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rpow__, dnnc::tensor::__rpow__, binaryfunc, nb_rpower);
-  dnnc::tensor<T> __rpow__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::Pow<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-  /* assignment operators */
+    /*  Assignment Add  */
   %pyinplaceoper(__iadd__, dnnc::tensor::__iadd__, binaryfunc, nb_inplace_add);
   dnnc::tensor<T> __iadd__(dnnc::tensor<T>& other) {
     dnnc::Add<T, T> op("pythonOp");
@@ -383,66 +180,179 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return op.compute(*$self, other);
   }
 
-  %pyinplaceoper(__isub__, dnnc::tensor::__isub__, binaryfunc, nb_inplace_subtract);
+
+
+  /*  Binary Sub  */
+  %pybinoperator(__sub__, dnnc::tensor::__sub__, binaryfunc, nb_sub);
+  dnnc::tensor<T> __sub__(dnnc::tensor<bool>& other) {
+  return dnnc::sub(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __sub__(dnnc::tensor<int>& other) {
+  return dnnc::sub(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __sub__(dnnc::tensor<size_t>& other) {
+  return dnnc::sub(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __sub__(dnnc::tensor<float>& other) {
+  return dnnc::sub(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __sub__(PyObject *scalar) {
+  T data ;
+  if (PyBool_Check(scalar)) {
+    data = scalar == Py_True ? true : false ;
+  } else if (PyLong_Check(scalar)) {
+    data = PyLong_AsLong(scalar);
+  } else if (PyFloat_Check(scalar)) {
+    data = PyFloat_AsDouble(scalar);
+  } else {
+    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+    return dnnc::NULL_TENSOR<T>;
+  }
+  
+  dnnc::tensor<T> other(1);
+  other.load(&data);
+  
+  dnnc::Sub<T, T> op("pythonOp");
+  return op.compute(*$self, other);
+  }
+  // 'swig -builtin' option limits all reverse operator from being overloaded.
+  //       y=1+x; #(whre x and y are tensors) will not work
+  %pybinoperator(__rsub__, dnnc::tensor::__rsub__, binaryfunc, nb_rsub);
+  dnnc::tensor<T> __rsub__(PyObject* scalar) {
+  T data ;
+  if (PyBool_Check(scalar)) {
+    data = scalar == Py_True ? true : false ;
+  } else if (PyLong_Check(scalar)) {
+    data = PyLong_AsLong(scalar);
+  } else if (PyFloat_Check(scalar)) {
+    data = PyFloat_AsDouble(scalar);
+  } else {
+    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+    return dnnc::NULL_TENSOR<T>;
+  }
+  
+  dnnc::tensor<T> other(1);
+  other.load(&data);
+  
+  dnnc::Sub<T, T> op("pythonOp");
+  return op.compute(*$self, other);
+  }
+
+
+
+    /*  Assignment Sub  */
+  %pyinplaceoper(__isub__, dnnc::tensor::__isub__, binaryfunc, nb_inplace_sub);
   dnnc::tensor<T> __isub__(dnnc::tensor<T>& other) {
-    dnnc::Sub<T> op("pythonOp");
+    dnnc::Sub<T, T> op("pythonOp");
     return op.compute(*$self, other);
   }
   dnnc::tensor<T> __isub__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    dnnc::Sub<T> op("pythonOp");
+    dnnc::Sub<T, T> op("pythonOp");
     return op.compute(*$self, other);
   }
 
-  %pyinplaceoper(__imul__, dnnc::tensor::__imul__, binaryfunc, nb_inplace_multiply);
+
+
+  /*  Binary Mul  */
+  %pybinoperator(__mul__, dnnc::tensor::__mul__, binaryfunc, nb_mul);
+  dnnc::tensor<T> __mul__(dnnc::tensor<bool>& other) {
+  return dnnc::mul(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __mul__(dnnc::tensor<int>& other) {
+  return dnnc::mul(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __mul__(dnnc::tensor<size_t>& other) {
+  return dnnc::mul(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __mul__(dnnc::tensor<float>& other) {
+  return dnnc::mul(*$self, other).asType<T>();
+  }
+  dnnc::tensor<T> __mul__(PyObject *scalar) {
+  T data ;
+  if (PyBool_Check(scalar)) {
+    data = scalar == Py_True ? true : false ;
+  } else if (PyLong_Check(scalar)) {
+    data = PyLong_AsLong(scalar);
+  } else if (PyFloat_Check(scalar)) {
+    data = PyFloat_AsDouble(scalar);
+  } else {
+    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+    return dnnc::NULL_TENSOR<T>;
+  }
+  
+  dnnc::tensor<T> other(1);
+  other.load(&data);
+  
+  dnnc::Mul<T, T> op("pythonOp");
+  return op.compute(*$self, other);
+  }
+  // 'swig -builtin' option limits all reverse operator from being overloaded.
+  //       y=1+x; #(whre x and y are tensors) will not work
+  %pybinoperator(__rmul__, dnnc::tensor::__rmul__, binaryfunc, nb_rmul);
+  dnnc::tensor<T> __rmul__(PyObject* scalar) {
+  T data ;
+  if (PyBool_Check(scalar)) {
+    data = scalar == Py_True ? true : false ;
+  } else if (PyLong_Check(scalar)) {
+    data = PyLong_AsLong(scalar);
+  } else if (PyFloat_Check(scalar)) {
+    data = PyFloat_AsDouble(scalar);
+  } else {
+    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+    return dnnc::NULL_TENSOR<T>;
+  }
+  
+  dnnc::tensor<T> other(1);
+  other.load(&data);
+  
+  dnnc::Mul<T, T> op("pythonOp");
+  return op.compute(*$self, other);
+  }
+
+
+
+    /*  Assignment Mul  */
+  %pyinplaceoper(__imul__, dnnc::tensor::__imul__, binaryfunc, nb_inplace_mul);
   dnnc::tensor<T> __imul__(dnnc::tensor<T>& other) {
-    dnnc::Mul<T> op("pythonOp");
+    dnnc::Mul<T, T> op("pythonOp");
     return op.compute(*$self, other);
   }
   dnnc::tensor<T> __imul__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    dnnc::Mul<T> op("pythonOp");
+    dnnc::Mul<T, T> op("pythonOp");
     return op.compute(*$self, other);
   }
 
-  %pyinplaceoper(__idiv__, dnnc::tensor::__idiv__, binaryfunc, nb_inplace_true_divide);
-  dnnc::tensor<float> __idiv__(dnnc::tensor<T>& other) {
-    dnnc::TrueDiv<float, T> op("pythonOp");
+
+
+  /*  Logical And  */
+  %pybinoperator(__and__, dnnc::tensor::__and__, binaryfunc, nb_and);
+  dnnc::tensor<bool> __and__(dnnc::tensor<T>& other) {
+    dnnc::And<bool, T> op("pythonOp");
     return op.compute(*$self, other);
   }
-  dnnc::tensor<float> __idiv__(T scalar) {
+  dnnc::tensor<bool> __and__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    dnnc::TrueDiv<float, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
 
-  /*%pyinplaceoper(__ifloordiv__, dnnc::tensor::__ifloordiv__, binaryfunc, nb_inplace_floor_divide);
-  dnnc::tensor<int> __ifloordiv__(dnnc::tensor<T>& other) {
-    dnnc::FloorDiv<int, T> op("pythonOp");
+    dnnc::And<bool, T> op("pythonOp");
     return op.compute(*$self, other);
   }
-  dnnc::tensor<int> __ifloordiv__(T scalar) {
+  %pybinoperator(__rand__, dnnc::tensor::__rand__, binaryfunc, nb_rand);
+  dnnc::tensor<bool> __rand__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    dnnc::FloorDiv<int, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }*/
 
-  %pyinplaceoper(__ipow__, dnnc::tensor::__ipow__, binaryfunc, nb_inplace_power);
-  dnnc::tensor<T> __ipow__(dnnc::tensor<T>& other) {
-    dnnc::Pow<T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<T> __ipow__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-    dnnc::Pow<T> op("pythonOp");
+    dnnc::And<bool, T> op("pythonOp");
     return op.compute(*$self, other);
   }
 
+
+
+  /*  Assignment And  */
   %pyinplaceoper(__iand__, dnnc::tensor::__iand__, binaryfunc, nb_inplace_and);
   dnnc::tensor<bool> __iand__(dnnc::tensor<T>& other) {
     dnnc::And<bool, T> op("pythonOp");
@@ -455,6 +365,33 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return op.compute(*$self, other);
   }
 
+
+
+  /*  Logical Or  */
+  %pybinoperator(__or__, dnnc::tensor::__or__, binaryfunc, nb_or);
+  dnnc::tensor<bool> __or__(dnnc::tensor<T>& other) {
+    dnnc::Or<bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  dnnc::tensor<bool> __or__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Or<bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  %pybinoperator(__ror__, dnnc::tensor::__ror__, binaryfunc, nb_ror);
+  dnnc::tensor<bool> __ror__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Or<bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+
+
+
+  /*  Assignment Or  */
   %pyinplaceoper(__ior__, dnnc::tensor::__ior__, binaryfunc, nb_inplace_or);
   dnnc::tensor<bool> __ior__(dnnc::tensor<T>& other) {
     dnnc::Or<bool, T> op("pythonOp");
@@ -467,6 +404,33 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return op.compute(*$self, other);
   }
 
+
+
+  /*  Logical Xor  */
+  %pybinoperator(__xor__, dnnc::tensor::__xor__, binaryfunc, nb_xor);
+  dnnc::tensor<bool> __xor__(dnnc::tensor<T>& other) {
+    dnnc::Xor<bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  dnnc::tensor<bool> __xor__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Xor<bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+  %pybinoperator(__rxor__, dnnc::tensor::__rxor__, binaryfunc, nb_rxor);
+  dnnc::tensor<bool> __rxor__(T scalar) {
+    dnnc::tensor<T> other(1);
+    other.load(&scalar);
+
+    dnnc::Xor<bool, T> op("pythonOp");
+    return op.compute(*$self, other);
+  }
+
+
+
+  /*  Assignment Xor  */
   %pyinplaceoper(__ixor__, dnnc::tensor::__ixor__, binaryfunc, nb_inplace_xor);
   dnnc::tensor<bool> __ixor__(dnnc::tensor<T>& other) {
     dnnc::Xor<bool, T> op("pythonOp");
@@ -479,37 +443,63 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return op.compute(*$self, other);
   }
 
-  /* comparision operators */
-  %pycompare(__lt__, dnnc::tensor::__lt__, Py_LT);
-  dnnc::tensor<bool> __lt__(dnnc::tensor<T>& other) {
-    dnnc::Less<bool, T> op;
-    return op.compute(*$self, other);
-  }
-  %pycompare(__le__, dnnc::tensor::__le__, Py_LE);
-  dnnc::tensor<bool> __le__(dnnc::tensor<T>& other) {
-    dnnc::LessEqual<bool, T> op;
-    return op.compute(*$self, other);
-  }
-  %pycompare(__gt__, dnnc::tensor::__gt__, Py_GT);
-  dnnc::tensor<bool> __gt__(dnnc::tensor<T>& other) {
-    dnnc::Greater<bool, T> op;
-    return op.compute(*$self, other);
-  }
-  %pycompare(__ge__, dnnc::tensor::__ge__, Py_GE);
-  dnnc::tensor<bool> __ge__(dnnc::tensor<T>& other) {
-    dnnc::GreaterEqual<bool, T> op;
-    return op.compute(*$self, other);
-  }
-  %pycompare(__eq__, dnnc::tensor::__eq__, Py_EQ);
+
+
+  /*  Comparison Equal  */
+    %pycompare(__eq__, dnnc::tensor::__eq__, Py_EQ);
   dnnc::tensor<bool> __eq__(dnnc::tensor<T>& other) {
     dnnc::Equal<bool, T> op;
     return op.compute(*$self, other);
   }
-  %pycompare(__ne__, dnnc::tensor::__ne__, Py_NE);
+
+
+
+  /*  Comparison Less  */
+    %pycompare(__lt__, dnnc::tensor::__lt__, Py_LT);
+  dnnc::tensor<bool> __lt__(dnnc::tensor<T>& other) {
+    dnnc::Less<bool, T> op;
+    return op.compute(*$self, other);
+  }
+
+
+
+  /*  Comparison Greater  */
+    %pycompare(__gt__, dnnc::tensor::__gt__, Py_GT);
+  dnnc::tensor<bool> __gt__(dnnc::tensor<T>& other) {
+    dnnc::Greater<bool, T> op;
+    return op.compute(*$self, other);
+  }
+
+
+
+  /*  Comparison NotEqual  */
+    %pycompare(__ne__, dnnc::tensor::__ne__, Py_NE);
   dnnc::tensor<bool> __ne__(dnnc::tensor<T>& other) {
     dnnc::NotEqual<bool, T> op;
     return op.compute(*$self, other);
   }
+
+
+
+  /*  Comparison LessEqual  */
+    %pycompare(__le__, dnnc::tensor::__le__, Py_LE);
+  dnnc::tensor<bool> __le__(dnnc::tensor<T>& other) {
+    dnnc::LessEqual<bool, T> op;
+    return op.compute(*$self, other);
+  }
+
+
+
+  /*  Comparison GreaterEqual  */
+    %pycompare(__ge__, dnnc::tensor::__ge__, Py_GE);
+  dnnc::tensor<bool> __ge__(dnnc::tensor<T>& other) {
+    dnnc::GreaterEqual<bool, T> op;
+    return op.compute(*$self, other);
+  }
+
+
+// <\/>
+
 }
 %template(boolTensor)   dnnc::tensor<bool>;
 %template(intTensor)    dnnc::tensor<int>;
@@ -522,4 +512,3 @@ namespace std {
   %template(utvec) vector<dnnc::tensor<size_t> >;
   %template(ftvec) vector<dnnc::tensor<float> >;
 }
-

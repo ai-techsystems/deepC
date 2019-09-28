@@ -51,6 +51,8 @@
  }
 }
 
+%feature("autodoc", "3");
+
 %module dnnc
 %include <typemaps.i>
 %include <std_string.i>

@@ -42,9 +42,9 @@ int main() {
   tensor<int> d(2, 3);
   d.load(d4);
 
-  // Xor<float> m("localOpName");
+  // Xor<int, float> m("localOpName");
   // auto result = m.compute(a, b);
-  Xor<int> m("localOpName");
+  Xor<int, int> m("localOpName");
   auto result = m.compute(c, d);
 
   std::cout << result;

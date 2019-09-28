@@ -40,10 +40,10 @@ public:
     // if (!(this->template type_check<bool>(typeid(Ti))))
     //   throw std::invalid_argument("Constrain input tensors to bool types.");
 
-    tensor<bool> result(a.shape(), a.name());
+    tensor<To> result(a.shape(), a.name());
 
     DNNC_EIGEN_ARRAY_MAP(eigenVector, Ti, a);
-    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(To) eResult;
     eResult.array() = !eigenVector.template cast<bool>().array();
     result.load(eResult.data());
 
