@@ -51,6 +51,7 @@
  }
 }
 
+%feature("autodoc", "3");
 %module dnnc
 %include <typemaps.i>
 %include <std_string.i>
@@ -60,14 +61,18 @@
 
 %inline %{
 typedef long unsigned int size_t;
+typedef std::string String;
 %}
 namespace std {
-  %template(bvec) vector<bool>;
-  %template(ivec) vector<int>;
-  %template(lvec) vector<size_t>;
-  %template(fvec) vector<float>;
+  %template(vectorBool) vector<bool>;
+  %template(vectorStr) vector<String>;
+  %template(vectorInt) vector<int>;
+  %template(vectorSizeT) vector<size_t>;
+  %template(vectorFloat) vector<float>;
 }
 
+%include "core/datatypes.h"
+%include "core/macros.h"
 %include "tensor.i"
 %include "graph.i"
 

@@ -39,6 +39,7 @@ $(DNNC_API_CPPS): $(API_MODULES)
 	$(PYTHON) ./op_gen.py
 
 dnnc.i:tensor.i graph.i
+dnnc_swig.cpp: dnnc.i
 
 SWIG_MODULES=dnnc.i
 SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)

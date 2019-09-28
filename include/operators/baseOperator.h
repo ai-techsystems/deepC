@@ -179,7 +179,8 @@ enum OPCODE {
   opUnsqueeze,
   opUpsample,
   opWhere,
-  opXor
+  opXor,
+  opInvalid
 };
 
 enum OPATTR {
@@ -266,7 +267,8 @@ enum OPATTR {
   attr_transA,
   attr_transB,
   attr_value,
-  attr_weights
+  attr_weights,
+  attr_invalid
 };
 
 template <typename To, typename Ti1, typename Ti2> class baseOperator {

@@ -58,7 +58,7 @@ class BroadcastTest(unittest.TestCase):
             dc_err = val.__str__()
             assert (dc_err[0:65]==self.err[0:65]), "ASSERT FAILED for dc error message"
             assert (dc_err[0:65]==np_err[0:65]),   "ASSERT FAILED for matching numpy and dc error message"
- 
+
     def test_Add(self):
         dc_a = dc.reshape(self.dc_a, (5,4));
         dc_b = dc.reshape(self.dc_b, (2,5,4));
@@ -68,7 +68,7 @@ class BroadcastTest(unittest.TestCase):
         dcr = dc.add(dc_a, dc_b);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-        
+
 
     def test_Maxof4(self):
        np_a = np.reshape(self.np_a,(5,4))
@@ -80,11 +80,11 @@ class BroadcastTest(unittest.TestCase):
        dc_b = dc.reshape(self.dc_b,(2,5,4))
        dc_c = dc.reshape(self.dc_c,(5,4))
        dc_d = dc.reshape(self.dc_d,(2,5,4))
-       dcr  = dc.max(dc.ftvec([dc_a, dc_b, dc_c, dc_d]))
+       dcr  = dc.max(dc.vectorTensorFloat([dc_a, dc_b, dc_c, dc_d]))
        np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
-       
-                                
+
+
     def tearDown(self):
         return "test finished"
 

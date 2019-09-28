@@ -21,34 +21,53 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
+
 #include <graph/node.h>
 #include <set>
 
 namespace dnnc {
+typedef std::tuple<std::string, DNNC_DataType, std::vector<dnnc::DIMENSION>>
+    variable;
+
 /*!< This is a directed graph representing data flow graph
- * for deep neural network. Singleton by design, and light by
- * construction, it lives throughout the life of program and dies
- * with it.
+ * for deep neural networks. Default graph is singleton by design, 
+ * and light by construction. Default graph lives throughout the 
+ * life of program and dies with it.
+ *
+ * One can create subgraphs pointers owned by default graph.
  */
 class graph {
 protected:
-  std::string _name;
-  std::set<const node, nodeCmp> _nodeSet;
-  std::set<const edge, edgeCmp> _edgeSet;
+  std::string _name = "";
+  std::vector<node> _nodes;
+  std::vector<variable> _inputs;
+  std::vector<variable> _outputs;
+  std::vector<nodeAttribute> _initializers;
+
+  std::vector<graph*>   _subgraphs;
 
   // prohibited methods for singleton instance
   graph() {}
-  graph(const graph &other) {}
-  graph &operator=(const graph &other) {}
+  // graph(const graph &other) = delete;
+  // graph &operator=(const graph &other) = delete;
 
 public:
-  static graph &theGraph() {
+  static graph &singleton() {
     static graph
         _graph; /*!< only one graph can be created, (singleton by design) */
     return _graph;
   }
+  graph* subgraph() {
+      graph* sg = new graph() ; 
+      _subgraphs.push_back(sg) ;
+      return sg;
+  }
+  ~graph() {
+      for (auto& sg : _subgraphs)
+          delete sg;
+  }
   void setName(std::string name) { _name = name; }
-  bool registerNode(node);
+  void addNode(node n) { _nodes.push_back(n); }
 };
-graph &theGraph() { return theGraph(); }
+static graph &Graph() { return graph::singleton(); }
 } // namespace dnnc

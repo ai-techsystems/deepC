@@ -37,8 +37,6 @@
 #include <random>
 
 namespace dnnc {
-typedef size_t INDEX;
-typedef size_t DIMENSION;
 enum INIT_TYPE { INIT_NONE = 0, INIT_RANDOM, INIT_ZERO, INIT_ONE, INIT_VALUE };
 
 template <class To, class Ti1, class Ti2> class baseOperator;
