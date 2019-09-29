@@ -37,11 +37,11 @@ public:
   tensor<To> compute(tensor<Ti> a, tensor<Ti> b) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<bool> result(resultShape);
+    tensor<To> result(resultShape);
 
     // This check is for ONNX standard
-    // if (!(this->template type_check<bool>(typeid(Ti))))
-    //   throw std::invalid_argument("Constrain input tensors to bool types.");
+    if (!(this->template type_check<bool>(typeid(Ti))))
+      throw std::invalid_argument("Constrain input tensors to bool types.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
@@ -50,10 +50,12 @@ public:
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(To) eResult;
 
     eResult.array() = eigenVectorA.template cast<bool>().array() ^
                       eigenVectorB.template cast<bool>().array();
+    // eResult.array() = eigenVectorA.array() ^
+    //                   eigenVectorB.array();
 
     result.load(eResult.data());
 

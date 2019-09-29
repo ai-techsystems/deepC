@@ -41,8 +41,8 @@ public:
     tensor<To> result(resultShape);
 
     // This check is for ONNX standard
-    // if (!(this->template type_check<bool>(typeid(Ti))))
-    //   throw std::invalid_argument("Constrain input tensors to bool types.");
+    if (!(this->template type_check<bool>(typeid(Ti))))
+      throw std::invalid_argument("Constrain input tensors to bool types.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
@@ -55,6 +55,8 @@ public:
 
     eResult.array() = eigenVectorA.template cast<bool>().array() &&
                       eigenVectorB.template cast<bool>().array();
+    // eResult.array() = eigenVectorA.array() &&
+    //                   eigenVectorB.array();
 
     result.load(eResult.data());
 

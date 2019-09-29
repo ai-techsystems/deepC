@@ -52,7 +52,7 @@ public:
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 
-    // Dropout is a NOOP for compiler. During training, it zeros 
+    // Dropout is a NOOP for compiler. During training, it zeros
     // a fraction (attribute ratio) of the tensor a.
     return a;
   }

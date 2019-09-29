@@ -76,11 +76,15 @@ namespace dnnc {
 	extern tensor<double> \
 		 sub(tensor<double> &a, tensor<float> &b) ;
 	extern tensor<double> \
+		 sub(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
 		 sub(tensor<double> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 sub(tensor<double> &a, tensor<bool> &b) ;
 	extern tensor<double> \
 		 sub(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 sub(tensor<size_t> &a, tensor<double> &b) ;
 	extern tensor<double> \
 		 sub(tensor<int> &a, tensor<double> &b) ;
 	extern tensor<double> \
@@ -88,13 +92,27 @@ namespace dnnc {
 	extern tensor<float> \
 		 sub(tensor<float> &a, tensor<float> &b) ;
 	extern tensor<float> \
+		 sub(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<float> \
 		 sub(tensor<float> &a, tensor<int> &b) ;
 	extern tensor<float> \
 		 sub(tensor<float> &a, tensor<bool> &b) ;
 	extern tensor<float> \
+		 sub(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<float> \
 		 sub(tensor<int> &a, tensor<float> &b) ;
 	extern tensor<float> \
 		 sub(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<size_t> \
+		 sub(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 sub(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<size_t> \
+		 sub(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<size_t> \
+		 sub(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 sub(tensor<bool> &a, tensor<size_t> &b) ;
 	extern tensor<int> \
 		 sub(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<int> \
@@ -103,6 +121,506 @@ namespace dnnc {
 		 sub(tensor<bool> &a, tensor<int> &b) ;
 	extern tensor<bool> \
 		 sub(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 mul(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 mul(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 mul(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 mul(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 mul(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 mul(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 mul(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 mul(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 mul(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 mul(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 mul(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<float> \
+		 mul(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 mul(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<float> \
+		 mul(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 mul(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 mul(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<size_t> \
+		 mul(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 mul(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<size_t> \
+		 mul(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<size_t> \
+		 mul(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 mul(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 mul(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 mul(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 mul(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 mul(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_and(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_or(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 logical_xor(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 equal(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 not_equal(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 less_equal(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 greater_equal(tensor<bool> &a, tensor<bool> &b) ;
 	extern tensor<float> \
 		 array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) ;
 	extern tensor<float> \
@@ -137,32 +655,12 @@ namespace dnnc {
 		 abs(tensor<float> &a) ;
 	extern tensor<int> \
 		 abs(tensor<int> &a) ;
-	extern tensor<bool> \
-		 logical_and(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<bool> \
-		 logical_and(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 logical_and(tensor<bool> &a, tensor<bool> &b) ;
-	extern tensor<bool> \
-		 logical_and(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \
 		 dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) ;
-	extern tensor<double> \
-		 div(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<float> \
-		 div(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<int> \
-		 div(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 dropout(tensor<double> &a, float ratio = 0.5) ;
 	extern tensor<float> \
 		 dropout(tensor<float> &a, float ratio = 0.5) ;
-	extern tensor<int> \
-		 floor_div(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<int> \
-		 floor_div(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<int> \
-		 floor_div(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \
 		 true_div(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
@@ -173,14 +671,6 @@ namespace dnnc {
 		 elu(tensor<double> &a, float alpha = 1.0) ;
 	extern tensor<float> \
 		 elu(tensor<float> &a, float alpha = 1.0) ;
-	extern tensor<bool> \
-		 equal(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<bool> \
-		 equal(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 equal(tensor<bool> &a, tensor<bool> &b) ;
-	extern tensor<bool> \
-		 equal(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 erf(tensor<double> &a) ;
 	extern tensor<float> \
@@ -229,18 +719,6 @@ namespace dnnc {
 		 global_max_pool(tensor<float> &a) ;
 	extern tensor<double> \
 		 global_max_pool(tensor<double> &a) ;
-	extern tensor<bool> \
-		 greater(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<bool> \
-		 greater(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 greater(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<bool> \
-		 greater_equal(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<bool> \
-		 greater_equal(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 greater_equal(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
 		 hardmax(tensor<float> &a, int axis = 0) ;
 	extern tensor<double> \
@@ -277,12 +755,6 @@ namespace dnnc {
 		 leakyrelu(tensor<float> &a, float alpha = 0.01) ;
 	extern tensor<double> \
 		 leakyrelu(tensor<double> &a, float alpha = 0.01) ;
-	extern tensor<bool> \
-		 less(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<bool> \
-		 less(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 less(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
 		 reciprocal(tensor<float> &a) ;
 	extern tensor<double> \
@@ -319,22 +791,10 @@ namespace dnnc {
 		 mod(tensor<float> &a, tensor<float> &b, int fmod_flag = 0) ;
 	extern tensor<int> \
 		 mod(tensor<int> &a, tensor<int> &b, int fmod_flag = 0) ;
-	extern tensor<bool> \
-		 less_equal(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<bool> \
-		 less_equal(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 less_equal(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
 		 thresholded_relu(tensor<float> &a) ;
 	extern tensor<double> \
 		 thresholded_relu(tensor<double> &a) ;
-	extern tensor<int> \
-		 mul(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<float> \
-		 mul(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<double> \
-		 mul(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<double> \
 		 neg(tensor<double> &a) ;
 	extern tensor<float> \
@@ -342,35 +802,13 @@ namespace dnnc {
 	extern tensor<int> \
 		 neg(tensor<int> &a) ;
 	extern tensor<bool> \
-		 not_equal(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<bool> \
-		 not_equal(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 not_equal(tensor<bool> &a, tensor<bool> &b) ;
-	extern tensor<bool> \
-		 not_equal(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<bool> \
-		 logical_not(tensor<double> &a) ;
-	extern tensor<bool> \
-		 logical_not(tensor<float> &a) ;
-	extern tensor<bool> \
 		 logical_not(tensor<bool> &a) ;
 	extern tensor<bool> \
 		 logical_not(tensor<int> &a) ;
 	extern tensor<bool> \
-		 logical_or(tensor<double> &a, tensor<double> &b) ;
+		 logical_not(tensor<float> &a) ;
 	extern tensor<bool> \
-		 logical_or(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 logical_or(tensor<bool> &a, tensor<bool> &b) ;
-	extern tensor<bool> \
-		 logical_or(tensor<int> &a, tensor<int> &b) ;
-	extern tensor<double> \
-		 pow(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<float> \
-		 pow(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<int> \
-		 pow(tensor<int> &a, tensor<int> &b) ;
+		 logical_not(tensor<double> &a) ;
 	extern tensor<float> \
 		 tan(tensor<float> &a) ;
 	extern tensor<double> \
@@ -379,14 +817,6 @@ namespace dnnc {
 		 tanh(tensor<float> &a) ;
 	extern tensor<double> \
 		 tanh(tensor<double> &a) ;
-	extern tensor<bool> \
-		 logical_xor(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<bool> \
-		 logical_xor(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<bool> \
-		 logical_xor(tensor<bool> &a, tensor<bool> &b) ;
-	extern tensor<bool> \
-		 logical_xor(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 transpose(tensor<double> &a) ;
 	extern tensor<float> \
