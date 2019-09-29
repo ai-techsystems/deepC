@@ -32,16 +32,14 @@ template <typename T> class PRelu : public baseOperator<T, T, T> {
   //  PRelu attributes
 public:
   PRelu(std::string name = "opPRelu") : baseOperator<T, T, T>(opPRelu, name) {
-  	if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+
   }
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   static T prelu (T x, T slope) {
   	//f(x) = slope * x for x < 0, f(x) = x for x >= 0
-  	if (int(x) < 0)
+  	if (x < 0)
   		return (T)slope * x;
   	else
   		return (T)x;
@@ -49,6 +47,10 @@ public:
 
   tensor<T> compute(tensor<T> &x /*!< : N D tensor input*/,
                     tensor<T> &slope /*!< : N D tensor input*/) {
+
+    if (!(this->template type_check<float, double>(typeid(T))))
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
     
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(x, slope);
     tensor<T> result(resultShape);

@@ -29,13 +29,13 @@ using namespace Eigen;
 #ifdef DNNC_PRELU_TEST
 #include <iostream>
 int main() {
-  float x[4] = {-2.3, 4.5, -2.0, 4.};
-  float slope[1] = {5.0};
+  float x[8] = {-2.3, 4.5, -2.0, 4.0, -1.0, 3.5, -5.2, 9.0};
+  float slope[8] = {2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0};
 
-  tensor<float> x_tensor(4);
+  tensor<float> x_tensor(2, 4);
   x_tensor.load(x);
 
-  tensor<float> slope_tensor(1);
+  tensor<float> slope_tensor(2, 4);
   slope_tensor.load(slope);
 
   PRelu<float> op;
