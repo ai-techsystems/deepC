@@ -51,7 +51,7 @@
  }
 }
 
-%feature("autodoc", "3");
+%feature("autodoc", "2"); # generate numpydoc style documentation
 
 %module dnnc
 %include <typemaps.i>
