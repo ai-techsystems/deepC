@@ -92,6 +92,7 @@
 #include "operators/Cos.h"
 #include "operators/Cosh.h"
 #include "operators/Slice.h"
+#include "operators/PRelu.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -3269,7 +3270,6 @@ namespace dnnc {
 		return op.compute(a, start, end, axes, steps);
 	}
 	
-	
 	tensor<float> slice(tensor<float> &a, 
 		             tensor<size_t> &start, 
 			     tensor<size_t> &end, 
@@ -3278,7 +3278,6 @@ namespace dnnc {
 		Slice<float> op;
 		return op.compute(a, start, end, axes, steps);
 	}
-	
 	
 	tensor<int> slice(tensor<int> &a, 
 		             tensor<size_t> &start, 
@@ -3289,7 +3288,6 @@ namespace dnnc {
 		return op.compute(a, start, end, axes, steps);
 	}
 	
-	
 	tensor<bool> slice(tensor<bool> &a, 
 		             tensor<size_t> &start, 
 			     tensor<size_t> &end, 
@@ -3297,6 +3295,23 @@ namespace dnnc {
 			     tensor<size_t> steps = NULL_TENSOR<size_t>) {
 		Slice<bool> op;
 		return op.compute(a, start, end, axes, steps);
+	}
+	
+	tensor<float> prelu(tensor<float> &x, tensor<float> &slope) {
+	  PRelu<float> op("localOpName");
+	  return op.compute(x, slope);
+	}
+	
+	
+	tensor<double> prelu(tensor<double> &x, tensor<double> &slope) {
+	  PRelu<double> op("localOpName");
+	  return op.compute(x, slope);
+	}
+	
+	
+	tensor<int> prelu(tensor<int> &x, tensor<int> &slope) {
+	  PRelu<int> op("localOpName");
+	  return op.compute(x, slope);
 	}
 	
 	
