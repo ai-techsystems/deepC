@@ -55,8 +55,8 @@ enum DNNC_DataType {
        This format has 1 sign bit, 8 exponent bits, and 7 mantissa bits. */
   BFLOAT16 = 16,
 
-  /*!< reserved for advanced usage for nodes that represent multiple/generic types.
-   * Don't use it, if you don't know what it means.
+  /*!< reserved for advanced usage for nodes that represent multiple/generic
+   * types. Don't use it, if you don't know what it means.
    * */
   TENSOR = 17,
   GRAPH = 18,

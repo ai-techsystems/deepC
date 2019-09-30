@@ -33,26 +33,24 @@ typedef std::tuple<DNNC_DataType, DNNC_DataType, DNNC_DataType> OP_DTYPES;
 class genericData {
 protected:
   DNNC_DataType _type = NOTYPE;
-  size_t*       _ref;         /*<! reference count of _data */
-  void*         _data = 0x0;
+  size_t *_ref; /*<! reference count of _data */
+  void *_data = 0x0;
+
 public:
-  genericData(DNNC_DataType ty, std::vector<int>& d) : _type(ty)
-  {
-      _ref = new size_t;
-      *_ref = 1 ;
-      _data = new std::vector<int>(d.begin(), d.end()) ;
+  genericData(DNNC_DataType ty, std::vector<int> &d) : _type(ty) {
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<int>(d.begin(), d.end());
   }
-  genericData(DNNC_DataType ty, std::vector<float>& d) : _type(ty)
-  {
-      _ref = new size_t;
-      *_ref = 1 ;
-      _data = new std::vector<float>(d.begin(), d.end()) ;
+  genericData(DNNC_DataType ty, std::vector<float> &d) : _type(ty) {
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<float>(d.begin(), d.end());
   }
-  genericData(DNNC_DataType ty, std::vector<std::string>& d) : _type(ty)
-  {
-      _ref = new size_t;
-      *_ref = 1 ;
-      _data = new std::vector<std::string>(d.begin(), d.end()) ;
+  genericData(DNNC_DataType ty, std::vector<std::string> &d) : _type(ty) {
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<std::string>(d.begin(), d.end());
   }
   /// \brief copy  constructor
   genericData(const genericData &other) {
@@ -78,43 +76,41 @@ public:
       --(*_ref);
     if (_ref && *_ref == 0 && _data) {
       free(_ref);
-      switch(_type) {
-          case INT32:
-            delete static_cast<std::vector<int>*>(_data) ;
-            break;
-          case FLOAT:
-            delete static_cast<std::vector<float>*>(_data) ;
-            break;
-          case STRING:
-            delete static_cast<std::string*>(_data) ;
-            break;
-          default:
-            assert(false && "genericData object created without type");
+      switch (_type) {
+      case INT32:
+        delete static_cast<std::vector<int> *>(_data);
+        break;
+      case FLOAT:
+        delete static_cast<std::vector<float> *>(_data);
+        break;
+      case STRING:
+        delete static_cast<std::string *>(_data);
+        break;
+      default:
+        assert(false && "genericData object created without type");
       }
     }
   }
-  operator int() const { 
-      if ( _type != INT32 )
-          throw std::bad_cast() ;
+  operator int() const {
+    if (_type != INT32)
+      throw std::bad_cast();
 
-      std::vector<int> ivec = *static_cast<std::vector<int>*>(_data);
+    std::vector<int> ivec = *static_cast<std::vector<int> *>(_data);
 
-      if ( ivec.size() == 0 )
-          throw std::out_of_range("vector of size 0");
+    if (ivec.size() == 0)
+      throw std::out_of_range("vector of size 0");
 
-      return ivec[0];
+    return ivec[0];
   }
-
 };
 
 class nodeAttribute {
 protected:
-  OPATTR      _name = attr_invalid; 
-  genericData _value ;
+  OPATTR _name = attr_invalid;
+  genericData _value;
 
 public:
-  nodeAttribute(OPATTR n, genericData& v) : _name(n), _value(v)
-    {}
+  nodeAttribute(OPATTR n, genericData &v) : _name(n), _value(v) {}
 };
 
 /*! Graph node
@@ -133,24 +129,17 @@ protected:
       _input_names; /*!< inputs, i.e. tensors coming to   this node */
   std::vector<std::string>
       _output_names; /*!< outputs, i.e tensors going  from this node */
-  std::vector<nodeAttribute> _attributes; /*!< attributes of the node, i.e. values
-                                        that don't flow in and out */
+  std::vector<nodeAttribute> _attributes; /*!< attributes of the node, i.e.
+                                        values that don't flow in and out */
 
   node() = delete; /*!< default constructor not allowed */
 public:
   node(OPCODE sym, std::string n = "") : _symbol(sym), _name(n) {}
   ~node() {}
 
-  void addInput(std::string n) {
-      _input_names.push_back(n);
-  }
-  void addOutput(std::string n) {
-      _output_names.push_back(n);
-  }
-  void addAttribute(nodeAttribute& attr) {
-      _attributes.push_back(attr);
-  }
-
+  void addInput(std::string n) { _input_names.push_back(n); }
+  void addOutput(std::string n) { _output_names.push_back(n); }
+  void addAttribute(nodeAttribute &attr) { _attributes.push_back(attr); }
 };
 
 } // namespace dnnc

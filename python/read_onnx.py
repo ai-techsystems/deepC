@@ -21,9 +21,8 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 #
+import os, sys
 import onnx
-import sys
-import dnnc as dc
 
 def dnncOpCode(sym):
   if (sym=="Abs" ):
@@ -487,107 +486,161 @@ def dnncGraphNodeAttrCode(attr_str):
     return dc.attr_weights;
   return dc.attr_invalid;
 
-def createNode(node):
+class pbReader :
+  """Reader class for DNNC models in ONNX binary/protobuf format."""
 
-  op_type = dnncOpCode(node.op_type);
-  if ( op_type is dc.opInvalid ):
-      print(node.op_type+" is not a valid graph-node op type.")
+  def __init__(self):
+      self._dcGraph = None ;
+
+  def __del__(self):
+      del self._dcGraph ;
+
+  def createOPNode(self, node):
+
+    op_type = dnncOpCode(node.op_type);
+    if ( op_type is dc.opInvalid ):
+      print("ERROR (ONNX):" +  node.op_type +" is not a valid graph-node op type.")
       return None
 
-  dcNode = dc.node(op_type, node.name);
+    dcNode = dc.node(op_type, node.name);
 
-  for nd in node.input:
+    for nd in node.input:
       dcNode.addInput(nd)
 
-  for nd in node.output:
+    for nd in node.output:
       dcNode.addOutput(nd)
 
-  for attr in node.attribute:
-    attr_type = dc.NOTYPE;
-    attr_vals = []
-    attr_vec  = None
-    if attr.type == onnx.AttributeProto.INT:
-      attr_type = dc.INT32;
-      attr_vals.append(attr.i)
-      attr_vec = dc.vectorInt(attr_vals)
-    elif attr.type == onnx.AttributeProto.INTS:
-      attr_type = dc.INT32;
-      for val in attr.ints:
-        attr_vals.append(int(val))
-      attr_vec = dc.vectorInt(attr_vals)
-    elif attr.type == onnx.AttributeProto.FLOAT:
-      attr_type = dc.FLOAT;
-      attr_vals.append(attr.f)
-      attr_vec = dc.vectorFloat(attr_vals)
-    elif attr.type == onnx.AttributeProto.FLOATS:
-      attr_type = dc.FLOAT;
-      attr_vals.append(attr.floats)
-      attr_vec = dc.vectorFloat(attr_vals)
-    elif attr.type == onnx.AttributeProto.STRING:
-      attr_type = dc.STRING;
-      attr_vals.append(str(attr.s))
-      attr_vec = dc.vectorStr(attr_vals)
-    elif attr.type == onnx.AttributeProto.STRINGS:
-      attr_type = dc.STRING;
-      attr_vals.append(str(attr.strings))
-      attr_vec = dc.vectorStr(attr_vals)
-    elif attr.type == onnx.AttributeProto.TENSOR:
-      attr_type = dc.TENSOR;
-      attr_vals.append(attr.t)
-      attr_vec = dc.vectorTensorFloat(dc.fTensor(attr_vals))
-    elif attr.type == onnx.AttributeProto.TENSORS:
-      attr_type = dc.TENSORS;
-      attr_vals.append(attr.tensors)
-      attr_vec = dc.vectorTensorFloat(dc.fTensor(attr_vals))
-    elif attr.type == onnx.AttributeProto.GRAPH:
-      attr_type = dc.GRAPH;
-      attr_vals.append(attr.g)
-      print("sub-graph in graph-node is not yet supported.")
-    elif attr.type == onnx.AttributeProto.GRAPHS:
-      attr_type = dc.GRAPHS;
-      attr_vals.append(attr.graphs)
-      print("sub-graph in graph-node is not yet supported.")
-    else:
-      print("graph-node " + node.name + "\'s attribute " + \
-             attr.name + " type " + str(attr.type) + " is not valid.")
-      continue
+    for attr in node.attribute:
+      attr_type = dc.NOTYPE;
+      attr_vals = []
+      attr_vec  = None
+      if attr.type == onnx.AttributeProto.INT:
+        attr_type = dc.INT32;
+        attr_vals.append(attr.i)
+        attr_vec = dc.vectorInt(attr_vals)
+      elif attr.type == onnx.AttributeProto.INTS:
+        attr_type = dc.INT32;
+        for val in attr.ints:
+          attr_vals.append(int(val))
+        attr_vec = dc.vectorInt(attr_vals)
+      elif attr.type == onnx.AttributeProto.FLOAT:
+        attr_type = dc.FLOAT;
+        attr_vals.append(attr.f)
+        attr_vec = dc.vectorFloat(attr_vals)
+      elif attr.type == onnx.AttributeProto.FLOATS:
+        attr_type = dc.FLOAT;
+        attr_vals.append(attr.floats)
+        attr_vec = dc.vectorFloat(attr_vals)
+      elif attr.type == onnx.AttributeProto.STRING:
+        attr_type = dc.STRING;
+        attr_vals.append(str(attr.s))
+        attr_vec = dc.vectorStr(attr_vals)
+      elif attr.type == onnx.AttributeProto.STRINGS:
+        attr_type = dc.STRING;
+        attr_vals.append(str(attr.strings))
+        attr_vec = dc.vectorStr(attr_vals)
+      elif attr.type == onnx.AttributeProto.TENSOR:
+        attr_type = dc.TENSOR;
+        attr_vals.append(attr.t)
+        attr_vec = dc.vectorTensorFloat(dc.fTensor(attr_vals))
+      elif attr.type == onnx.AttributeProto.TENSORS:
+        attr_type = dc.TENSORS;
+        attr_vals.append(attr.tensors)
+        attr_vec = dc.vectorTensorFloat(dc.fTensor(attr_vals))
+      elif attr.type == onnx.AttributeProto.GRAPH:
+        attr_type = dc.GRAPH;
+        attr_vals.append(attr.g)
+        print("ERROR (ONNX): sub-graph in graph-node is not yet supported.")
+      elif attr.type == onnx.AttributeProto.GRAPHS:
+        attr_type = dc.GRAPHS;
+        attr_vals.append(attr.graphs)
+        print("ERROR (ONNX): sub-graph in graph-node is not yet supported.")
+      else:
+        print("ERROR (ONNX): graph-node " + node.name + "\'s attribute " + \
+               attr.name + " type " + str(attr.type) + " is not valid.")
+        continue
 
-    if ( attr_type is dc.NOTYPE or attr_vec is None ) :
-      continue ;
+      if ( attr_type is dc.NOTYPE or attr_vec is None ) :
+        continue ;
 
-    attr_code = dnncGraphNodeAttrCode(attr.name)
-    if ( attr_code is dc.attr_invalid ):
-        print(attr.name+" is not a valid graph-node attribute.")
+      attr_code = dnncGraphNodeAttrCode(attr.name)
+      if ( attr_code is dc.attr_invalid ):
+        print("WARN (ONNX): " + attr.name + " is not a valid graph-node attribute.")
+        print("             operator " + node.op_type + " will be added without this attribute." )
 
-    cAttrData = dc.genericData(attr_type,attr_vec) ;
-    cAttr = dc.nodeAttribute(attr_code, cAttrData);
-    dcNode.addAttribute(cAttr);
+      cAttrData = dc.genericData(attr_type,attr_vec) ;
+      cAttr = dc.nodeAttribute(attr_code, cAttrData);
+      dcNode.addAttribute(cAttr);
 
 
     return dcNode;
 
-def load_onnx(onnx_filename):
+  def createTermNode(self, term):
+    term_name  = term.name
+    term_type  = dc.NOTYPE
+    term_shape = []
+    if ( term.type.tensor_type.elem_type ) :
+      term_type  = term.type.tensor_type.elem_type
+      if ( term_type <= dc.NOTYPE and term_type >= dc.TENSOR ) :
+        print("ERROR (ONNX):  Term " + term_name + "\'s type " + term_type + " is not valid"  ) ;
+        return ;
 
-  print("reading onnx model from file ", onnx_filename)
+    if ( term.type.tensor_type and term.type.tensor_type.shape ) :
+      shape = term.type.tensor_type.shape.dim
+      for dim in shape:
+        if ( dim.dim_param ):
+          if ( dim.dim_param == 'None' ):
+              term_shape.append(0);
+          else:
+              print("ERROR (ONNX): terminal (input/output) " + name + "\'s dim_param "
+                      + dim.dim_param + " is not recognized.");
+        elif ( dim.dim_value ) :
+          term_shape.append(dim.dim_value)
+        else:
+          print("ERROR (ONNX): terminal (input/output) " + name + "has no dim_param or dim_value")
+    return dc.placeHolder(term_name, term_type, term_shape)
 
-  model = onnx.load(onnx_filename)
+  def main(self, onnx_filename):
 
-  print("found ir_vesion: ", model.ir_version, "\n\t info:", model.doc_string)
-  graph = model.graph
+    print("reading onnx model from file ", onnx_filename)
 
-  dcGraph = dc.Graph();
-  dcGraph.setName(graph.name)
+    model = onnx.load(onnx_filename)
 
-  nodes = graph.node
-  for node in nodes:
-    if ( node.op_type != "Constant" ):
-        dcNode = createNode(node);
-        if ( dcNode != None ):
-            dcGraph.addNode(dcNode);
+    print("Model info:\n  ir_vesion : ", model.ir_version, "\n  doc       :", model.doc_string)
+    graph = model.graph
+
+    self._dcGraph = dc.Graph();
+    self._dcGraph.setName(graph.name)
+
+    nodes = graph.node
+    for node in nodes:
+      dcNode = self.createOPNode(node);
+      if ( dcNode != None ):
+        self._dcGraph.addNode(dcNode);
+
+    for terminal in graph.input:
+      dcTerm = self.createTermNode(terminal);
+      if ( dcTerm != None ):
+        self._dcGraph.addInput(dcTerm);
+
+    for terminal in graph.output:
+      dcTerm = self.createTermNode(terminal);
+      if ( dcTerm != None ):
+        self._dcGraph.addOutput(dcTerm);
+
+    #for param in graph.initializer:
+    #  dcParam = self.createParamNode(param);
+
 
 
 if __name__ == "__main__":
+
+  DNNC_ROOT=os.path.abspath(os.path.dirname(__file__)+os.path.sep+'..')
+  sys.path.append(DNNC_ROOT)
+  from swig import dnnc as dc
+
   if len(sys.argv) >= 2:
-    load_onnx(sys.argv[1])
+    parser = pbReader()
+    parser.main(sys.argv[1])
   else:
-    print("Usage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")
+    print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")

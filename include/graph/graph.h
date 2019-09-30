@@ -26,25 +26,33 @@
 #include <set>
 
 namespace dnnc {
-typedef std::tuple<std::string, DNNC_DataType, std::vector<dnnc::DIMENSION>>
-    variable;
+struct placeHolder {
+public:
+  std::string name;
+  DNNC_DataType type;
+  std::vector<size_t> shape;
+  placeHolder(std::string n, DNNC_DataType ty, std::vector<size_t> shp)
+      : name(n), type(ty), shape(shp) {}
+};
 
 /*!< This is a directed graph representing data flow graph
- * for deep neural networks. Default graph is singleton by design, 
- * and light by construction. Default graph lives throughout the 
+ * for deep neural networks. Default graph is singleton by design,
+ * and light by construction. Default graph lives throughout the
  * life of program and dies with it.
  *
  * One can create subgraphs pointers owned by default graph.
+ *
+ * Reference: https://github.com/onnx/onnx/blob/rel-1.5.0/docs/IR.md
  */
 class graph {
 protected:
   std::string _name = "";
   std::vector<node> _nodes;
-  std::vector<variable> _inputs;
-  std::vector<variable> _outputs;
+  std::vector<placeHolder> _inputs;
+  std::vector<placeHolder> _outputs;
   std::vector<nodeAttribute> _initializers;
 
-  std::vector<graph*>   _subgraphs;
+  std::vector<graph *> _subgraphs;
 
   // prohibited methods for singleton instance
   graph() {}
@@ -57,17 +65,20 @@ public:
         _graph; /*!< only one graph can be created, (singleton by design) */
     return _graph;
   }
-  graph* subgraph() {
-      graph* sg = new graph() ; 
-      _subgraphs.push_back(sg) ;
-      return sg;
+  graph *subgraph() {
+    graph *sg = new graph();
+    _subgraphs.push_back(sg);
+    return sg;
   }
   ~graph() {
-      for (auto& sg : _subgraphs)
-          delete sg;
+    for (auto &sg : _subgraphs)
+      delete sg;
   }
   void setName(std::string name) { _name = name; }
   void addNode(node n) { _nodes.push_back(n); }
+  void addInput(placeHolder in) { _inputs.push_back(in); }
+  void addOutput(placeHolder out) { _outputs.push_back(out); }
+  void addInitializer(nodeAttribute param) { _initializers.push_back(param); }
 };
 static graph &Graph() { return graph::singleton(); }
 } // namespace dnnc
