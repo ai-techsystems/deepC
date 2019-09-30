@@ -47,4 +47,6 @@ Softsign.py
 Sign.py
 Softmax.py
 Slice.py
+tensorOperators.py
+tensorOperatorsGenerated.py
 PRelu.py

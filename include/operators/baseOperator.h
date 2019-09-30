@@ -142,6 +142,7 @@ enum OPCODE {
   opReduceSum,
   opReduceSumSquare,
   opRelu,
+  opRemainder,
   opReshape,
   opResize,
   opReverseSequence,

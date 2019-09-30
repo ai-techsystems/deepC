@@ -29,6 +29,20 @@ using namespace Eigen;
 #ifdef DNNC_BITSHIFT_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+
+  int d1[8] = {0, -1, 2, 3, 4, 5, 6, 7};
+  int d2[8] = {0, -1, 2, 3, 4, 5, 6, 7};
+  tensor<int> a(2, 4, 1);
+  tensor<int> b(2, 4, 1);
+  a.load(d1);
+  b.load(d2);
+  // std::string direction = "LEFT";
+  std::string direction = "RIGHT";
+  BitShift<int> m("localOpName", direction);
+  // std::cout << a << "\n";
+  auto result = m.compute(a, b);
+
+  std::cout << result;
+  std::cout << "\n";
 }
 #endif

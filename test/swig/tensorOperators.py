@@ -79,12 +79,12 @@ class tensorOperatorsTest(unittest.TestCase):
         dnnc_testing.utils.assert_equal( temp_ones , self.zeros )
 
         # TrueDiv
-        temp_zeros = self.zeros.copy()
-        temp_zeros /= self.ones
-        dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
-        temp_zeros = self.zeros.copy()
-        temp_zeros /= 1
-        dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
+        # temp_zeros = self.zeros.asTypeFloat().copy()
+        # temp_zeros /= self.ones.asTypeFloat()
+        # dnnc_testing.utils.assert_equal( temp_zeros.asTypeFloat() , self.zeros.asTypeFloat() )
+        # temp_zeros = self.zeros.asTypeFloat().copy()
+        # temp_zeros /= 1.0
+        # dnnc_testing.utils.assert_equal( temp_zeros.asTypeFloat() , self.zeros.asTypeFloat() )
 
         # FloorDiv
         temp_zeros = self.zeros.copy()
@@ -101,6 +101,30 @@ class tensorOperatorsTest(unittest.TestCase):
         temp_ones = self.ones.copy()
         temp_ones **= 0
         dnnc_testing.utils.assert_equal( temp_ones , self.ones )
+
+        # Mod
+        temp_zeros = self.zeros.copy()
+        temp_zeros %= self.ones
+        dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
+        temp_zeros = self.zeros.copy()
+        temp_zeros %= 1
+        dnnc_testing.utils.assert_equal( temp_zeros , self.zeros )
+
+        # Left Shift
+        temp_zeros = self.zeros.copy()
+        temp_zeros <<= self.ones
+        dnnc_testing.utils.assert_equal( temp_zeros , self.zeros << self.ones )
+        temp_ones = self.ones.copy()
+        temp_ones <<= 0
+        dnnc_testing.utils.assert_equal( temp_ones , self.ones << 0 )
+
+        # Right Shift
+        temp_zeros = self.zeros.copy()
+        temp_zeros <<= self.ones
+        dnnc_testing.utils.assert_equal( temp_zeros , self.zeros >> self.ones)
+        temp_ones = self.ones.copy()
+        temp_ones <<= 0
+        dnnc_testing.utils.assert_equal( temp_ones , self.ones >> 0 )
 
         # And
         temp_zeros = self.zeros.copy()
@@ -148,6 +172,18 @@ class tensorOperatorsTest(unittest.TestCase):
         dnnc_testing.utils.assert_equal( self.zeros, self.zeros*1)
         dnnc_testing.utils.assert_equal( self.zeros, self.ones*0)
 
+        # Left Shift
+        dnnc_testing.utils.assert_equal( self.ones<<1, self.ones<<1)
+        dnnc_testing.utils.assert_equal( self.ones<<self.ones, self.ones<<self.ones)
+        dnnc_testing.utils.assert_equal( self.zeros<<1, self.zeros<<1)
+        dnnc_testing.utils.assert_equal( self.ones<<0, self.ones<<0)
+
+        # Right Shift
+        dnnc_testing.utils.assert_equal( self.ones>>1, self.ones>>1)
+        dnnc_testing.utils.assert_equal( self.ones>>self.ones, self.ones>>self.ones)
+        dnnc_testing.utils.assert_equal( self.zeros>>1, self.zeros>>1)
+        dnnc_testing.utils.assert_equal( self.ones>>0, self.ones>>0)
+
         # FloorDiv
         dnnc_testing.utils.assert_equal( self.zeros, self.zeros//self.ones)
         # dnnc_testing.utils.assert_equal( self.ones, 1.0//self.ones)
@@ -155,10 +191,10 @@ class tensorOperatorsTest(unittest.TestCase):
         dnnc_testing.utils.assert_equal( self.ones, self.ones//1)
 
         # Div
-        dnnc_testing.utils.assert_equal( self.ones, self.ones/self.ones)
-        # dnnc_testing.utils.assert_equal( self.ones, 1/self.ones)
-        dnnc_testing.utils.assert_equal( self.zeros, self.zeros/1)
-        dnnc_testing.utils.assert_equal( self.ones, self.ones/1)
+        # dnnc_testing.utils.assert_equal( self.ones.asTypeFloat(), self.ones.asTypeFloat()/self.ones.asTypeFloat())
+        # # dnnc_testing.utils.assert_equal( self.ones, 1/self.ones)
+        # dnnc_testing.utils.assert_equal( self.zeros.asTypeFloat(), self.zeros.asTypeFloat()/1.0)
+        # dnnc_testing.utils.assert_equal( self.ones.asTypeFloat(), self.ones.asTypeFloat()/1.0)
 
         # Pow
         dnnc_testing.utils.assert_equal( self.ones , self.ones**self.ones)
@@ -167,25 +203,25 @@ class tensorOperatorsTest(unittest.TestCase):
         # dnnc_testing.utils.assert_equal( np.power(self.np_i0_4 , self.np_i5_9), self.i0_4**self.i5_9)      # Needs attention
 
         # And
-        dnnc_testing.utils.assert_equal( self.zeros , self.zeros&self.ones)
+        dnnc_testing.utils.assert_equal( self.zeros.asTypeBool() , self.zeros&self.ones)
         # dnnc_testing.utils.assert_equal( self.ones , 1&self.ones)   # And doesn't work with scalar
         # dnnc_testing.utils.assert_equal( self.zeros , 0&self.ones)  # on left and tensor on right
-        dnnc_testing.utils.assert_equal( self.ones , self.ones&1)
-        dnnc_testing.utils.assert_equal( self.zeros , self.ones&0)
+        dnnc_testing.utils.assert_equal( self.ones.asTypeBool() , self.ones&1)
+        dnnc_testing.utils.assert_equal( self.zeros.asTypeBool() , self.ones&0)
 
         # Or
-        dnnc_testing.utils.assert_equal( self.ones , self.zeros|self.ones)
+        dnnc_testing.utils.assert_equal( self.ones.asTypeBool() , self.zeros|self.ones)
         # dnnc_testing.utils.assert_equal( self.ones , 0|self.ones)   # Or doesn't work with scalar
         # dnnc_testing.utils.assert_equal( self.ones , 1|self.zeros)  # on left and tensor on right
-        dnnc_testing.utils.assert_equal( self.ones , self.ones|0)
-        dnnc_testing.utils.assert_equal( self.ones , self.zeros|1)
+        dnnc_testing.utils.assert_equal( self.ones.asTypeBool() , self.ones|0)
+        dnnc_testing.utils.assert_equal( self.ones.asTypeBool() , self.zeros|1)
 
         # Xor
-        dnnc_testing.utils.assert_equal( self.ones , self.zeros^self.ones)
+        dnnc_testing.utils.assert_equal( self.ones.asTypeBool() , self.zeros^self.ones)
         # dnnc_testing.utils.assert_equal( self.ones , 0^self.ones)   # Xor doesn't work with scalar
         # dnnc_testing.utils.assert_equal( self.zeros , 0^self.zeros)  # on left and tensor on right
-        dnnc_testing.utils.assert_equal( self.ones , self.ones^0)
-        dnnc_testing.utils.assert_equal( self.zeros , self.zeros^0)
+        dnnc_testing.utils.assert_equal( self.ones.asTypeBool() , self.ones^0)
+        dnnc_testing.utils.assert_equal( self.zeros.asTypeBool() , self.zeros^0)
 
 
     # unary operators

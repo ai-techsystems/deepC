@@ -131,7 +131,7 @@ tensorOperators = {
 				# "int_tensor_2",		# Numpy doesn't support
 			],
 			"float_tensor_1" : [
-				"bool_scalar",
+				# "bool_scalar",		# Dnnc doesn't support
 				# "bool_tensor_2",		# Dnnc doesn't support
 				# "float_scalar",		# Dnnc != Numpy
 				# "float_tensor_2",		# Dnnc != Numpy

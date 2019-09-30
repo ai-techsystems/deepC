@@ -170,7 +170,7 @@ import dnnc as dc
 import numpy as np
 import unittest
 
-class tensorOperatorsTest(unittest.TestCase):
+class tensorOperatorsGeneratedTest(unittest.TestCase):
 
 	def setUp(self):
 
