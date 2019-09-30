@@ -90,6 +90,7 @@
 #include "operators/Cos.h"
 #include "operators/Cosh.h"
 #include "operators/Slice.h"
+#include "operators/PRelu.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -814,3 +815,13 @@ tensor<output> slice(tensor<input> &a,
 		"bool" : "bool"
 	}
 } 
+
+tensor<output> prelu(tensor<input> &x, tensor<input> &slope) {
+  PRelu<input> op("localOpName");
+  return op.compute(x, slope);
+  dtype = {
+    "float" : "float",
+    "double" : "double",
+    "int" : "int"
+  }
+}
