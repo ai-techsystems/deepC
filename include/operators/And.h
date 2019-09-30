@@ -29,13 +29,19 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! This does element wise binary and operation of two given N D tensors of
+   same size. This operator supports multidirectional (i.e., Numpy-style)
+   broadcasting.*/
+
 template <typename To, typename Ti>
 class And : public baseOperator<To, Ti, Ti> {
   //  And attributes
 public:
   And(std::string name = "opAnd") : baseOperator<To, Ti, Ti>(opAnd, name) {}
 
-  tensor<To> compute(tensor<Ti> a, tensor<Ti> b) {
+  tensor<To> compute(tensor<Ti> a /*!< [bool]: N D tensor input*/,
+                     tensor<Ti> b /*!< [bool]: N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
@@ -62,5 +68,8 @@ public:
 
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape as input with dtype bool.
+  */
 };
 } // namespace dnnc

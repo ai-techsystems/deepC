@@ -26,6 +26,7 @@
 #include "operators/Add.h"
 #include "operators/Abs.h"
 #include "operators/And.h"
+#include "operators/BitShift.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
 #include "operators/Dropout.h"
@@ -70,6 +71,7 @@
 #include "operators/Or.h"
 #include "operators/Pow.h"
 #include "operators/Reciprocal.h"
+#include "operators/Remainder.h"
 #include "operators/Sub.h"
 #include "operators/Tan.h"
 #include "operators/Tanh.h"
@@ -528,6 +530,626 @@ namespace dnnc {
 	
 	tensor<bool> mul(tensor<bool> &a, tensor<bool> &b) {
 		Mul<bool, bool> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, tensor<double> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, tensor<float> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, tensor<size_t> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, tensor<int> &b) {
+		tensor<int> int_a = a.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, tensor<bool> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, tensor<double> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, tensor<double> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, tensor<double> &b) {
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, tensor<double> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, tensor<float> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, tensor<size_t> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, tensor<int> &b) {
+		tensor<int> int_a = a.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, tensor<bool> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, tensor<float> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, tensor<float> &b) {
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, tensor<float> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, tensor<size_t> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, tensor<int> &b) {
+		tensor<int> int_a = a.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, tensor<bool> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, tensor<size_t> &b) {
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, tensor<size_t> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, tensor<int> &b) {
+		FloorDiv<int, int> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, tensor<bool> &b) {
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(a, int_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, tensor<int> &b) {
+		tensor<int> int_a = a.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, tensor<bool> &b) {
+		tensor<int> int_a = a.asType<int>();
+		tensor<int> int_b = b.asType<int>();
+		FloorDiv<int, int> op;
+		return op.compute(int_a, int_b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, tensor<double> &b) {
+		TrueDiv<double, double> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, tensor<float> &b) {
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, tensor<size_t> &b) {
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, tensor<int> &b) {
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, tensor<bool> &b) {
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, tensor<float> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, tensor<size_t> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, tensor<int> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, tensor<bool> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, tensor<float> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, tensor<float> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, tensor<float> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, tensor<size_t> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, tensor<int> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, tensor<bool> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, tensor<size_t> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, tensor<size_t> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, tensor<int> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, tensor<bool> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, tensor<int> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, tensor<bool> &b) {
+		tensor<double> double_a = a.asType<double>();
+		tensor<double> double_b = b.asType<double>();
+		TrueDiv<double, double> op;
+		return op.compute(double_a, double_b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, tensor<double> &b) {
+		Remainder<double, double> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, tensor<float> &b) {
+		tensor<double> double_b = b.asType<double>();
+		Remainder<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, tensor<size_t> &b) {
+		tensor<double> double_b = b.asType<double>();
+		Remainder<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, tensor<int> &b) {
+		tensor<double> double_b = b.asType<double>();
+		Remainder<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, tensor<bool> &b) {
+		tensor<double> double_b = b.asType<double>();
+		Remainder<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> remainder(tensor<float> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		Remainder<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> remainder(tensor<size_t> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		Remainder<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> remainder(tensor<int> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		Remainder<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> remainder(tensor<bool> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		Remainder<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<float> remainder(tensor<float> &a, tensor<float> &b) {
+		Remainder<float, float> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<float> remainder(tensor<float> &a, tensor<size_t> &b) {
+		tensor<float> float_b = b.asType<float>();
+		Remainder<float, float> op;
+		return op.compute(a, float_b);
+	}
+	
+	tensor<float> remainder(tensor<float> &a, tensor<int> &b) {
+		tensor<float> float_b = b.asType<float>();
+		Remainder<float, float> op;
+		return op.compute(a, float_b);
+	}
+	
+	tensor<float> remainder(tensor<float> &a, tensor<bool> &b) {
+		tensor<float> float_b = b.asType<float>();
+		Remainder<float, float> op;
+		return op.compute(a, float_b);
+	}
+	
+	tensor<float> remainder(tensor<size_t> &a, tensor<float> &b) {
+		tensor<float> float_a = a.asType<float>();
+		Remainder<float, float> op;
+		return op.compute(float_a, b);
+	}
+	
+	tensor<float> remainder(tensor<int> &a, tensor<float> &b) {
+		tensor<float> float_a = a.asType<float>();
+		Remainder<float, float> op;
+		return op.compute(float_a, b);
+	}
+	
+	tensor<float> remainder(tensor<bool> &a, tensor<float> &b) {
+		tensor<float> float_a = a.asType<float>();
+		Remainder<float, float> op;
+		return op.compute(float_a, b);
+	}
+	
+	tensor<size_t> remainder(tensor<size_t> &a, tensor<size_t> &b) {
+		Remainder<size_t, size_t> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<size_t> remainder(tensor<size_t> &a, tensor<int> &b) {
+		tensor<size_t> size_t_b = b.asType<size_t>();
+		Remainder<size_t, size_t> op;
+		return op.compute(a, size_t_b);
+	}
+	
+	tensor<size_t> remainder(tensor<size_t> &a, tensor<bool> &b) {
+		tensor<size_t> size_t_b = b.asType<size_t>();
+		Remainder<size_t, size_t> op;
+		return op.compute(a, size_t_b);
+	}
+	
+	tensor<size_t> remainder(tensor<int> &a, tensor<size_t> &b) {
+		tensor<size_t> size_t_a = a.asType<size_t>();
+		Remainder<size_t, size_t> op;
+		return op.compute(size_t_a, b);
+	}
+	
+	tensor<size_t> remainder(tensor<bool> &a, tensor<size_t> &b) {
+		tensor<size_t> size_t_a = a.asType<size_t>();
+		Remainder<size_t, size_t> op;
+		return op.compute(size_t_a, b);
+	}
+	
+	tensor<int> remainder(tensor<int> &a, tensor<int> &b) {
+		Remainder<int, int> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<int> remainder(tensor<int> &a, tensor<bool> &b) {
+		tensor<int> int_b = b.asType<int>();
+		Remainder<int, int> op;
+		return op.compute(a, int_b);
+	}
+	
+	tensor<int> remainder(tensor<bool> &a, tensor<int> &b) {
+		tensor<int> int_a = a.asType<int>();
+		Remainder<int, int> op;
+		return op.compute(int_a, b);
+	}
+	
+	tensor<bool> remainder(tensor<bool> &a, tensor<bool> &b) {
+		Remainder<bool, bool> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<double> pow(tensor<double> &a, tensor<double> &b) {
+		Pow<double, double> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<double> pow(tensor<double> &a, tensor<float> &b) {
+		tensor<double> double_b = b.asType<double>();
+		Pow<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> pow(tensor<double> &a, tensor<size_t> &b) {
+		tensor<double> double_b = b.asType<double>();
+		Pow<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> pow(tensor<double> &a, tensor<int> &b) {
+		tensor<double> double_b = b.asType<double>();
+		Pow<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> pow(tensor<double> &a, tensor<bool> &b) {
+		tensor<double> double_b = b.asType<double>();
+		Pow<double, double> op;
+		return op.compute(a, double_b);
+	}
+	
+	tensor<double> pow(tensor<float> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		Pow<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> pow(tensor<size_t> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		Pow<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> pow(tensor<int> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		Pow<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<double> pow(tensor<bool> &a, tensor<double> &b) {
+		tensor<double> double_a = a.asType<double>();
+		Pow<double, double> op;
+		return op.compute(double_a, b);
+	}
+	
+	tensor<float> pow(tensor<float> &a, tensor<float> &b) {
+		Pow<float, float> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<float> pow(tensor<float> &a, tensor<size_t> &b) {
+		tensor<float> float_b = b.asType<float>();
+		Pow<float, float> op;
+		return op.compute(a, float_b);
+	}
+	
+	tensor<float> pow(tensor<float> &a, tensor<int> &b) {
+		tensor<float> float_b = b.asType<float>();
+		Pow<float, float> op;
+		return op.compute(a, float_b);
+	}
+	
+	tensor<float> pow(tensor<float> &a, tensor<bool> &b) {
+		tensor<float> float_b = b.asType<float>();
+		Pow<float, float> op;
+		return op.compute(a, float_b);
+	}
+	
+	tensor<float> pow(tensor<size_t> &a, tensor<float> &b) {
+		tensor<float> float_a = a.asType<float>();
+		Pow<float, float> op;
+		return op.compute(float_a, b);
+	}
+	
+	tensor<float> pow(tensor<int> &a, tensor<float> &b) {
+		tensor<float> float_a = a.asType<float>();
+		Pow<float, float> op;
+		return op.compute(float_a, b);
+	}
+	
+	tensor<float> pow(tensor<bool> &a, tensor<float> &b) {
+		tensor<float> float_a = a.asType<float>();
+		Pow<float, float> op;
+		return op.compute(float_a, b);
+	}
+	
+	tensor<size_t> pow(tensor<size_t> &a, tensor<size_t> &b) {
+		Pow<size_t, size_t> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<size_t> pow(tensor<size_t> &a, tensor<int> &b) {
+		tensor<size_t> size_t_b = b.asType<size_t>();
+		Pow<size_t, size_t> op;
+		return op.compute(a, size_t_b);
+	}
+	
+	tensor<size_t> pow(tensor<size_t> &a, tensor<bool> &b) {
+		tensor<size_t> size_t_b = b.asType<size_t>();
+		Pow<size_t, size_t> op;
+		return op.compute(a, size_t_b);
+	}
+	
+	tensor<size_t> pow(tensor<int> &a, tensor<size_t> &b) {
+		tensor<size_t> size_t_a = a.asType<size_t>();
+		Pow<size_t, size_t> op;
+		return op.compute(size_t_a, b);
+	}
+	
+	tensor<size_t> pow(tensor<bool> &a, tensor<size_t> &b) {
+		tensor<size_t> size_t_a = a.asType<size_t>();
+		Pow<size_t, size_t> op;
+		return op.compute(size_t_a, b);
+	}
+	
+	tensor<int> pow(tensor<int> &a, tensor<int> &b) {
+		Pow<int, int> op;
+		return op.compute(a, b);
+	}
+	
+	tensor<int> pow(tensor<int> &a, tensor<bool> &b) {
+		tensor<int> int_b = b.asType<int>();
+		Pow<int, int> op;
+		return op.compute(a, int_b);
+	}
+	
+	tensor<int> pow(tensor<bool> &a, tensor<int> &b) {
+		tensor<int> int_a = a.asType<int>();
+		Pow<int, int> op;
+		return op.compute(int_a, b);
+	}
+	
+	tensor<bool> pow(tensor<bool> &a, tensor<bool> &b) {
+		Pow<bool, bool> op;
 		return op.compute(a, b);
 	}
 	
@@ -2093,6 +2715,11 @@ namespace dnnc {
 		return op.compute(a);
 	}
 	
+	tensor<int> bitshift(tensor<int> &a, tensor<int> &b, std::string direction = "") {
+		BitShift<int> op("localOpName", direction);
+		return op.compute(a, b);
+	}
+	
 	tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) {
 		DequantizeLinear<float, int> op;
 		return op.compute(a, b, c);
@@ -2108,18 +2735,18 @@ namespace dnnc {
 		return op.compute(a);
 	}
 	
-	tensor<float> true_div(tensor<double> &a, tensor<double> &b) {
-		TrueDiv<float, double> op;
+	tensor<double> div(tensor<double> &a, tensor<double> &b) {
+		Div<double> op;
 		return op.compute(a, b);
 	}
 	
-	tensor<float> true_div(tensor<float> &a, tensor<float> &b) {
-		TrueDiv<float, float> op;
+	tensor<float> div(tensor<float> &a, tensor<float> &b) {
+		Div<float> op;
 		return op.compute(a, b);
 	}
 	
-	tensor<float> true_div(tensor<int> &a, tensor<int> &b) {
-		TrueDiv<float, int> op;
+	tensor<int> div(tensor<int> &a, tensor<int> &b) {
+		Div<int> op;
 		return op.compute(a, b);
 	}
 	

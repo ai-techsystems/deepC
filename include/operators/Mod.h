@@ -22,6 +22,7 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <math.h>
 #include <string>

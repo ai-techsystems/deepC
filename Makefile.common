@@ -34,9 +34,9 @@ PY_INCLUDES= -I/usr/include/python3.6
 
 LD_FLAGS=-shared 
 CPP_FLAGS=-O3 -Wall -std=c++17 -fPIC -march=native -msse2
-SWIG_FLAGS=-python -c++ -Wall -builtin
-ifneq (,$(findstring $(FAST_SWIG),nN))
 SWIG_FLAGS=-python -c++ -Wall 
+ifneq (,$(findstring $(FAST_SWIG),yY))
+SWIG_FLAGS=-python -c++ -Wall -builtin
 endif
 
 OBJ_DIR=./obj

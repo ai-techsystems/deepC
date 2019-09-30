@@ -171,6 +171,206 @@ namespace dnnc {
 		 mul(tensor<bool> &a, tensor<int> &b) ;
 	extern tensor<bool> \
 		 mul(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 floor_div(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 true_div(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 remainder(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 remainder(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 remainder(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<float> \
+		 remainder(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 remainder(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<float> \
+		 remainder(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 remainder(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 remainder(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<size_t> \
+		 remainder(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 remainder(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<size_t> \
+		 remainder(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<size_t> \
+		 remainder(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 remainder(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 remainder(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 remainder(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 remainder(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 remainder(tensor<bool> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 pow(tensor<double> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 pow(tensor<double> &a, tensor<float> &b) ;
+	extern tensor<double> \
+		 pow(tensor<double> &a, tensor<size_t> &b) ;
+	extern tensor<double> \
+		 pow(tensor<double> &a, tensor<int> &b) ;
+	extern tensor<double> \
+		 pow(tensor<double> &a, tensor<bool> &b) ;
+	extern tensor<double> \
+		 pow(tensor<float> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 pow(tensor<size_t> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 pow(tensor<int> &a, tensor<double> &b) ;
+	extern tensor<double> \
+		 pow(tensor<bool> &a, tensor<double> &b) ;
+	extern tensor<float> \
+		 pow(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 pow(tensor<float> &a, tensor<size_t> &b) ;
+	extern tensor<float> \
+		 pow(tensor<float> &a, tensor<int> &b) ;
+	extern tensor<float> \
+		 pow(tensor<float> &a, tensor<bool> &b) ;
+	extern tensor<float> \
+		 pow(tensor<size_t> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 pow(tensor<int> &a, tensor<float> &b) ;
+	extern tensor<float> \
+		 pow(tensor<bool> &a, tensor<float> &b) ;
+	extern tensor<size_t> \
+		 pow(tensor<size_t> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 pow(tensor<size_t> &a, tensor<int> &b) ;
+	extern tensor<size_t> \
+		 pow(tensor<size_t> &a, tensor<bool> &b) ;
+	extern tensor<size_t> \
+		 pow(tensor<int> &a, tensor<size_t> &b) ;
+	extern tensor<size_t> \
+		 pow(tensor<bool> &a, tensor<size_t> &b) ;
+	extern tensor<int> \
+		 pow(tensor<int> &a, tensor<int> &b) ;
+	extern tensor<int> \
+		 pow(tensor<int> &a, tensor<bool> &b) ;
+	extern tensor<int> \
+		 pow(tensor<bool> &a, tensor<int> &b) ;
+	extern tensor<bool> \
+		 pow(tensor<bool> &a, tensor<bool> &b) ;
 	extern tensor<bool> \
 		 logical_and(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<bool> \
@@ -655,18 +855,20 @@ namespace dnnc {
 		 abs(tensor<float> &a) ;
 	extern tensor<int> \
 		 abs(tensor<int> &a) ;
+	extern tensor<int> \
+		 bitshift(tensor<int> &a, tensor<int> &b, std::string direction = "") ;
 	extern tensor<float> \
 		 dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) ;
 	extern tensor<double> \
 		 dropout(tensor<double> &a, float ratio = 0.5) ;
 	extern tensor<float> \
 		 dropout(tensor<float> &a, float ratio = 0.5) ;
+	extern tensor<double> \
+		 div(tensor<double> &a, tensor<double> &b) ;
 	extern tensor<float> \
-		 true_div(tensor<double> &a, tensor<double> &b) ;
-	extern tensor<float> \
-		 true_div(tensor<float> &a, tensor<float> &b) ;
-	extern tensor<float> \
-		 true_div(tensor<int> &a, tensor<int> &b) ;
+		 div(tensor<float> &a, tensor<float> &b) ;
+	extern tensor<int> \
+		 div(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<double> \
 		 elu(tensor<double> &a, float alpha = 1.0) ;
 	extern tensor<float> \

@@ -21,39 +21,43 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#pragma once
-#include "operators/baseOperator.h"
-#include <string>
+#include "operators/Remainder.h"
 
+using namespace dnnc;
 using namespace Eigen;
 
-namespace dnnc {
+#ifdef DNNC_REMAINDER_TEST
+#include <iostream>
+#include <math.h>
 
-/*! This does element wise binary not operation of given N D tensor.*/
+int main() {
 
-template <typename To, typename Ti>
-class Not : public baseOperator<To, Ti, Ti> {
-  //  Not attributes
-public:
-  Not(std::string name = "opNot") : baseOperator<To, Ti, Ti>(opNot, name) {}
+  float d1[4] = {21., 22., 23., 24.};
+  float d2[4] = {20., 20., 20., 20.};
+  tensor<float> a(4);
+  a.load(d1);
+  tensor<float> b(4);
+  b.load(d2);
+  Remainder<float, float> m("localOpName");
+  auto result = m.compute(a, b);
 
-  tensor<To> compute(tensor<Ti> &a /*!< [bool]: N D tensor input*/) {
+  std::cout << result;
+  std::cout << "\n";
 
-    // This check is for ONNX standard
-    // if (!(this->template type_check<bool>(typeid(Ti))))
-    //   throw std::invalid_argument("Constrain input tensors to bool types.");
+  int d1_int[4] = {21, 22, 23, 24};
+  int d2_int[4] = {20, 21, 22, 23};
+  tensor<int> a_int(4);
+  a_int.load(d1_int);
+  tensor<int> b_int(4);
+  b_int.load(d2_int);
+  // int fremainder_flag = 0;
 
-    tensor<To> result(a.shape(), a.name());
+  Remainder<int, int> m_int("localOpName");
+  auto result_int = m_int.compute(a_int, b_int);
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVector, Ti, a);
-    DNNC_EIGEN_VECTOR_CTOR(To) eResult;
-    eResult.array() = !eigenVector.template cast<bool>().array();
-    result.load(eResult.data());
+  std::cout << result_int;
+  std::cout << "\n";
 
-    return result;
-  }
-  /*!<
-  \return The output tensor of the same shape as input with dtype bool.
-  */
-};
-} // namespace dnnc
+  return 0;
+}
+#endif

@@ -19,6 +19,8 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 
+
+from tensor_interface_helper import *
 import ast
 
 
@@ -100,141 +102,6 @@ def overload_python_operator(dc_operator, operator_python):
 	return s
 
 
-def tensor_swig_helper_comparison(operator_header, operator_python):
-
-	s = '''
-  /*  Comparison <operator>  */
-    %pycompare(__<operand>__, dnnc::tensor::__<operand>__, Py_<operand_upper>);
-  dnnc::tensor<bool> __<operand>__(dnnc::tensor<T>& other) {
-    dnnc::<operator><bool, T> op;
-    return op.compute(*$self, other);
-  }
-'''
-	s = s.replace("<operator>",operator_header).replace("<operand>",operator_python).replace("<operand_upper>",operator_python.upper()) + "\n\n"
-	return s
-
-
-def tensor_swig_helper_logical(operator_header, operator_python):
-
-	s = '''
-  /*  Logical <operator>  */
-  %pybinoperator(__<operand>__, dnnc::tensor::__<operand>__, binaryfunc, nb_<operand>);
-  dnnc::tensor<bool> __<operand>__(dnnc::tensor<T>& other) {
-    dnnc::<operator><bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<bool> __<operand>__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::<operator><bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  %pybinoperator(__r<operand>__, dnnc::tensor::__r<operand>__, binaryfunc, nb_r<operand>);
-  dnnc::tensor<bool> __r<operand>__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-
-    dnnc::<operator><bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-
-
-
-  /*  Assignment <operator>  */
-  %pyinplaceoper(__i<operand>__, dnnc::tensor::__i<operand>__, binaryfunc, nb_inplace_<operand>);
-  dnnc::tensor<bool> __i<operand>__(dnnc::tensor<T>& other) {
-    dnnc::<operator><bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<bool> __i<operand>__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-    dnnc::<operator><bool, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-'''
-	s = s.replace("<operator>",operator_header).replace("<operand>",operator_python) + "\n\n"
-	return s
-
-
-def tensor_swig_helper_binary(dc_operator, operator_header, operator_python):
-	
-	s = '''
-  /*  Binary <operator>  */
-  %pybinoperator(__<operand>__, dnnc::tensor::__<operand>__, binaryfunc, nb_<operand>);
-  dnnc::tensor<T> __<operand>__(dnnc::tensor<bool>& other) {
-  return dnnc::<dc_operator>(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __<operand>__(dnnc::tensor<int>& other) {
-  return dnnc::<dc_operator>(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __<operand>__(dnnc::tensor<size_t>& other) {
-  return dnnc::<dc_operator>(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __<operand>__(dnnc::tensor<float>& other) {
-  return dnnc::<dc_operator>(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __<operand>__(PyObject *scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-  
-  dnnc::tensor<T> other(1);
-  other.load(&data);
-  
-  dnnc::<operator><T, T> op("pythonOp");
-  return op.compute(*$self, other);
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__r<operand>__, dnnc::tensor::__r<operand>__, binaryfunc, nb_r<operand>);
-  dnnc::tensor<T> __r<operand>__(PyObject* scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-  
-  dnnc::tensor<T> other(1);
-  other.load(&data);
-  
-  dnnc::<operator><T, T> op("pythonOp");
-  return op.compute(*$self, other);
-  }
-
-
-
-    /*  Assignment <operator>  */
-  %pyinplaceoper(__i<operand>__, dnnc::tensor::__i<operand>__, binaryfunc, nb_inplace_<operand>);
-  dnnc::tensor<T> __i<operand>__(dnnc::tensor<T>& other) {
-    dnnc::<operator><T, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-  dnnc::tensor<T> __i<operand>__(T scalar) {
-    dnnc::tensor<T> other(1);
-    other.load(&scalar);
-    dnnc::<operator><T, T> op("pythonOp");
-    return op.compute(*$self, other);
-  }
-'''
-	s = s.replace("<operator>",operator_header).replace("<operand>",operator_python).replace("<dc_operator>",dc_operator) + "\n\n"
-	return s
-
 
 def binary_operators(s):
 	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
@@ -245,7 +112,7 @@ def binary_operators(s):
 	for dc_operator, dc_operator_values in operator_list.items():
 		
 		content = temp_content[:]
-		
+
 		operator_header, operator_python = dc_operator_values
 		content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
 
@@ -255,21 +122,34 @@ def binary_operators(s):
 		if "dtype" in content:
 			raise Exception("dtype block could not be removed, try again!")
 
-		tensor_swig_helper_file += tensor_swig_helper_binary(dc_operator, operator_header, operator_python)
+		# tensor interface for true_div and floor_div are written manually
+		if (dc_operator != "true_div") and (dc_operator != "floor_div"):
+			tensor_swig_helper_file += tensor_swig_helper_binary(dc_operator, operator_header, operator_python)
 		py_file += overload_python_operator(dc_operator, operator_python)
 
 		for output, input_2d in dtype.items():
-			for i, input_1d in enumerate(input_2d):
+			
+			# true_div only outputs in float
+			if (dc_operator == "true_div"):
+				output = "double" 
+			
+			# floor_div only outputs in int
+			if (dc_operator == "floor_div"):
+				output = "int" 
+			
+			for input_1d in input_2d:
 
+				input1, input2 = input_1d
 				temp_typecast = ") {\n"
-				temp = content.replace("output",output) + "\n\n"
-				for j, input in enumerate(input_1d):
-					
-					temp = temp.replace("input"+str(j+1),input)
-					if (output != input):
-						temp_typecast += change_dtype(output,(j+1))
-				
+
+				if (input1 != output):
+					temp_typecast += change_dtype(output,1)
+				if (input2 != output):
+					temp_typecast += change_dtype(output,2)
+
+				temp = content.replace("input1",input1).replace("input2",input2).replace("input",output).replace("output",output) + "\n\n"
 				temp = temp.replace(") {\n",temp_typecast)
+				
 				if "asType" in temp:
 					temp = change_compute(temp)
 				cpp_file += temp.replace("\n","\n\t")
@@ -298,7 +178,7 @@ def logical_operators(s):
 		if "dtype" in content:
 			raise Exception("dtype block could not be removed, try again!")
 
-		tensor_swig_helper_file += tensor_swig_helper_logical(operator_header, operator_python)
+		tensor_swig_helper_file += tensor_swig_helper_logical(dc_operator, operator_header, operator_python)
 		py_file += overload_python_operator(dc_operator, operator_python)
 
 		for output, input_2d in dtype.items():
@@ -343,7 +223,7 @@ def comparison_operators(s, dtype_precedence_dict):
 		if "dtype" in content:
 			raise Exception("dtype block could not be removed, try again!")
 
-		tensor_swig_helper_file += tensor_swig_helper_comparison(operator_header, operator_python)
+		tensor_swig_helper_file += tensor_swig_helper_comparison(dc_operator, operator_header, operator_python)
 		py_file += overload_python_operator(dc_operator, operator_python)
 
 		for output, input_2d in dtype.items():

@@ -22,19 +22,26 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! This does element wise binary xor operation of two given N D tensors of
+   same size. This operator supports multidirectional (i.e., Numpy-style)
+   broadcasting.*/
+
 template <typename To, typename Ti>
 class Xor : public baseOperator<To, Ti, Ti> {
 
 public:
   Xor(std::string name = "opXor") : baseOperator<To, Ti, Ti>(opXor, name) {}
 
-  tensor<To> compute(tensor<Ti> a, tensor<Ti> b) {
+  tensor<To> compute(tensor<Ti> a /*!< [bool]: N D tensor input*/,
+                     tensor<Ti> b /*!< [bool]: N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
@@ -61,5 +68,8 @@ public:
 
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape as input with dtype bool.
+  */
 };
 } // namespace dnnc

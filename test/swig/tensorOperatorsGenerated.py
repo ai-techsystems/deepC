@@ -28,7 +28,7 @@ import dnnc as dc
 import numpy as np
 import unittest
 
-class tensorOperatorsTest(unittest.TestCase):
+class tensorOperatorsGeneratedTest(unittest.TestCase):
 
 	def setUp(self):
 
@@ -57,994 +57,410 @@ class tensorOperatorsTest(unittest.TestCase):
 		self.dc_double_5_9 = dc.arange(5,10).asTypeDouble()
 
 
-	# Binary Add
+	# Assignment Add
 
-	# bool_tensor_1 + bool_scalar
-	def test_Binary_Add_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 + True
-		temp_dc = self.dc_bool_0_4 + True
+	# bool_tensor_1 += bool_scalar
+	def test_Assignment_Add_bool_tensor_1_bool_scalar (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np += True
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc += True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 + bool_tensor_2
-	def test_Binary_Add_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 + self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 + self.dc_bool_5_9
+	# bool_tensor_1 += bool_tensor_2
+	def test_Assignment_Add_bool_tensor_1_bool_tensor_2 (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np += self.np_bool_5_9
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc += self.dc_bool_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 + float_scalar
-	def test_Binary_Add_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 + 5.0
-		temp_dc = self.dc_bool_0_4 + 5.0
+	# int_tensor_1 += bool_scalar
+	def test_Assignment_Add_int_tensor_1_bool_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np += True
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc += True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 + float_tensor_2
-	def test_Binary_Add_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 + self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 + self.dc_float_5_9
+	# int_tensor_1 += int_scalar
+	def test_Assignment_Add_int_tensor_1_int_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np += 5
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc += 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 + int_scalar
-	def test_Binary_Add_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 + 5
-		temp_dc = self.dc_bool_0_4 + 5
+	# int_tensor_1 += int_tensor_2
+	def test_Assignment_Add_int_tensor_1_int_tensor_2 (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np += self.np_int_5_9
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc += self.dc_int_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 + int_tensor_2
-	def test_Binary_Add_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 + self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 + self.dc_int_5_9
+	# float_tensor_1 += bool_scalar
+	def test_Assignment_Add_float_tensor_1_bool_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np += True
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc += True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 + bool_scalar
-	def test_Binary_Add_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 + True
-		temp_dc = self.dc_int_0_4 + True
+	# float_tensor_1 += float_scalar
+	def test_Assignment_Add_float_tensor_1_float_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np += 5.0
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc += 5.0
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 + bool_tensor_2
-	def test_Binary_Add_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 + self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 + self.dc_bool_5_9
+	# float_tensor_1 += float_tensor_2
+	def test_Assignment_Add_float_tensor_1_float_tensor_2 (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np += self.np_float_5_9
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc += self.dc_float_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 + float_scalar
-	def test_Binary_Add_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 + 5.0
-		temp_dc = self.dc_int_0_4 + 5.0
+	# float_tensor_1 += int_scalar
+	def test_Assignment_Add_float_tensor_1_int_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np += 5
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc += 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 + float_tensor_2
-	def test_Binary_Add_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 + self.np_float_5_9
-		temp_dc = self.dc_int_0_4 + self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 + int_scalar
-	def test_Binary_Add_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 + 5
-		temp_dc = self.dc_int_0_4 + 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 + int_tensor_2
-	def test_Binary_Add_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 + self.np_int_5_9
-		temp_dc = self.dc_int_0_4 + self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 + bool_scalar
-	def test_Binary_Add_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 + True
-		temp_dc = self.dc_float_0_4 + True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 + bool_tensor_2
-	def test_Binary_Add_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 + self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 + self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 + float_scalar
-	def test_Binary_Add_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 + 5.0
-		temp_dc = self.dc_float_0_4 + 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 + float_tensor_2
-	def test_Binary_Add_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 + self.np_float_5_9
-		temp_dc = self.dc_float_0_4 + self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 + int_scalar
-	def test_Binary_Add_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 + 5
-		temp_dc = self.dc_float_0_4 + 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 + int_tensor_2
-	def test_Binary_Add_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 + self.np_int_5_9
-		temp_dc = self.dc_float_0_4 + self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# Binary Sub
-
-	# bool_tensor_1 - bool_scalar
-	def test_Binary_Sub_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 - True
-		temp_dc = self.dc_bool_0_4 - True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 - bool_tensor_2
-	def test_Binary_Sub_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 - self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 - self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 - float_scalar
-	def test_Binary_Sub_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 - 5.0
-		temp_dc = self.dc_bool_0_4 - 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 - float_tensor_2
-	def test_Binary_Sub_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 - self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 - self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 - int_scalar
-	def test_Binary_Sub_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 - 5
-		temp_dc = self.dc_bool_0_4 - 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 - int_tensor_2
-	def test_Binary_Sub_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 - self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 - self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 - bool_scalar
-	def test_Binary_Sub_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 - True
-		temp_dc = self.dc_int_0_4 - True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 - bool_tensor_2
-	def test_Binary_Sub_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 - self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 - self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 - float_scalar
-	def test_Binary_Sub_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 - 5.0
-		temp_dc = self.dc_int_0_4 - 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 - float_tensor_2
-	def test_Binary_Sub_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 - self.np_float_5_9
-		temp_dc = self.dc_int_0_4 - self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 - int_scalar
-	def test_Binary_Sub_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 - 5
-		temp_dc = self.dc_int_0_4 - 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 - int_tensor_2
-	def test_Binary_Sub_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 - self.np_int_5_9
-		temp_dc = self.dc_int_0_4 - self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 - bool_scalar
-	def test_Binary_Sub_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 - True
-		temp_dc = self.dc_float_0_4 - True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 - bool_tensor_2
-	def test_Binary_Sub_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 - self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 - self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 - float_scalar
-	def test_Binary_Sub_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 - 5.0
-		temp_dc = self.dc_float_0_4 - 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 - float_tensor_2
-	def test_Binary_Sub_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 - self.np_float_5_9
-		temp_dc = self.dc_float_0_4 - self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 - int_scalar
-	def test_Binary_Sub_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 - 5
-		temp_dc = self.dc_float_0_4 - 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 - int_tensor_2
-	def test_Binary_Sub_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 - self.np_int_5_9
-		temp_dc = self.dc_float_0_4 - self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# Binary Mul
-
-	# bool_tensor_1 * bool_scalar
-	def test_Binary_Mul_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 * True
-		temp_dc = self.dc_bool_0_4 * True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 * bool_tensor_2
-	def test_Binary_Mul_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 * self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 * self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 * float_scalar
-	def test_Binary_Mul_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 * 5.0
-		temp_dc = self.dc_bool_0_4 * 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 * float_tensor_2
-	def test_Binary_Mul_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 * self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 * self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 * int_scalar
-	def test_Binary_Mul_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 * 5
-		temp_dc = self.dc_bool_0_4 * 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 * int_tensor_2
-	def test_Binary_Mul_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 * self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 * self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 * bool_scalar
-	def test_Binary_Mul_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 * True
-		temp_dc = self.dc_int_0_4 * True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 * bool_tensor_2
-	def test_Binary_Mul_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 * self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 * self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 * float_scalar
-	def test_Binary_Mul_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 * 5.0
-		temp_dc = self.dc_int_0_4 * 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 * float_tensor_2
-	def test_Binary_Mul_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 * self.np_float_5_9
-		temp_dc = self.dc_int_0_4 * self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 * int_scalar
-	def test_Binary_Mul_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 * 5
-		temp_dc = self.dc_int_0_4 * 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 * int_tensor_2
-	def test_Binary_Mul_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 * self.np_int_5_9
-		temp_dc = self.dc_int_0_4 * self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 * bool_scalar
-	def test_Binary_Mul_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 * True
-		temp_dc = self.dc_float_0_4 * True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 * bool_tensor_2
-	def test_Binary_Mul_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 * self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 * self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 * float_scalar
-	def test_Binary_Mul_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 * 5.0
-		temp_dc = self.dc_float_0_4 * 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 * float_tensor_2
-	def test_Binary_Mul_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 * self.np_float_5_9
-		temp_dc = self.dc_float_0_4 * self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 * int_scalar
-	def test_Binary_Mul_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 * 5
-		temp_dc = self.dc_float_0_4 * 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 * int_tensor_2
-	def test_Binary_Mul_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 * self.np_int_5_9
-		temp_dc = self.dc_float_0_4 * self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# Binary True_Div
-
-	# bool_tensor_1 / bool_scalar
-	def test_Binary_True_Div_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 / True
-		temp_dc = self.dc_bool_0_4 / True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 / bool_tensor_2
-	def test_Binary_True_Div_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 / self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 / self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 / float_scalar
-	def test_Binary_True_Div_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 / 5.0
-		temp_dc = self.dc_bool_0_4 / 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 / float_tensor_2
-	def test_Binary_True_Div_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 / self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 / self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 / int_scalar
-	def test_Binary_True_Div_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 / 5
-		temp_dc = self.dc_bool_0_4 / 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 / int_tensor_2
-	def test_Binary_True_Div_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 / self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 / self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 / bool_scalar
-	def test_Binary_True_Div_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 / True
-		temp_dc = self.dc_int_0_4 / True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 / bool_tensor_2
-	def test_Binary_True_Div_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 / self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 / self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 / float_scalar
-	def test_Binary_True_Div_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 / 5.0
-		temp_dc = self.dc_int_0_4 / 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 / float_tensor_2
-	def test_Binary_True_Div_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 / self.np_float_5_9
-		temp_dc = self.dc_int_0_4 / self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Assignment Sub
 
-	# int_tensor_1 / int_scalar
-	def test_Binary_True_Div_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 / 5
-		temp_dc = self.dc_int_0_4 / 5
+	# int_tensor_1 -= bool_scalar
+	def test_Assignment_Sub_int_tensor_1_bool_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np -= True
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc -= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 / int_tensor_2
-	def test_Binary_True_Div_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 / self.np_int_5_9
-		temp_dc = self.dc_int_0_4 / self.dc_int_5_9
+	# int_tensor_1 -= int_scalar
+	def test_Assignment_Sub_int_tensor_1_int_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np -= 5
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc -= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 / bool_scalar
-	def test_Binary_True_Div_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 / True
-		temp_dc = self.dc_float_0_4 / True
+	# int_tensor_1 -= int_tensor_2
+	def test_Assignment_Sub_int_tensor_1_int_tensor_2 (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np -= self.np_int_5_9
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc -= self.dc_int_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 / bool_tensor_2
-	def test_Binary_True_Div_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 / self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 / self.dc_bool_5_9
+	# float_tensor_1 -= bool_scalar
+	def test_Assignment_Sub_float_tensor_1_bool_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np -= True
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc -= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 / float_scalar
-	def test_Binary_True_Div_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 / 5.0
-		temp_dc = self.dc_float_0_4 / 5.0
+	# float_tensor_1 -= float_scalar
+	def test_Assignment_Sub_float_tensor_1_float_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np -= 5.0
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc -= 5.0
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 / float_tensor_2
-	def test_Binary_True_Div_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 / self.np_float_5_9
-		temp_dc = self.dc_float_0_4 / self.dc_float_5_9
+	# float_tensor_1 -= float_tensor_2
+	def test_Assignment_Sub_float_tensor_1_float_tensor_2 (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np -= self.np_float_5_9
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc -= self.dc_float_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 / int_scalar
-	def test_Binary_True_Div_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 / 5
-		temp_dc = self.dc_float_0_4 / 5
+	# float_tensor_1 -= int_scalar
+	def test_Assignment_Sub_float_tensor_1_int_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np -= 5
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc -= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 / int_tensor_2
-	def test_Binary_True_Div_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 / self.np_int_5_9
-		temp_dc = self.dc_float_0_4 / self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# Binary Floor_Div
-
-	# bool_tensor_1 // bool_scalar
-	def test_Binary_Floor_Div_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 // True
-		temp_dc = self.dc_bool_0_4 // True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 // bool_tensor_2
-	def test_Binary_Floor_Div_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 // self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 // self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 // float_scalar
-	def test_Binary_Floor_Div_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 // 5.0
-		temp_dc = self.dc_bool_0_4 // 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 // float_tensor_2
-	def test_Binary_Floor_Div_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 // self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 // self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 // int_scalar
-	def test_Binary_Floor_Div_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 // 5
-		temp_dc = self.dc_bool_0_4 // 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 // int_tensor_2
-	def test_Binary_Floor_Div_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 // self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 // self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 // bool_scalar
-	def test_Binary_Floor_Div_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 // True
-		temp_dc = self.dc_int_0_4 // True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 // bool_tensor_2
-	def test_Binary_Floor_Div_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 // self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 // self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 // float_scalar
-	def test_Binary_Floor_Div_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 // 5.0
-		temp_dc = self.dc_int_0_4 // 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 // float_tensor_2
-	def test_Binary_Floor_Div_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 // self.np_float_5_9
-		temp_dc = self.dc_int_0_4 // self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 // int_scalar
-	def test_Binary_Floor_Div_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 // 5
-		temp_dc = self.dc_int_0_4 // 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 // int_tensor_2
-	def test_Binary_Floor_Div_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 // self.np_int_5_9
-		temp_dc = self.dc_int_0_4 // self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 // bool_scalar
-	def test_Binary_Floor_Div_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 // True
-		temp_dc = self.dc_float_0_4 // True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 // bool_tensor_2
-	def test_Binary_Floor_Div_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 // self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 // self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 // float_scalar
-	def test_Binary_Floor_Div_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 // 5.0
-		temp_dc = self.dc_float_0_4 // 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 // float_tensor_2
-	def test_Binary_Floor_Div_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 // self.np_float_5_9
-		temp_dc = self.dc_float_0_4 // self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 // int_scalar
-	def test_Binary_Floor_Div_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 // 5
-		temp_dc = self.dc_float_0_4 // 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 // int_tensor_2
-	def test_Binary_Floor_Div_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 // self.np_int_5_9
-		temp_dc = self.dc_float_0_4 // self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# Binary Mod
-
-	# bool_tensor_1 % bool_scalar
-	def test_Binary_Mod_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 % True
-		temp_dc = self.dc_bool_0_4 % True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 % bool_tensor_2
-	def test_Binary_Mod_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 % self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 % self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 % float_scalar
-	def test_Binary_Mod_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 % 5.0
-		temp_dc = self.dc_bool_0_4 % 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 % float_tensor_2
-	def test_Binary_Mod_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 % self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 % self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 % int_scalar
-	def test_Binary_Mod_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 % 5
-		temp_dc = self.dc_bool_0_4 % 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 % int_tensor_2
-	def test_Binary_Mod_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 % self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 % self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 % bool_scalar
-	def test_Binary_Mod_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 % True
-		temp_dc = self.dc_int_0_4 % True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 % bool_tensor_2
-	def test_Binary_Mod_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 % self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 % self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 % float_scalar
-	def test_Binary_Mod_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 % 5.0
-		temp_dc = self.dc_int_0_4 % 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 % float_tensor_2
-	def test_Binary_Mod_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 % self.np_float_5_9
-		temp_dc = self.dc_int_0_4 % self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 % int_scalar
-	def test_Binary_Mod_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 % 5
-		temp_dc = self.dc_int_0_4 % 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# int_tensor_1 % int_tensor_2
-	def test_Binary_Mod_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 % self.np_int_5_9
-		temp_dc = self.dc_int_0_4 % self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 % bool_scalar
-	def test_Binary_Mod_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 % True
-		temp_dc = self.dc_float_0_4 % True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 % bool_tensor_2
-	def test_Binary_Mod_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 % self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 % self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 % float_scalar
-	def test_Binary_Mod_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 % 5.0
-		temp_dc = self.dc_float_0_4 % 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 % float_tensor_2
-	def test_Binary_Mod_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 % self.np_float_5_9
-		temp_dc = self.dc_float_0_4 % self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 % int_scalar
-	def test_Binary_Mod_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 % 5
-		temp_dc = self.dc_float_0_4 % 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 % int_tensor_2
-	def test_Binary_Mod_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 % self.np_int_5_9
-		temp_dc = self.dc_float_0_4 % self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# Binary Pow
-
-	# bool_tensor_1 ** bool_scalar
-	def test_Binary_Pow_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 ** True
-		temp_dc = self.dc_bool_0_4 ** True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 ** bool_tensor_2
-	def test_Binary_Pow_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 ** self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 ** self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 ** float_scalar
-	def test_Binary_Pow_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 ** 5.0
-		temp_dc = self.dc_bool_0_4 ** 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 ** float_tensor_2
-	def test_Binary_Pow_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 ** self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 ** self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Assignment Mul
 
-	# bool_tensor_1 ** int_scalar
-	def test_Binary_Pow_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 ** 5
-		temp_dc = self.dc_bool_0_4 ** 5
+	# bool_tensor_1 *= bool_scalar
+	def test_Assignment_Mul_bool_tensor_1_bool_scalar (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np *= True
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc *= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 ** int_tensor_2
-	def test_Binary_Pow_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 ** self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 ** self.dc_int_5_9
+	# bool_tensor_1 *= bool_tensor_2
+	def test_Assignment_Mul_bool_tensor_1_bool_tensor_2 (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np *= self.np_bool_5_9
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc *= self.dc_bool_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 ** bool_scalar
-	def test_Binary_Pow_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 ** True
-		temp_dc = self.dc_int_0_4 ** True
+	# int_tensor_1 *= bool_scalar
+	def test_Assignment_Mul_int_tensor_1_bool_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np *= True
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc *= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 ** bool_tensor_2
-	def test_Binary_Pow_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 ** self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 ** self.dc_bool_5_9
+	# int_tensor_1 *= int_scalar
+	def test_Assignment_Mul_int_tensor_1_int_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np *= 5
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc *= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 ** float_scalar
-	def test_Binary_Pow_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 ** 5.0
-		temp_dc = self.dc_int_0_4 ** 5.0
+	# int_tensor_1 *= int_tensor_2
+	def test_Assignment_Mul_int_tensor_1_int_tensor_2 (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np *= self.np_int_5_9
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc *= self.dc_int_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 ** float_tensor_2
-	def test_Binary_Pow_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 ** self.np_float_5_9
-		temp_dc = self.dc_int_0_4 ** self.dc_float_5_9
+	# float_tensor_1 *= bool_scalar
+	def test_Assignment_Mul_float_tensor_1_bool_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np *= True
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc *= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 ** int_scalar
-	def test_Binary_Pow_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 ** 5
-		temp_dc = self.dc_int_0_4 ** 5
+	# float_tensor_1 *= float_scalar
+	def test_Assignment_Mul_float_tensor_1_float_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np *= 5.0
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc *= 5.0
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 ** int_tensor_2
-	def test_Binary_Pow_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 ** self.np_int_5_9
-		temp_dc = self.dc_int_0_4 ** self.dc_int_5_9
+	# float_tensor_1 *= float_tensor_2
+	def test_Assignment_Mul_float_tensor_1_float_tensor_2 (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np *= self.np_float_5_9
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc *= self.dc_float_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 ** bool_scalar
-	def test_Binary_Pow_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 ** True
-		temp_dc = self.dc_float_0_4 ** True
+	# float_tensor_1 *= int_scalar
+	def test_Assignment_Mul_float_tensor_1_int_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np *= 5
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc *= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 ** bool_tensor_2
-	def test_Binary_Pow_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 ** self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 ** self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 ** float_scalar
-	def test_Binary_Pow_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 ** 5.0
-		temp_dc = self.dc_float_0_4 ** 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 ** float_tensor_2
-	def test_Binary_Pow_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 ** self.np_float_5_9
-		temp_dc = self.dc_float_0_4 ** self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 ** int_scalar
-	def test_Binary_Pow_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 ** 5
-		temp_dc = self.dc_float_0_4 ** 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# float_tensor_1 ** int_tensor_2
-	def test_Binary_Pow_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 ** self.np_int_5_9
-		temp_dc = self.dc_float_0_4 ** self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# Binary And
-
-	# bool_tensor_1 & bool_scalar
-	def test_Binary_And_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 & True
-		temp_dc = self.dc_bool_0_4 & True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 & bool_tensor_2
-	def test_Binary_And_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 & self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 & self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Assignment True_Div
 
-	# bool_tensor_1 & float_scalar
-	def test_Binary_And_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 & 5.0
-		temp_dc = self.dc_bool_0_4 & 5.0
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 & float_tensor_2
-	def test_Binary_And_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 & self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 & self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 & int_scalar
-	def test_Binary_And_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 & 5
-		temp_dc = self.dc_bool_0_4 & 5
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
-
-	# bool_tensor_1 & int_tensor_2
-	def test_Binary_And_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 & self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 & self.dc_int_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Assignment Floor_Div
 
-	# int_tensor_1 & bool_scalar
-	def test_Binary_And_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 & True
-		temp_dc = self.dc_int_0_4 & True
+	# int_tensor_1 //= bool_scalar
+	def test_Assignment_Floor_Div_int_tensor_1_bool_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np //= True
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc //= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 & bool_tensor_2
-	def test_Binary_And_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 & self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 & self.dc_bool_5_9
+	# int_tensor_1 //= int_scalar
+	def test_Assignment_Floor_Div_int_tensor_1_int_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np //= 5
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc //= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 & float_scalar
-	def test_Binary_And_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 & 5.0
-		temp_dc = self.dc_int_0_4 & 5.0
+	# int_tensor_1 //= int_tensor_2
+	def test_Assignment_Floor_Div_int_tensor_1_int_tensor_2 (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np //= self.np_int_5_9
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc //= self.dc_int_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 & float_tensor_2
-	def test_Binary_And_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 & self.np_float_5_9
-		temp_dc = self.dc_int_0_4 & self.dc_float_5_9
+	# float_tensor_1 //= bool_scalar
+	def test_Assignment_Floor_Div_float_tensor_1_bool_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np //= True
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc //= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 & int_scalar
-	def test_Binary_And_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 & 5
-		temp_dc = self.dc_int_0_4 & 5
+	# float_tensor_1 //= float_scalar
+	def test_Assignment_Floor_Div_float_tensor_1_float_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np //= 5.0
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc //= 5.0
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 & int_tensor_2
-	def test_Binary_And_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 & self.np_int_5_9
-		temp_dc = self.dc_int_0_4 & self.dc_int_5_9
+	# float_tensor_1 //= float_tensor_2
+	def test_Assignment_Floor_Div_float_tensor_1_float_tensor_2 (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np //= self.np_float_5_9
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc //= self.dc_float_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 & bool_scalar
-	def test_Binary_And_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 & True
-		temp_dc = self.dc_float_0_4 & True
+	# float_tensor_1 //= int_scalar
+	def test_Assignment_Floor_Div_float_tensor_1_int_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np //= 5
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc //= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 & bool_tensor_2
-	def test_Binary_And_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 & self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 & self.dc_bool_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Assignment Pow
 
-	# float_tensor_1 & float_scalar
-	def test_Binary_And_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 & 5.0
-		temp_dc = self.dc_float_0_4 & 5.0
+	# int_tensor_1 **= bool_scalar
+	def test_Assignment_Pow_int_tensor_1_bool_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np **= True
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc **= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 & float_tensor_2
-	def test_Binary_And_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 & self.np_float_5_9
-		temp_dc = self.dc_float_0_4 & self.dc_float_5_9
+	# int_tensor_1 **= int_scalar
+	def test_Assignment_Pow_int_tensor_1_int_scalar (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np **= 5
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc **= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 & int_scalar
-	def test_Binary_And_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 & 5
-		temp_dc = self.dc_float_0_4 & 5
+	# int_tensor_1 **= int_tensor_2
+	def test_Assignment_Pow_int_tensor_1_int_tensor_2 (self):
+		temp_np = self.np_int_0_4.copy()
+		temp_np **= self.np_int_5_9
+		temp_dc = self.dc_int_0_4.copy()
+		temp_dc **= self.dc_int_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 & int_tensor_2
-	def test_Binary_And_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 & self.np_int_5_9
-		temp_dc = self.dc_float_0_4 & self.dc_int_5_9
+	# float_tensor_1 **= bool_scalar
+	def test_Assignment_Pow_float_tensor_1_bool_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np **= True
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc **= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# Binary Or
-
-	# bool_tensor_1 | bool_scalar
-	def test_Binary_Or_bool_tensor_1_bool_scalar (self):
-		temp_np = self.np_bool_0_4 | True
-		temp_dc = self.dc_bool_0_4 | True
+	# float_tensor_1 **= float_scalar
+	def test_Assignment_Pow_float_tensor_1_float_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np **= 5.0
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc **= 5.0
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 | bool_tensor_2
-	def test_Binary_Or_bool_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_bool_0_4 | self.np_bool_5_9
-		temp_dc = self.dc_bool_0_4 | self.dc_bool_5_9
+	# float_tensor_1 **= float_tensor_2
+	def test_Assignment_Pow_float_tensor_1_float_tensor_2 (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np **= self.np_float_5_9
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc **= self.dc_float_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 | float_scalar
-	def test_Binary_Or_bool_tensor_1_float_scalar (self):
-		temp_np = self.np_bool_0_4 | 5.0
-		temp_dc = self.dc_bool_0_4 | 5.0
+	# float_tensor_1 **= int_scalar
+	def test_Assignment_Pow_float_tensor_1_int_scalar (self):
+		temp_np = self.np_float_0_4.copy()
+		temp_np **= 5
+		temp_dc = self.dc_float_0_4.copy()
+		temp_dc **= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 | float_tensor_2
-	def test_Binary_Or_bool_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_bool_0_4 | self.np_float_5_9
-		temp_dc = self.dc_bool_0_4 | self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Assignment And
 
-	# bool_tensor_1 | int_scalar
-	def test_Binary_Or_bool_tensor_1_int_scalar (self):
-		temp_np = self.np_bool_0_4 | 5
-		temp_dc = self.dc_bool_0_4 | 5
+	# bool_tensor_1 &= bool_scalar
+	def test_Assignment_And_bool_tensor_1_bool_scalar (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np &= True
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc &= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# bool_tensor_1 | int_tensor_2
-	def test_Binary_Or_bool_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_bool_0_4 | self.np_int_5_9
-		temp_dc = self.dc_bool_0_4 | self.dc_int_5_9
+	# bool_tensor_1 &= bool_tensor_2
+	def test_Assignment_And_bool_tensor_1_bool_tensor_2 (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np &= self.np_bool_5_9
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc &= self.dc_bool_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 | bool_scalar
-	def test_Binary_Or_int_tensor_1_bool_scalar (self):
-		temp_np = self.np_int_0_4 | True
-		temp_dc = self.dc_int_0_4 | True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Assignment Or
 
-	# int_tensor_1 | bool_tensor_2
-	def test_Binary_Or_int_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_int_0_4 | self.np_bool_5_9
-		temp_dc = self.dc_int_0_4 | self.dc_bool_5_9
+	# bool_tensor_1 |= bool_scalar
+	def test_Assignment_Or_bool_tensor_1_bool_scalar (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np |= True
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc |= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 | float_scalar
-	def test_Binary_Or_int_tensor_1_float_scalar (self):
-		temp_np = self.np_int_0_4 | 5.0
-		temp_dc = self.dc_int_0_4 | 5.0
+	# bool_tensor_1 |= bool_tensor_2
+	def test_Assignment_Or_bool_tensor_1_bool_tensor_2 (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np |= self.np_bool_5_9
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc |= self.dc_bool_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 | float_tensor_2
-	def test_Binary_Or_int_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_int_0_4 | self.np_float_5_9
-		temp_dc = self.dc_int_0_4 | self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Assignment Xor
 
-	# int_tensor_1 | int_scalar
-	def test_Binary_Or_int_tensor_1_int_scalar (self):
-		temp_np = self.np_int_0_4 | 5
-		temp_dc = self.dc_int_0_4 | 5
+	# bool_tensor_1 ^= bool_scalar
+	def test_Assignment_Xor_bool_tensor_1_bool_scalar (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np ^= True
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc ^= True
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# int_tensor_1 | int_tensor_2
-	def test_Binary_Or_int_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_int_0_4 | self.np_int_5_9
-		temp_dc = self.dc_int_0_4 | self.dc_int_5_9
+	# bool_tensor_1 ^= bool_tensor_2
+	def test_Assignment_Xor_bool_tensor_1_bool_tensor_2 (self):
+		temp_np = self.np_bool_0_4.copy()
+		temp_np ^= self.np_bool_5_9
+		temp_dc = self.dc_bool_0_4.copy()
+		temp_dc ^= self.dc_bool_5_9
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 | bool_scalar
-	def test_Binary_Or_float_tensor_1_bool_scalar (self):
-		temp_np = self.np_float_0_4 | True
-		temp_dc = self.dc_float_0_4 | True
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Unary Pos
 
-	# float_tensor_1 | bool_tensor_2
-	def test_Binary_Or_float_tensor_1_bool_tensor_2 (self):
-		temp_np = self.np_float_0_4 | self.np_bool_5_9
-		temp_dc = self.dc_float_0_4 | self.dc_bool_5_9
+	# + int_tensor_1
+	def test_Unary_Pos_int_tensor_1 (self):
+		temp_np = + self.np_int_0_4
+		temp_dc = + self.dc_int_0_4
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 | float_scalar
-	def test_Binary_Or_float_tensor_1_float_scalar (self):
-		temp_np = self.np_float_0_4 | 5.0
-		temp_dc = self.dc_float_0_4 | 5.0
+	# + float_tensor_1
+	def test_Unary_Pos_float_tensor_1 (self):
+		temp_np = + self.np_float_0_4
+		temp_dc = + self.dc_float_0_4
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 | float_tensor_2
-	def test_Binary_Or_float_tensor_1_float_tensor_2 (self):
-		temp_np = self.np_float_0_4 | self.np_float_5_9
-		temp_dc = self.dc_float_0_4 | self.dc_float_5_9
-		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
+	# Unary Neg
 
-	# float_tensor_1 | int_scalar
-	def test_Binary_Or_float_tensor_1_int_scalar (self):
-		temp_np = self.np_float_0_4 | 5
-		temp_dc = self.dc_float_0_4 | 5
+	# - int_tensor_1
+	def test_Unary_Neg_int_tensor_1 (self):
+		temp_np = - self.np_int_0_4
+		temp_dc = - self.dc_int_0_4
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# float_tensor_1 | int_tensor_2
-	def test_Binary_Or_float_tensor_1_int_tensor_2 (self):
-		temp_np = self.np_float_0_4 | self.np_int_5_9
-		temp_dc = self.dc_float_0_4 | self.dc_int_5_9
+	# - float_tensor_1
+	def test_Unary_Neg_float_tensor_1 (self):
+		temp_np = - self.np_float_0_4
+		temp_dc = - self.dc_float_0_4
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
 

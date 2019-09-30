@@ -28,6 +28,14 @@
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! Dropout takes one input floating tensor and produces two tensor outputs,
+    output (floating tensor) and mask (Tensor<bool>). Depending on whether
+    it is in test mode or not, the output Y will either be a random dropout
+    or a simple copy of the input. Note that our implementation of Dropout
+    does scaling in the training phase, so during testing nothing needs to be
+   done.*/
+
 template <typename T> class Dropout : public baseOperator<T, T, T> {
 protected:
   float ratio = 0.5; /*!< The ratio of random dropout. */

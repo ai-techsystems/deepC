@@ -26,6 +26,7 @@
 #include "operators/Add.h"
 #include "operators/Abs.h"
 #include "operators/And.h"
+#include "operators/BitShift.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
 #include "operators/Dropout.h"
@@ -70,6 +71,7 @@
 #include "operators/Or.h"
 #include "operators/Pow.h"
 #include "operators/Reciprocal.h"
+#include "operators/Remainder.h"
 #include "operators/Sub.h"
 #include "operators/Tan.h"
 #include "operators/Tanh.h"
@@ -124,10 +126,14 @@ operator_list = {
 	"add" : ["Add", "add"],
 	"sub" : ["Sub", "sub"],
 	"mul" : ["Mul", "mul"],
+	"floor_div" : ["FloorDiv", "floordiv"],
+	"true_div" : ["TrueDiv", "div"],
+	"remainder" : ["Remainder", "mod"],
+	"pow" : ["Pow", "pow"],
 }
 
 tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
-	operator_header<output, output> op;
+	operator_header<output, input> op;
 	return op.compute(a, b);
 	dtype = {
 		"double" : [
@@ -346,6 +352,14 @@ tensor<output> abs(tensor<input> &a) {
 	}
 }
 
+tensor<output> bitshift(tensor<input> &a, tensor<input> &b, std::string direction = "") {
+	BitShift<input> op("localOpName", direction);
+	return op.compute(a, b);
+	dtype = {
+		"int" : "int",
+	}
+}
+
 tensor<output> dequantize_linear(tensor<input> &a, tensor<float> &b, tensor<input> &c) {
 	DequantizeLinear<output, input> op;
 	return op.compute(a, b, c);
@@ -364,13 +378,13 @@ tensor<output> dropout(tensor<input> &a, float ratio = 0.5) {
 	}
 }
 
-tensor<output> true_div(tensor<input> &a, tensor<input> &b) {
-	TrueDiv<output, input> op;
+tensor<output> div(tensor<input> &a, tensor<input> &b) {
+	Div<input> op;
 	return op.compute(a, b);
 	dtype = {
-		"double" : "float",
+		"double" : "double",
 		"float" : "float",
-		"int" : "float"
+		"int" : "int"
 	}
 }
 
@@ -632,7 +646,7 @@ tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod_flag = 0) {
 		"float" : "float",
 		"int" : "int"
 	}
-}
+} 
 
 tensor<output> thresholded_relu(tensor<input> &a) {
   ThresholdedRelu<output> op;
