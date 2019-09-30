@@ -62,9 +62,9 @@ template <typename T> DNNC_DataType getDNNC_DataType(T var) {
   return type;
 }
 
-std::string getDNNC_DataTypeStr(DNNC_DataType var) {
+std::string getDNNC_DataTypeStr(DNNC_DataType dtype) {
   std::string type = "";
-  switch (var) {
+  switch (dtype) {
   case FLOAT:
     type = "float";
     break;

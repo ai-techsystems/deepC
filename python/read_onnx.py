@@ -23,6 +23,7 @@
 #
 import os, sys
 import onnx
+import struct
 
 def dnncOpCode(sym):
   if (sym=="Abs" ):
@@ -511,40 +512,83 @@ class pbReader :
       dcNode.addOutput(nd)
 
     for attr in node.attribute:
-      attr_type = dc.NOTYPE;
+      attr_type = dc.IR_DataType_NOTYPE;
       attr_vals = []
       attr_vec  = None
       if attr.type == onnx.AttributeProto.INT:
-        attr_type = dc.INT32;
+        attr_type = dc.IR_DataType_INT64;
         attr_vals.append(attr.i)
         attr_vec = dc.vectorInt(attr_vals)
       elif attr.type == onnx.AttributeProto.INTS:
-        attr_type = dc.INT32;
+        attr_type = dc.IR_DataType_INT64;
         for val in attr.ints:
           attr_vals.append(int(val))
         attr_vec = dc.vectorInt(attr_vals)
       elif attr.type == onnx.AttributeProto.FLOAT:
-        attr_type = dc.FLOAT;
+        attr_type = dc.IR_DataType_FLOAT;
         attr_vals.append(attr.f)
         attr_vec = dc.vectorFloat(attr_vals)
       elif attr.type == onnx.AttributeProto.FLOATS:
-        attr_type = dc.FLOAT;
+        attr_type = dc.IR_DataType_FLOAT;
         attr_vals.append(attr.floats)
         attr_vec = dc.vectorFloat(attr_vals)
       elif attr.type == onnx.AttributeProto.STRING:
-        attr_type = dc.STRING;
+        attr_type = dc.IR_DataType_STRING;
         attr_vals.append(str(attr.s))
         attr_vec = dc.vectorStr(attr_vals)
       elif attr.type == onnx.AttributeProto.STRINGS:
-        attr_type = dc.STRING;
+        attr_type = dc.IR_DataType_STRING;
         attr_vals.append(str(attr.strings))
         attr_vec = dc.vectorStr(attr_vals)
       elif attr.type == onnx.AttributeProto.TENSOR:
-        attr_type = dc.TENSOR;
-        attr_vals.append(attr.t)
-        attr_vec = dc.vectorTensorFloat(dc.fTensor(attr_vals))
+        if ( attr.t.data_type == dc.IR_DataType_INT8  or
+             attr.t.data_type == dc.IR_DataType_INT16 or
+             attr.t.data_type == dc.IR_DataType_INT32 or
+             attr.t.data_type == dc.IR_DataType_INT64   ) :
+          attr_type = attr.t.data_type
+          pack_format = 'P';
+          if ( attr.t.data_type == dc.IR_DataType_INT8 ) :
+              pack_format = 'b'
+          if ( attr.t.data_type == dc.IR_DataType_INT16) :
+              pack_format = 'h'
+          if ( attr.t.data_type == dc.IR_DataType_INT32) :
+              pack_format = 'i'
+          if ( attr.t.data_type == dc.IR_DataType_INT64) :
+              pack_format = 'q'
+
+          len=1
+          for d in attr.t.dims:
+            len *= d
+          attr_data = struct.unpack(pack_format*len, attr.t.raw_data) ;
+          attr_tensor = dc.iTensor(attr.t.dims, attr.name)
+          attr_tensor.load(attr_data);
+          attr_vec = dc.vectorTensorInt()
+          attr_vec.push_back(attr_tensor)
+        elif ( attr.t.data_type == dc.IR_DataType_FLOAT16 or
+             attr.t.data_type == dc.IR_DataType_FLOAT   or
+             attr.t.data_type == dc.IR_DataType_DOUBLE    ):
+          attr_type = attr.t.data_type
+          pack_format = 'P';
+          if ( attr.t.data_type == dc.IR_DataType_FLOAT16 ) :
+              pack_format = 'e'
+          if ( attr.t.data_type == dc.IR_DataType_FLOAT ) :
+              pack_format = 'f'
+          if ( attr.t.data_type == dc.IR_DataType_DOUBLE ) :
+              pack_format = 'd'
+          len=1
+          for d in attr.t.dims:
+            len *= d
+          attr_data = struct.unpack(pack_format*len, attr.t.raw_data) ;
+          attr_tensor = dc.fTensor(attr.t.dims, attr.name)
+          attr_tensor.load(attr_data);
+          attr_vec = dc.vectorTensorFloat()
+          attr_vec.push_back(attr_tensor)
+        else:
+          print("ERROR (ONNX): attribute tensor's datatype " + str(attr.t.data_type) +
+                  " isn't understood.")
+
       elif attr.type == onnx.AttributeProto.TENSORS:
-        attr_type = dc.TENSORS;
+        attr_type = dc.IR_DataType_TENSORS;
         attr_vals.append(attr.tensors)
         attr_vec = dc.vectorTensorFloat(dc.fTensor(attr_vals))
       elif attr.type == onnx.AttributeProto.GRAPH:
@@ -560,7 +604,7 @@ class pbReader :
                attr.name + " type " + str(attr.type) + " is not valid.")
         continue
 
-      if ( attr_type is dc.NOTYPE or attr_vec is None ) :
+      if ( attr_type is dc.IR_DataType_NOTYPE or attr_vec is None ) :
         continue ;
 
       attr_code = dnncGraphNodeAttrCode(attr.name)
@@ -577,12 +621,12 @@ class pbReader :
 
   def createTermNode(self, term):
     term_name  = term.name
-    term_type  = dc.NOTYPE
+    data_type  = dc.NOTYPE
     term_shape = []
     if ( term.type.tensor_type.elem_type ) :
-      term_type  = term.type.tensor_type.elem_type
-      if ( term_type <= dc.NOTYPE and term_type >= dc.TENSOR ) :
-        print("ERROR (ONNX):  Term " + term_name + "\'s type " + term_type + " is not valid"  ) ;
+      data_type  = term.type.tensor_type.elem_type
+      if ( data_type <= dc.NOTYPE and data_type >= dc.TENSOR ) :
+        print("ERROR (ONNX):  Term " + term_name + "\'s type " + data_type + " is not valid"  ) ;
         return ;
 
     if ( term.type.tensor_type and term.type.tensor_type.shape ) :
@@ -592,13 +636,14 @@ class pbReader :
           if ( dim.dim_param == 'None' ):
               term_shape.append(0);
           else:
-              print("ERROR (ONNX): terminal (input/output) " + name + "\'s dim_param "
+              print("ERROR (ONNX): terminal (input/output) " + term_name + "\'s dim_param "
                       + dim.dim_param + " is not recognized.");
         elif ( dim.dim_value ) :
           term_shape.append(dim.dim_value)
         else:
-          print("ERROR (ONNX): terminal (input/output) " + name + "has no dim_param or dim_value")
-    return dc.placeHolder(term_name, term_type, term_shape)
+          print("ERROR (ONNX): terminal (input/output) " + term_name + " has no dim_param or dim_value")
+
+    return dc.placeHolder(term_name, data_type, term_shape)
 
   def main(self, onnx_filename):
 

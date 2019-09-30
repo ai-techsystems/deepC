@@ -32,7 +32,7 @@
 // template instantiations to generate complete definition of the
 // operator. This breaks principle of modularity along with my heart. :-/
 //
-// ONNX operator reference: 
+// ONNX operator reference:
 //     https://github.com/onnx/onnx/blob/rel-1.5.0/docs/Operators.md
 //
 #include "core/tensor.h"

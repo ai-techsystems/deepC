@@ -28,29 +28,55 @@
 #include <vector>
 
 namespace dnnc {
-typedef std::tuple<DNNC_DataType, DNNC_DataType, DNNC_DataType> OP_DTYPES;
 
 class genericData {
 protected:
-  DNNC_DataType _type = NOTYPE;
+  IR_DataType _type = IR_DataType::NOTYPE;
   size_t *_ref; /*<! reference count of _data */
   void *_data = 0x0;
 
 public:
-  genericData(DNNC_DataType ty, std::vector<int> &d) : _type(ty) {
+  genericData(IR_DataType ty, std::vector<int> &d) : _type(ty) {
+    assert(ty == IR_DataType::INT8 || ty == IR_DataType::INT16 ||
+           ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
     _ref = new size_t;
     *_ref = 1;
     _data = new std::vector<int>(d.begin(), d.end());
   }
-  genericData(DNNC_DataType ty, std::vector<float> &d) : _type(ty) {
+  genericData(IR_DataType ty, std::vector<float> &d) : _type(ty) {
+    assert(ty == IR_DataType::FLOAT || ty == IR_DataType::FLOAT16 ||
+           ty == IR_DataType::DOUBLE);
     _ref = new size_t;
     *_ref = 1;
     _data = new std::vector<float>(d.begin(), d.end());
   }
-  genericData(DNNC_DataType ty, std::vector<std::string> &d) : _type(ty) {
+  genericData(IR_DataType ty, std::vector<std::string> &d) : _type(ty) {
+    assert(ty == IR_DataType::STRING);
     _ref = new size_t;
     *_ref = 1;
     _data = new std::vector<std::string>(d.begin(), d.end());
+  }
+  genericData(IR_DataType ty, std::vector<tensor<bool>> &d) : _type(ty) {
+    assert(ty == IR_DataType::BOOL);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<tensor<bool>>(d.begin(), d.end());
+  }
+  genericData(IR_DataType ty, std::vector<tensor<int>> &d)
+      : _type(IR_DataType::TENSOR_INT) {
+    assert(ty == IR_DataType::INT8 || ty == IR_DataType::INT16 ||
+           ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<tensor<int>>(d.begin(), d.end());
+  }
+  genericData(IR_DataType ty, std::vector<tensor<float>> &d)
+      : _type(IR_DataType::TENSOR_FLOAT) {
+    assert(ty == IR_DataType::FLOAT || ty == IR_DataType::FLOAT16 ||
+           ty == IR_DataType::DOUBLE);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<tensor<float>>(d.begin(), d.end());
   }
   /// \brief copy  constructor
   genericData(const genericData &other) {
@@ -77,22 +103,37 @@ public:
     if (_ref && *_ref == 0 && _data) {
       free(_ref);
       switch (_type) {
-      case INT32:
+      case IR_DataType::INT8:
+      case IR_DataType::INT16:
+      case IR_DataType::INT32:
+      case IR_DataType::INT64:
         delete static_cast<std::vector<int> *>(_data);
         break;
-      case FLOAT:
+      case IR_DataType::FLOAT:
+      case IR_DataType::FLOAT16:
+      case IR_DataType::DOUBLE:
         delete static_cast<std::vector<float> *>(_data);
         break;
-      case STRING:
+      case IR_DataType::STRING:
         delete static_cast<std::string *>(_data);
+        break;
+      case IR_DataType::TENSOR_BOOL:
+        delete static_cast<std::vector<tensor<bool>> *>(_data);
+        break;
+      case IR_DataType::TENSOR_INT:
+        delete static_cast<std::vector<tensor<int>> *>(_data);
+        break;
+      case IR_DataType::TENSOR_FLOAT:
+        delete static_cast<std::vector<tensor<float>> *>(_data);
         break;
       default:
         assert(false && "genericData object created without type");
+        break;
       }
     }
   }
   operator int() const {
-    if (_type != INT32)
+    if (_type != IR_DataType::INT64)
       throw std::bad_cast();
 
     std::vector<int> ivec = *static_cast<std::vector<int> *>(_data);

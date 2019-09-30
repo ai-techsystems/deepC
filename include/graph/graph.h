@@ -52,12 +52,18 @@ protected:
   std::vector<placeHolder> _outputs;
   std::vector<nodeAttribute> _initializers;
 
+  /*!< Hierarchical graph mechanism by registry.
+   * 1. Parent registers every new born in _subgraphs (see subgraph method).
+   * 2. Before dying, child deregisters itself from parent's _subgraphs (see
+   * destructor).
+   * */
+  graph *_parent = 0x0;
   std::vector<graph *> _subgraphs;
 
+  graph(graph *parent = 0x0) : _parent(parent) {}
   // prohibited methods for singleton instance
-  graph() {}
-  // graph(const graph &other) = delete;
-  // graph &operator=(const graph &other) = delete;
+  graph(const graph &other) = delete;
+  graph &operator=(const graph &other) = delete;
 
 public:
   static graph &singleton() {
@@ -65,12 +71,20 @@ public:
         _graph; /*!< only one graph can be created, (singleton by design) */
     return _graph;
   }
-  graph *subgraph() {
-    graph *sg = new graph();
+  graph &subgraph() {
+    graph *sg = new graph(this);
+    // register new born in _subgraphs.
     _subgraphs.push_back(sg);
-    return sg;
+    return *sg;
   }
   ~graph() {
+    if (_parent) {
+      // Before dying, deregister itself from parent's _subgraphs.
+      // Erase-Remove idiom
+      _parent->_subgraphs.erase(std::remove(_parent->_subgraphs.begin(),
+                                            _parent->_subgraphs.end(), this),
+                                _parent->_subgraphs.end());
+    }
     for (auto &sg : _subgraphs)
       delete sg;
   }

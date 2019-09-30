@@ -364,6 +364,7 @@ public:
       sz = sz * _shape[i];
     return sz;
   }
+  void name(std::string n) { _name = n; }
   std::string name() const { return _name; }
   const DIMENSION rank() const { return _shape.size(); }
   const std::vector<DIMENSION> shape() const { return _shape; }
