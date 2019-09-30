@@ -31,19 +31,21 @@ namespace dnnc {
 template <typename T> class Pad : public baseOperator<T, T, T> {
   //  Pad attributes
   std::string mode;
+
 public:
-  Pad(std::string name = "opPad", std::string mode = "constant") : baseOperator<T, T, T>(opPad, name) {}
+  Pad(std::string name = "opPad", std::string mode = "constant")
+      : baseOperator<T, T, T>(opPad, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-    bool getAttribute(OPATTR attrName, string &obj) {
-	    if (attrName == attr_mode) {
-	      obj = mode;
-	      return true;
-	    }
-	    return false;
+  bool getAttribute(OPATTR attrName, std::string &obj) {
+    if (attrName == attr_mode) {
+      obj = mode;
+      return true;
     }
+    return false;
+  }
 
-  tensor<T> compute(tensor<T>& x, tensor<T>& pads, T constant_value = 0) {
+  tensor<T> compute(tensor<T> &x, tensor<T> &pads, T constant_value = 0) {
     // CHANGE return-type and args
     // AND ADD YOUR FUNCTIONAL CODE HERE
   }
