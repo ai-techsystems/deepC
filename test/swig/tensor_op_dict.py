@@ -165,7 +165,7 @@ tensorOperators = {
 				# "int_tensor_2",		# Dnnc doesn't support
 			],
 		},
-		"pow" : {
+		"power" : {
 			"bool_tensor_1" : [
 				# "bool_scalar",		# Numpy doesn't support
 				# "bool_tensor_2",		# Numpy doesn't support
@@ -427,7 +427,7 @@ tensorOperators = {
 				"int_tensor_2",
 			],
 		},
-		"pow" : {
+		"power" : {
 			"bool_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
@@ -688,7 +688,7 @@ operators = {
 	"assignment_true_div" : "/=",
 	"assignment_floor_div" : "//=",
 	"assignment_mod" : "%=",
-	"assignment_pow" : "**=",
+	"assignment_power" : "**=",
 	"assignment_lshift" : "<<=",
 	"assignment_rshift" : ">>=",
 	"assignment_and" : "&=",
@@ -700,7 +700,7 @@ operators = {
 	"binary_true_div" : "/",
 	"binary_floor_div" : "//",
 	"binary_mod" : "%",
-	"binary_pow" : "**",
+	"binary_power" : "**",
 	"binary_lshift" : "<<",
 	"binary_rshift" : ">>",
 	"binary_and" : "&",
