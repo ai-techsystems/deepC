@@ -36,9 +36,9 @@ int main() {
   a.load(d1);
   tensor<int> b(2, 1, 3);
   b.load(d2);
-  std::cout << a << "\n";
-  std::cout << b << "\n";
-  GreaterEqual<int> m("localOpName");
+  // std::cout << a << "\n";
+  // std::cout << b << "\n";
+  GreaterEqual<bool, int> m("localOpName");
   auto result = m.compute(a, b);
   std::cout << result;
   std::cout << "\n";

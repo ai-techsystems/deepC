@@ -6,6 +6,3 @@ MatMulInteger.py
 Mean.py
 Min.py
 Mod.py
-tensorOperators.py
-tensorAssignmentOperators.py
-tensorOperatorsGenerated.py

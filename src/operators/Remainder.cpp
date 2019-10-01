@@ -21,26 +21,43 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "operators/PRelu.h"
+#include "operators/Remainder.h"
 
 using namespace dnnc;
 using namespace Eigen;
 
-#ifdef DNNC_PRELU_TEST
+#ifdef DNNC_REMAINDER_TEST
 #include <iostream>
+#include <math.h>
+
 int main() {
-  float x[8] = {-2.3, 4.5, -2.0, 4.0, -1.0, 3.5, -5.2, 9.0};
-  float slope[8] = {2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0};
 
-  tensor<float> x_tensor(2, 4);
-  x_tensor.load(x);
+  float d1[4] = {21., 22., 23., 24.};
+  float d2[4] = {20., 20., 20., 20.};
+  tensor<float> a(4);
+  a.load(d1);
+  tensor<float> b(4);
+  b.load(d2);
+  Remainder<float, float> m("localOpName");
+  auto result = m.compute(a, b);
 
-  tensor<float> slope_tensor(2, 4);
-  slope_tensor.load(slope);
+  std::cout << result;
+  std::cout << "\n";
 
-  PRelu<float> op;
-  auto result = op.compute(x_tensor, slope_tensor);
+  int d1_int[4] = {21, 22, 23, 24};
+  int d2_int[4] = {20, 21, 22, 23};
+  tensor<int> a_int(4);
+  a_int.load(d1_int);
+  tensor<int> b_int(4);
+  b_int.load(d2_int);
+  // int fremainder_flag = 0;
 
-  std::cout << result << std::endl;
+  Remainder<int, int> m_int("localOpName");
+  auto result_int = m_int.compute(a_int, b_int);
+
+  std::cout << result_int;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif

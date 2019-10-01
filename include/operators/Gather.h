@@ -28,17 +28,67 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Gather : public baseOperator<T, T, T> {
+template <typename To, typename Ti>
+class Gather : public baseOperator<To, To, Ti> {
+protected:
+  int axis = 0; /*!< Which axis to gather on. Negative value means
+          counting dimensions from the back. Accepted
+          range is [-r, r-1] where r = rank(data). */
   //  Gather attributes
 public:
-  Gather(std::string name = "opGather")
-      : baseOperator<T, T, T>(opGather, name) {}
+  Gather(std::string name = "opGather", int axis = 0)
+      : baseOperator<To, To, Ti>(opGather, name) {
+    this->axis = axis;
+  }
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  bool getAttribute(OPATTR attrName, float &obj) {
+    if (attrName == attr_axis) {
+      obj = axis;
+      return true;
+    }
+    return false;
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  // duplicate of numpy.take(), link:
+  // "https://docs.scipy.org/doc/numpy/reference/generated/numpy.take.html"
+
+  tensor<To> compute(tensor<To> &a /*!<[float,double]: ND tensor*/,
+                     tensor<Ti> &indices /*!<[int]: ND tensor*/) {
+
+    if (!(this->template type_check<int>(typeid(Ti))))
+      throw std::invalid_argument("Constrain axis tensor to integer type.");
+
+    if (a.rank() < 1)
+      throw std::invalid_argument(
+          "Constrain input tensor rank greater than 0.");
+
+    if (axis < -a.rank() || axis > a.rank() - 1)
+      throw std::invalid_argument(
+          "Constrain axis in range [-r,r-1] where r = rank(data)");
+
+    std::vector<size_t> Ni, Nj, Nk;
+    tensor<To> result(a);
+
+    for (int i = 0; i < axis; i++) {
+      Ni.push_back(a.shape()[i]);
+    }
+
+    for (int i = axis; i < a.rank(); i++) {
+      Nk.push_back(a.shape()[i]);
+    }
+
+    Nj = indices.shape();
+
+    for (int i = 0; i < size(Ni); i++) {
+      for (int j = 0; j < size(Nj); j++) {
+        for (int k = 0; k < size(Nk); k++) {
+          // out[ii + jj + kk] = a[ii + (indices[jj],) + kk]
+          // result[Ni[i] + Nj[j] + Nk[k]] = a[Ni[i] + ]
+        }
+      }
+    }
+
+    return result;
   }
 };
 } // namespace dnnc

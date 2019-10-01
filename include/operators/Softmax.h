@@ -91,6 +91,7 @@ public:
         sum += e_x;
       }
       for (int j = 0; j < int(a.shape()[1]); j++) {
+        e_x = exp(eigenMatrix1(i, j) - max_x);
         result(i, j) = e_x / (sum);
       }
     }

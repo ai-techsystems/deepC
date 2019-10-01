@@ -28,25 +28,58 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Mul : public baseOperator<T, T, T> {
-  //  Mul attributes
-public:
-  Mul(std::string name = "opMul") : baseOperator<T, T, T>(opMul, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-  tensor<T> compute(tensor<T> &a, tensor<T> &b) {
+/*! This does element wise binary multplication operation of two given N D
+   tensors of same size. This operator supports multidirectional (i.e.,
+   Numpy-style) broadcasting.*/
+
+template <typename To, typename Ti>
+class Mul : public baseOperator<To, Ti, Ti> {
+protected:
+  template <typename Scalar>
+  inline DNNC_EIGEN_VECTOR_CTOR(Scalar)
+      eigenArrayMul(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
+    return a.array() * b.array();
+  }
+  // Eigen does not support mul operator for bool
+  // So specialiazation is needed to work around that limitation.
+  // Bug Ref: http://eigen.tuxfamily.org/bz/show_bug.cgi?id=426
+  inline DNNC_EIGEN_VECTOR_CTOR(bool)
+      eigenArrayMul(Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &b) {
+    auto eigenVectorIA = a.template cast<uint8_t>();
+    auto eigenVectorIB = b.template cast<uint8_t>();
+    DNNC_EIGEN_VECTOR_CTOR(uint8_t) eIResult;
+    eIResult.array() = eigenVectorIA.array() * eigenVectorIB.array();
+    return eIResult.template cast<bool>();
+  }
+
+public:
+  Mul(std::string name = "opMul") : baseOperator<To, Ti, Ti>(opMul, name) {}
+  tensor<To> compute(tensor<Ti> a /*!< : N D tensor input*/,
+                     tensor<Ti> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<T> result(resultShape);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);
+    tensor<To> result(resultShape);
 
-    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for Mul operator.");
+    // Written for arbitrary Dimension.
 
-    eResult.array() = eigenVectorA.array() * eigenVectorB.array();
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
+
+    DNNC_EIGEN_VECTOR_CTOR(To)
+    eResult = eigenArrayMul(eigenVectorA, eigenVectorB);
+
     result.load(eResult.data());
 
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape and type as input.
+  */
 };
 } // namespace dnnc

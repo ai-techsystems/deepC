@@ -22,23 +22,95 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! This does element wise binary left shift and right shift operation of two
+   given N D tensors of same size. This operator supports multidirectional
+   (i.e., Numpy-style) broadcasting.*/
+
 template <typename T> class BitShift : public baseOperator<T, T, T> {
-  //  BitShift attributes
-public:
-  BitShift(std::string name = "opBitShift")
-      : baseOperator<T, T, T>(opBitShift, name) {}
+protected:
+  std::string direction = ""; /*!< Direction of BitShift. */
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  // Eigen does not support bitshift
+  // So binaryExpr is needed to work around that limitation.
+  // https://stackoverflow.com/questions/29127497/bitwise-operations-in-eigen
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  /*! Element wise Left-Shift-Function*/
+  static T left_shift_func(T x, T y) { return (x << y); }
+
+  /*! Element wise Right-Shift-Function*/
+  static T right_shift_func(T x, T y) { return (x >> y); }
+
+  template <typename Scalar>
+  inline DNNC_EIGEN_VECTOR_CTOR(Scalar)
+      eigenArrayLeftShift(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
+                          Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
+    return (a.array().binaryExpr(b.array(), &left_shift_func));
   }
+
+  template <typename Scalar>
+  inline DNNC_EIGEN_VECTOR_CTOR(Scalar)
+      eigenArrayRightShift(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
+                           Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
+    return (a.array().binaryExpr(b.array(), &right_shift_func));
+  }
+
+public:
+  BitShift(std::string name = "opBitShift", std::string direction = "")
+      : baseOperator<T, T, T>(opBitShift, name) {
+    this->direction = direction;
+  }
+
+  bool getAttribute(OPATTR attrName, std::string &obj) {
+    if (attrName == attr_direction) {
+      obj = direction;
+      return true;
+    }
+    return false;
+  }
+
+  tensor<T> compute(tensor<T> &a /*!<[int]: ND tensor*/,
+                    tensor<T> &b /*!<[int]: ND tensor*/) {
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
+    tensor<T> result(resultShape);
+
+    if (a.shape() != b.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for BitShift operator.");
+
+    if ((direction != "LEFT") && (direction != "RIGHT"))
+      throw std::invalid_argument("Specify direction to 'LEFT' or 'RIGHT'");
+
+    if (!(this->template type_check<int>(typeid(T))))
+      throw std::invalid_argument(
+          "Constrain input and output types to int tensors.");
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);
+
+    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+
+    if (direction == "LEFT")
+      eResult.array() = eigenVectorA.array().binaryExpr(eigenVectorB.array(),
+                                                        &left_shift_func);
+    else if (direction == "RIGHT")
+      eResult.array() = eigenVectorA.array().binaryExpr(eigenVectorB.array(),
+                                                        &right_shift_func);
+
+    result.load(eResult.data());
+
+    return result;
+  }
+  /*!<
+\return The output tensor of the same shape and type as input.
+*/
 };
 } // namespace dnnc
