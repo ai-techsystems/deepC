@@ -153,7 +153,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::true_div(*$self, other).asType<float>();
+  return dnnc::true_div(other, *$self).asType<float>();
   }
 
 
@@ -213,7 +213,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::floor_div(*$self, other).asType<int>();
+  return dnnc::floor_div(other, *$self).asType<int>();
   }
 
 
@@ -356,7 +356,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::add(*$self, other).asType<T>();
+  return dnnc::add(other, *$self).asType<T>();
   }
 
 
@@ -425,7 +425,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::sub(*$self, other).asType<T>();
+  return dnnc::sub(other, *$self).asType<T>();
   }
 
 
@@ -494,7 +494,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::mul(*$self, other).asType<T>();
+  return dnnc::mul(other, *$self).asType<T>();
   }
 
 
@@ -563,7 +563,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::remainder(*$self, other).asType<T>();
+  return dnnc::remainder(other, *$self).asType<T>();
   }
 
 
@@ -632,7 +632,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::pow(*$self, other).asType<T>();
+  return dnnc::pow(other, *$self).asType<T>();
   }
 
 
@@ -664,7 +664,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<bool> __rand__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    return dnnc::logical_and(*$self, other).asType<bool>();
+    return dnnc::logical_and(other, *$self).asType<bool>();
   }
 
 
@@ -696,7 +696,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<bool> __ror__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    return dnnc::logical_or(*$self, other).asType<bool>();
+    return dnnc::logical_or(other, *$self).asType<bool>();
   }
 
 
@@ -728,7 +728,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<bool> __rxor__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    return dnnc::logical_xor(*$self, other).asType<bool>();
+    return dnnc::logical_xor(other, *$self).asType<bool>();
   }
 
 

@@ -52,7 +52,7 @@ def tensor_swig_helper_logical(dc_operator, operator_header, operator_python):
   dnnc::tensor<bool> __r<operand>__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    return dnnc::<dc_operator>(*$self, other).asType<bool>();
+    return dnnc::<dc_operator>(other, *$self).asType<bool>();
   }
 
 
@@ -126,7 +126,7 @@ def tensor_swig_helper_binary(dc_operator, operator_header, operator_python):
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::<dc_operator>(*$self, other).asType<T>();
+  return dnnc::<dc_operator>(other, *$self).asType<T>();
   }
 
 
