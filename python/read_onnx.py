@@ -530,7 +530,8 @@ class pbReader :
         attr_vec = dc.vectorFloat(attr_vals)
       elif attr.type == onnx.AttributeProto.FLOATS:
         attr_type = dc.IR_DataType_FLOAT;
-        attr_vals.append(attr.floats)
+        for val in attr.floats:
+          attr_vals.append(float(val))
         attr_vec = dc.vectorFloat(attr_vals)
       elif attr.type == onnx.AttributeProto.STRING:
         attr_type = dc.IR_DataType_STRING;
@@ -538,51 +539,80 @@ class pbReader :
         attr_vec = dc.vectorStr(attr_vals)
       elif attr.type == onnx.AttributeProto.STRINGS:
         attr_type = dc.IR_DataType_STRING;
-        attr_vals.append(str(attr.strings))
+        for val in attr.strings:
+          attr_vals.append(str(val))
         attr_vec = dc.vectorStr(attr_vals)
       elif attr.type == onnx.AttributeProto.TENSOR:
         if ( attr.t.data_type == dc.IR_DataType_INT8  or
              attr.t.data_type == dc.IR_DataType_INT16 or
              attr.t.data_type == dc.IR_DataType_INT32 or
              attr.t.data_type == dc.IR_DataType_INT64   ) :
+
           attr_type = attr.t.data_type
+          attr_data = None;
           pack_format = 'P';
           if ( attr.t.data_type == dc.IR_DataType_INT8 ) :
-              pack_format = 'b'
+            pack_format = 'b'
           if ( attr.t.data_type == dc.IR_DataType_INT16) :
-              pack_format = 'h'
+            pack_format = 'h'
           if ( attr.t.data_type == dc.IR_DataType_INT32) :
-              pack_format = 'i'
+            if ( attr.t.int32_data ):
+              attr_data = attr.t.int32_data
+            pack_format = 'i'
           if ( attr.t.data_type == dc.IR_DataType_INT64) :
-              pack_format = 'q'
+            if ( attr.t.int64_data ):
+              attr_data = attr.t.int64_data
+            pack_format = 'q'
 
-          len=1
-          for d in attr.t.dims:
-            len *= d
-          attr_data = struct.unpack(pack_format*len, attr.t.raw_data) ;
-          attr_tensor = dc.iTensor(attr.t.dims, attr.name)
-          attr_tensor.load(attr_data);
-          attr_vec = dc.vectorTensorInt()
-          attr_vec.push_back(attr_tensor)
+          if ( attr_data is None ) :
+            len=1
+            for d in attr.t.dims:
+              len *= d
+            attr_data = struct.unpack(pack_format*len, attr.t.raw_data) ;
+
+          if ( attr_data is not None ) :
+            attr_tensor = dc.iTensor(attr.t.dims, attr.name)
+            attr_tensor.load(attr_data);
+            attr_vec = dc.vectorTensorInt()
+            attr_vec.push_back(attr_tensor)
+          else:
+            print("ERROR (ONNX): could not extract data for graph-node " + \
+                    node.name + "\'s attribute " +  attr.name + ".\n");
+
         elif ( attr.t.data_type == dc.IR_DataType_FLOAT16 or
              attr.t.data_type == dc.IR_DataType_FLOAT   or
              attr.t.data_type == dc.IR_DataType_DOUBLE    ):
+
           attr_type = attr.t.data_type
+          attr_data = None;
           pack_format = 'P';
-          if ( attr.t.data_type == dc.IR_DataType_FLOAT16 ) :
-              pack_format = 'e'
-          if ( attr.t.data_type == dc.IR_DataType_FLOAT ) :
-              pack_format = 'f'
-          if ( attr.t.data_type == dc.IR_DataType_DOUBLE ) :
-              pack_format = 'd'
-          len=1
-          for d in attr.t.dims:
-            len *= d
-          attr_data = struct.unpack(pack_format*len, attr.t.raw_data) ;
-          attr_tensor = dc.fTensor(attr.t.dims, attr.name)
-          attr_tensor.load(attr_data);
-          attr_vec = dc.vectorTensorFloat()
-          attr_vec.push_back(attr_tensor)
+          if ( attr.t.data_type == attr.t.FLOAT16 ) :
+            if ( attr.t.float_data ):
+              attr_data = attr.t.float_data
+            pack_format = 'e'
+          if ( attr.t.data_type == attr.t.FLOAT ) :
+            if ( attr.t.float_data ):
+              attr_data = attr.t.float_data
+            pack_format = 'f'
+          if ( attr.t.data_type == attr.t.DOUBLE ) :
+            if ( attr.t.double_data ):
+              attr_data = attr.t.double_data
+            pack_format = 'd'
+
+          if ( attr_data is None ) :
+            len=1
+            for d in attr.t.dims:
+              len *= d
+            attr_data = struct.unpack(pack_format*len, attr.t.raw_data) ;
+
+          if ( attr_data is not None ):
+            attr_tensor = dc.fTensor(attr.t.dims, attr.name)
+            attr_tensor.load(attr_data);
+            attr_vec = dc.vectorTensorFloat()
+            attr_vec.push_back(attr_tensor)
+          else:
+            print("ERROR (ONNX): could not extract data for graph-node " + \
+                    node.name + "\'s attribute " +  attr.name + ".\n");
         else:
           print("ERROR (ONNX): attribute tensor's datatype " + str(attr.t.data_type) +
                   " isn't understood.")
@@ -592,11 +622,11 @@ class pbReader :
         attr_vals.append(attr.tensors)
         attr_vec = dc.vectorTensorFloat(dc.fTensor(attr_vals))
       elif attr.type == onnx.AttributeProto.GRAPH:
-        attr_type = dc.GRAPH;
+        attr_type = dc.IR_DataType_GRAPH;
         attr_vals.append(attr.g)
         print("ERROR (ONNX): sub-graph in graph-node is not yet supported.")
       elif attr.type == onnx.AttributeProto.GRAPHS:
-        attr_type = dc.GRAPHS;
+        attr_type = dc.IR_DataType_GRAPH;
         attr_vals.append(attr.graphs)
         print("ERROR (ONNX): sub-graph in graph-node is not yet supported.")
       else:
