@@ -27,33 +27,47 @@
 
 namespace dnnc {
 // enum for target machine.
-enum DNNC_DataType {
-  /*<! This code is for ONNX TensorProto.DataType
-       Reference: onnx/onnx.proto3, line 319 */
-  NOTYPE = 0,
-  FLOAT = 1,  /*!< float */
-  UINT8 = 2,  /*!< uint8_t */
-  INT8 = 3,   /*!< int8_t */
-  UINT16 = 4, /*!< uint16_t */
-  INT16 = 5,  /*!< int16_t */
-  INT32 = 6,  /*!< int32_t */
-  INT64 = 7,  /*!< int64_t */
-  STRING = 8, /*!< string */
-  BOOL = 9,   /*!< bool */
+#define DNNC_Basic_DType                                                       \
+  /*<! This code is for ONNX TensorProto.DataType                              \
+       Reference: onnx/onnx.proto3, line 319 */                                \
+  NOTYPE = 0, /*!< invalid */                                                  \
+      FLOAT,  /*!< float */                                                    \
+      UINT8,  /*!< uint8_t */                                                  \
+      INT8,   /*!< int8_t */                                                   \
+      UINT16, /*!< uint16_t */                                                 \
+      INT16,  /*!< int16_t */                                                  \
+      INT32,  /*!< int32_t */                                                  \
+      INT64,  /*!< int64_t */                                                  \
+      STRING, /*!< string */                                                   \
+      BOOL,   /*!< bool */                                                     \
+                                                                               \
+      /*!< IEEE754 half-precision floating-point format (16 bits wide).        \
+           This format has 1 sign bit, 5 exponent bits, and 10 mantissa        \
+         bits.*/                                                               \
+      FLOAT16,    /*! half-float */                                            \
+      DOUBLE,     /*! double precision, aka float64 */                         \
+      UINT32,     /*! uint32_t */                                              \
+      UINT64,     /*! uint64_t */                                              \
+      COMPLEX64,  /*!< complex with float32 real and imaginary components */   \
+      COMPLEX128, /*!< complex with float64 real and imaginary components */   \
+                                                                               \
+      /*!< Non-IEEE floating-point format based on IEEE754 single-precision    \
+           floating-point number truncated to 16 bits.                         \
+           This format has 1 sign bit, 8 exponent bits, and 7 mantissa bits.   \
+       */                                                                      \
+      BFLOAT16
 
-  /*!< IEEE754 half-precision floating-point format (16 bits wide).
-       This format has 1 sign bit, 5 exponent bits, and 10 mantissa bits.*/
-  FLOAT16 = 10,
-  DOUBLE = 11,
-  UINT32 = 12,
-  UINT64 = 13,
-  COMPLEX64 = 14,  /*!< complex with float32 real and imaginary components */
-  COMPLEX128 = 15, /*!< complex with float64 real and imaginary components */
+enum DNNC_DataType { DNNC_Basic_DType };
 
-  /*!< Non-IEEE floating-point format based on IEEE754 single-precision
-       floating-point number truncated to 16 bits.
-       This format has 1 sign bit, 8 exponent bits, and 7 mantissa bits. */
-  BFLOAT16 = 16
+/*!< reserved for advanced usage for nodes that represent multiple/generic
+ * types. Don't use it, if you don't know what it means.
+ * */
+enum class IR_DataType {
+  DNNC_Basic_DType,
+  TENSOR_BOOL,
+  TENSOR_INT,
+  TENSOR_FLOAT,
+  GRAPH,
 
 };
 

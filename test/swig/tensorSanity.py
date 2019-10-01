@@ -102,7 +102,7 @@ class tensorSanityTest(unittest.TestCase):
 
         # load new data
         new_data_list = [10,11,12,13,14,15]
-        a.load(dc.ivec(new_data_list))
+        a.load(dc.vectorInt(new_data_list))
         assert a[0] == 10
 
         # load one element with flat index
@@ -111,7 +111,7 @@ class tensorSanityTest(unittest.TestCase):
 
         # reshape, fetch and load with multi indices
         a=dc.arange(12).asTypeInt()
-        a.reshape(dc.lvec([2,2,3]))
+        a.reshape(dc.vectorSizeT([2,2,3]))
         assert a[0,1,1] == 4
 
         a[1,1,1] = 200
@@ -146,8 +146,8 @@ class tensorSanityTest(unittest.TestCase):
     def test_shapes(self):
 
         # test shape tuple
-        shape1=dc.lvec([2,3,4,5])
-        shape2=dc.lvec([5,4,3,2])
+        shape1=dc.vectorSizeT([2,3,4,5])
+        shape2=dc.vectorSizeT([5,4,3,2])
         a=dc.random(2,3,4,5).asTypeInt()
         assert a.rank() == 4
         assert a.shape() == (2, 3, 4, 5)
@@ -164,7 +164,7 @@ class tensorSanityTest(unittest.TestCase):
         # flatten the same tensor
         a.flatteninplace()
         assert a.shape() == (120,)
-        shape3=dc.lvec([8,15,1,1])
+        shape3=dc.vectorSizeT([8,15,1,1])
 
         # new shape
         a.reshape(shape3)

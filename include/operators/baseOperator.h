@@ -31,6 +31,10 @@
 // we're forced to include tensor.h here, because of limitation on
 // template instantiations to generate complete definition of the
 // operator. This breaks principle of modularity along with my heart. :-/
+//
+// ONNX operator reference:
+//     https://github.com/onnx/onnx/blob/rel-1.5.0/docs/Operators.md
+//
 #include "core/tensor.h"
 
 namespace dnnc {
@@ -180,7 +184,8 @@ enum OPCODE {
   opUnsqueeze,
   opUpsample,
   opWhere,
-  opXor
+  opXor,
+  opInvalid
 };
 
 enum OPATTR {
@@ -267,7 +272,8 @@ enum OPATTR {
   attr_transA,
   attr_transB,
   attr_value,
-  attr_weights
+  attr_weights,
+  attr_invalid
 };
 
 template <typename To, typename Ti1, typename Ti2> class baseOperator {

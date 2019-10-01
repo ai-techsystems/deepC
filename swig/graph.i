@@ -25,9 +25,11 @@
 
 %ignore *::operator=;
 %ignore *::operator[];
-%include <std_set.i>
-//%include "graph/graph.h"
+%include "core/macros.h"
+%include "operators/baseOperator.h"
+%include "graph/node.h"
+%include "graph/graph.h"
 %{
-//#include <graph/graph.h> 
+#include "graph/graph.h"
 %}
 

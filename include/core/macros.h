@@ -27,4 +27,10 @@
 #define TENSOR_DIMENSIONS_EQUAL(t1, t2)                                        \
   { t1.size() == t2.size() }
 
+/*<! python interface tensor print limit */
 #define DNNC_TENSOR_MAX_EL 30
+
+namespace dnnc {
+typedef size_t INDEX;
+typedef size_t DIMENSION;
+} // namespace dnnc
