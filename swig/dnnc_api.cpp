@@ -244,6 +244,506 @@ namespace dnnc {
 		return op.compute(a, b);
 	}
 	
+	tensor<double> add(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<float> add(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<float> add(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<float> add(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<float> add(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<float> add(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<float> add(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<float> add(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<size_t> add(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<size_t> add(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<size_t> add(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<size_t> add(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<size_t> add(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<int> add(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<int> add(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<int> add(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<bool> add(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return add(a, tensor_b);
+	}
+	
+	tensor<double> add(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<double> add(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<double> add(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<double> add(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<double> add(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<double> add(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<double> add(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<double> add(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<double> add(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<float> add(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<float> add(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<float> add(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<float> add(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<float> add(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<float> add(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<float> add(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<size_t> add(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<size_t> add(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<size_t> add(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<size_t> add(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<size_t> add(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<int> add(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<int> add(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<int> add(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	tensor<bool> add(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return add(tensor_a, b);
+	}
+	
+	double add(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	double add(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	double add(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	double add(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	double add(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	double add(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	double add(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	double add(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	double add(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	float add(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	float add(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	float add(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	float add(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	float add(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	float add(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	float add(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	size_t add(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	size_t add(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	size_t add(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	size_t add(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	size_t add(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	int add(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	int add(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	int add(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
+	bool add(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return add(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<double> sub(tensor<double> &a, tensor<double> &b) {
 		Sub<double, double> op;
 		return op.compute(a, b);
@@ -389,6 +889,506 @@ namespace dnnc {
 		return op.compute(a, b);
 	}
 	
+	tensor<double> sub(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<float> sub(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<float> sub(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<float> sub(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<float> sub(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<float> sub(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<float> sub(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<float> sub(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<size_t> sub(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<size_t> sub(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<size_t> sub(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<size_t> sub(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<size_t> sub(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<int> sub(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<int> sub(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<int> sub(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<bool> sub(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return sub(a, tensor_b);
+	}
+	
+	tensor<double> sub(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<double> sub(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<double> sub(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<double> sub(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<double> sub(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<double> sub(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<double> sub(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<double> sub(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<double> sub(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<float> sub(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<float> sub(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<float> sub(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<float> sub(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<float> sub(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<float> sub(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<float> sub(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<size_t> sub(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<size_t> sub(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<size_t> sub(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<size_t> sub(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<size_t> sub(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<int> sub(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<int> sub(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<int> sub(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	tensor<bool> sub(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return sub(tensor_a, b);
+	}
+	
+	double sub(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	double sub(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	double sub(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	double sub(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	double sub(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	double sub(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	double sub(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	double sub(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	double sub(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	float sub(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	float sub(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	float sub(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	float sub(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	float sub(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	float sub(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	float sub(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	size_t sub(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	size_t sub(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	size_t sub(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	size_t sub(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	size_t sub(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	int sub(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	int sub(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	int sub(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
+	bool sub(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return sub(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<double> mul(tensor<double> &a, tensor<double> &b) {
 		Mul<double, double> op;
 		return op.compute(a, b);
@@ -532,6 +1532,506 @@ namespace dnnc {
 	tensor<bool> mul(tensor<bool> &a, tensor<bool> &b) {
 		Mul<bool, bool> op;
 		return op.compute(a, b);
+	}
+	
+	tensor<double> mul(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<float> mul(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<float> mul(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<float> mul(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<float> mul(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<float> mul(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<float> mul(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<float> mul(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<size_t> mul(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<size_t> mul(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<size_t> mul(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<size_t> mul(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<size_t> mul(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<int> mul(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<int> mul(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<int> mul(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<bool> mul(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return mul(a, tensor_b);
+	}
+	
+	tensor<double> mul(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<double> mul(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<double> mul(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<double> mul(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<double> mul(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<double> mul(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<double> mul(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<double> mul(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<double> mul(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<float> mul(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<float> mul(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<float> mul(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<float> mul(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<float> mul(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<float> mul(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<float> mul(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<size_t> mul(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<size_t> mul(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<size_t> mul(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<size_t> mul(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<size_t> mul(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<int> mul(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<int> mul(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<int> mul(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	tensor<bool> mul(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return mul(tensor_a, b);
+	}
+	
+	double mul(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	double mul(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	double mul(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	double mul(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	double mul(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	double mul(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	double mul(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	double mul(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	double mul(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	float mul(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	float mul(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	float mul(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	float mul(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	float mul(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	float mul(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	float mul(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	size_t mul(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	size_t mul(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	size_t mul(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	size_t mul(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	size_t mul(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	int mul(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	int mul(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	int mul(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
+	}
+	
+	bool mul(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return mul(tensor_a, tensor_b)[0];
 	}
 	
 	tensor<int> floor_div(tensor<double> &a, tensor<double> &b) {
@@ -699,6 +2199,506 @@ namespace dnnc {
 		return op.compute(int_a, int_b);
 	}
 	
+	tensor<int> floor_div(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return floor_div(a, tensor_b);
+	}
+	
+	tensor<int> floor_div(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	tensor<int> floor_div(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return floor_div(tensor_a, b);
+	}
+	
+	int floor_div(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
+	int floor_div(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return floor_div(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<double> true_div(tensor<double> &a, tensor<double> &b) {
 		TrueDiv<double, double> op;
 		return op.compute(a, b);
@@ -864,6 +2864,506 @@ namespace dnnc {
 		return op.compute(double_a, double_b);
 	}
 	
+	tensor<double> true_div(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return true_div(a, tensor_b);
+	}
+	
+	tensor<double> true_div(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	tensor<double> true_div(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return true_div(tensor_a, b);
+	}
+	
+	double true_div(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
+	double true_div(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return true_div(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<double> remainder(tensor<double> &a, tensor<double> &b) {
 		Remainder<double, double> op;
 		return op.compute(a, b);
@@ -1009,149 +3509,1149 @@ namespace dnnc {
 		return op.compute(a, b);
 	}
 	
-	tensor<double> pow(tensor<double> &a, tensor<double> &b) {
+	tensor<double> remainder(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<float> remainder(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<float> remainder(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<float> remainder(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<float> remainder(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<float> remainder(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<float> remainder(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<float> remainder(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<size_t> remainder(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<size_t> remainder(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<size_t> remainder(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<size_t> remainder(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<size_t> remainder(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<int> remainder(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<int> remainder(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<int> remainder(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<bool> remainder(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return remainder(a, tensor_b);
+	}
+	
+	tensor<double> remainder(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<double> remainder(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<double> remainder(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<double> remainder(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<double> remainder(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<double> remainder(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<double> remainder(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<double> remainder(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<double> remainder(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<float> remainder(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<float> remainder(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<float> remainder(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<float> remainder(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<float> remainder(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<float> remainder(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<float> remainder(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<size_t> remainder(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<size_t> remainder(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<size_t> remainder(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<size_t> remainder(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<size_t> remainder(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<int> remainder(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<int> remainder(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<int> remainder(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	tensor<bool> remainder(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return remainder(tensor_a, b);
+	}
+	
+	double remainder(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	double remainder(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	double remainder(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	double remainder(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	double remainder(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	double remainder(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	double remainder(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	double remainder(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	double remainder(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	float remainder(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	float remainder(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	float remainder(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	float remainder(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	float remainder(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	float remainder(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	float remainder(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	size_t remainder(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	size_t remainder(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	size_t remainder(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	size_t remainder(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	size_t remainder(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	int remainder(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	int remainder(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	int remainder(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	bool remainder(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return remainder(tensor_a, tensor_b)[0];
+	}
+	
+	tensor<double> power(tensor<double> &a, tensor<double> &b) {
 		Pow<double, double> op;
 		return op.compute(a, b);
 	}
 	
-	tensor<double> pow(tensor<double> &a, tensor<float> &b) {
+	tensor<double> power(tensor<double> &a, tensor<float> &b) {
 		tensor<double> double_b = b.asType<double>();
 		Pow<double, double> op;
 		return op.compute(a, double_b);
 	}
 	
-	tensor<double> pow(tensor<double> &a, tensor<size_t> &b) {
+	tensor<double> power(tensor<double> &a, tensor<size_t> &b) {
 		tensor<double> double_b = b.asType<double>();
 		Pow<double, double> op;
 		return op.compute(a, double_b);
 	}
 	
-	tensor<double> pow(tensor<double> &a, tensor<int> &b) {
+	tensor<double> power(tensor<double> &a, tensor<int> &b) {
 		tensor<double> double_b = b.asType<double>();
 		Pow<double, double> op;
 		return op.compute(a, double_b);
 	}
 	
-	tensor<double> pow(tensor<double> &a, tensor<bool> &b) {
+	tensor<double> power(tensor<double> &a, tensor<bool> &b) {
 		tensor<double> double_b = b.asType<double>();
 		Pow<double, double> op;
 		return op.compute(a, double_b);
 	}
 	
-	tensor<double> pow(tensor<float> &a, tensor<double> &b) {
+	tensor<double> power(tensor<float> &a, tensor<double> &b) {
 		tensor<double> double_a = a.asType<double>();
 		Pow<double, double> op;
 		return op.compute(double_a, b);
 	}
 	
-	tensor<double> pow(tensor<size_t> &a, tensor<double> &b) {
+	tensor<double> power(tensor<size_t> &a, tensor<double> &b) {
 		tensor<double> double_a = a.asType<double>();
 		Pow<double, double> op;
 		return op.compute(double_a, b);
 	}
 	
-	tensor<double> pow(tensor<int> &a, tensor<double> &b) {
+	tensor<double> power(tensor<int> &a, tensor<double> &b) {
 		tensor<double> double_a = a.asType<double>();
 		Pow<double, double> op;
 		return op.compute(double_a, b);
 	}
 	
-	tensor<double> pow(tensor<bool> &a, tensor<double> &b) {
+	tensor<double> power(tensor<bool> &a, tensor<double> &b) {
 		tensor<double> double_a = a.asType<double>();
 		Pow<double, double> op;
 		return op.compute(double_a, b);
 	}
 	
-	tensor<float> pow(tensor<float> &a, tensor<float> &b) {
+	tensor<float> power(tensor<float> &a, tensor<float> &b) {
 		Pow<float, float> op;
 		return op.compute(a, b);
 	}
 	
-	tensor<float> pow(tensor<float> &a, tensor<size_t> &b) {
+	tensor<float> power(tensor<float> &a, tensor<size_t> &b) {
 		tensor<float> float_b = b.asType<float>();
 		Pow<float, float> op;
 		return op.compute(a, float_b);
 	}
 	
-	tensor<float> pow(tensor<float> &a, tensor<int> &b) {
+	tensor<float> power(tensor<float> &a, tensor<int> &b) {
 		tensor<float> float_b = b.asType<float>();
 		Pow<float, float> op;
 		return op.compute(a, float_b);
 	}
 	
-	tensor<float> pow(tensor<float> &a, tensor<bool> &b) {
+	tensor<float> power(tensor<float> &a, tensor<bool> &b) {
 		tensor<float> float_b = b.asType<float>();
 		Pow<float, float> op;
 		return op.compute(a, float_b);
 	}
 	
-	tensor<float> pow(tensor<size_t> &a, tensor<float> &b) {
+	tensor<float> power(tensor<size_t> &a, tensor<float> &b) {
 		tensor<float> float_a = a.asType<float>();
 		Pow<float, float> op;
 		return op.compute(float_a, b);
 	}
 	
-	tensor<float> pow(tensor<int> &a, tensor<float> &b) {
+	tensor<float> power(tensor<int> &a, tensor<float> &b) {
 		tensor<float> float_a = a.asType<float>();
 		Pow<float, float> op;
 		return op.compute(float_a, b);
 	}
 	
-	tensor<float> pow(tensor<bool> &a, tensor<float> &b) {
+	tensor<float> power(tensor<bool> &a, tensor<float> &b) {
 		tensor<float> float_a = a.asType<float>();
 		Pow<float, float> op;
 		return op.compute(float_a, b);
 	}
 	
-	tensor<size_t> pow(tensor<size_t> &a, tensor<size_t> &b) {
+	tensor<size_t> power(tensor<size_t> &a, tensor<size_t> &b) {
 		Pow<size_t, size_t> op;
 		return op.compute(a, b);
 	}
 	
-	tensor<size_t> pow(tensor<size_t> &a, tensor<int> &b) {
+	tensor<size_t> power(tensor<size_t> &a, tensor<int> &b) {
 		tensor<size_t> size_t_b = b.asType<size_t>();
 		Pow<size_t, size_t> op;
 		return op.compute(a, size_t_b);
 	}
 	
-	tensor<size_t> pow(tensor<size_t> &a, tensor<bool> &b) {
+	tensor<size_t> power(tensor<size_t> &a, tensor<bool> &b) {
 		tensor<size_t> size_t_b = b.asType<size_t>();
 		Pow<size_t, size_t> op;
 		return op.compute(a, size_t_b);
 	}
 	
-	tensor<size_t> pow(tensor<int> &a, tensor<size_t> &b) {
+	tensor<size_t> power(tensor<int> &a, tensor<size_t> &b) {
 		tensor<size_t> size_t_a = a.asType<size_t>();
 		Pow<size_t, size_t> op;
 		return op.compute(size_t_a, b);
 	}
 	
-	tensor<size_t> pow(tensor<bool> &a, tensor<size_t> &b) {
+	tensor<size_t> power(tensor<bool> &a, tensor<size_t> &b) {
 		tensor<size_t> size_t_a = a.asType<size_t>();
 		Pow<size_t, size_t> op;
 		return op.compute(size_t_a, b);
 	}
 	
-	tensor<int> pow(tensor<int> &a, tensor<int> &b) {
+	tensor<int> power(tensor<int> &a, tensor<int> &b) {
 		Pow<int, int> op;
 		return op.compute(a, b);
 	}
 	
-	tensor<int> pow(tensor<int> &a, tensor<bool> &b) {
+	tensor<int> power(tensor<int> &a, tensor<bool> &b) {
 		tensor<int> int_b = b.asType<int>();
 		Pow<int, int> op;
 		return op.compute(a, int_b);
 	}
 	
-	tensor<int> pow(tensor<bool> &a, tensor<int> &b) {
+	tensor<int> power(tensor<bool> &a, tensor<int> &b) {
 		tensor<int> int_a = a.asType<int>();
 		Pow<int, int> op;
 		return op.compute(int_a, b);
 	}
 	
-	tensor<bool> pow(tensor<bool> &a, tensor<bool> &b) {
+	tensor<bool> power(tensor<bool> &a, tensor<bool> &b) {
 		Pow<bool, bool> op;
 		return op.compute(a, b);
+	}
+	
+	tensor<double> power(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<float> power(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<float> power(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<float> power(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<float> power(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<float> power(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<float> power(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<float> power(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<size_t> power(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<size_t> power(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<size_t> power(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<size_t> power(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<size_t> power(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<int> power(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<int> power(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<int> power(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<bool> power(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return power(a, tensor_b);
+	}
+	
+	tensor<double> power(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<double> power(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<double> power(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<double> power(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<double> power(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<double> power(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<double> power(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<double> power(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<double> power(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<float> power(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<float> power(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<float> power(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<float> power(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<float> power(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<float> power(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<float> power(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<size_t> power(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<size_t> power(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<size_t> power(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<size_t> power(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<size_t> power(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<int> power(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<int> power(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<int> power(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	tensor<bool> power(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return power(tensor_a, b);
+	}
+	
+	double power(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	double power(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	double power(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	double power(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	double power(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	double power(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	double power(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	double power(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	double power(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	float power(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	float power(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	float power(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	float power(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	float power(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	float power(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	float power(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	size_t power(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	size_t power(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	size_t power(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	size_t power(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	size_t power(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	int power(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	int power(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	int power(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
+	}
+	
+	bool power(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return power(tensor_a, tensor_b)[0];
 	}
 	
 	tensor<bool> logical_and(tensor<double> &a, tensor<double> &b) {
@@ -1319,6 +4819,506 @@ namespace dnnc {
 		return op.compute(a, b);
 	}
 	
+	tensor<bool> logical_and(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_and(a, tensor_b);
+	}
+	
+	tensor<bool> logical_and(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	tensor<bool> logical_and(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_and(tensor_a, b);
+	}
+	
+	bool logical_and(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_and(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_and(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<bool> logical_or(tensor<double> &a, tensor<double> &b) {
 		tensor<bool> bool_a = a.asType<bool>();
 		tensor<bool> bool_b = b.asType<bool>();
@@ -1482,6 +5482,506 @@ namespace dnnc {
 	tensor<bool> logical_or(tensor<bool> &a, tensor<bool> &b) {
 		Or<bool, bool> op;
 		return op.compute(a, b);
+	}
+	
+	tensor<bool> logical_or(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_or(a, tensor_b);
+	}
+	
+	tensor<bool> logical_or(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	tensor<bool> logical_or(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_or(tensor_a, b);
+	}
+	
+	bool logical_or(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_or(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_or(tensor_a, tensor_b)[0];
 	}
 	
 	tensor<bool> logical_xor(tensor<double> &a, tensor<double> &b) {
@@ -1649,6 +6149,506 @@ namespace dnnc {
 		return op.compute(a, b);
 	}
 	
+	tensor<bool> logical_xor(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return logical_xor(a, tensor_b);
+	}
+	
+	tensor<bool> logical_xor(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	tensor<bool> logical_xor(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return logical_xor(tensor_a, b);
+	}
+	
+	bool logical_xor(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
+	bool logical_xor(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return logical_xor(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<bool> equal(tensor<double> &a, tensor<double> &b) {
 		Equal<bool, double> op;
 		return op.compute(a, b);
@@ -1792,6 +6792,506 @@ namespace dnnc {
 	tensor<bool> equal(tensor<bool> &a, tensor<bool> &b) {
 		Equal<bool, bool> op;
 		return op.compute(a, b);
+	}
+	
+	tensor<bool> equal(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return equal(a, tensor_b);
+	}
+	
+	tensor<bool> equal(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	tensor<bool> equal(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return equal(tensor_a, b);
+	}
+	
+	bool equal(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool equal(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return equal(tensor_a, tensor_b)[0];
 	}
 	
 	tensor<bool> less(tensor<double> &a, tensor<double> &b) {
@@ -1939,6 +7439,506 @@ namespace dnnc {
 		return op.compute(a, b);
 	}
 	
+	tensor<bool> less(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less(a, tensor_b);
+	}
+	
+	tensor<bool> less(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	tensor<bool> less(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less(tensor_a, b);
+	}
+	
+	bool less(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
+	bool less(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<bool> greater(tensor<double> &a, tensor<double> &b) {
 		Greater<bool, double> op;
 		return op.compute(a, b);
@@ -2082,6 +8082,506 @@ namespace dnnc {
 	tensor<bool> greater(tensor<bool> &a, tensor<bool> &b) {
 		Greater<bool, bool> op;
 		return op.compute(a, b);
+	}
+	
+	tensor<bool> greater(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater(a, tensor_b);
+	}
+	
+	tensor<bool> greater(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	tensor<bool> greater(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater(tensor_a, b);
+	}
+	
+	bool greater(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater(tensor_a, tensor_b)[0];
 	}
 	
 	tensor<bool> not_equal(tensor<double> &a, tensor<double> &b) {
@@ -2229,6 +8729,506 @@ namespace dnnc {
 		return op.compute(a, b);
 	}
 	
+	tensor<bool> not_equal(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return not_equal(a, tensor_b);
+	}
+	
+	tensor<bool> not_equal(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	tensor<bool> not_equal(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return not_equal(tensor_a, b);
+	}
+	
+	bool not_equal(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool not_equal(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return not_equal(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<bool> less_equal(tensor<double> &a, tensor<double> &b) {
 		LessEqual<bool, double> op;
 		return op.compute(a, b);
@@ -2374,6 +9374,506 @@ namespace dnnc {
 		return op.compute(a, b);
 	}
 	
+	tensor<bool> less_equal(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return less_equal(a, tensor_b);
+	}
+	
+	tensor<bool> less_equal(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	tensor<bool> less_equal(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return less_equal(tensor_a, b);
+	}
+	
+	bool less_equal(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool less_equal(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return less_equal(tensor_a, tensor_b)[0];
+	}
+	
 	tensor<bool> greater_equal(tensor<double> &a, tensor<double> &b) {
 		GreaterEqual<bool, double> op;
 		return op.compute(a, b);
@@ -2517,6 +10017,506 @@ namespace dnnc {
 	tensor<bool> greater_equal(tensor<bool> &a, tensor<bool> &b) {
 		GreaterEqual<bool, bool> op;
 		return op.compute(a, b);
+	}
+	
+	tensor<bool> greater_equal(tensor<double> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<double> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<double> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<double> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<double> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<float> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<size_t> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<int> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<bool> &a, double b) {
+		tensor<double> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<float> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<float> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<float> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<float> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<size_t> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<int> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<bool> &a, float b) {
+		tensor<float> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<size_t> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<size_t> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<size_t> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<int> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<bool> &a, size_t b) {
+		tensor<size_t> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<int> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<int> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<bool> &a, int b) {
+		tensor<int> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(tensor<bool> &a, bool b) {
+		tensor<bool> tensor_b(1);
+		tensor_b.load(&b);
+		return greater_equal(a, tensor_b);
+	}
+	
+	tensor<bool> greater_equal(double a, tensor<double> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(double a, tensor<float> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(double a, tensor<size_t> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(double a, tensor<int> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(double a, tensor<bool> &b) {
+		tensor<double> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(float a, tensor<double> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(size_t a, tensor<double> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(int a, tensor<double> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(bool a, tensor<double> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(float a, tensor<float> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(float a, tensor<size_t> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(float a, tensor<int> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(float a, tensor<bool> &b) {
+		tensor<float> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(size_t a, tensor<float> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(int a, tensor<float> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(bool a, tensor<float> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(size_t a, tensor<size_t> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(size_t a, tensor<int> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(size_t a, tensor<bool> &b) {
+		tensor<size_t> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(int a, tensor<size_t> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(bool a, tensor<size_t> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(int a, tensor<int> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(int a, tensor<bool> &b) {
+		tensor<int> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(bool a, tensor<int> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	tensor<bool> greater_equal(bool a, tensor<bool> &b) {
+		tensor<bool> tensor_a(1);
+		tensor_a.load(&a);
+		return greater_equal(tensor_a, b);
+	}
+	
+	bool greater_equal(double a, double b) {
+		tensor<double> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(double a, float b) {
+		tensor<double> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(double a, size_t b) {
+		tensor<double> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(double a, int b) {
+		tensor<double> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(double a, bool b) {
+		tensor<double> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(float a, double b) {
+		tensor<float> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(size_t a, double b) {
+		tensor<size_t> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(int a, double b) {
+		tensor<int> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(bool a, double b) {
+		tensor<bool> tensor_a(1);
+		tensor<double> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(float a, float b) {
+		tensor<float> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(float a, size_t b) {
+		tensor<float> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(float a, int b) {
+		tensor<float> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(float a, bool b) {
+		tensor<float> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(size_t a, float b) {
+		tensor<size_t> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(int a, float b) {
+		tensor<int> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(bool a, float b) {
+		tensor<bool> tensor_a(1);
+		tensor<float> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(size_t a, size_t b) {
+		tensor<size_t> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(size_t a, int b) {
+		tensor<size_t> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(size_t a, bool b) {
+		tensor<size_t> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(int a, size_t b) {
+		tensor<int> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(bool a, size_t b) {
+		tensor<bool> tensor_a(1);
+		tensor<size_t> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(int a, int b) {
+		tensor<int> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(int a, bool b) {
+		tensor<int> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(bool a, int b) {
+		tensor<bool> tensor_a(1);
+		tensor<int> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
+	}
+	
+	bool greater_equal(bool a, bool b) {
+		tensor<bool> tensor_a(1);
+		tensor<bool> tensor_b(1);
+		tensor_a.load(&a);
+		tensor_b.load(&b);
+		return greater_equal(tensor_a, tensor_b)[0];
 	}
 	
 	tensor<float> array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
