@@ -130,13 +130,10 @@ operator_list = {
 	"floor_div" : ["FloorDiv", "floordiv"],
 	"true_div" : ["TrueDiv", "div"],
 	"remainder" : ["Remainder", "mod"],
-	"pow" : ["Pow", "pow"],
+	"power" : ["Pow", "pow"],
 }
 
-tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
-	operator_header<output, input> op;
-	return op.compute(a, b);
-	dtype = {
+dtype = {
 		"double" : [
 					["double", "double"],
 					["double", "float"],
@@ -173,6 +170,10 @@ tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
 					["bool", "bool"],
 				],
 	}
+
+tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
+	operator_header<output, input> op;
+	return op.compute(a, b);
 }
 
 <\/>
@@ -193,10 +194,7 @@ operator_list = {
 	}
 }
 
-tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
-	operator_header<output, input> op;
-	return op.compute(a, b);
-	dtype = {
+dtype = {
 		"bool" : [
 			["double", "double"],
 			["double", "float"],
@@ -225,6 +223,10 @@ tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
 			["bool", "bool"],
 		],
 	}
+
+tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
+	operator_header<output, input> op;
+	return op.compute(a, b);
 }
 
 <\/>

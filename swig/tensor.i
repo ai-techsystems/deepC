@@ -584,16 +584,16 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   /*  Binary Pow  */
   %pybinoperator(__pow__, dnnc::tensor::__pow__, binaryfunc, nb_pow);
   dnnc::tensor<T> __pow__(dnnc::tensor<bool>& other) {
-  return dnnc::pow(*$self, other).asType<T>();
+  return dnnc::power(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __pow__(dnnc::tensor<int>& other) {
-  return dnnc::pow(*$self, other).asType<T>();
+  return dnnc::power(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __pow__(dnnc::tensor<size_t>& other) {
-  return dnnc::pow(*$self, other).asType<T>();
+  return dnnc::power(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __pow__(dnnc::tensor<float>& other) {
-  return dnnc::pow(*$self, other).asType<T>();
+  return dnnc::power(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __pow__(PyObject *scalar) {
   T data ;
@@ -611,7 +611,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::pow(*$self, other).asType<T>();
+  return dnnc::power(*$self, other).asType<T>();
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
   //       y=1+x; #(whre x and y are tensors) will not work
@@ -632,7 +632,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   dnnc::tensor<T> other(1);
   other.load(&data);
   
-  return dnnc::pow(other, *$self).asType<T>();
+  return dnnc::power(other, *$self).asType<T>();
   }
 
 
@@ -640,12 +640,12 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     /*  Assignment Pow  */
   %pyinplaceoper(__ipow__, dnnc::tensor::__ipow__, binaryfunc, nb_inplace_pow);
   dnnc::tensor<T> __ipow__(dnnc::tensor<T>& other) {
-    return dnnc::pow(*$self, other).asType<T>();
+    return dnnc::power(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __ipow__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
-    return dnnc::pow(*$self, other).asType<T>();
+    return dnnc::power(*$self, other).asType<T>();
   }
 
 
