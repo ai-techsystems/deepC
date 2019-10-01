@@ -112,11 +112,11 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
 
   /*  Binary TrueDiv */
-  %pybinoperator(__div__, dnnc::tensor::__div__, binaryfunc, nb_div);
-  dnnc::tensor<float> __div__(dnnc::tensor<T>& other) {
-  return dnnc::true_div(*$self, other).asType<float>();
+  %pybinoperator(__truediv__, dnnc::tensor::__truediv__, binaryfunc, nb_truediv);
+  dnnc::tensor<float> __truediv__(dnnc::tensor<T>& other) {
+    return dnnc::true_div(*$self, other).asType<float>();
   }
-  dnnc::tensor<float> __div__(PyObject *scalar) {
+  dnnc::tensor<float> __truediv__(PyObject *scalar) {
   T data ;
   if (PyBool_Check(scalar)) {
     data = scalar == Py_True ? true : false ;
@@ -136,8 +136,8 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
   //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rdiv__, dnnc::tensor::__rdiv__, binaryfunc, nb_rdiv);
-  dnnc::tensor<float> __rdiv__(PyObject* scalar) {
+  %pybinoperator(__rtruediv__, dnnc::tensor::__rtruediv__, binaryfunc, nb_rdiv);
+  dnnc::tensor<float> __rtruediv__(PyObject* scalar) {
   T data ;
   if (PyBool_Check(scalar)) {
     data = scalar == Py_True ? true : false ;
@@ -159,11 +159,11 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
 
     /*  Assignment TrueDiv  */
-  %pyinplaceoper(__idiv__, dnnc::tensor::__idiv__, binaryfunc, nb_inplace_floordiv);
-  dnnc::tensor<float> __idiv__(dnnc::tensor<T>& other) {
+  %pyinplaceoper(__itruediv__, dnnc::tensor::__itruediv__, binaryfunc, nb_inplace_truediv);
+  dnnc::tensor<float> __itruediv__(dnnc::tensor<T>& other) {
     return dnnc::true_div(*$self, other).asType<float>();
   }
-  dnnc::tensor<float> __idiv__(T scalar) {
+  dnnc::tensor<float> __itruediv__(T scalar) {
     dnnc::tensor<T> other(1);
     other.load(&scalar);
     return dnnc::true_div(*$self, other).asType<float>();
@@ -174,25 +174,25 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   /*  Binary FloorDiv */
   %pybinoperator(__floordiv__, dnnc::tensor::__floordiv__, binaryfunc, nb_floordiv);
   dnnc::tensor<int> __floordiv__(dnnc::tensor<T>& other) {
-  return dnnc::floor_div(*$self, other).asType<int>();
+    return dnnc::floor_div(*$self, other).asType<int>();
   }
   dnnc::tensor<int> __floordiv__(PyObject *scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<int>;
-  }
+    T data ;
+    if (PyBool_Check(scalar)) {
+      data = scalar == Py_True ? true : false ;
+    } else if (PyLong_Check(scalar)) {
+      data = PyLong_AsLong(scalar);
+    } else if (PyFloat_Check(scalar)) {
+      data = PyFloat_AsDouble(scalar);
+    } else {
+      throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
+      return dnnc::NULL_TENSOR<int>;
+    }
   
-  dnnc::tensor<T> other(1);
-  other.load(&data);
-  
-  return dnnc::floor_div(*$self, other).asType<int>();
+    dnnc::tensor<T> other(1);
+    other.load(&data);
+    
+    return dnnc::floor_div(*$self, other).asType<int>();
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
   //       y=1+x; #(whre x and y are tensors) will not work
