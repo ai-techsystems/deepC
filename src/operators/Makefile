@@ -34,11 +34,11 @@ OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
 	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
 	@echo "compiling $<"
-	$(GCC) $(CPP_FLAGS) $(EIGEN_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
+	$(CC) $(CPP_FLAGS) $(EIGEN_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
-	$(GCC) $(LD_FLAGS) $(OBJECTS) -o $@
+	$(CC) $(LD_FLAGS) $(OBJECTS) -o $@
 
 clean:
 	$(RM_F) $(OBJ_DIR) $(LIB_DIR) 
