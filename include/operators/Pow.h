@@ -28,18 +28,43 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Pow : public baseOperator<T, T, T> {
-  //  Pow attributes
-public:
-  Pow(std::string name = "opPow") : baseOperator<T, T, T>(opPow, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-  tensor<T> compute(tensor<T> a, tensor<T> b) {
+/*! This does element wise binary pow operation of two given N D tensors of
+   same size. This operator supports multidirectional (i.e., Numpy-style)
+   broadcasting.*/
+
+template <typename To, typename Ti>
+class Pow : public baseOperator<To, Ti, Ti> {
+protected:
+  template <typename Scalar>
+  inline DNNC_EIGEN_VECTOR_CTOR(Scalar)
+      eigenArrayPow(Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(Scalar)> &b) {
+    return pow(a.array(), b.array());
+  }
+  // Eigen does not support add operator for bool
+  // So specialiazation is needed to work around that limitation.
+  // Bug Ref: http://eigen.tuxfamily.org/bz/show_bug.cgi?id=426
+  inline DNNC_EIGEN_VECTOR_CTOR(bool)
+      eigenArrayPow(Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &a,
+                    Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &b) {
+    auto eigenVectorIA = a.template cast<uint8_t>();
+    auto eigenVectorIB = b.template cast<uint8_t>();
+    DNNC_EIGEN_VECTOR_CTOR(uint8_t) eIResult;
+    eIResult.array() = pow(eigenVectorIA.array(), eigenVectorIB.array());
+    return eIResult.template cast<bool>();
+  }
+
+public:
+  Pow(std::string name = "opPow") : baseOperator<To, Ti, Ti>(opPow, name) {}
+
+  tensor<To> compute(tensor<Ti> a /*!< : N D tensor input*/,
+                     tensor<Ti> b /*!< : N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<T> result(resultShape);
+    tensor<To> result(resultShape);
 
-    if (!(this->template type_check<float, double, int>(typeid(T))))
+    if (!(this->template type_check<float, double, int>(typeid(Ti))))
       throw std::invalid_argument(
           "Constrain input and output types to numeric tensors.");
 
@@ -47,15 +72,18 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Pow operator.");
 
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
-    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(To)
+    eResult = eigenArrayPow(eigenVectorA, eigenVectorB);
 
-    eResult.array() = pow(eigenVectorA.array(), eigenVectorB.array());
     result.load(eResult.data());
 
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape and type as input.
+  */
 };
 } // namespace dnnc

@@ -28,17 +28,32 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Expand : public baseOperator<T, T, T> {
-  //  Expand attributes
+template <typename To, typename Ti>
+class Expand : public baseOperator<To, To, Ti> {
+
 public:
   Expand(std::string name = "opExpand")
-      : baseOperator<T, T, T>(opExpand, name) {}
+      : baseOperator<To, To, Ti>(opExpand, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<To> compute(tensor<To> a, tensor<Ti> b) {
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    if (!(this->template type_check<int>(typeid(Ti))))
+      throw std::invalid_argument("Constrain shape tensor to integer type.");
+
+    tensor<To> result(b.asTypeULong().data(), b.name());
+    tensor<To> temp_b(b.asTypeULong().data(), b.name(), dnnc::INIT_ONE);
+
+    // std::cout << a.shape()[0] << a.shape()[1] << std::endl;
+    // std::cout << temp_b.shape()[0] << temp_b.shape()[1] << std::endl;
+
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorA, To, a);
+    DNNC_EIGEN_ARRAY_MAP(eigenVectorB, To, temp_b);
+
+    DNNC_EIGEN_VECTOR_CTOR(To) eResult;
+    eResult = eigenVectorA * eigenVectorB;
+    result.load(eResult.data());
+
+    return result;
   }
 };
 } // namespace dnnc

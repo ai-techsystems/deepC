@@ -35,9 +35,39 @@ public:
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  static T prelu(T x, T slope) {
+    // f(x) = slope * x for x < 0, f(x) = x for x >= 0
+    if (x < 0)
+      return (T)slope * x;
+    else
+      return (T)x;
+  }
+
+  tensor<T> compute(tensor<T> &x /*!< : N D tensor input*/,
+                    tensor<T> &slope /*!< : N D tensor input*/) {
+
+    if (!(this->template type_check<float, double>(typeid(T))))
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
+
+    std::vector<DIMENSION> resultShape = binaryBroadcastReShape(x, slope);
+    tensor<T> result(resultShape);
+
+    if (x.shape() != slope.shape())
+      throw std::invalid_argument(
+          "tensor dimenions not appropriate for PRelu operator.");
+
+    DNNC_EIGEN_ARRAY_MAP(eigen_x, T, x);
+    DNNC_EIGEN_ARRAY_MAP(eigen_slope, T, slope);
+
+    DNNC_EIGEN_VECTOR_CTOR(T) eigen_result;
+
+    eigen_result.array() =
+        eigen_x.array().binaryExpr(eigen_slope.array(), &prelu);
+
+    result.load(eigen_result.data());
+
+    return result;
   }
 };
 } // namespace dnnc

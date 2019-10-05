@@ -22,25 +22,32 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
 using namespace Eigen;
 
 namespace dnnc {
+
+/*! This does element wise binary or operation of two given N D tensors of
+   same size. This operator supports multidirectional (i.e., Numpy-style)
+   broadcasting.*/
+
 template <typename To, typename Ti> class Or : public baseOperator<To, Ti, Ti> {
   //  Or attributes
 public:
   Or(std::string name = "opOr") : baseOperator<To, Ti, Ti>(opOr, name) {}
 
-  tensor<To> compute(tensor<Ti> a, tensor<Ti> b) {
+  tensor<To> compute(tensor<Ti> a /*!< [bool]: N D tensor input*/,
+                     tensor<Ti> b /*!< [bool]: N D tensor input*/) {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
-    tensor<bool> result(resultShape);
+    tensor<To> result(resultShape);
 
-    // if (!(this->template type_check<bool>(typeid(Ti))))
-    //  throw std::invalid_argument(
-    //      "Constrain input and output types to bool tensors.");
+    // This check is for ONNX standard
+    if (!(this->template type_check<bool>(typeid(Ti))))
+      throw std::invalid_argument("Constrain input tensors to bool types.");
 
     if (a.shape() != b.shape())
       throw std::invalid_argument(
@@ -49,13 +56,18 @@ public:
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
 
-    DNNC_EIGEN_VECTOR_CTOR(bool) eResult;
+    DNNC_EIGEN_VECTOR_CTOR(To) eResult;
 
     eResult.array() = eigenVectorA.template cast<bool>().array() ||
                       eigenVectorB.template cast<bool>().array();
+    // eResult.array() = eigenVectorA.array() ||
+    //                   eigenVectorB.array();
     result.load(eResult.data());
 
     return result;
   }
+  /*!<
+  \return The output tensor of the same shape as input with dtype bool.
+  */
 };
 } // namespace dnnc

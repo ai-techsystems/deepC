@@ -3,7 +3,6 @@ Add.py
 Broadcast.py
 Conv.py
 DequantizeLinear.py
-Div.py
 Elu.py
 Equal.py
 Erf.py
@@ -47,4 +46,8 @@ Sqrt.py
 Softplus.py
 Softsign.py
 Sign.py
+Softmax.py
 Slice.py
+tensorOperators.py
+tensorOperatorsGenerated.py
+PRelu.py

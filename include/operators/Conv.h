@@ -45,16 +45,15 @@ public:
        // The shape of the convolution kernel. If not present, should be
        // inferred from input W.
        std::vector<int> pads = {}, std::vector<int> strides = {})
-    : baseOperator<T, T, T>(opConv, name) 
-    {
-      //      this->auto_pad  = auto_pad;
-      this->auto_pad = "VALID";
-      this->dilations = dilations;
-      this->group = group;
-      this->kernel_shape = kernel_shape;
-      this->pads = pads;
-      this->strides = strides;
-    } 
+      : baseOperator<T, T, T>(opConv, name) {
+    //      this->auto_pad  = auto_pad;
+    this->auto_pad = "VALID";
+    this->dilations = dilations;
+    this->group = group;
+    this->kernel_shape = kernel_shape;
+    this->pads = pads;
+    this->strides = strides;
+  }
 
   bool getAttribute(OPATTR attrName, std::vector<int> &obj) {
     if (attrName == attr_kernel_shape) {
@@ -91,10 +90,10 @@ public:
 
   tensor<T> compute(tensor<T> &X, tensor<T> &W, tensor<T> &B = NULL_TENSOR<T>) {
 
-    // 
+    //
     // N - batch size
     // C = number of channels
-    // H - Image height 
+    // H - Image height
     // W - Image width
     // M - number of feature maps
     //
@@ -176,9 +175,9 @@ public:
 
     // dilations
     if (dilations.empty()) {
-      dilations = std::vector<int> (W.rank()-2);
+      dilations = std::vector<int>(W.rank() - 2);
       // dilations defaults is 1 along each spatial axis
-      for (size_t axis = 0; axis < W.rank()-2; axis++) {
+      for (size_t axis = 0; axis < W.rank() - 2; axis++) {
         dilations[axis] = 1;
       }
     } else if (dilations.size() != 2) {
@@ -209,7 +208,7 @@ public:
             if (((i + 1) % dilations[0] == 0) &&
                 ((j + 1) % dilations[1] == 0)) {
               kernel(featureMap, filterChannel, i, j) =
-		W(featureMap, channelIndx, (((i + 1) / dilations[0]) -1),
+                  W(featureMap, channelIndx, (((i + 1) / dilations[0]) - 1),
                     (((j + 1) / dilations[1]) - 1));
             } else {
               kernel(featureMap, filterChannel, i, j) = 0;
@@ -294,25 +293,27 @@ public:
       int total_padding_required;
       if (padType == 'N') {
         for (size_t i = 0; i < padsSize; i++) {
-          pads[i] = 0; 
+          pads[i] = 0;
         }
       } else if (padType == 'U') {
-	for (size_t i = 0; i < X.rank()-2; i++) {
-	  total_padding_required = X.shape()[i+2]*(strides[i]-1) - strides[i] + W.shape()[i+2];
-	  pads[i] = pads[i+X.rank()-2] = total_padding_required/2;
-	  if ((total_padding_required%2) != 0) {
-	    pads[i+X.rank()-2] = pads[i+X.rank()-2] + 1;
-	  }
-	}
-	
+        for (size_t i = 0; i < X.rank() - 2; i++) {
+          total_padding_required = X.shape()[i + 2] * (strides[i] - 1) -
+                                   strides[i] + W.shape()[i + 2];
+          pads[i] = pads[i + X.rank() - 2] = total_padding_required / 2;
+          if ((total_padding_required % 2) != 0) {
+            pads[i + X.rank() - 2] = pads[i + X.rank() - 2] + 1;
+          }
+        }
+
       } else if (padType == 'L') {
-	for (size_t i = 0; i < X.rank()-2; i++) {
-	  total_padding_required = X.shape()[i+2]*(strides[i]-1) - strides[i] + W.shape()[i+2];
-	  pads[i] = pads[i+X.rank()-2] = total_padding_required/2;
-	  if ((total_padding_required%2) != 0) {
-	    pads[i] = pads[i] + 1;
-	  }
-	}
+        for (size_t i = 0; i < X.rank() - 2; i++) {
+          total_padding_required = X.shape()[i + 2] * (strides[i] - 1) -
+                                   strides[i] + W.shape()[i + 2];
+          pads[i] = pads[i + X.rank() - 2] = total_padding_required / 2;
+          if ((total_padding_required % 2) != 0) {
+            pads[i] = pads[i] + 1;
+          }
+        }
       }
     }
 
@@ -324,7 +325,7 @@ public:
     std::vector<size_t> __pads;
 
     for (size_t i = 0; i < pads.size(); i++) {
-      __pads.push_back((size_t) pads[i]); // need to do this for type conversion
+      __pads.push_back((size_t)pads[i]); // need to do this for type conversion
     }
 
     for (size_t batchIndx = 0; batchIndx < batchSize; batchIndx++) {
@@ -333,12 +334,12 @@ public:
         // padded input image
         for (size_t hIndx = 0; hIndx < X_h + __pads[0] + __pads[2]; hIndx++) {
           for (size_t wIndx = 0; wIndx < X_w + __pads[1] + __pads[3]; wIndx++) {
-            if (hIndx < __pads[0] || hIndx >= (X_h + __pads[0])|| 
-		wIndx < __pads[1] || wIndx >= (X_w + __pads[1])) {
+            if (hIndx < __pads[0] || hIndx >= (X_h + __pads[0]) ||
+                wIndx < __pads[1] || wIndx >= (X_w + __pads[1])) {
               paddedInput(hIndx, wIndx) = 0;
             } else {
-              paddedInput(hIndx, wIndx) =
-                  X(batchIndx, channelIndx, hIndx - __pads[0], wIndx - __pads[1]);
+              paddedInput(hIndx, wIndx) = X(
+                  batchIndx, channelIndx, hIndx - __pads[0], wIndx - __pads[1]);
             }
           }
         }
@@ -348,10 +349,9 @@ public:
 
           // convolve
           for (size_t hIndx = 0; hIndx < resultShape[3];
-               hIndx = hIndx + (size_t) strides[0]) {
-            for (size_t wIndx = 0;
-                 wIndx < resultShape[4];
-                 wIndx = wIndx + (size_t) strides[1]) {
+               hIndx = hIndx + (size_t)strides[0]) {
+            for (size_t wIndx = 0; wIndx < resultShape[4];
+                 wIndx = wIndx + (size_t)strides[1]) {
               result(batchIndx, featureMapIndx, channelIndx, hIndx, wIndx) = 0;
               if (B != NULL_TENSOR<T>) {
                 result(batchIndx, featureMapIndx, channelIndx, hIndx, wIndx) =

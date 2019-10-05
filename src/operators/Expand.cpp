@@ -29,6 +29,19 @@ using namespace Eigen;
 #ifdef DNNC_EXPAND_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  int d1[24] = {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6,
+                1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6};
+  int d2[3] = {6, 4};
+  tensor<int> a(4, 6);
+  a.load(d1);
+  tensor<int> b(1, 3);
+  b.load(d2);
+  Expand<int, int> m("localOpName");
+  auto result = m.compute(a, b);
+
+  std::cout << result;
+  std::cout << "\n";
+
+  return 0;
 }
 #endif
