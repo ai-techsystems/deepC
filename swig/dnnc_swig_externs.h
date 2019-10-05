@@ -64,6 +64,24 @@ namespace dnnc {
 	extern tensor<bool> \
 		 logical_and(tensor<int> &a, tensor<int> &b) ;
 	extern tensor<float> \
+		 conv(tensor<float> X, tensor<float> W, tensor<float> B,
+                    std::string auto_pad = "NOTSET",
+                    std::vector<int> dilations = std::vector<int>(),
+                    int group = 1, 
+                    std::vector<int> kernal_shape = std::vector<int>(),
+                    std::vector<int> pads = std::vector<int>(),
+                    std::vector<int> strides = std::vector<int>())
+;
+	extern tensor<double> \
+		 conv(tensor<double> X, tensor<double> W, tensor<double> B,
+                    std::string auto_pad = "NOTSET",
+                    std::vector<int> dilations = std::vector<int>(),
+                    int group = 1, 
+                    std::vector<int> kernal_shape = std::vector<int>(),
+                    std::vector<int> pads = std::vector<int>(),
+                    std::vector<int> strides = std::vector<int>())
+;
+	extern tensor<float> \
 		 dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) ;
 	extern tensor<double> \
 		 div(tensor<double> &a, tensor<double> &b) ;

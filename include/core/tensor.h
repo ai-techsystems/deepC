@@ -423,7 +423,12 @@ public:
 
   T &operator()(std::vector<INDEX> &indices) const {
     INDEX index = 0;
-    if (rank() == 4 && indices.size() == 4) {
+    if (rank() == 5 && indices.size() == 5) {
+      index = indices[0] * _shape[1] * _shape[2] * _shape[3] * _shape[4] +
+              indices[1] * _shape[2] * _shape[3] * _shape[4] +
+              indices[2] * _shape[3] * _shape[4] + indices[3] * _shape[4] +
+              indices[4];
+    } else if (rank() == 4 && indices.size() == 4) {
       index = indices[0] * _shape[1] * _shape[2] * _shape[3] +
               indices[1] * _shape[2] * _shape[3] + indices[2] * _shape[3] +
               indices[3];
@@ -453,7 +458,7 @@ public:
   }
 
   T &operator()(const INDEX x = 0, const INDEX y = 0, const INDEX z = 0,
-                const INDEX w = 0) const {
+                const INDEX w = 0, const INDEX u = 0) const {
     std::vector<INDEX> indices;
     indices.push_back(x);
     if (rank() > 1)
@@ -462,7 +467,8 @@ public:
       indices.push_back(z);
     if (rank() > 3)
       indices.push_back(w);
-
+    if (rank() > 4)
+      indices.push_back(u);
     return this->operator()(indices);
   }
   std::string dtype() { return dtype_str[typeid(T).name()[0] - 'a']; }

@@ -1,6 +1,7 @@
 tensorSanity.py
 Add.py
 Broadcast.py
+Conv.py
 DequantizeLinear.py
 Div.py
 Elu.py

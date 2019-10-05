@@ -25,6 +25,7 @@
 #include "core/tensor.h"
 #include "operators/Add.h"
 #include "operators/And.h"
+#include "operators/Conv.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
 #include "operators/Elu.h"
@@ -234,6 +235,24 @@ tensor<output> logical_and(tensor<input> &a, tensor<input> &b) {
 		"float" : "bool",
 		"bool" : "bool",
 		"int" : "bool"
+	}
+}
+
+tensor<output> conv(tensor<input> X, tensor<input> W, tensor<input> B,
+                    std::string auto_pad = "NOTSET",
+                    std::vector<int> dilations = std::vector<int>(),
+                    int group = 1, 
+                    std::vector<int> kernal_shape = std::vector<int>(),
+                    std::vector<int> pads = std::vector<int>(),
+                    std::vector<int> strides = std::vector<int>())
+{
+	Conv<output> op("opConv", auto_pad, dilations,
+                    group, kernal_shape,
+                    pads, strides);
+	return op.compute(X, W, B);
+	dtype = {
+		"float" : "float",
+		"double" : "double",
 	}
 }
 

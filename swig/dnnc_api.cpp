@@ -25,6 +25,7 @@
 #include "core/tensor.h"
 #include "operators/Add.h"
 #include "operators/And.h"
+#include "operators/Conv.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
 #include "operators/Elu.h"
@@ -306,6 +307,34 @@ tensor<bool> logical_and(tensor<bool> &a, tensor<bool> &b) {
 tensor<bool> logical_and(tensor<int> &a, tensor<int> &b) {
 	And<bool, int> op;
 	return op.compute(a, b);
+}
+
+tensor<float> conv(tensor<float> X, tensor<float> W, tensor<float> B,
+                    std::string auto_pad = "NOTSET",
+                    std::vector<int> dilations = std::vector<int>(),
+                    int group = 1, 
+                    std::vector<int> kernal_shape = std::vector<int>(),
+                    std::vector<int> pads = std::vector<int>(),
+                    std::vector<int> strides = std::vector<int>())
+{
+	Conv<float> op("opConv", auto_pad, dilations,
+                    group, kernal_shape,
+                    pads, strides);
+	return op.compute(X, W, B);
+}
+
+tensor<double> conv(tensor<double> X, tensor<double> W, tensor<double> B,
+                    std::string auto_pad = "NOTSET",
+                    std::vector<int> dilations = std::vector<int>(),
+                    int group = 1, 
+                    std::vector<int> kernal_shape = std::vector<int>(),
+                    std::vector<int> pads = std::vector<int>(),
+                    std::vector<int> strides = std::vector<int>())
+{
+	Conv<double> op("opConv", auto_pad, dilations,
+                    group, kernal_shape,
+                    pads, strides);
+	return op.compute(X, W, B);
 }
 
 tensor<float> dequantize_linear(tensor<int> &a, tensor<float> &b, tensor<int> &c) {
