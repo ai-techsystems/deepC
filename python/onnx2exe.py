@@ -1,5 +1,5 @@
 # Copyright 2018 The DNNC Authors. All Rights Reserved.
-# 
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -18,36 +18,12 @@
 # under the License.
 # pylint: disable=invalid-name, unused-argument
 #
-# This file is part of DNN compiler maintained at 
+# This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
-#
 
-# CORE must be first, all others depend on CORE
-MAKEFLAGS += -j8
+############################
+# Description:
+#   DNNC AOT Compiler script
+#############################
 
-all:CORE OPERATORS GRAPH CODEGEN
-
-FORCE:
-
-CORE: FORCE
-	$(MAKE) -C core
-
-OPERATORS: CORE
-	$(MAKE) -C operators
-
-GRAPH: OPERATORS
-	$(MAKE) -C graph
-
-CODEGEN: GRAPH
-	$(MAKE) -C codegen
-
-clean:
-	$(MAKE) -C core clean
-	$(MAKE) -C operators clean
-	$(MAKE) -C graph clean
-	$(MAKE) -C codegen clean
-
-.PHONY: print_vars
-
-print_vars:
-	@echo 
+import os, sys

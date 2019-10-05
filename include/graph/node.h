@@ -22,47 +22,47 @@
 //
 #pragma once
 
+#include "core/iterator.h"
 #include "core/tensor.h"
 #include "operators/baseOperator.h"
-#include <any>
 #include <vector>
 
 namespace dnnc {
 
-class genericData {
+class irTypeData {
 protected:
   IR_DataType _type = IR_DataType::NOTYPE;
   size_t *_ref; /*<! reference count of _data */
   void *_data = 0x0;
 
 public:
-  genericData(IR_DataType ty, std::vector<int> &d) : _type(ty) {
+  irTypeData(IR_DataType ty, std::vector<int> &d) : _type(ty) {
     assert(ty == IR_DataType::INT8 || ty == IR_DataType::INT16 ||
            ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
     _ref = new size_t;
     *_ref = 1;
     _data = new std::vector<int>(d.begin(), d.end());
   }
-  genericData(IR_DataType ty, std::vector<float> &d) : _type(ty) {
+  irTypeData(IR_DataType ty, std::vector<float> &d) : _type(ty) {
     assert(ty == IR_DataType::FLOAT || ty == IR_DataType::FLOAT16 ||
            ty == IR_DataType::DOUBLE);
     _ref = new size_t;
     *_ref = 1;
     _data = new std::vector<float>(d.begin(), d.end());
   }
-  genericData(IR_DataType ty, std::vector<std::string> &d) : _type(ty) {
+  irTypeData(IR_DataType ty, std::vector<std::string> &d) : _type(ty) {
     assert(ty == IR_DataType::STRING);
     _ref = new size_t;
     *_ref = 1;
     _data = new std::vector<std::string>(d.begin(), d.end());
   }
-  genericData(IR_DataType ty, std::vector<tensor<bool>> &d) : _type(ty) {
+  irTypeData(IR_DataType ty, std::vector<tensor<bool>> &d) : _type(ty) {
     assert(ty == IR_DataType::BOOL);
     _ref = new size_t;
     *_ref = 1;
     _data = new std::vector<tensor<bool>>(d.begin(), d.end());
   }
-  genericData(IR_DataType ty, std::vector<tensor<int>> &d)
+  irTypeData(IR_DataType ty, std::vector<tensor<int>> &d)
       : _type(IR_DataType::TENSOR_INT) {
     assert(ty == IR_DataType::INT8 || ty == IR_DataType::INT16 ||
            ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
@@ -70,7 +70,7 @@ public:
     *_ref = 1;
     _data = new std::vector<tensor<int>>(d.begin(), d.end());
   }
-  genericData(IR_DataType ty, std::vector<tensor<float>> &d)
+  irTypeData(IR_DataType ty, std::vector<tensor<float>> &d)
       : _type(IR_DataType::TENSOR_FLOAT) {
     assert(ty == IR_DataType::FLOAT || ty == IR_DataType::FLOAT16 ||
            ty == IR_DataType::DOUBLE);
@@ -79,14 +79,14 @@ public:
     _data = new std::vector<tensor<float>>(d.begin(), d.end());
   }
   /// \brief copy  constructor
-  genericData(const genericData &other) {
+  irTypeData(const irTypeData &other) {
     _ref = other._ref;
     _type = other._type;
     _data = other._data;
     (*_ref)++;
   }
   /// \brief Assignment Operator
-  genericData &operator=(const genericData &other) {
+  irTypeData &operator=(const irTypeData &other) {
     if (this == &other)
       return *this;
 
@@ -97,7 +97,7 @@ public:
 
     return *this;
   }
-  ~genericData() {
+  ~irTypeData() {
     if (_ref)
       --(*_ref);
     if (_ref && *_ref == 0 && _data) {
@@ -127,7 +127,7 @@ public:
         delete static_cast<std::vector<tensor<float>> *>(_data);
         break;
       default:
-        assert(false && "genericData object created without type");
+        assert(false && "irTypeData object created without type");
         break;
       }
     }
@@ -145,13 +145,26 @@ public:
   }
 };
 
+class dnnParameters {
+protected:
+  std::string _name;
+  irTypeData _value;
+
+public:
+  dnnParameters(std::string n, irTypeData &v) : _name(n), _value(v) {}
+  std::string name() { return _name; }
+  irTypeData data() { return _value; }
+};
+
 class nodeAttribute {
 protected:
   OPATTR _name = attr_invalid;
-  genericData _value;
+  irTypeData _value;
 
 public:
-  nodeAttribute(OPATTR n, genericData &v) : _name(n), _value(v) {}
+  nodeAttribute(OPATTR n, irTypeData &v) : _name(n), _value(v) {}
+  OPATTR name() { return _name; }
+  irTypeData data() { return _value; }
 };
 
 /*! Graph node
@@ -181,6 +194,24 @@ public:
   void addInput(std::string n) { _input_names.push_back(n); }
   void addOutput(std::string n) { _output_names.push_back(n); }
   void addAttribute(nodeAttribute &attr) { _attributes.push_back(attr); }
+
+  OPCODE symbol() { return _symbol; }
+  std::string name() { return _name; }
+
+#ifndef SWIGPYTHON
+  struct attr_iter {
+    int pos;
+    inline void next(const node *ref) { ++pos; }
+    inline void begin(const node *ref) { pos = 0; }
+    inline void end(const node *ref) { pos = ref->_attributes.size(); }
+    inline nodeAttribute &get(node *ref) { return ref->_attributes[pos]; }
+    inline const nodeAttribute &get(const node *ref) {
+      return ref->_attributes[pos];
+    }
+    inline bool cmp(const attr_iter &s) const { return pos != s.pos; }
+  };
+  SETUP_ITERATORS(node, nodeAttribute &, attr_iter)
+#endif
 };
 
 } // namespace dnnc

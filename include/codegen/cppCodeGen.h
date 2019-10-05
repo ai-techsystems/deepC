@@ -20,21 +20,22 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
+#pragma once
 
-#include "graph/graph.h"
+#include <graph/graph.h>
 
-#ifdef DNNC_GRAPH_TEST
-using namespace dnnc;
+namespace dnnc {
+class cppCodeGen {
+protected:
+  graph &_graph;
+  std::string _outFile;
 
-int main() {
-  dnnc::graph &g = dnnc::Graph();
-
-  for (node &n : g) {
-    std::cout << n.name() << "\n";
-  }
-
-  g.setName("CNTK");
-  return 0;
-}
-
-#endif
+public:
+  cppCodeGen(graph &graph, std::string outFile)
+      : _graph(graph), _outFile(outFile) {}
+  bool write();
+  bool write(node &);
+  bool write(placeHolder &, bool);
+  bool write(irTypeData, std::string);
+};
+} // namespace dnnc

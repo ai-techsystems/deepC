@@ -54,12 +54,10 @@ DNNC_DataType getDNNC_DataType(std::string &stype) {
     type = UINT64;
   return type;
 }
+
 template <typename T> DNNC_DataType getDNNC_DataType(T var) {
-  DNNC_DataType type = NOTYPE;
   std::string type_str = dtype_str[typeid(T).name()[0] - 'a'];
   return getDNNC_DataType(type_str);
-
-  return type;
 }
 
 std::string getDNNC_DataTypeStr(DNNC_DataType dtype) {

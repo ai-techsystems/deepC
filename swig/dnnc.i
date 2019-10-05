@@ -74,6 +74,7 @@ namespace std {
 
 %include "core/datatypes.h"
 %include "core/macros.h"
+%include "operators/opTypes.h"
 %include "tensor.i"
 %include "graph.i"
 

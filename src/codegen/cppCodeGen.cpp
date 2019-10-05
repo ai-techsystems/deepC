@@ -21,20 +21,41 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "graph/graph.h"
+#include <codegen/cppCodeGen.h>
 
-#ifdef DNNC_GRAPH_TEST
-using namespace dnnc;
+bool dnnc::cppCodeGen::write() {
 
-int main() {
-  dnnc::graph &g = dnnc::Graph();
+  bool result = true;
 
-  for (node &n : g) {
-    std::cout << n.name() << "\n";
+  for (dnnParameters param : _graph.parameters()) {
+    write(param.data(), param.name());
   }
-
-  g.setName("CNTK");
-  return 0;
+  for (placeHolder term : _graph.inputs()) {
+    write(term, true);
+  }
+  for (placeHolder term : _graph.outputs()) {
+    write(term, false);
+  }
+  for (node &n : _graph) {
+    result &= write(n);
+  }
+  return result;
 }
 
-#endif
+bool dnnc::cppCodeGen::write(irTypeData param, std::string name) {
+  bool result = true;
+  return result;
+}
+
+bool dnnc::cppCodeGen::write(placeHolder &term, bool in) {
+  bool result = true;
+  return result;
+}
+
+bool dnnc::cppCodeGen::write(node &n) {
+  bool result = true;
+  for (nodeAttribute attr : n) {
+    write(attr.data(), getAttrNameStr(attr.name()));
+  }
+  return result;
+}

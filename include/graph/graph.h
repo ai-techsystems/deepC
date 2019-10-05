@@ -26,6 +26,7 @@
 #include <set>
 
 namespace dnnc {
+
 struct placeHolder {
 public:
   std::string name;
@@ -50,7 +51,7 @@ protected:
   std::vector<node> _nodes;
   std::vector<placeHolder> _inputs;
   std::vector<placeHolder> _outputs;
-  std::vector<nodeAttribute> _initializers;
+  std::vector<dnnParameters> _initializers;
 
   /*!< Hierarchical graph mechanism by registry.
    * 1. Parent registers every new born in _subgraphs (see subgraph method).
@@ -92,7 +93,34 @@ public:
   void addNode(node n) { _nodes.push_back(n); }
   void addInput(placeHolder in) { _inputs.push_back(in); }
   void addOutput(placeHolder out) { _outputs.push_back(out); }
-  void addInitializer(nodeAttribute param) { _initializers.push_back(param); }
+  void addInitializer(dnnParameters param) { _initializers.push_back(param); }
+
+  std::vector<placeHolder> inputs() { return _inputs; }
+  std::vector<placeHolder> outputs() { return _outputs; }
+  std::vector<dnnParameters> parameters() { return _initializers; }
+
+  bool findNodeByName(std::string &name, node &n) {
+    for (node &other : _nodes) {
+      if (other.name() == name) {
+        n = other;
+        return true;
+      }
+    }
+    return false;
+  }
+
+#ifndef SWIGPYTHON
+  struct node_iter {
+    int pos;
+    inline void next(const graph *ref) { ++pos; }
+    inline void begin(const graph *ref) { pos = 0; }
+    inline void end(const graph *ref) { pos = ref->_nodes.size(); }
+    inline node &get(graph *ref) { return ref->_nodes[pos]; }
+    inline const node &get(const graph *ref) { return ref->_nodes[pos]; }
+    inline bool cmp(const node_iter &s) const { return pos != s.pos; }
+  };
+  SETUP_ITERATORS(graph, node &, node_iter)
+#endif
 };
 static graph &Graph() { return graph::singleton(); }
 } // namespace dnnc
