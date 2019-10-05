@@ -55,11 +55,6 @@ DNNC_DataType getDNNC_DataType(std::string &stype) {
   return type;
 }
 
-template <typename T> DNNC_DataType getDNNC_DataType(T var) {
-  std::string type_str = dtype_str[typeid(T).name()[0] - 'a'];
-  return getDNNC_DataType(type_str);
-}
-
 std::string getDNNC_DataTypeStr(DNNC_DataType dtype) {
   std::string type = "";
   switch (dtype) {

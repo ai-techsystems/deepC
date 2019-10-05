@@ -99,4 +99,12 @@ static const char *dtype_str[] = {
     "",            /* y */
     ""             /* z */
 };
+
+template <typename T> DNNC_DataType getDNNC_DataType(T var) {
+  std::string type_str = dtype_str[typeid(T).name()[0] - 'a'];
+  return getDNNC_DataType(type_str);
+}
+
+DNNC_DataType getDNNC_DataType(std::string &stype);
+std::string getDNNC_DataTypeStr(DNNC_DataType dtype);
 } // namespace dnnc

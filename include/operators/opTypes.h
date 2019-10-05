@@ -262,7 +262,8 @@ enum OPATTR {
   attr_invalid
 };
 
-#ifndef SWIGPYTHON
+OPATTR getAttrName(std::string attrStr);
 std::string getAttrNameStr(OPATTR attr);
-#endif
+OPCODE getOpCode(std::string opCodeStr);
+std::string getOpCodeStr(OPCODE opCode);
 } // namespace dnnc
