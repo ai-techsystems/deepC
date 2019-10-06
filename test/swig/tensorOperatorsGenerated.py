@@ -323,10 +323,10 @@ class tensorOperatorsGeneratedTest(unittest.TestCase):
 		temp_dc //= 5
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
-	# Assignment Pow
+	# Assignment Power
 
 	# int_tensor_1 **= bool_scalar
-	def test_Assignment_Pow_int_tensor_1_bool_scalar (self):
+	def test_Assignment_Power_int_tensor_1_bool_scalar (self):
 		temp_np = self.np_int_0_4.copy()
 		temp_np **= True
 		temp_dc = self.dc_int_0_4.copy()
@@ -334,7 +334,7 @@ class tensorOperatorsGeneratedTest(unittest.TestCase):
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
 	# int_tensor_1 **= int_scalar
-	def test_Assignment_Pow_int_tensor_1_int_scalar (self):
+	def test_Assignment_Power_int_tensor_1_int_scalar (self):
 		temp_np = self.np_int_0_4.copy()
 		temp_np **= 5
 		temp_dc = self.dc_int_0_4.copy()
@@ -342,7 +342,7 @@ class tensorOperatorsGeneratedTest(unittest.TestCase):
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
 	# int_tensor_1 **= int_tensor_2
-	def test_Assignment_Pow_int_tensor_1_int_tensor_2 (self):
+	def test_Assignment_Power_int_tensor_1_int_tensor_2 (self):
 		temp_np = self.np_int_0_4.copy()
 		temp_np **= self.np_int_5_9
 		temp_dc = self.dc_int_0_4.copy()
@@ -350,7 +350,7 @@ class tensorOperatorsGeneratedTest(unittest.TestCase):
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
 	# float_tensor_1 **= bool_scalar
-	def test_Assignment_Pow_float_tensor_1_bool_scalar (self):
+	def test_Assignment_Power_float_tensor_1_bool_scalar (self):
 		temp_np = self.np_float_0_4.copy()
 		temp_np **= True
 		temp_dc = self.dc_float_0_4.copy()
@@ -358,7 +358,7 @@ class tensorOperatorsGeneratedTest(unittest.TestCase):
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
 	# float_tensor_1 **= float_scalar
-	def test_Assignment_Pow_float_tensor_1_float_scalar (self):
+	def test_Assignment_Power_float_tensor_1_float_scalar (self):
 		temp_np = self.np_float_0_4.copy()
 		temp_np **= 5.0
 		temp_dc = self.dc_float_0_4.copy()
@@ -366,7 +366,7 @@ class tensorOperatorsGeneratedTest(unittest.TestCase):
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
 	# float_tensor_1 **= float_tensor_2
-	def test_Assignment_Pow_float_tensor_1_float_tensor_2 (self):
+	def test_Assignment_Power_float_tensor_1_float_tensor_2 (self):
 		temp_np = self.np_float_0_4.copy()
 		temp_np **= self.np_float_5_9
 		temp_dc = self.dc_float_0_4.copy()
@@ -374,7 +374,7 @@ class tensorOperatorsGeneratedTest(unittest.TestCase):
 		np.testing.assert_array_equal(temp_np, np.array(temp_dc.data()))
 
 	# float_tensor_1 **= int_scalar
-	def test_Assignment_Pow_float_tensor_1_int_scalar (self):
+	def test_Assignment_Power_float_tensor_1_int_scalar (self):
 		temp_np = self.np_float_0_4.copy()
 		temp_np **= 5
 		temp_dc = self.dc_float_0_4.copy()

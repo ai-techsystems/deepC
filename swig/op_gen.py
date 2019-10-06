@@ -62,8 +62,8 @@ def remove_dtype(s):
 	return s
 
 
-def get_swig_extern(s):
-	s = "\textern "+s.split("{")[0].replace(">","> \\\n\t\t",1)+";\n"
+def get_swig_extern(dc_operator, s):
+	s = "\textern "+s.split("{")[0].replace(dc_operator,"\\\n\t\t"+dc_operator,1)+";\n"
 	return s
 
 
@@ -102,59 +102,109 @@ def overload_python_operator(dc_operator, operator_python):
 	return s
 
 
+def get_scalar(dc_operator, i):
+	s = ""
+	if i == 1:
+		s = '''tensor<output> dc_operator(tensor<input1> &a, input2 b) {
+	tensor<input2> tensor_b(1);
+	tensor_b.load(&b);
+	return dc_operator(a, tensor_b);
+}
+'''
+
+	if i == 2:
+		s = '''tensor<output> dc_operator(input1 a, tensor<input2> &b) {
+	tensor<input1> tensor_a(1);
+	tensor_a.load(&a);
+	return dc_operator(tensor_a, b);
+}
+'''
+
+	if i == 3:
+		s = '''output dc_operator(input1 a, input2 b) {
+	tensor<input1> tensor_a(1);
+	tensor<input2> tensor_b(1);
+	tensor_a.load(&a);
+	tensor_b.load(&b);
+	return dc_operator(tensor_a, tensor_b)[0];
+}
+'''
+	s = s.replace("dc_operator", dc_operator)
+	return s
+
 
 def binary_operators(s):
 	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
 
 	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
 
-	temp_content = s.split("\n\n")[1]
+	dtype = ast.literal_eval(s.split("\n\n")[1].split("dtype = ")[1])
+
+	temp_content = s.split("\n\n")[2]
 	for dc_operator, dc_operator_values in operator_list.items():
 		
-		content = temp_content[:]
+		for i in range (4):
+			if i==0:
 
-		operator_header, operator_python = dc_operator_values
-		content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
+				content = temp_content[:]
 
-		dtype = get_dtype_dictionary(content)
-		content = remove_dtype(content)
-		
-		if "dtype" in content:
-			raise Exception("dtype block could not be removed, try again!")
+				operator_header, operator_python = dc_operator_values
+				content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
 
-		# tensor interface for true_div and floor_div are written manually
-		if (dc_operator != "true_div") and (dc_operator != "floor_div"):
-			tensor_swig_helper_file += tensor_swig_helper_binary(dc_operator, operator_header, operator_python)
-		py_file += overload_python_operator(dc_operator, operator_python)
+				if "dtype" in content:
+					raise Exception("dtype block could not be removed, try again!")
 
-		for output, input_2d in dtype.items():
-			
-			# true_div only outputs in float
-			if (dc_operator == "true_div"):
-				output = "double" 
-			
-			# floor_div only outputs in int
-			if (dc_operator == "floor_div"):
-				output = "int" 
-			
-			for input_1d in input_2d:
+				# tensor interface for true_div and floor_div are written manually
+				if (dc_operator != "true_div") and (dc_operator != "floor_div"):
+					tensor_swig_helper_file += tensor_swig_helper_binary(dc_operator, operator_header, operator_python)
+				py_file += overload_python_operator(dc_operator, operator_python)
 
-				input1, input2 = input_1d
-				temp_typecast = ") {\n"
+				for output, input_2d in dtype.items():
+					
+					# true_div only outputs in float
+					if (dc_operator == "true_div"):
+						output = "double" 
+					
+					# floor_div only outputs in int
+					if (dc_operator == "floor_div"):
+						output = "int" 
+					
+					for input_1d in input_2d:
 
-				if (input1 != output):
-					temp_typecast += change_dtype(output,1)
-				if (input2 != output):
-					temp_typecast += change_dtype(output,2)
+						input1, input2 = input_1d
+						temp_typecast = ") {\n"
 
-				temp = content.replace("input1",input1).replace("input2",input2).replace("input",output).replace("output",output) + "\n\n"
-				temp = temp.replace(") {\n",temp_typecast)
-				
-				if "asType" in temp:
-					temp = change_compute(temp)
-				cpp_file += temp.replace("\n","\n\t")
-				temp = get_swig_extern(temp)
-				swig_extern_file += temp
+						if (input1 != output):
+							temp_typecast += change_dtype(output,1)
+						if (input2 != output):
+							temp_typecast += change_dtype(output,2)
+
+						temp = content.replace("input1",input1).replace("input2",input2).replace("input",output).replace("output",output) + "\n\n"
+						temp = temp.replace(") {\n",temp_typecast)
+						
+						if "asType" in temp:
+							temp = change_compute(temp)
+						cpp_file += temp.replace("\n","\n\t")
+						temp = get_swig_extern(dc_operator, temp)
+						swig_extern_file += temp
+
+			if i>0 and i<4:
+				content = get_scalar(dc_operator, i)
+
+				for output, input_2d in dtype.items():
+					# true_div only outputs in float
+					if (dc_operator == "true_div"):
+						output = "double" 
+					# floor_div only outputs in int
+					if (dc_operator == "floor_div"):
+						output = "int" 
+					
+					for input_1d in input_2d:
+						input1, input2 = input_1d
+						temp = content.replace("input1",input1).replace("input2",input2).replace("output",output) + "\n"
+						cpp_file += temp.replace("\n","\n\t")
+						temp = get_swig_extern(dc_operator, temp)
+						swig_extern_file += temp
 
 	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
 
@@ -164,41 +214,55 @@ def logical_operators(s):
 
 	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
 
-	temp_content = s.split("\n\n")[1]
-	for dc_operator, dc_operator_values in operator_list["logical"].items():
-		
-		content = temp_content[:]
-		
-		operator_header, operator_python = dc_operator_values
-		content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
+	dtype = ast.literal_eval(s.split("\n\n")[1].split("dtype = ")[1])
 
-		dtype = get_dtype_dictionary(content)
-		content = remove_dtype(content)
+	temp_content = s.split("\n\n")[2]
+	for dc_operator, dc_operator_values in operator_list['logical'].items():
 		
-		if "dtype" in content:
-			raise Exception("dtype block could not be removed, try again!")
+		for i in range (4):
+			if i==0:
 
-		tensor_swig_helper_file += tensor_swig_helper_logical(dc_operator, operator_header, operator_python)
-		py_file += overload_python_operator(dc_operator, operator_python)
-
-		for output, input_2d in dtype.items():
-			for input_1d in input_2d:
-				input1, input2 = input_1d
-				temp_typecast = ") {\n"
+				content = temp_content[:]
 				
-				if (input1 != output):
-					temp_typecast += change_dtype(output,1)
-				if (input2 != output):
-					temp_typecast += change_dtype(output,2)
+				operator_header, operator_python = dc_operator_values
+				content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
 
-				temp = content.replace("input1",input1).replace("input2",input2).replace("input",output).replace("output",output) + "\n\n"
-				temp = temp.replace(") {\n",temp_typecast)
+				if "dtype" in content:
+					raise Exception("dtype block could not be removed, try again!")
 
-				if "asType" in temp:
-					temp = change_compute(temp)
-				cpp_file += temp.replace("\n","\n\t")
-				temp = get_swig_extern(temp)
-				swig_extern_file += temp
+				tensor_swig_helper_file += tensor_swig_helper_logical(dc_operator, operator_header, operator_python)
+				py_file += overload_python_operator(dc_operator, operator_python)
+
+				for output, input_2d in dtype.items():
+					for input_1d in input_2d:
+						input1, input2 = input_1d
+						temp_typecast = ") {\n"
+						
+						if (input1 != output):
+							temp_typecast += change_dtype(output,1)
+						if (input2 != output):
+							temp_typecast += change_dtype(output,2)
+
+						temp = content.replace("input1",input1).replace("input2",input2).replace("input",output).replace("output",output) + "\n\n"
+						temp = temp.replace(") {\n",temp_typecast)
+
+						if "asType" in temp:
+							temp = change_compute(temp)
+						cpp_file += temp.replace("\n","\n\t")
+						temp = get_swig_extern(dc_operator, temp)
+						swig_extern_file += temp
+
+			
+			if i>0 and i<4:
+				content = get_scalar(dc_operator, i)
+				for output, input_2d in dtype.items():
+
+					for input_1d in input_2d:
+						input1, input2 = input_1d
+						temp = content.replace("input1",input1).replace("input2",input2).replace("output",output) + "\n"
+						cpp_file += temp.replace("\n","\n\t")
+						temp = get_swig_extern(dc_operator, temp)
+						swig_extern_file += temp
 
 	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
 
@@ -208,50 +272,63 @@ def comparison_operators(s, dtype_precedence_dict):
 	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
 
 	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
+	dtype = ast.literal_eval(s.split("\n\n")[1].split("dtype = ")[1])
 
-	temp_content = s.split("\n\n")[1]
-	for dc_operator, dc_operator_values in operator_list["comparison"].items():
+	temp_content = s.split("\n\n")[2]
+	for dc_operator, dc_operator_values in operator_list['comparison'].items():
 		
-		content = temp_content[:]
-		
-		operator_header, operator_python = dc_operator_values
-		content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
+		for i in range (4):
+			if i==0:
 
-		dtype = get_dtype_dictionary(content)
-		content = remove_dtype(content)
-		
-		if "dtype" in content:
-			raise Exception("dtype block could not be removed, try again!")
-
-		tensor_swig_helper_file += tensor_swig_helper_comparison(dc_operator, operator_header, operator_python)
-		py_file += overload_python_operator(dc_operator, operator_python)
-
-		for output, input_2d in dtype.items():
-			for input_1d in input_2d:
-				input1, input2 = input_1d
-				temp_typecast = ") {\n"
+				content = temp_content[:]
 				
-				input = ""
-				if (input1 != input2):
-					if (dtype_precedence_dict[input1] > dtype_precedence_dict[input2]):
-						input = input1
-						temp_typecast += change_dtype(input,2)
-					elif (dtype_precedence_dict[input1] < dtype_precedence_dict[input2]):
-						input = input2
-						temp_typecast += change_dtype(input,1)
-					else:
-						raise Exception("different datatypes can't have same precedence, try again!")
-				else:
-					input = input1
+				operator_header, operator_python = dc_operator_values
+				content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
 
-				temp = content.replace("input1",input1).replace("input2",input2).replace("input",input).replace("output",output) + "\n\n"
-				temp = temp.replace(") {\n",temp_typecast)
+				if "dtype" in content:
+					raise Exception("dtype block could not be removed, try again!")
 
-				if "asType" in temp:
-					temp = change_compute(temp)
-				cpp_file += temp.replace("\n","\n\t")
-				temp = get_swig_extern(temp)
-				swig_extern_file += temp
+				tensor_swig_helper_file += tensor_swig_helper_comparison(dc_operator, operator_header, operator_python)
+				py_file += overload_python_operator(dc_operator, operator_python)
+
+				for output, input_2d in dtype.items():
+					for input_1d in input_2d:
+						input1, input2 = input_1d
+						temp_typecast = ") {\n"
+						
+						input = ""
+						if (input1 != input2):
+							if (dtype_precedence_dict[input1] > dtype_precedence_dict[input2]):
+								input = input1
+								temp_typecast += change_dtype(input,2)
+							elif (dtype_precedence_dict[input1] < dtype_precedence_dict[input2]):
+								input = input2
+								temp_typecast += change_dtype(input,1)
+							else:
+								raise Exception("different datatypes can't have same precedence, try again!")
+						else:
+							input = input1
+
+						temp = content.replace("input1",input1).replace("input2",input2).replace("input",input).replace("output",output) + "\n\n"
+						temp = temp.replace(") {\n",temp_typecast)
+
+						if "asType" in temp:
+							temp = change_compute(temp)
+						cpp_file += temp.replace("\n","\n\t")
+						temp = get_swig_extern(dc_operator, temp)
+						swig_extern_file += temp
+
+
+			if i>0 and i<4:
+				content = get_scalar(dc_operator, i)
+				for output, input_2d in dtype.items():
+
+					for input_1d in input_2d:
+						input1, input2 = input_1d
+						temp = content.replace("input1",input1).replace("input2",input2).replace("output",output) + "\n"
+						cpp_file += temp.replace("\n","\n\t")
+						temp = get_swig_extern(dc_operator, temp)
+						swig_extern_file += temp
 
 	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
 
@@ -260,6 +337,7 @@ def normal_operators(s):
 	cpp_file = swig_extern_file = ""
 	
 	for content in s.split("\n\n"):
+		dc_operator = content.split("> ")[1].split("(")[0]
 		if "<output>" not in content and "<input>" not in content:
 
 			if "dtype" in content:
@@ -267,7 +345,7 @@ def normal_operators(s):
 
 			temp = content + "\n\n"
 			cpp_file += temp.replace("\n","\n\t")
-			temp = get_swig_extern(temp)
+			temp = get_swig_extern(dc_operator, temp)
 			swig_extern_file += temp
 			continue
 
@@ -283,7 +361,7 @@ def normal_operators(s):
 		for input, output in dtype.items():
 			temp = content.replace("input",input) .replace("output",output) + "\n\n"
 			cpp_file += temp.replace("\n","\n\t")
-			temp = get_swig_extern(temp)
+			temp = get_swig_extern(dc_operator, temp)
 			swig_extern_file += temp
 
 	return cpp_file, swig_extern_file

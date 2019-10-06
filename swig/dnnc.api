@@ -26,6 +26,7 @@
 #include "operators/Add.h"
 #include "operators/Abs.h"
 #include "operators/And.h"
+#include "operators/Conv.h"
 #include "operators/BitShift.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
@@ -130,13 +131,10 @@ operator_list = {
 	"floor_div" : ["FloorDiv", "floordiv"],
 	"true_div" : ["TrueDiv", "div"],
 	"remainder" : ["Remainder", "mod"],
-	"pow" : ["Pow", "pow"],
+	"power" : ["Pow", "pow"],
 }
 
-tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
-	operator_header<output, input> op;
-	return op.compute(a, b);
-	dtype = {
+dtype = {
 		"double" : [
 					["double", "double"],
 					["double", "float"],
@@ -173,6 +171,10 @@ tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
 					["bool", "bool"],
 				],
 	}
+
+tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
+	operator_header<output, input> op;
+	return op.compute(a, b);
 }
 
 <\/>
@@ -193,10 +195,7 @@ operator_list = {
 	}
 }
 
-tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
-	operator_header<output, input> op;
-	return op.compute(a, b);
-	dtype = {
+dtype = {
 		"bool" : [
 			["double", "double"],
 			["double", "float"],
@@ -225,6 +224,10 @@ tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
 			["bool", "bool"],
 		],
 	}
+
+tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
+	operator_header<output, input> op;
+	return op.compute(a, b);
 }
 
 <\/>
@@ -358,6 +361,24 @@ tensor<output> bitshift(tensor<input> &a, tensor<input> &b, std::string directio
 	return op.compute(a, b);
 	dtype = {
 		"int" : "int",
+	}
+}
+
+tensor<output> conv(tensor<input> X, tensor<input> W, tensor<input> B,
+                    std::string auto_pad = "NOTSET",
+                    std::vector<int> dilations = std::vector<int>(),
+                    int group = 1, 
+                    std::vector<int> kernal_shape = std::vector<int>(),
+                    std::vector<int> pads = std::vector<int>(),
+                    std::vector<int> strides = std::vector<int>())
+{
+	Conv<output> op("opConv", auto_pad, dilations,
+                    group, kernal_shape,
+                    pads, strides);
+	return op.compute(X, W, B);
+	dtype = {
+		"float" : "float",
+		"double" : "double",
 	}
 }
 
