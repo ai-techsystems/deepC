@@ -46,8 +46,7 @@ public:
        // inferred from input W.
        std::vector<int> pads = {}, std::vector<int> strides = {})
       : baseOperator<T, T, T>(opConv, name) {
-    //      this->auto_pad  = auto_pad;
-    this->auto_pad = "VALID";
+    this->auto_pad  = auto_pad;
     this->dilations = dilations;
     this->group = group;
     this->kernel_shape = kernel_shape;
@@ -114,10 +113,6 @@ public:
     // Padding required on either side for same shape P = (X(S-1) - S + K)/2
 
     std::stringstream errMsg;
-
-    // Temporary settings to match with Onnx
-    auto_pad = "SAME_UPPER";
-    //
 
     //
     // basic initializations
@@ -225,6 +220,11 @@ public:
       // no padding
       padType = 'N';
       for (size_t axis = 2; axis < X.rank(); axis++) {
+	if (X.shape()[axis] <=  kernelShape[axis]) {
+	  errMsg << "Kernel is too big for the given input and paddings"
+		 << std::endl;
+	  throw std::invalid_argument(errMsg.str().c_str());
+	}
         resultShape.push_back(
             ((X.shape()[axis] - kernelShape[axis]) / strides[axis - 2]) + 1);
       }
@@ -257,12 +257,19 @@ public:
       }
     } else if (auto_pad == "NOTSET") {
       padType = 'P';
-      resultShape.push_back(X.shape()[2] + pads[0] + pads[2]);
-      resultShape.push_back(X.shape()[3] + pads[1] + pads[3]);
       if (pads.empty()) {
         errMsg << "explicit pads expected when auto_pad is \"NOTSET\""
                << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
+      }
+      for (size_t axis = 2; axis < X.rank(); axis++) {
+	if ((X.shape()[axis] + pads[axis] + pads[axis-2]) <=  kernelShape[axis]) {
+	  errMsg << "Kernel is too big for the given input and paddings"
+		 << std::endl;
+	  throw std::invalid_argument(errMsg.str().c_str());
+	}
+        resultShape.push_back(
+            ((X.shape()[axis] - kernelShape[axis] + pads[axis] + pads[axis-2]) / strides[axis - 2]) + 1);
       }
     } else {
       errMsg << "auto_pad must be either \"NOTSET\", \"SAME_UPPER\", "
@@ -349,9 +356,9 @@ public:
 
           // convolve
           for (size_t hIndx = 0; hIndx < resultShape[3];
-               hIndx = hIndx + (size_t)strides[0]) {
+               hIndx = hIndx+1) {
             for (size_t wIndx = 0; wIndx < resultShape[4];
-                 wIndx = wIndx + (size_t)strides[1]) {
+                 wIndx = wIndx+1) {
               result(batchIndx, featureMapIndx, channelIndx, hIndx, wIndx) = 0;
               if (B != NULL_TENSOR<T>) {
                 result(batchIndx, featureMapIndx, channelIndx, hIndx, wIndx) =
@@ -361,7 +368,7 @@ public:
                 for (size_t j = 0; j < kernelShape[3]; j++) {
                   result(batchIndx, featureMapIndx, channelIndx, hIndx,
                          wIndx) += kernel(featureMapIndx, channelIndx, i, j) *
-                                   paddedInput(hIndx + i, wIndx + j);
+                                   paddedInput(hIndx*(size_t)strides[1] + i, wIndx*(size_t)strides[1] + j);
                 }
               }
             }
