@@ -319,9 +319,9 @@ public:
 
     // work out the result
     tensor<T> result(resultShape);
-    tensor<T> paddedInput({X_h + pads[0] + pads[2], X_w + pads[1] + pads[3]});
-    tensor<T> convImage({resultShape[3], resultShape[4]});
-    tensor<T> filter({kernelShape[2], kernelShape[3]});
+    tensor<T> paddedInput(X_h + pads[0] + pads[2], X_w + pads[1] + pads[3]);
+    tensor<T> convImage(resultShape[3], resultShape[4]);
+    tensor<T> filter(kernelShape[2], kernelShape[3]);
     std::vector<size_t> __pads;
 
     for (size_t i = 0; i < pads.size(); i++) {
