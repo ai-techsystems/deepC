@@ -22,13 +22,150 @@
 //
 #pragma once
 
+#include "core/iterator.h"
 #include "core/tensor.h"
 #include "operators/baseOperator.h"
-#include <any>
 #include <vector>
 
 namespace dnnc {
-typedef std::tuple<DNNC_DataType, DNNC_DataType, DNNC_DataType> OP_DTYPES;
+
+class irTypeData {
+protected:
+  IR_DataType _type = IR_DataType::NOTYPE;
+  size_t *_ref; /*<! reference count of _data */
+  void *_data = 0x0;
+
+public:
+  irTypeData(IR_DataType ty, std::vector<int> &d) : _type(ty) {
+    assert(ty == IR_DataType::INT8 || ty == IR_DataType::INT16 ||
+           ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<int>(d.begin(), d.end());
+  }
+  irTypeData(IR_DataType ty, std::vector<float> &d) : _type(ty) {
+    assert(ty == IR_DataType::FLOAT || ty == IR_DataType::FLOAT16 ||
+           ty == IR_DataType::DOUBLE);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<float>(d.begin(), d.end());
+  }
+  irTypeData(IR_DataType ty, std::vector<std::string> &d) : _type(ty) {
+    assert(ty == IR_DataType::STRING);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<std::string>(d.begin(), d.end());
+  }
+  irTypeData(IR_DataType ty, std::vector<tensor<bool>> &d) : _type(ty) {
+    assert(ty == IR_DataType::BOOL);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<tensor<bool>>(d.begin(), d.end());
+  }
+  irTypeData(IR_DataType ty, std::vector<tensor<int>> &d)
+      : _type(IR_DataType::TENSOR_INT) {
+    assert(ty == IR_DataType::INT8 || ty == IR_DataType::INT16 ||
+           ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<tensor<int>>(d.begin(), d.end());
+  }
+  irTypeData(IR_DataType ty, std::vector<tensor<float>> &d)
+      : _type(IR_DataType::TENSOR_FLOAT) {
+    assert(ty == IR_DataType::FLOAT || ty == IR_DataType::FLOAT16 ||
+           ty == IR_DataType::DOUBLE);
+    _ref = new size_t;
+    *_ref = 1;
+    _data = new std::vector<tensor<float>>(d.begin(), d.end());
+  }
+  /// \brief copy  constructor
+  irTypeData(const irTypeData &other) {
+    _ref = other._ref;
+    _type = other._type;
+    _data = other._data;
+    (*_ref)++;
+  }
+  /// \brief Assignment Operator
+  irTypeData &operator=(const irTypeData &other) {
+    if (this == &other)
+      return *this;
+
+    _ref = other._ref;
+    _type = other._type;
+    _data = other._data;
+    (*_ref)++;
+
+    return *this;
+  }
+  ~irTypeData() {
+    if (_ref)
+      --(*_ref);
+    if (_ref && *_ref == 0 && _data) {
+      free(_ref);
+      switch (_type) {
+      case IR_DataType::INT8:
+      case IR_DataType::INT16:
+      case IR_DataType::INT32:
+      case IR_DataType::INT64:
+        delete static_cast<std::vector<int> *>(_data);
+        break;
+      case IR_DataType::FLOAT:
+      case IR_DataType::FLOAT16:
+      case IR_DataType::DOUBLE:
+        delete static_cast<std::vector<float> *>(_data);
+        break;
+      case IR_DataType::STRING:
+        delete static_cast<std::string *>(_data);
+        break;
+      case IR_DataType::TENSOR_BOOL:
+        delete static_cast<std::vector<tensor<bool>> *>(_data);
+        break;
+      case IR_DataType::TENSOR_INT:
+        delete static_cast<std::vector<tensor<int>> *>(_data);
+        break;
+      case IR_DataType::TENSOR_FLOAT:
+        delete static_cast<std::vector<tensor<float>> *>(_data);
+        break;
+      default:
+        assert(false && "irTypeData object created without type");
+        break;
+      }
+    }
+  }
+  operator int() const {
+    if (_type != IR_DataType::INT64)
+      throw std::bad_cast();
+
+    std::vector<int> ivec = *static_cast<std::vector<int> *>(_data);
+
+    if (ivec.size() == 0)
+      throw std::out_of_range("vector of size 0");
+
+    return ivec[0];
+  }
+};
+
+class dnnParameters {
+protected:
+  std::string _name;
+  irTypeData _value;
+
+public:
+  dnnParameters(std::string n, irTypeData &v) : _name(n), _value(v) {}
+  std::string name() { return _name; }
+  irTypeData data() { return _value; }
+};
+
+class nodeAttribute {
+protected:
+  OPATTR _name = attr_invalid;
+  irTypeData _value;
+
+public:
+  nodeAttribute(OPATTR n, irTypeData &v) : _name(n), _value(v) {}
+  OPATTR name() { return _name; }
+  irTypeData data() { return _value; }
+};
 
 /*! Graph node
  * */
@@ -40,67 +177,41 @@ class node {
 protected:
   // TODO: add node attributes like level, graph-input, graph-output,
   //       placeholder, const, variable etc.
-  std::string _name = "";
-  baseOperator<float, float, float> *_op = 0x0; /*!< operator aka symbol */
-  std::vector<tensor<std::any>>
-      _ins; /*!< inputs, i.e. tensors coming to   this node */
-  std::vector<tensor<std::any>>
-      _outs; /*!< outputs, i.e tensors going  from this node */
+  OPCODE _symbol;    /*!< operator aka symbol */
+  std::string _name; /*! node name */
+  std::vector<std::string>
+      _input_names; /*!< inputs, i.e. tensors coming to   this node */
+  std::vector<std::string>
+      _output_names; /*!< outputs, i.e tensors going  from this node */
+  std::vector<nodeAttribute> _attributes; /*!< attributes of the node, i.e.
+                                        values that don't flow in and out */
+
+  node() = delete; /*!< default constructor not allowed */
 public:
-  node(baseOperator<float, float, float> *op) : _op(op) { assert(op); }
-  ~node() { delete _op; }
-  /*
-  template <typename DTYPE> baseOperator<DTYPE> op() {
-    return std::any_cast<DTYPE>(_op);
-  }
-  inline baseOperator<T> op() { return _op; }
-  inline bool hasInput(tensor<Ti> &in) {
-    return std::find(_ins.begin(), _ins.end(), in);
-  }
-  inline bool hasOutput(tensor<To> &out) {
-    return std::find(_outs.begin(), _outs.end(), out);
-  }
-  bool addInput(tensor<Ti> &in) {
-    if (hasInput(in))
-      return false;
-    _ins.push_back(in);
-    return true;
-  }
-  bool addOutput(tensor<To> &out) {
-    if (hasOutput(out))
-      return false;
-    _outs.push_back(out);
-    return true;
-  }
-};
+  node(OPCODE sym, std::string n = "") : _symbol(sym), _name(n) {}
+  ~node() {}
 
-template <class T, class Ti, class To> struct nodeCmp {
-  bool operator()(const node<T, Ti, To> &lhs,
-                  const node<T, Ti, To> &rhs) {
-      //TODO: enhance this to compare in/out edges
-    return opCmp<T>()(*lhs.op(), *rhs.op());
-  }
-};
+  void addInput(std::string n) { _input_names.push_back(n); }
+  void addOutput(std::string n) { _output_names.push_back(n); }
+  void addAttribute(nodeAttribute &attr) { _attributes.push_back(attr); }
 
-template <class T, class Tf, class Tt> class edge {
-protected:
-  const node<T, std::any, Tf> _from;
-  const node<T, Tt, std::any> _to;
+  OPCODE symbol() { return _symbol; }
+  std::string name() { return _name; }
 
-public:
-  edge(const node<T, std::any, Tf> f, const node<T, Tt, std::any> t)
-      : _from(f), _to(t) {}
-  const node<T, std::any, Tf> from() { return _from; }
-  const node<T, Tt, std::any> to()   { return _to; }
-};
-
-template <class T, class Tf, class Tt> struct edgeCmp {
-  bool operator()(const edge<T, Tf, Tt> &lhs,
-                  const edge<T, Tf, Tt> &rhs) {
-      return nodeCmp<T, std::any, Tf>()(lhs.from(), rhs.from()) &&
-             nodeCmp<T, Tt, std::any>()(lhs.to(), rhs.to()) ;
-  }
-  */
+#ifndef SWIGPYTHON
+  struct attr_iter {
+    int pos;
+    inline void next(const node *ref) { ++pos; }
+    inline void begin(const node *ref) { pos = 0; }
+    inline void end(const node *ref) { pos = ref->_attributes.size(); }
+    inline nodeAttribute &get(node *ref) { return ref->_attributes[pos]; }
+    inline const nodeAttribute &get(const node *ref) {
+      return ref->_attributes[pos];
+    }
+    inline bool cmp(const attr_iter &s) const { return pos != s.pos; }
+  };
+  SETUP_ITERATORS(node, nodeAttribute &, attr_iter)
+#endif
 };
 
 } // namespace dnnc

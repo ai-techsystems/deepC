@@ -20,16 +20,22 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-// tensor.i
-//
+#pragma once
 
-%ignore *::operator=;
-%ignore *::operator[];
-%include "core/macros.h"
-%include "operators/baseOperator.h"
-%include "graph/node.h"
-%include "graph/graph.h"
-%{
-#include "graph/graph.h"
-%}
+#include <graph/graph.h>
 
+namespace dnnc {
+class cppCodeGen {
+protected:
+  graph &_graph;
+  std::string _outFile;
+
+public:
+  cppCodeGen(graph &graph, std::string outFile)
+      : _graph(graph), _outFile(outFile) {}
+  bool write();
+  bool write(node &);
+  bool write(placeHolder &, bool);
+  bool write(irTypeData, std::string);
+};
+} // namespace dnnc

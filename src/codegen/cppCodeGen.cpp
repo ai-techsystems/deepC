@@ -21,21 +21,41 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "core/tensor.h"
-#include <fstream>
-#include <iostream>
+#include <codegen/cppCodeGen.h>
 
-int main(int argc, char *argv[]) {
-  // Verify that the version of the library that we linked against is
-  // compatible with the version of the headers we compiled against.
+bool dnnc::cppCodeGen::write() {
 
-  if (argc != 2) {
-    std::cerr << "Usage:  " << argv[0] << " onnx_model_file"
-              << "\n";
-    return -1;
+  bool result = true;
+
+  for (dnnParameters param : _graph.parameters()) {
+    write(param.data(), param.name());
   }
-  std::cout << "DNNC is under development. Check back in Sep 2019 for full "
-               "release.\n";
+  for (placeHolder term : _graph.inputs()) {
+    write(term, true);
+  }
+  for (placeHolder term : _graph.outputs()) {
+    write(term, false);
+  }
+  for (node &n : _graph) {
+    result &= write(n);
+  }
+  return result;
+}
 
-  return 0;
+bool dnnc::cppCodeGen::write(irTypeData param, std::string name) {
+  bool result = true;
+  return result;
+}
+
+bool dnnc::cppCodeGen::write(placeHolder &term, bool in) {
+  bool result = true;
+  return result;
+}
+
+bool dnnc::cppCodeGen::write(node &n) {
+  bool result = true;
+  for (nodeAttribute attr : n) {
+    write(attr.data(), getAttrNameStr(attr.name()));
+  }
+  return result;
 }

@@ -37,7 +37,7 @@ class MeanTest(unittest.TestCase):
 
     def test_Mean1D (self):
         npr = np.divide(np.add(self.np_a, self.np_b), 2.)
-        dcr = dc.mean(dc.ftvec([self.dc_a,self.dc_b]))
+        dcr = dc.mean(dc.vectorTensorFloat([self.dc_a,self.dc_b]))
         np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -47,7 +47,7 @@ class MeanTest(unittest.TestCase):
         dc_a = dc.reshape(self.dc_a, (6,4));
         dc_b = dc.reshape(self.dc_b, (6,4));
         npr =  np.divide(np.add(np_a, np_b), 2.)
-        dcr = dc.mean(dc.ftvec([dc_a,dc_b]));
+        dcr = dc.mean(dc.vectorTensorFloat([dc_a,dc_b]));
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -58,7 +58,7 @@ class MeanTest(unittest.TestCase):
         dc_b = dc.reshape(self.dc_b, (2,4,3));
 
         npr = np.divide(np.add(np_a, np_b), 2.)
-        dcr = dc.mean(dc.ftvec([dc_a,dc_b]));
+        dcr = dc.mean(dc.vectorTensorFloat([dc_a,dc_b]));
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -69,7 +69,7 @@ class MeanTest(unittest.TestCase):
         dc_b = dc.reshape(self.dc_b, (2,2,3,2));
 
         npr = np.divide(np.add(np_a, np_b), 2.)
-        dcr = dc.mean(dc.ftvec([dc_a,dc_b]));
+        dcr = dc.mean(dc.vectorTensorFloat([dc_a,dc_b]));
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -79,4 +79,4 @@ class MeanTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
+

@@ -23,7 +23,7 @@
 #
 include ../../Makefile.common
 
-MODULE=operators
+MODULE=codegen
 LIB=$(LIB_DIR)/lib$(MODULE).so
 
 

@@ -1,0 +1,265 @@
+# Copyright 2018 The DNNC Authors. All Rights Reserved.
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+# pylint: disable=invalid-name, unused-argument
+#
+# This file is part of DNN compiler maintained at
+# https://github.com/ai-techsystems/dnnCompiler
+#
+
+import os, sys
+if __name__ == "__main__":
+  DNNC_PATH=os.path.abspath(os.path.dirname(__file__)+os.path.sep+'..'+os.path.sep+'swig')
+  sys.path.append(DNNC_PATH)
+
+import onnx
+import struct
+import dnnc
+
+
+class pbReader :
+  """Reader class for DNNC models in ONNX binary/protobuf format."""
+
+  def __init__(self):
+      if sys.modules.get('dnnc') is None:
+        print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
+      self._dcGraph = None ;
+
+  def __del__(self):
+      del self._dcGraph ;
+
+  def createOPNode(self, node):
+
+    op_type = dnnc.getOpCode(node.op_type);
+    if ( op_type is dnnc.opInvalid ):
+      print("ERROR (ONNX):" +  node.op_type +" is not a valid graph-node op type.")
+      return None
+
+    dcNode = dnnc.node(op_type, node.name);
+
+    for nd in node.input:
+      dcNode.addInput(nd)
+
+    for nd in node.output:
+      dcNode.addOutput(nd)
+
+    for attr in node.attribute:
+      attr_type = dnnc.IR_DataType_NOTYPE;
+      attr_vals = []
+      attr_vec  = None
+      if attr.type == onnx.AttributeProto.INT:
+        attr_type = dnnc.IR_DataType_INT64;
+        attr_vals.append(attr.i)
+        attr_vec = dnnc.vectorInt(attr_vals)
+      elif attr.type == onnx.AttributeProto.INTS:
+        attr_type = dnnc.IR_DataType_INT64;
+        for val in attr.ints:
+          attr_vals.append(int(val))
+        attr_vec = dnnc.vectorInt(attr_vals)
+      elif attr.type == onnx.AttributeProto.FLOAT:
+        attr_type = dnnc.IR_DataType_FLOAT;
+        attr_vals.append(attr.f)
+        attr_vec = dnnc.vectorFloat(attr_vals)
+      elif attr.type == onnx.AttributeProto.FLOATS:
+        attr_type = dnnc.IR_DataType_FLOAT;
+        for val in attr.floats:
+          attr_vals.append(float(val))
+        attr_vec = dnnc.vectorFloat(attr_vals)
+      elif attr.type == onnx.AttributeProto.STRING:
+        attr_type = dnnc.IR_DataType_STRING;
+        attr_vals.append(str(attr.s))
+        attr_vec = dnnc.vectorStr(attr_vals)
+      elif attr.type == onnx.AttributeProto.STRINGS:
+        attr_type = dnnc.IR_DataType_STRING;
+        for val in attr.strings:
+          attr_vals.append(str(val))
+        attr_vec = dnnc.vectorStr(attr_vals)
+      elif attr.type == onnx.AttributeProto.TENSOR:
+        if ( attr.t.data_type == onnx.TensorProto.INT8  or
+             attr.t.data_type == onnx.TensorProto.INT16 or
+             attr.t.data_type == onnx.TensorProto.INT32 or
+             attr.t.data_type == onnx.TensorProto.INT64   ) :
+
+          attr_type = attr.t.data_type
+          attr_data = None;
+          pack_format = 'P';
+          if ( attr.t.data_type == onnx.TensorProto.INT8 ) :
+            pack_format = 'b'
+          if ( attr.t.data_type == onnx.TensorProto.INT16) :
+            pack_format = 'h'
+          if ( attr.t.data_type == onnx.TensorProto.INT32) :
+            if ( attr.t.int32_data ):
+              attr_data = attr.t.int32_data
+            pack_format = 'i'
+          if ( attr.t.data_type == onnx.TensorProto.INT64) :
+            if ( attr.t.int64_data ):
+              attr_data = attr.t.int64_data
+            pack_format = 'q'
+
+          if ( attr_data is None ) :
+            len=1
+            for d in attr.t.dims:
+              len *= d
+            attr_data = struct.unpack(pack_format*len, attr.t.raw_data) ;
+
+          if ( attr_data is not None ) :
+            attr_tensor = dnnc.intTensor(attr.t.dims, attr.name)
+            attr_tensor.load(attr_data);
+            attr_vec = dnnc.vectorTensorInt()
+            attr_vec.push_back(attr_tensor)
+          else:
+            print("ERROR (ONNX): could not extract data for graph-node " + \
+                    node.name + "\'s attribute " +  attr.name + ".\n");
+
+        elif ( attr.t.data_type == onnx.TensorProto.FLOAT16 or
+             attr.t.data_type == onnx.TensorProto.FLOAT   or
+             attr.t.data_type == onnx.TensorProto.DOUBLE    ):
+
+          attr_type = attr.t.data_type
+          attr_data = None;
+          pack_format = 'P';
+          if ( attr.t.data_type == onnx.TensorProto.FLOAT16 ) :
+            if ( attr.t.float_data ):
+              attr_data = attr.t.float_data
+            pack_format = 'e'
+          if ( attr.t.data_type == onnx.TensorProto.FLOAT ) :
+            if ( attr.t.float_data ):
+              attr_data = attr.t.float_data
+            pack_format = 'f'
+          if ( attr.t.data_type == onnx.TensorProto.DOUBLE ) :
+            if ( attr.t.double_data ):
+              attr_data = attr.t.double_data
+            pack_format = 'd'
+
+          if ( attr_data is None ) :
+            len=1
+            for d in attr.t.dims:
+              len *= d
+            attr_data = struct.unpack(pack_format*len, attr.t.raw_data) ;
+
+          if ( attr_data is not None ):
+            attr_tensor = dnnc.floatTensor(attr.t.dims, attr.name)
+            attr_tensor.load(attr_data);
+            attr_vec = dnnc.vectorTensorFloat()
+            attr_vec.push_back(attr_tensor)
+          else:
+            print("ERROR (ONNX): could not extract data for graph-node " + \
+                    node.name + "\'s attribute " +  attr.name + ".\n");
+        else:
+          print("ERROR (ONNX): attribute tensor's datatype " + str(attr.t.data_type) +
+                  " isn't understood.")
+
+      elif attr.type == onnx.AttributeProto.TENSORS:
+        attr_type = dnnc.IR_DataType_TENSORS;
+        attr_vals.append(attr.tensors)
+        attr_vec = dnnc.vectorTensorFloat(dnnc.floatTensor(attr_vals))
+      elif attr.type == onnx.AttributeProto.GRAPH:
+        attr_type = dnnc.IR_DataType_GRAPH;
+        attr_vals.append(attr.g)
+        print("ERROR (ONNX): sub-graph in graph-node is not yet supported.")
+      elif attr.type == onnx.AttributeProto.GRAPHS:
+        attr_type = dnnc.IR_DataType_GRAPH;
+        attr_vals.append(attr.graphs)
+        print("ERROR (ONNX): sub-graph in graph-node is not yet supported.")
+      else:
+        print("ERROR (ONNX): graph-node " + node.name + "\'s attribute " + \
+               attr.name + " type " + str(attr.type) + " is not valid.")
+        continue
+
+      if ( attr_type is dnnc.IR_DataType_NOTYPE or attr_vec is None ) :
+        continue ;
+
+      attr_code = dnnc.getAttrName(attr.name);
+      if ( attr_code is dnnc.attr_invalid ):
+        print("WARN (ONNX): " + attr.name + " is not a valid graph-node attribute.")
+        print("             operator " + node.op_type + " will be added without this attribute." )
+
+      cAttrData = dnnc.irTypeData(attr_type,attr_vec) ;
+      cAttr = dnnc.nodeAttribute(attr_code, cAttrData);
+      dcNode.addAttribute(cAttr);
+
+
+    return dcNode;
+
+  def createTermNode(self, term):
+    term_name  = term.name
+    data_type  = dnnc.NOTYPE
+    term_shape = []
+    if ( term.type.tensor_type.elem_type ) :
+      data_type  = term.type.tensor_type.elem_type
+      if ( data_type <= dnnc.NOTYPE and data_type >= dnnc.TENSOR ) :
+        print("ERROR (ONNX):  Term " + term_name + "\'s type " + data_type + " is not valid"  ) ;
+        return ;
+
+    if ( term.type.tensor_type and term.type.tensor_type.shape ) :
+      shape = term.type.tensor_type.shape.dim
+      for dim in shape:
+        if ( dim.dim_param ):
+          if ( dim.dim_param == 'None' ):
+              term_shape.append(0);
+          else:
+              print("ERROR (ONNX): terminal (input/output) " + term_name + "\'s dim_param "
+                      + dim.dim_param + " is not recognized.");
+        elif ( dim.dim_value ) :
+          term_shape.append(dim.dim_value)
+        else:
+          print("ERROR (ONNX): terminal (input/output) " + term_name + " has no dim_param or dim_value")
+
+    return dnnc.placeHolder(term_name, data_type, term_shape)
+
+  def main(self, onnx_filename):
+    if sys.modules.get('dnnc') is None:
+      print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
+      return ;
+
+    print("reading onnx model from file ", onnx_filename)
+
+    model = onnx.load(onnx_filename)
+
+    print("Model info:\n  ir_vesion : ", model.ir_version, "\n  doc       :", model.doc_string)
+    graph = model.graph
+
+    self._dcGraph = dnnc.Graph();
+    self._dcGraph.setName(graph.name)
+
+    nodes = graph.node
+    for node in nodes:
+      dcNode = self.createOPNode(node);
+      if ( dcNode != None ):
+        self._dcGraph.addNode(dcNode);
+
+    for terminal in graph.input:
+      dcTerm = self.createTermNode(terminal);
+      if ( dcTerm != None ):
+        self._dcGraph.addInput(dcTerm);
+
+    for terminal in graph.output:
+      dcTerm = self.createTermNode(terminal);
+      if ( dcTerm != None ):
+        self._dcGraph.addOutput(dcTerm);
+
+    #for param in graph.initializer:
+    #  dcParam = self.createParamNode(param);
+    return self._dcGraph
+
+if __name__ == "__main__":
+  if len(sys.argv) >= 2:
+    parser = pbReader()
+    parser.main(sys.argv[1])
+  else:
+    print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")

@@ -37,8 +37,6 @@
 #include <random>
 
 namespace dnnc {
-typedef size_t INDEX;
-typedef size_t DIMENSION;
 enum INIT_TYPE { INIT_NONE = 0, INIT_RANDOM, INIT_ZERO, INIT_ONE, INIT_VALUE };
 
 template <class To, class Ti1, class Ti2> class baseOperator;
@@ -366,6 +364,7 @@ public:
       sz = sz * _shape[i];
     return sz;
   }
+  void name(std::string n) { _name = n; }
   std::string name() const { return _name; }
   const DIMENSION rank() const { return _shape.size(); }
   const std::vector<DIMENSION> shape() const { return _shape; }

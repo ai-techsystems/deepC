@@ -21,34 +21,106 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
+
 #include <graph/node.h>
 #include <set>
 
 namespace dnnc {
+
+struct placeHolder {
+public:
+  std::string name;
+  DNNC_DataType type;
+  std::vector<size_t> shape;
+  placeHolder(std::string n, DNNC_DataType ty, std::vector<size_t> shp)
+      : name(n), type(ty), shape(shp) {}
+};
+
 /*!< This is a directed graph representing data flow graph
- * for deep neural network. Singleton by design, and light by
- * construction, it lives throughout the life of program and dies
- * with it.
+ * for deep neural networks. Default graph is singleton by design,
+ * and light by construction. Default graph lives throughout the
+ * life of program and dies with it.
+ *
+ * One can create subgraphs pointers owned by default graph.
+ *
+ * Reference: https://github.com/onnx/onnx/blob/rel-1.5.0/docs/IR.md
  */
 class graph {
 protected:
-  std::string _name;
-  std::set<const node, nodeCmp> _nodeSet;
-  std::set<const edge, edgeCmp> _edgeSet;
+  std::string _name = "";
+  std::vector<node> _nodes;
+  std::vector<placeHolder> _inputs;
+  std::vector<placeHolder> _outputs;
+  std::vector<dnnParameters> _initializers;
 
+  /*!< Hierarchical graph mechanism by registry.
+   * 1. Parent registers every new born in _subgraphs (see subgraph method).
+   * 2. Before dying, child deregisters itself from parent's _subgraphs (see
+   * destructor).
+   * */
+  graph *_parent = 0x0;
+  std::vector<graph *> _subgraphs;
+
+  graph(graph *parent = 0x0) : _parent(parent) {}
   // prohibited methods for singleton instance
-  graph() {}
-  graph(const graph &other) {}
-  graph &operator=(const graph &other) {}
+  graph(const graph &other) = delete;
+  graph &operator=(const graph &other) = delete;
 
 public:
-  static graph &theGraph() {
+  static graph &singleton() {
     static graph
         _graph; /*!< only one graph can be created, (singleton by design) */
     return _graph;
   }
+  graph &subgraph() {
+    graph *sg = new graph(this);
+    // register new born in _subgraphs.
+    _subgraphs.push_back(sg);
+    return *sg;
+  }
+  ~graph() {
+    if (_parent) {
+      // Before dying, deregister itself from parent's _subgraphs.
+      // Erase-Remove idiom
+      _parent->_subgraphs.erase(std::remove(_parent->_subgraphs.begin(),
+                                            _parent->_subgraphs.end(), this),
+                                _parent->_subgraphs.end());
+    }
+    for (auto &sg : _subgraphs)
+      delete sg;
+  }
   void setName(std::string name) { _name = name; }
-  bool registerNode(node);
+  void addNode(node n) { _nodes.push_back(n); }
+  void addInput(placeHolder in) { _inputs.push_back(in); }
+  void addOutput(placeHolder out) { _outputs.push_back(out); }
+  void addInitializer(dnnParameters param) { _initializers.push_back(param); }
+
+  std::vector<placeHolder> inputs() { return _inputs; }
+  std::vector<placeHolder> outputs() { return _outputs; }
+  std::vector<dnnParameters> parameters() { return _initializers; }
+
+  bool findNodeByName(std::string &name, node &n) {
+    for (node &other : _nodes) {
+      if (other.name() == name) {
+        n = other;
+        return true;
+      }
+    }
+    return false;
+  }
+
+#ifndef SWIGPYTHON
+  struct node_iter {
+    int pos;
+    inline void next(const graph *ref) { ++pos; }
+    inline void begin(const graph *ref) { pos = 0; }
+    inline void end(const graph *ref) { pos = ref->_nodes.size(); }
+    inline node &get(graph *ref) { return ref->_nodes[pos]; }
+    inline const node &get(const graph *ref) { return ref->_nodes[pos]; }
+    inline bool cmp(const node_iter &s) const { return pos != s.pos; }
+  };
+  SETUP_ITERATORS(graph, node &, node_iter)
+#endif
 };
-graph &theGraph() { return theGraph(); }
+static graph &Graph() { return graph::singleton(); }
 } // namespace dnnc
