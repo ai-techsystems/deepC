@@ -57,9 +57,6 @@ public:
   /*!< return OPCODE of the operator */
   virtual inline OPCODE symbol() { return _op; }
 
-  template <typename attrType>
-  bool getAttribute(OPATTR attrName, attrType &obj);
-
   template <typename... Types> bool type_check(const std::type_info &typi) {
     std::vector<std::type_index> allowed_types;
     allowed_types.insert(allowed_types.end(), {typeid(Types)...});
@@ -75,10 +72,10 @@ public:
   /*!<
    \return True if T is one of the types specified else False
    */
-  virtual bool getAttribute(OPATTR, float&) { return false; }
-  virtual bool getAttribute(OPATTR, int&) { return false; }
-  virtual bool getAttribute(OPATTR, std::string&) { return false; }
-  virtual bool getAttribute(OPATTR, std::vector<int>&) { return false; }
+  virtual bool getAttribute(OPATTR, float &) { return false; }
+  virtual bool getAttribute(OPATTR, int &) { return false; }
+  virtual bool getAttribute(OPATTR, std::string &) { return false; }
+  virtual bool getAttribute(OPATTR, std::vector<int> &) { return false; }
   virtual bool setAttribute(OPATTR, float) { return false; }
   virtual bool setAttribute(OPATTR, int) { return false; }
   virtual bool setAttribute(OPATTR, std::string) { return false; }

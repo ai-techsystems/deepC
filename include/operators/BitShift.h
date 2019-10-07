@@ -83,8 +83,8 @@ public:
     return false;
   }
 
-  tensor<T> compute(tensor<T> &a /*!<[int]: ND tensor*/,
-                    tensor<T> &b /*!<[int]: ND tensor*/) {
+  tensor<T> compute(tensor<T> a /*!<[int]: ND tensor*/,
+                    tensor<T> b /*!<[int]: ND tensor*/) override {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
