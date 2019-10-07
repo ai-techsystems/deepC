@@ -52,6 +52,16 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, float obj) {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    } else if (attrName == attr_beta) {
+      beta = obj;
+      return true;
+    }
+    return false;
+  }
   static T Hard_Sigmoid(T x, float alpha, float beta) {
     T temp = T(alpha * x + beta);
     temp = (1 < temp) ? 1 : temp;

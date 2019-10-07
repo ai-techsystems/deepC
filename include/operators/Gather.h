@@ -48,6 +48,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, float obj) {
+    if (attrName == attr_axis) {
+      axis = obj;
+      return true;
+    }
+    return false;
+  }
 
   // duplicate of numpy.take(), link:
   // "https://docs.scipy.org/doc/numpy/reference/generated/numpy.take.html"

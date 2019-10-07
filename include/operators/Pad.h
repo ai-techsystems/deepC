@@ -44,6 +44,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, std::string obj) {
+    if (attrName == attr_mode) {
+      mode = obj;
+      return true;
+    }
+    return false;
+  }
 
   tensor<T> compute(tensor<T> &x, tensor<T> &pads, T constant_value = 0) {
     // CHANGE return-type and args

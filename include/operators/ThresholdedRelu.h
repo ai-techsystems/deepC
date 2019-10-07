@@ -42,6 +42,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, int obj) {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    }
+    return false;
+  }
 
   tensor<T> compute(tensor<T> &input) {
     // create a new copy of input.

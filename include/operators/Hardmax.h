@@ -52,6 +52,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, int obj) {
+    if (attrName == attr_axis) {
+      axis = obj;
+      return true;
+    }
+    return false;
+  }
   tensor<T> compute(tensor<T> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
     if (!(this->template type_check<float, double>(typeid(T))))
       throw std::invalid_argument(

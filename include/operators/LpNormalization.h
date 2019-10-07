@@ -62,6 +62,16 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, int obj) {
+    if (attrName == attr_p) {
+      p = obj;
+      return true;
+    } else if (attrName == attr_axis) {
+      axis = obj;
+      return true;
+    }
+    return false;
+  }
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: 2D tensor*/) {
     if (!(this->template type_check<float, double>(typeid(T))))

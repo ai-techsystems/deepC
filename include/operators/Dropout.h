@@ -53,6 +53,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, float obj) {
+    if (attrName == attr_ratio) {
+      ratio = obj;
+      return true;
+    }
+    return false;
+  }
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
 

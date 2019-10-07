@@ -52,6 +52,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, std::string obj) {
+    if (attrName == attr_mode) {
+      fmod = obj;
+      return true;
+    }
+    return false;
+  }
 
   static T mod_function(T x, T y) { return (T)((int)x % (int)y); }
 

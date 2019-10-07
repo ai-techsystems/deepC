@@ -55,6 +55,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, int obj) {
+    if (attrName == attr_axis) {
+      axis = obj;
+      return true;
+    }
+    return false;
+  }
 
   tensor<T> compute(tensor<T> a /*!< : N D tensor input of rank >= axis.*/) {
 

@@ -77,6 +77,26 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, float obj) {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    } else if (attrName == attr_beta) {
+      beta = obj;
+      return true;
+    } else if (attrName == attr_bias) {
+      bias = obj;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int &obj) {
+    if (attrName == attr_size) {
+      size = obj;
+      return true;
+    }
+    return false;
+  }
   tensor<T> compute(tensor<T> input/*!< Input data tensor from the previous operator;
     dimensions for image case are \f$(N * C * H * W)\f$, where N is the batch size,
     C is the number of channels, and H and W are the height and the width of the data.

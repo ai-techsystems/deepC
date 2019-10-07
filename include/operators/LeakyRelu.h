@@ -48,6 +48,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, float obj) {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    }
+    return false;
+  }
   static T Leaky_Relu(T x, float alpha) {
     if (x < 0)
       return T(alpha * x);

@@ -69,6 +69,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, float obj) {
+    if (attrName == attr_epsilon) {
+      epsilon = obj;
+      return true;
+    }
+    return false;
+  }
   tensor<T>
   compute(tensor<T>
               input /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/,

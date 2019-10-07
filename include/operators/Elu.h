@@ -53,6 +53,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, float obj) {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    }
+    return false;
+  }
   /*! Element wise Elu-Function*/
   static T elu_function(T x, float alpha) {
     return (x < 0) ? (alpha * (exp(x) - 1.)) : x;

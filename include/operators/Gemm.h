@@ -82,6 +82,26 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, int obj) {
+    if (attrName == attr_transA) {
+      transA = obj;
+      return true;
+    } else if (attrName == attr_transB) {
+      transB = obj;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, float obj) {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    } else if (attrName == attr_beta) {
+      beta = obj;
+      return true;
+    }
+    return false;
+  }
 
   tensor<T> compute(tensor<T> &a/*!<Input tensor A. The shape of A should be (M, K) 
                                   if \f$ A_{trans} \f$ is 0, or (K, M) if \f$ A_{trans} \f$ 

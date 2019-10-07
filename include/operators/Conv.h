@@ -88,6 +88,42 @@ public:
     return false;
   }
 
+  bool setAttribute(OPATTR attrName, std::string obj) {
+    if (attrName == attr_auto_pad) {
+      auto_pad = obj;
+      return true;
+    }
+    return false;
+  }
+
+  bool setAttribute(OPATTR attrName, std::vector<int> obj) {
+    if (attrName == attr_dilations) {
+      dilations = obj;
+      return true;
+    }
+    if (attrName == attr_kernel_shape) {
+      kernel_shape = obj;
+      return true;
+    }
+    if (attrName == attr_pads) {
+      pads = obj;
+      return true;
+    }
+    if (attrName == attr_strides) {
+      strides = obj;
+      return true;
+    }
+    return false;
+  }
+
+  bool setAttribute(OPATTR attrName, int obj) {
+    if (attrName == attr_group) {
+      group = obj;
+      return true;
+    }
+    return false;
+  }
+
   tensor<T> compute(tensor<T> &X, tensor<T> &W, tensor<T> &B = NULL_TENSOR<T>) {
 
     //

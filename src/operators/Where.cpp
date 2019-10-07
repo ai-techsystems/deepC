@@ -26,7 +26,7 @@
 using namespace dnnc;
 using namespace Eigen;
 
-#define DNNC_WHERE_TEST 1
+//#define DNNC_WHERE_TEST 1
 #ifdef DNNC_WHERE_TEST
 #include <iostream>
 int main() {

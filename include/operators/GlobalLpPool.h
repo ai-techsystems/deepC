@@ -47,6 +47,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, int obj) {
+    if (attrName == attr_p) {
+      p = obj;
+      return true;
+    }
+    return false;
+  }
   tensor<T> compute(
       tensor<T> a /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/) {
 

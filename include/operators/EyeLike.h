@@ -61,6 +61,13 @@ public:
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, int obj) {
+    if (attrName == attr_k) {
+      k = obj;
+      return true;
+    }
+    return false;
+  }
 
   tensor<T> compute(tensor<T> &a /*!< D input tensor to copy shape, and 
                                  optionally, type information from*/) {
