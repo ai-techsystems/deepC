@@ -62,14 +62,14 @@ public:
       : baseOperator<T, T, T>(opInstanceNormalization) {
     this->epsilon = epsilon;
   }
-  bool getAttribute(OPATTR attrName, float &obj) {
+  bool getAttribute(OPATTR attrName, float &obj) override {
     if (attrName == attr_epsilon) {
       obj = epsilon;
       return true;
     }
     return false;
   }
-  bool setAttribute(OPATTR attrName, float obj) {
+  bool setAttribute(OPATTR attrName, float obj) override {
     if (attrName == attr_epsilon) {
       epsilon = obj;
       return true;

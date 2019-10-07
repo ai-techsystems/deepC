@@ -55,7 +55,7 @@ public:
     this->strides = strides;
   }
 
-  bool getAttribute(OPATTR attrName, std::vector<int> &obj) {
+  bool getAttribute(OPATTR attrName, std::vector<int> &obj) override {
     if (attrName == attr_kernel_shape) {
       obj = kernel_shape;
       return true;
@@ -72,7 +72,7 @@ public:
     return false;
   }
 
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_group) {
       obj = group;
       return true;
@@ -80,7 +80,7 @@ public:
     return false;
   }
 
-  bool getAttribute(OPATTR attrName, std::string &obj) {
+  bool getAttribute(OPATTR attrName, std::string &obj) override {
     if (attrName == attr_auto_pad) {
       obj = auto_pad;
       return true;
@@ -88,7 +88,7 @@ public:
     return false;
   }
 
-  bool setAttribute(OPATTR attrName, std::string obj) {
+  bool setAttribute(OPATTR attrName, std::string obj) override {
     if (attrName == attr_auto_pad) {
       auto_pad = obj;
       return true;
@@ -96,7 +96,7 @@ public:
     return false;
   }
 
-  bool setAttribute(OPATTR attrName, std::vector<int> obj) {
+  bool setAttribute(OPATTR attrName, std::vector<int> obj) override {
     if (attrName == attr_dilations) {
       dilations = obj;
       return true;
@@ -116,7 +116,7 @@ public:
     return false;
   }
 
-  bool setAttribute(OPATTR attrName, int obj) {
+  bool setAttribute(OPATTR attrName, int obj) override {
     if (attrName == attr_group) {
       group = obj;
       return true;

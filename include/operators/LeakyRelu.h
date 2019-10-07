@@ -41,14 +41,14 @@ public:
       : baseOperator<T, T, T>(opLeakyRelu, name) {
     this->alpha = alpha;
   }
-  bool getAttribute(OPATTR attrName, float &obj) {
+  bool getAttribute(OPATTR attrName, float &obj) override {
     if (attrName == attr_alpha) {
       obj = alpha;
       return true;
     }
     return false;
   }
-  bool setAttribute(OPATTR attrName, float obj) {
+  bool setAttribute(OPATTR attrName, float obj) override {
     if (attrName == attr_alpha) {
       alpha = obj;
       return true;

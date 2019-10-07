@@ -45,14 +45,14 @@ public:
       throw std::invalid_argument("Set fmod to 1 to pass float values.");
   }
 
-  bool getAttribute(OPATTR attrName, std::string &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_mode) {
       obj = fmod;
       return true;
     }
     return false;
   }
-  bool setAttribute(OPATTR attrName, std::string obj) {
+  bool setAttribute(OPATTR attrName, int obj) override {
     if (attrName == attr_mode) {
       fmod = obj;
       return true;

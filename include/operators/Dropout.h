@@ -46,14 +46,14 @@ public:
     this->ratio = ratio;
   }
 
-  bool getAttribute(OPATTR attrName, float &obj) {
+  bool getAttribute(OPATTR attrName, float &obj) override {
     if (attrName == attr_ratio) {
       obj = ratio;
       return true;
     }
     return false;
   }
-  bool setAttribute(OPATTR attrName, float obj) {
+  bool setAttribute(OPATTR attrName, float obj) override {
     if (attrName == attr_ratio) {
       ratio = obj;
       return true;

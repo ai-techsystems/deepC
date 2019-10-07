@@ -40,14 +40,14 @@ public:
       : baseOperator<T, T, T>(opGlobalLpPool, name) {
     this->p = p;
   }
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_p) {
       obj = p;
       return true;
     }
     return false;
   }
-  bool setAttribute(OPATTR attrName, int obj) {
+  bool setAttribute(OPATTR attrName, int obj) override {
     if (attrName == attr_p) {
       p = obj;
       return true;
