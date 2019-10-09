@@ -105,6 +105,10 @@ template <typename T> DNNC_DataType getDNNC_DataType(T var) {
   return getDNNC_DataType(type_str);
 }
 
-DNNC_DataType getDNNC_DataType(std::string &stype);
+DNNC_DataType getDNNC_DataType(std::string stype);
 std::string getDNNC_DataTypeStr(DNNC_DataType dtype);
+
+IR_DataType getDNNC_IRType(std::string stype);
+std::string getDNNC_IRTypeStr(IR_DataType dtype);
+
 } // namespace dnnc

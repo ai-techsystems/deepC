@@ -27,3 +27,26 @@
 #############################
 
 import os, sys
+if __name__ == "__main__":
+  DNNC_PATH=os.path.abspath(os.path.dirname(__file__)+os.path.sep+'..'+os.path.sep+'swig')
+  sys.path.append(DNNC_PATH)
+
+import dnnc
+import read_onnx
+import onnx_cpp
+
+def compilerWrapper;
+  """Compiler class for models in ONNX binary/protobuf format."""
+
+if __name__ == "__main__":
+  if len(sys.argv) >= 2:
+    parser = pbReader()
+    dcGraph = parser.main(sys.argv[1])
+
+    cppCodeGen = dnncCpp();
+    cppFile = cppCodeGen.main(gcGraph);
+
+    onnxCC = compilerWrapper();
+    onnxCC.main(cppFile);
+  else:
+    print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")

@@ -109,6 +109,12 @@ public:
       case IR_DataType::INT64:
         delete static_cast<std::vector<int> *>(_data);
         break;
+      case IR_DataType::UINT8:
+      case IR_DataType::UINT16:
+      case IR_DataType::UINT32:
+      case IR_DataType::UINT64:
+        delete static_cast<std::vector<unsigned int> *>(_data);
+        break;
       case IR_DataType::FLOAT:
       case IR_DataType::FLOAT16:
       case IR_DataType::DOUBLE:
@@ -132,8 +138,10 @@ public:
       }
     }
   }
-  operator int() const {
-    if (_type != IR_DataType::INT64)
+#ifndef SWIGPYTHON
+  operator std::vector<int>() const {
+    if (_type != IR_DataType::INT8 && _type != IR_DataType::INT16 &&
+        _type != IR_DataType::INT32 && _type != IR_DataType::INT64)
       throw std::bad_cast();
 
     std::vector<int> ivec = *static_cast<std::vector<int> *>(_data);
@@ -141,8 +149,41 @@ public:
     if (ivec.size() == 0)
       throw std::out_of_range("vector of size 0");
 
-    return ivec[0];
+    return ivec;
   }
+  operator std::vector<unsigned int>() const {
+    if (_type != IR_DataType::UINT8 && _type != IR_DataType::UINT16 &&
+        _type != IR_DataType::UINT32 && _type != IR_DataType::UINT64)
+      throw std::bad_cast();
+
+    std::vector<unsigned int> uivec =
+        *static_cast<std::vector<unsigned int> *>(_data);
+
+    if (uivec.size() == 0)
+      throw std::out_of_range("vector of size 0");
+
+    return uivec;
+  }
+  operator std::vector<float>() const {
+    if (_type != IR_DataType::FLOAT16 && _type != IR_DataType::FLOAT &&
+        _type != IR_DataType::DOUBLE)
+      throw std::bad_cast();
+
+    std::vector<float> fvec = *static_cast<std::vector<float> *>(_data);
+
+    if (fvec.size() == 0)
+      throw std::out_of_range("vector of size 0");
+
+    return fvec;
+  }
+  operator std::string() const {
+    if (_type != IR_DataType::STRING)
+      throw std::bad_cast();
+
+    return *static_cast<std::string *>(_data);
+  }
+#endif
+  IR_DataType type() { return _type; }
 };
 
 class dnnParameters {
@@ -191,12 +232,15 @@ public:
   node(OPCODE sym, std::string n = "") : _symbol(sym), _name(n) {}
   ~node() {}
 
+  void setName(std::string n) { _name = n; }
   void addInput(std::string n) { _input_names.push_back(n); }
   void addOutput(std::string n) { _output_names.push_back(n); }
   void addAttribute(nodeAttribute &attr) { _attributes.push_back(attr); }
 
   OPCODE symbol() { return _symbol; }
   std::string name() { return _name; }
+  std::vector<std::string> inputs() { return _input_names; }
+  std::vector<std::string> outputs() { return _output_names; }
 
 #ifndef SWIGPYTHON
   struct attr_iter {

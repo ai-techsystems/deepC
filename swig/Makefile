@@ -56,6 +56,7 @@ $(OBJ_DIR)/%.o:%.cpp
 
 OTHER_OBJECTS = $(CORE_OBJ)/datatypes.o \
 				$(OPER_OBJ)/opTypes.o \
+				$(CODE_OBJ)/cppCodeGen.o
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 

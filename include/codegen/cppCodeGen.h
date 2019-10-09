@@ -30,12 +30,15 @@ protected:
   graph &_graph;
   std::string _outFile;
 
+  std::string write(node &);
+  std::string write(placeHolder &, bool);
+  std::string write(dnnParameters);
+  std::string write(nodeAttribute &, std::string);
+  std::pair<std::string, std::string> initializeData(irTypeData);
+
 public:
   cppCodeGen(graph &graph, std::string outFile)
       : _graph(graph), _outFile(outFile) {}
   bool write();
-  bool write(node &);
-  bool write(placeHolder &, bool);
-  bool write(irTypeData, std::string);
 };
 } // namespace dnnc

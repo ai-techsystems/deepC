@@ -48,6 +48,7 @@ public:
 class graph {
 protected:
   std::string _name = "";
+  size_t _nodeIndex = 0; /*!< index for creating names for nodes without name */
   std::vector<node> _nodes;
   std::vector<placeHolder> _inputs;
   std::vector<placeHolder> _outputs;
@@ -61,7 +62,7 @@ protected:
   graph *_parent = 0x0;
   std::vector<graph *> _subgraphs;
 
-  graph(graph *parent = 0x0) : _parent(parent) {}
+  graph(graph *parent = 0x0) : _nodeIndex(0), _parent(parent) {}
   // prohibited methods for singleton instance
   graph(const graph &other) = delete;
   graph &operator=(const graph &other) = delete;
@@ -98,8 +99,9 @@ public:
   std::vector<placeHolder> inputs() { return _inputs; }
   std::vector<placeHolder> outputs() { return _outputs; }
   std::vector<dnnParameters> parameters() { return _initializers; }
+  size_t nodeIndex() { return ++_nodeIndex; }
 
-  bool findNodeByName(std::string &name, node &n) {
+  bool findNodeByName(std::string name, node &n) {
     for (node &other : _nodes) {
       if (other.name() == name) {
         n = other;

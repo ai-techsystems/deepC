@@ -222,7 +222,7 @@ class pbReader :
 
     return dnnc.placeHolder(term_name, data_type, term_shape)
 
-  def main(self, onnx_filename):
+  def main(self, onnx_filename, optimize=False, checker=False):
     if sys.modules.get('dnnc') is None:
       print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
       return ;
@@ -230,8 +230,30 @@ class pbReader :
     print("reading onnx model from file ", onnx_filename)
 
     model = onnx.load(onnx_filename)
-
     print("Model info:\n  ir_vesion : ", model.ir_version, "\n  doc       :", model.doc_string)
+
+    if ( optimize ) :
+        print("  Optimization enabled.")
+        from onnx import optimizer
+
+        for opt_pass in optimizer.get_available_passes():
+            print('    running optimization step : {}'.format(opt_pass.replace("_", " ")))
+            try :
+                model = optimizer.optimize(model, [opt_pass]);
+            except Exception as e:
+                print ("        optimization failed." + str(e) + "\n. Abandoning and trying next.");
+        print ("  optimization done.")
+
+    if ( checker ) :
+        try:
+            print ("running model shape inference engine and verification");
+            onnx.checker.check_model(model)
+            from onnx import shape_inference
+            model = shape_inference.infer_shapes(model)
+            onnx.checker.check_model(model)
+        except Exception as e:
+            print ("        failed. moving to next step." + str(e));
+
     graph = model.graph
 
     self._dcGraph = dnnc.Graph();
@@ -260,6 +282,6 @@ class pbReader :
 if __name__ == "__main__":
   if len(sys.argv) >= 2:
     parser = pbReader()
-    parser.main(sys.argv[1])
+    parser.main(sys.argv[1], optimize=False, checker=False)
   else:
     print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")
