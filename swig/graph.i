@@ -27,6 +27,7 @@
 %ignore *::operator[];
 %include "core/macros.h"
 %include "operators/baseOperator.h"
+%include "graph/irData.h"
 %include "graph/node.h"
 %include "graph/graph.h"
 %include "codegen/cppCodeGen.h"

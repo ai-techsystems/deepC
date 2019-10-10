@@ -50,7 +50,7 @@ class pbReader :
       print("ERROR (ONNX):" +  node.op_type +" is not a valid graph-node op type.")
       return None
 
-    dcNode = dnnc.node(op_type, node.name);
+    dcNode = self._dcGraph.addOPNode(node.name, op_type);
 
     for nd in node.input:
       dcNode.addInput(nd)
@@ -204,7 +204,7 @@ class pbReader :
       data_type  = term.type.tensor_type.elem_type
       if ( data_type <= dnnc.NOTYPE and data_type >= dnnc.TENSOR ) :
         print("ERROR (ONNX):  Term " + term_name + "\'s type " + data_type + " is not valid"  ) ;
-        return ;
+        return None ;
 
     if ( term.type.tensor_type and term.type.tensor_type.shape ) :
       shape = term.type.tensor_type.shape.dim
@@ -220,7 +220,7 @@ class pbReader :
         else:
           print("ERROR (ONNX): terminal (input/output) " + term_name + " has no dim_param or dim_value")
 
-    return dnnc.placeHolder(term_name, data_type, term_shape)
+    return (term_name, data_type, term_shape)
 
   def main(self, onnx_filename, optimize=False, checker=False):
     if sys.modules.get('dnnc') is None:
@@ -262,18 +262,16 @@ class pbReader :
     nodes = graph.node
     for node in nodes:
       dcNode = self.createOPNode(node);
-      if ( dcNode != None ):
-        self._dcGraph.addNode(dcNode);
 
     for terminal in graph.input:
       dcTerm = self.createTermNode(terminal);
-      if ( dcTerm != None ):
-        self._dcGraph.addInput(dcTerm);
+      if ( dcTerm != None and len(dcTerm) == 3 ):
+        self._dcGraph.addInput(dcTerm[0], dcTerm[1], dcTerm[2]);
 
     for terminal in graph.output:
       dcTerm = self.createTermNode(terminal);
-      if ( dcTerm != None ):
-        self._dcGraph.addOutput(dcTerm);
+      if ( dcTerm != None and len(dcTerm) == 3 ):
+        self._dcGraph.addOutput(dcTerm[0], dcTerm[1], dcTerm[2]);
 
     #for param in graph.initializer:
     #  dcParam = self.createParamNode(param);

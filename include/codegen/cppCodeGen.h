@@ -31,7 +31,7 @@ protected:
   std::string _outFile;
 
   std::string write(node &);
-  std::string write(placeHolder &, bool);
+  std::string write(ioNode &);
   std::string write(dnnParameters);
   std::string write(nodeAttribute &, std::string);
   std::pair<std::string, std::string> initializeData(irTypeData);

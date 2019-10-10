@@ -21,7 +21,9 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "graph/node.h"
+#include "graph/graph.h"
+
+using namespace dnnc;
 
 #ifdef DNNC_NODE_TEST
 #include "operators/Add.h"

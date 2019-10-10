@@ -31,14 +31,19 @@ bool dnnc::cppCodeGen::write() {
   for (dnnParameters param : _graph.parameters()) {
     code += write(param);
   }
-  for (placeHolder term : _graph.inputs()) {
-    code += write(term, true);
+  for (ioNode *term : _graph.inputs()) {
+    code += write(*term);
   }
-  for (placeHolder term : _graph.outputs()) {
-    code += write(term, false);
+
+  for (node *n : _graph) {
+    if (n->ntype() == node::OPERATOR)
+      code += write(*dynamic_cast<opNode *>(n));
+    // else if ( n->ntype() == node::INPUT || n->ntype() == node::OUTPUT )
+    //   code += write(*dynamic_cast<ioNode*>(n));
   }
-  for (node &n : _graph) {
-    code += write(n);
+
+  for (ioNode *term : _graph.outputs()) {
+    code += write(*term);
   }
 
   std::cout << code << "\n";
@@ -110,43 +115,44 @@ std::string dnnc::cppCodeGen::write(dnnParameters param) {
   return var.first + " " + param.name() + " = " + var.second + "\n";
 }
 
-std::string dnnc::cppCodeGen::write(placeHolder &term, bool in) {
+std::string dnnc::cppCodeGen::write(ioNode &term) {
   std::string code = "";
   return code;
 }
 
 std::string dnnc::cppCodeGen::write(node &n) {
-  std::string node_name = n.name();
-  if (node_name.empty()) {
-    node_name = "aitsNode" + std::to_string(_graph.nodeIndex());
-    n.setName(node_name); // for future occurances.
-  }
 
   std::string code;
-  // binary operators
-  assert(n.inputs().size() == 2 && n.outputs().size() == 1);
-  node in1Node(opInvalid);
-  node in2Node(opInvalid);
-  node outNode(opInvalid);
-  if (_graph.findNodeByName(n.outputs()[0], outNode) == false ||
-      _graph.findNodeByName(n.inputs()[0], in1Node) == false ||
-      _graph.findNodeByName(n.inputs()[1], in2Node) == false) {
-    ; // return code;
+
+  if (n.ntype() != node::OPERATOR)
+    return code;
+
+  opNode computeNode = dynamic_cast<opNode &>(n);
+
+  std::string node_name = computeNode.name();
+  if (node_name.empty()) {
+    node_name = "aitsNode__" + std::to_string(_graph.nextIndex());
+    computeNode.setName(node_name); // for future occurances.
   }
+
+  // binary operators
+  std::vector<std::string> ins = computeNode.inputs();
+  std::vector<std::string> outs = computeNode.outputs();
+  assert(ins.size() == 2 && outs.size() == 1);
 
   std::string outType = "float"; // TODO: levelize graph, infer out types.
                                  // getDNNC_IRTypeStr(outNode.type());
   std::string in1Type = "float", in2Type = "float";
   code += "MatMul<" + outType + "> " + node_name + "(\"" + node_name + "\");\n";
-  for (nodeAttribute attr : n) {
+  for (nodeAttribute attr : computeNode) {
     std::string name = getAttrNameStr(attr.name());
     std::pair<std::string, std::string> var = initializeData(attr.data());
     code += var.first + " " + name + " = " + var.second;
     code += node_name + ".setAttribute( attr_" + name + ", " + name + ");";
   }
-  code += "tensor<" + outType + "> " + node_name + "_" + n.outputs()[0] +
-          " = " + node_name + ".compute(" + node_name + "_" + n.inputs()[0] +
-          "," + node_name + "_" + n.inputs()[1] + ");";
+  code += "tensor<" + outType + "> " + node_name + "_" + outs[0] + " = " +
+          node_name + ".compute(" + node_name + "_" + ins[0] + "," + node_name +
+          "_" + ins[1] + ");";
 
   return code;
 }

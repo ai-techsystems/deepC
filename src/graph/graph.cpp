@@ -23,6 +23,34 @@
 
 #include "graph/graph.h"
 
+using namespace dnnc;
+
+bool dnnc::graph::sanityCheck() {
+  bool result = true;
+  for (node *n : _nodes) {
+    if (n->ntype() == node::OPERATOR) {
+      opNode *oNode = dynamic_cast<opNode *>(n);
+      for (auto in : oNode->inputs()) {
+        node *newNode = 0x0;
+        if (false == findNodeByName(in, newNode)) {
+          std::cerr << "ERROR (GRAPH): graph operator node(" + n->name() +
+                           ")'s input " + in + " is not found in the graph.";
+          result = false;
+        }
+      }
+      for (auto out : oNode->outputs()) {
+        node *newNode = 0x0;
+        if (false == findNodeByName(out, newNode)) {
+          std::cerr << "ERROR (GRAPH): graph operator node(" + n->name() +
+                           ")'s output " + out + " is not found in the graph.";
+          result = false;
+        }
+      }
+    }
+  }
+  return result;
+}
+
 #ifdef DNNC_GRAPH_TEST
 using namespace dnnc;
 
@@ -30,7 +58,7 @@ int main() {
   dnnc::graph &g = dnnc::Graph();
 
   for (node &n : g) {
-    std::cout << n.name() << "\n";
+    std::cout << n->name() << "\n";
   }
 
   g.setName("CNTK");

@@ -27,15 +27,6 @@
 
 namespace dnnc {
 
-struct placeHolder {
-public:
-  std::string name;
-  DNNC_DataType type;
-  std::vector<size_t> shape;
-  placeHolder(std::string n, DNNC_DataType ty, std::vector<size_t> shp)
-      : name(n), type(ty), shape(shp) {}
-};
-
 /*!< This is a directed graph representing data flow graph
  * for deep neural networks. Default graph is singleton by design,
  * and light by construction. Default graph lives throughout the
@@ -49,9 +40,9 @@ class graph {
 protected:
   std::string _name = "";
   size_t _nodeIndex = 0; /*!< index for creating names for nodes without name */
-  std::vector<node> _nodes;
-  std::vector<placeHolder> _inputs;
-  std::vector<placeHolder> _outputs;
+  std::vector<node *> _nodes;
+  std::vector<size_t> _inputs;  /*!< indices in _nodes containng input nodes */
+  std::vector<size_t> _outputs; /*!< indices in _nodes containng output nodes */
   std::vector<dnnParameters> _initializers;
 
   /*!< Hierarchical graph mechanism by registry.
@@ -66,6 +57,26 @@ protected:
   // prohibited methods for singleton instance
   graph(const graph &other) = delete;
   graph &operator=(const graph &other) = delete;
+
+  ioNode *addIONode(std::string name, DNNC_DataType type,
+                    std::vector<size_t> shape, node::NODE_TYPE ntype) {
+    assert(ntype == node::INPUT || ntype == node::OUTPUT);
+    node *newNode = 0x0;
+    if (findNodeByName(name, newNode)) {
+      assert((newNode->ntype() == node::INPUT ||
+              newNode->ntype() == node::OUTPUT) &&
+             "found operator node with same name as io node");
+      assert(newNode->symbol() == opInvalid &&
+             "found operator node with same name as io node.");
+      return dynamic_cast<ioNode *>(newNode);
+    }
+    name = name.empty() ? newName("io") : name;
+    ioNode *new_ioNode = new ioNode(name, ntype, type, shape);
+    _nodes.push_back(new_ioNode);
+    ntype == node::INPUT ? _inputs.push_back(_nodes.size() - 1)
+                         : _outputs.push_back(_nodes.size() - 1);
+    return new_ioNode;
+  }
 
 public:
   static graph &singleton() {
@@ -89,21 +100,62 @@ public:
     }
     for (auto &sg : _subgraphs)
       delete sg;
+    for (auto &n : _nodes)
+      delete n;
+  }
+  size_t nextIndex() { return ++_nodeIndex; }
+  std::string newName(std::string prefix) {
+    return "dnnc_" + prefix + "__" + std::to_string(nextIndex());
   }
   void setName(std::string name) { _name = name; }
-  void addNode(node n) { _nodes.push_back(n); }
-  void addInput(placeHolder in) { _inputs.push_back(in); }
-  void addOutput(placeHolder out) { _outputs.push_back(out); }
+
+  /*<! add compute node to the graph */
+  opNode *addOPNode(std::string name, OPCODE symbol) {
+    assert(symbol != opInvalid &&
+           "operator node can not be created with invalid opCode.");
+
+    node *newNode = 0x0;
+    if (false == name.empty() && findNodeByName(name, newNode)) {
+      assert(newNode->ntype() == node::OPERATOR &&
+             "found io node with same name as operator node");
+      assert(newNode->symbol() != symbol &&
+             "found operator node with same name and difference symbol");
+      return dynamic_cast<opNode *>(newNode);
+    }
+    name = name.empty() ? newName("op") : name;
+    opNode *new_opNode = new opNode(symbol, name);
+    _nodes.push_back(new_opNode);
+    return new_opNode;
+  }
+  /*<! add input term node to the comptue graph */
+  ioNode *addInput(std::string name, DNNC_DataType type,
+                   std::vector<size_t> shape) {
+    return addIONode(name, type, shape, node::INPUT);
+  }
+  /*<! add output term node to the comptue graph */
+  ioNode *addOutput(std::string name, DNNC_DataType type,
+                    std::vector<size_t> shape) {
+    return addIONode(name, type, shape, node::OUTPUT);
+  }
+  std::vector<ioNode *> inputs() {
+    std::vector<ioNode *> vins;
+    for (size_t &i : _inputs)
+      vins.push_back(dynamic_cast<ioNode *>(_nodes[i]));
+    return vins;
+  }
+  std::vector<ioNode *> outputs() {
+    std::vector<ioNode *> vouts;
+    for (size_t &i : _outputs)
+      vouts.push_back(dynamic_cast<ioNode *>(_nodes[i]));
+    return vouts;
+  }
   void addInitializer(dnnParameters param) { _initializers.push_back(param); }
 
-  std::vector<placeHolder> inputs() { return _inputs; }
-  std::vector<placeHolder> outputs() { return _outputs; }
   std::vector<dnnParameters> parameters() { return _initializers; }
-  size_t nodeIndex() { return ++_nodeIndex; }
 
-  bool findNodeByName(std::string name, node &n) {
-    for (node &other : _nodes) {
-      if (other.name() == name) {
+  bool findNodeByName(std::string name, node *&n) {
+    for (node *other : _nodes) { // TODO: use std::find
+      if (other->name() == name) {
         n = other;
         return true;
       }
@@ -111,17 +163,19 @@ public:
     return false;
   }
 
+  bool sanityCheck();
+
 #ifndef SWIGPYTHON
   struct node_iter {
     int pos;
     inline void next(const graph *ref) { ++pos; }
     inline void begin(const graph *ref) { pos = 0; }
     inline void end(const graph *ref) { pos = ref->_nodes.size(); }
-    inline node &get(graph *ref) { return ref->_nodes[pos]; }
-    inline const node &get(const graph *ref) { return ref->_nodes[pos]; }
+    inline node *&get(graph *ref) { return ref->_nodes[pos]; }
+    inline const node *get(const graph *ref) { return ref->_nodes[pos]; }
     inline bool cmp(const node_iter &s) const { return pos != s.pos; }
   };
-  SETUP_ITERATORS(graph, node &, node_iter)
+  SETUP_ITERATORS(graph, node *, node_iter)
 #endif
 };
 static graph &Graph() { return graph::singleton(); }
