@@ -58,6 +58,11 @@ protected:
   graph(const graph &other) = delete;
   graph &operator=(const graph &other) = delete;
 
+  size_t nextIndex() { return ++_nodeIndex; }
+  std::string createName(std::string prefix) {
+    return "dnnc_" + prefix + "__" + std::to_string(nextIndex());
+  }
+
   ioNode *addIONode(std::string name, DNNC_DataType type,
                     std::vector<size_t> shape, node::NODE_TYPE ntype) {
     assert(ntype == node::INPUT || ntype == node::OUTPUT);
@@ -70,7 +75,7 @@ protected:
              "found operator node with same name as io node.");
       return dynamic_cast<ioNode *>(newNode);
     }
-    name = name.empty() ? newName("io") : name;
+    name = name.empty() ? createName("io") : name;
     ioNode *new_ioNode = new ioNode(name, ntype, type, shape);
     _nodes.push_back(new_ioNode);
     ntype == node::INPUT ? _inputs.push_back(_nodes.size() - 1)
@@ -103,10 +108,6 @@ public:
     for (auto &n : _nodes)
       delete n;
   }
-  size_t nextIndex() { return ++_nodeIndex; }
-  std::string newName(std::string prefix) {
-    return "dnnc_" + prefix + "__" + std::to_string(nextIndex());
-  }
   void setName(std::string name) { _name = name; }
 
   /*<! add compute node to the graph */
@@ -122,7 +123,7 @@ public:
              "found operator node with same name and difference symbol");
       return dynamic_cast<opNode *>(newNode);
     }
-    name = name.empty() ? newName("op") : name;
+    name = name.empty() ? createName("op") : name;
     opNode *new_opNode = new opNode(symbol, name);
     _nodes.push_back(new_opNode);
     return new_opNode;

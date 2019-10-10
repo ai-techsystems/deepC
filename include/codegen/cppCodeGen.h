@@ -27,14 +27,19 @@
 namespace dnnc {
 class cppCodeGen {
 protected:
+  std::string _tab = "  ";
   graph &_graph;
   std::string _outFile;
+  std::vector<std::string> _includes;
 
   std::string write(node &);
   std::string write(ioNode &);
   std::string write(dnnParameters);
   std::string write(nodeAttribute &, std::string);
   std::pair<std::string, std::string> initializeData(irTypeData);
+
+  std::string writeIncludes();
+  std::string writeMainFunction(std::string);
 
 public:
   cppCodeGen(graph &graph, std::string outFile)

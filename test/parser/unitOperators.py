@@ -2,6 +2,7 @@ import os, sys, fnmatch
 
 import unittest
 import read_onnx
+import dnnc
 
 class unitOperatorsTest(unittest.TestCase):
 
@@ -21,8 +22,11 @@ class unitOperatorsTest(unittest.TestCase):
 
         onnx_files = self.find('*.onnx', '.')
         for onnx_file in onnx_files:
+            cpp_file = os.path.splitext(os.path.abspath(onnx_file))[0]+'.cpp'
             parser = read_onnx.pbReader()
-            parser.main(onnx_file)
+            dc_graph = parser.main(onnx_file)
+            cppCode = dnnc.cppCodeGen(dc_graph, cpp_file);
+            cppCode.write();
 
         # unmute stdout
         sys.stdout = sys_stdout

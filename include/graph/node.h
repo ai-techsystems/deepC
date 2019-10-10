@@ -116,6 +116,7 @@ public:
   void addOutput(std::string n) { _outputs.push_back(n); }
   void addAttribute(nodeAttribute &attr) { _attributes.push_back(attr); }
 
+  OPCODE symbol() { return _symbol; }
   NODE_TYPE ntype() { return OPERATOR; }
   std::vector<std::string> inputs() { return _inputs; }
   std::vector<std::string> outputs() { return _outputs; }

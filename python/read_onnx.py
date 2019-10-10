@@ -43,7 +43,88 @@ class pbReader :
   def __del__(self):
       del self._dcGraph ;
 
-  def createOPNode(self, node):
+  def addParams(self, param):
+      if ( param is None ):
+        return None;
+
+      if ( len(param.FindInitializationErrors()) > 0 ):
+        print("WARNING (ONNX): initializer " + param.name + " has following errors.\n");
+        print("               ", param.FindInitializationErrors());
+        print("                trying to load data with errors.\n");
+
+      param_type = dnnc.IR_DataType_NOTYPE;
+      param_vec  = None
+      if param.data_type == param.INT8 :
+        param_type = dnnc.IR_DataType_INT8;
+        param_vals = [int(n) for n in param.int32_data]
+        param_vec = dnnc.vectorInt(param_vals)
+      elif param.data_type == param.INT16 :
+        param_type = dnnc.IR_DataType_INT16;
+        param_vals = [int(n) for n in param.int32_data]
+        param_vec = dnnc.vectorInt(param_vals)
+      elif param.data_type == param.INT32:
+        param_type = dnnc.IR_DataType_INT32;
+        param_vals = [int(n) for n in param.int32_data]
+        param_vec = dnnc.vectorInt(param_vals)
+      elif param.data_type == param.INT64:
+        param_type = dnnc.IR_DataType_INT64;
+        param_vals = [int(n) for n in param.int64_data]
+        param_vec = dnnc.vectorInt(param_vals)
+      elif param.data_type == param.UINT8 :
+        param_type = dnnc.IR_DataType_UINT8;
+        param_vals = [int(n) for n in param.uint64_data]
+        param_vec = dnnc.vectorInt(param_vals)
+      elif param.data_type == param.UINT16 :
+        param_type = dnnc.IR_DataType_UINT16;
+        param_vals = [int(n) for n in param.uint64_data]
+        param_vec = dnnc.vectorInt(param_vals)
+      elif param.data_type == param.UINT32:
+        param_type = dnnc.IR_DataType_UINT32;
+        param_vals = [int(n) for n in param.uint64_data]
+        param_vec = dnnc.vectorInt(param_vals)
+      elif param.data_type == param.UINT64:
+        param_type = dnnc.IR_DataType_UINT64;
+        param_vals = [int(n) for n in param.uint64_data]
+        param_vec = dnnc.vectorInt(param_vals)
+      elif param.data_type == param.FLOAT16 :
+        param_type = dnnc.IR_DataType_FLOAT16;
+        param_vals = [float(n) for n in param.float_data]
+        param_vec = dnnc.vectorFloat(param_vals)
+      elif param.data_type == param.BFLOAT16 :
+        param_type = dnnc.IR_DataType_BFLOAT16;
+        param_vals = [float(n) for n in param.float_data]
+        param_vec = dnnc.vectorFloat(param_vals)
+      elif param.data_type == param.FLOAT:
+        param_type = dnnc.IR_DataType_FLOAT;
+        param_vals = [float(n) for n in param.float_data]
+        param_vec = dnnc.vectorFloat(param_vals)
+      elif param.data_type == param.DOUBLE:
+        param_type = dnnc.IR_DataType_DOUBLE;
+        param_vals = [float(n) for n in param.double_data]
+        param_vec = dnnc.vectorFloat(param_vals)
+      elif param.data_type == param.STRING:
+        param_type = dnnc.IR_DataType_STRING;
+        param_vals = [str(s) for s in param.string_data]
+        param_vec = dnnc.vectorStr(param_vals)
+      elif param.data_type == param.BOOL:
+        param_type = dnnc.IR_DataType_BOOL;
+        param_vals = [bool(b) for b in param.raw_data]
+        param_vec = dnnc.vectorBool(param_vals)
+      else:
+        print("ERROR (ONNX): graph-node " + node.name + "\'s attribute " + \
+               param.name + " type " + str(param.data_type) + " is not valid.")
+
+      if ( param_type is dnnc.IR_DataType_NOTYPE or param_vec is None or param_vec.size()==0 ) :
+        print("ERROR (ONNX): did not find data for initializer ", param.name);
+        return;
+
+      param_irData = dnnc.irTypeData(param_type, param_vec) ;
+      dnnc_param  = dnnc.dnnParameters(param.name, param_irData);
+
+      return dnnc_param;
+
+
+  def addOPNode(self, node):
 
     op_type = dnnc.getOpCode(node.op_type);
     if ( op_type is dnnc.opInvalid ):
@@ -181,7 +262,9 @@ class pbReader :
                attr.name + " type " + str(attr.type) + " is not valid.")
         continue
 
-      if ( attr_type is dnnc.IR_DataType_NOTYPE or attr_vec is None ) :
+      if ( attr_type is dnnc.IR_DataType_NOTYPE or attr_vec is None or attr_vec.size() == 0 ) :
+        print("ERROR (ONNX): graph-node " + node.name + "\'s attribute " + \
+               attr.name + " has no data.")
         continue ;
 
       attr_code = dnnc.getAttrName(attr.name);
@@ -261,7 +344,7 @@ class pbReader :
 
     nodes = graph.node
     for node in nodes:
-      dcNode = self.createOPNode(node);
+      dcNode = self.addOPNode(node);
 
     for terminal in graph.input:
       dcTerm = self.createTermNode(terminal);
@@ -273,8 +356,9 @@ class pbReader :
       if ( dcTerm != None and len(dcTerm) == 3 ):
         self._dcGraph.addOutput(dcTerm[0], dcTerm[1], dcTerm[2]);
 
-    #for param in graph.initializer:
-    #  dcParam = self.createParamNode(param);
+    for param in graph.initializer:
+      dcParam = self.addParams(param);
+
     return self._dcGraph
 
 if __name__ == "__main__":
