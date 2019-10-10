@@ -18,10 +18,10 @@ Read more at [high level design document](docs/highLevelDesign.md)
 
 ## 💧 PreRequisites
 
-* [ONNX](https://github.com/onnx/onnx#installation)
-* [LLVM](https://apt.llvm.org)
+* [ONNX 1.5](https://github.com/onnx/onnx/tree/rel-1.5.0#installation)
+* [LLVM 8.0](http://releases.llvm.org/8.0.0/docs/GettingStarted.html#getting-started-quickly-a-summary)
 * [Python 3.6](https://www.python.org/downloads/release/python-360/)
-* [SWIG 3.0](http://www.swig.org/survey.html)
+* [SWIG 3.0](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/)
 
 ## ⚙ Installation
 build and install dnn Compiler locally from source code with following steps
