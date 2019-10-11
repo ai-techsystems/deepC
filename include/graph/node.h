@@ -65,10 +65,12 @@ public:
   enum NODE_TYPE { NONE = 0, INPUT, OUTPUT, OPERATOR };
 
   node(std::string n = "") : _name(n) {}
-  virtual std::string name() { return _name; }
+  void setName(std::string n) { _name = n; }
+  std::string name() { return _name; }
+
   virtual OPCODE symbol() { return opInvalid; }
   virtual NODE_TYPE ntype() { return NONE; }
-  void setName(std::string n) { _name = n; }
+  virtual DNNC_DataType dtype() { return NOTYPE; }
   virtual ~node() {}
 };
 
@@ -87,7 +89,7 @@ protected:
 public:
   ioNode(std::string n, NODE_TYPE nt, DNNC_DataType dt, std::vector<size_t> shp)
       : node(n), _ntype(nt), _dtype(dt), _shape(shp) {}
-  DNNC_DataType dtype() { return _dtype; }
+  DNNC_DataType dtype() override { return _dtype; }
   NODE_TYPE ntype() override { return _ntype; }
   std::vector<size_t> shape() { return _shape; }
 };
@@ -101,8 +103,9 @@ protected:
   OPCODE _symbol; /*!< operator aka symbol */
   std::vector<std::string>
       _inputs; /*!< inputs, i.e. tensors coming to   this node */
+  // This is a vector of one element, kept for future requirement.
   std::vector<std::string>
-      _outputs; /*!< outputs, i.e tensors going  from this node */
+      _outputs; /*!< outputs, i.e tensor going  from this node */
   std::vector<nodeAttribute> _attributes; /*!< attributes of the node, i.e.
                                         values that don't flow in and out */
 
@@ -118,6 +121,11 @@ public:
 
   OPCODE symbol() override { return _symbol; }
   NODE_TYPE ntype() override { return OPERATOR; }
+  DNNC_DataType
+  dtype() override { /*!< graph DFS will inference dtype in future. */
+    return FLOAT;
+  }
+
   std::vector<std::string> inputs() { return _inputs; }
   std::vector<std::string> outputs() { return _outputs; }
   bool inputNodes(graph &g, std::vector<node *> &nodes) {

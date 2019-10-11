@@ -32,16 +32,25 @@ protected:
   std::string _outFile;
   std::vector<std::string> _includes;
 
-  std::string write(node &);
-  std::string write(ioNode &);
-  std::string write(dnnParameters);
-  std::string write(nodeAttribute &, std::string);
   std::pair<std::string, std::string> initializeData(irTypeData);
-
   std::string writeIncludes();
   std::string writeMainFunction(std::string);
 
   std::string nodeName(node *n);
+
+  std::string write(opNode &);
+  std::string write(ioNode &);
+  std::string writeUnaryOperator(opNode &computeNode, std::vector<node *> &ins,
+                                 std::vector<node *> &outs);
+  std::string writeBinaryOperator(opNode &computeNode, std::vector<node *> &ins,
+                                  std::vector<node *> &outs);
+  std::string writeTernaryOperator(opNode &computeNode,
+                                   std::vector<node *> &ins,
+                                   std::vector<node *> &outs);
+  std::string writeCustomOperator(opNode &computeNode, std::vector<node *> &ins,
+                                  std::vector<node *> &outs);
+  std::string write(dnnParameters);
+  std::string write(nodeAttribute &, std::string);
 
 public:
   cppCodeGen(graph &graph, std::string outFile)

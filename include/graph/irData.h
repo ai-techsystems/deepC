@@ -117,7 +117,7 @@ public:
         delete static_cast<std::vector<float> *>(_data);
         break;
       case IR_DataType::STRING:
-        delete static_cast<std::string *>(_data);
+        delete static_cast<std::vector<std::string> *>(_data);
         break;
       case IR_DataType::TENSOR_BOOL:
         delete static_cast<std::vector<tensor<bool>> *>(_data);
@@ -172,11 +172,29 @@ public:
 
     return fvec;
   }
+  operator std::vector<std::string>() const {
+    if (_type != IR_DataType::STRING)
+      throw std::bad_cast();
+
+    std::vector<std::string> svec =
+        *static_cast<std::vector<std::string> *>(_data);
+
+    if (svec.size() == 0)
+      throw std::out_of_range("vector of size 0");
+
+    return svec;
+  }
   operator std::string() const {
     if (_type != IR_DataType::STRING)
       throw std::bad_cast();
 
-    return *static_cast<std::string *>(_data);
+    std::vector<std::string> svec =
+        *static_cast<std::vector<std::string> *>(_data);
+
+    if (svec.size() == 0)
+      throw std::out_of_range("vector of size 0");
+
+    return svec[0];
   }
 #endif
   IR_DataType type() { return _type; }
