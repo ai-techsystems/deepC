@@ -28,7 +28,8 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Conv : public baseOperator<T, T, T> {
+template <typename To, typename Ti1, typename Ti2>
+class Conv : public baseOperator<To, Ti1, Ti2> {
   //  Conv attributes
 protected:
   std::string auto_pad;
@@ -45,7 +46,7 @@ public:
        // The shape of the convolution kernel. If not present, should be
        // inferred from input W.
        std::vector<int> pads = {}, std::vector<int> strides = {})
-      : baseOperator<T, T, T>(opConv, name) {
+      : baseOperator<To, Ti1, Ti2>(opConv, name) {
     //      this->auto_pad  = auto_pad;
     this->auto_pad = "VALID";
     this->dilations = dilations;
@@ -124,7 +125,8 @@ public:
     return false;
   }
 
-  tensor<T> compute(tensor<T> &X, tensor<T> &W, tensor<T> &B = NULL_TENSOR<T>) {
+  tensor<To> compute(tensor<Ti1> &X, tensor<Ti1> &W,
+                     tensor<Ti1> &B = NULL_TENSOR<Ti1>) {
 
     //
     // N - batch size
@@ -234,7 +236,7 @@ public:
       }
     }
 
-    tensor<T> kernel(kernelShape);
+    tensor<Ti1> kernel(kernelShape);
     for (size_t featureMap = 0; featureMap < numFeatureMaps; featureMap++) {
       for (size_t filterChannel = 0; filterChannel < numChannels;
            filterChannel++) {
@@ -354,10 +356,10 @@ public:
     }
 
     // work out the result
-    tensor<T> result(resultShape);
-    tensor<T> paddedInput(X_h + pads[0] + pads[2], X_w + pads[1] + pads[3]);
-    tensor<T> convImage(resultShape[3], resultShape[4]);
-    tensor<T> filter(kernelShape[2], kernelShape[3]);
+    tensor<To> result(resultShape);
+    tensor<Ti1> paddedInput(X_h + pads[0] + pads[2], X_w + pads[1] + pads[3]);
+    tensor<Ti1> convImage(resultShape[3], resultShape[4]);
+    tensor<Ti1> filter(kernelShape[2], kernelShape[3]);
     std::vector<size_t> __pads;
 
     for (size_t i = 0; i < pads.size(); i++) {
@@ -389,7 +391,7 @@ public:
             for (size_t wIndx = 0; wIndx < resultShape[4];
                  wIndx = wIndx + (size_t)strides[1]) {
               result(batchIndx, featureMapIndx, channelIndx, hIndx, wIndx) = 0;
-              if (B != NULL_TENSOR<T>) {
+              if (B != NULL_TENSOR<Ti1>) {
                 result(batchIndx, featureMapIndx, channelIndx, hIndx, wIndx) =
                     B(featureMapIndx);
               }

@@ -195,7 +195,6 @@ std::string dnnc::cppCodeGen::writeUnaryOperator(opNode &computeNode,
   assert(ins.size() == 1 && outs.size() == 1);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
-  _includes.push_back("operators/" + opCode + ".h");
 
   std::string opName = computeNode.name();
 
@@ -232,7 +231,6 @@ std::string dnnc::cppCodeGen::writeBinaryOperator(opNode &computeNode,
   assert(ins.size() == 2 && outs.size() == 1);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
-  _includes.push_back("operators/" + opCode + ".h");
 
   std::string opName = computeNode.name();
 
@@ -271,7 +269,6 @@ std::string dnnc::cppCodeGen::writeTernaryOperator(opNode &computeNode,
   assert(ins.size() == 3 && outs.size() == 1);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
-  _includes.push_back("operators/" + opCode + ".h");
 
   std::string opName = computeNode.name();
 
@@ -305,8 +302,8 @@ std::string dnnc::cppCodeGen::writeTernaryOperator(opNode &computeNode,
 std::string dnnc::cppCodeGen::writeCustomOperator(opNode &computeNode,
                                                   std::vector<node *> &ins,
                                                   std::vector<node *> &outs) {
+
   std::string opCode = getOpCodeStr(computeNode.symbol());
-  _includes.push_back("operators/" + opCode + ".h");
 
   std::string code =
       _tab + "// operator " + opCode + " is not supported yet.\n";
