@@ -25,6 +25,20 @@
 
 using namespace dnnc;
 
+bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes,
+                            std::vector<std::string> names) {
+  bool result = true;
+  for (std::string name : names) {
+    node *newNode = 0x0;
+    if (g.findNodeByName(name, newNode)) {
+      nodes.push_back(newNode);
+    } else {
+      result = false;
+    }
+  }
+  return result;
+}
+
 #ifdef DNNC_NODE_TEST
 #include "operators/Add.h"
 using namespace dnnc;

@@ -23,6 +23,7 @@
 
 #include <assert.h>
 #include <codegen/cppCodeGen.h>
+#include <fstream>
 
 bool dnnc::cppCodeGen::write() {
 
@@ -42,31 +43,39 @@ bool dnnc::cppCodeGen::write() {
       code += write(*dynamic_cast<opNode *>(n));
   }
 
-  for (ioNode *term : _graph.outputs()) {
-    code += write(*term);
-  }
+  // OUTPUTs are written with operators.
 
-  
-  std::cout << writeIncludes() << "\n";
-  std::cout << writeMainFunction(code) << "\n";
+  std::ofstream out(_outFile);
+  if (out.fail()) {
+    std::cerr << "ERROR (CODEGEN): could not open file " + _outFile +
+                     "to write.\n";
+    return false;
+  }
+  out << writeIncludes() << "\n";
+  out << writeMainFunction(code) << "\n";
+  out.close();
   return code.length();
 }
 
+std::string dnnc::cppCodeGen::nodeName(node *n) {
+  return "dnnc__node_" + n->name();
+}
+
 std::string dnnc::cppCodeGen::writeIncludes() {
-  std::string code ;
-  for(auto& s : _includes)
+  std::string code;
+  for (auto &s : _includes)
     code += std::string("#include \"") + s + "\"\n";
   return code;
 }
 
 std::string dnnc::cppCodeGen::writeMainFunction(std::string body) {
-  std::string code = "int main() {\n";
+  std::string code = "using namespace dnnc;\n\n";
+  code += "int main() {\n\n";
   code += body + "\n";
   code += _tab + "return 0;\n";
   code += "}\n";
   return code;
 }
-
 
 std::pair<std::string, std::string>
 dnnc::cppCodeGen::initializeData(irTypeData dtype) {
@@ -134,8 +143,11 @@ std::string dnnc::cppCodeGen::write(dnnParameters param) {
 }
 
 std::string dnnc::cppCodeGen::write(ioNode &term) {
-  std::string code = "";
-  return code;
+  std::string dtype = getDNNC_DataTypeStr(term.dtype());
+  std::string shape;
+  for (size_t i : term.shape())
+    shape += shape.size() ? ", " : "" + std::to_string(i);
+  return _tab + "tensor<" + dtype + "> " + nodeName(&term) + " ;\n";
 }
 
 std::string dnnc::cppCodeGen::write(node &n) {
@@ -151,13 +163,21 @@ std::string dnnc::cppCodeGen::write(node &n) {
   std::string opCode = getOpCodeStr(computeNode.symbol());
   _includes.push_back("operators/" + opCode + ".h");
 
-  std::string node_name = computeNode.name();
+  std::string opName = computeNode.name();
 
-  assert(node_name.length());
+  assert(opName.length());
+
+  std::vector<node *> ins, outs;
+  if (false == computeNode.inputNodes(_graph, ins) ||
+      false == computeNode.outputNodes(_graph, outs)) {
+    std::cerr
+        << "ERROR (CODEGEN): cound not find all nodes for " << opName << ",\n"
+        << "                 an instance of " << opCode << ".\n"
+        << "                 Please check model's sanity and try again.\n";
+    return code;
+  }
 
   // binary operators
-  std::vector<std::string> ins = computeNode.inputs();
-  std::vector<std::string> outs = computeNode.outputs();
   if (ins.size() != 2 || outs.size() != 1)
     return code;
 
@@ -169,20 +189,21 @@ std::string dnnc::cppCodeGen::write(node &n) {
 
   // Step 1: Instantiate opterator
   code +=
-      _tab + opCode + "<" + outType + "> " + node_name + "(\"" + node_name + "\");\n";
+      _tab + opCode + "<" + outType + "> " + opName + "(\"" + opName + "\");\n";
 
   // Step 2: Add attribute
   for (nodeAttribute attr : computeNode) {
-    std::string name = getAttrNameStr(attr.name());
+    std::string attrName = getAttrNameStr(attr.name());
     std::pair<std::string, std::string> var = initializeData(attr.data());
-    code += _tab + var.first + " " + name + " = " + var.second + " ;\n";
-    code += _tab + node_name + ".setAttribute ( attr_" + name + ", " + name + " );\n";
+    code += _tab + var.first + " " + attrName + " = " + var.second + " ;\n";
+    code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
+            attrName + " );\n";
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + node_name + "_" + outs[0] + " = " +
-          node_name + ".compute ( " + node_name + "_" + ins[0] + ", " +
-          node_name + "_" + ins[1] + ");\n";
+  code += _tab + "tensor<" + outType + "> " + nodeName(outs[0]) + " = " +
+          opName + ".compute ( " + nodeName(ins[0]) + ", " + nodeName(ins[1]) +
+          ");\n";
 
   return code + "\n";
 }

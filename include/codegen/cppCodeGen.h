@@ -41,6 +41,8 @@ protected:
   std::string writeIncludes();
   std::string writeMainFunction(std::string);
 
+  std::string nodeName(node *n);
+
 public:
   cppCodeGen(graph &graph, std::string outFile)
       : _graph(graph), _outFile(outFile) {}

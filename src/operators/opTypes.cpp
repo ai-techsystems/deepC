@@ -853,7 +853,7 @@ std::string getOpCodeStr(OPCODE opCode) {
     return "Div";
     break;
   case (opDropout):
-    return "Drout";
+    return "Dropout";
     break;
   case (opElu):
     return "Elu";
@@ -949,7 +949,7 @@ std::string getOpCodeStr(OPCODE opCode) {
     return "LogSoftmax";
     break;
   case (opLoop):
-    return "Lo";
+    return "Loop";
     break;
   case (opLpNormalization):
     return "LpNormalization";
@@ -1177,7 +1177,7 @@ std::string getOpCodeStr(OPCODE opCode) {
     return "Tile";
     break;
   case (opTopK):
-    return "TK";
+    return "TopK";
     break;
   case (opTranspose):
     return "Transpose";

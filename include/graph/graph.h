@@ -59,9 +59,7 @@ protected:
   graph &operator=(const graph &other) = delete;
 
   size_t nextIndex() { return ++_nodeIndex; }
-  std::string createName(std::string prefix) {
-    return "dnnc_" + prefix + "__" + std::to_string(nextIndex());
-  }
+  std::string createName() { return "dnnc___" + std::to_string(nextIndex()); }
 
   ioNode *addIONode(std::string name, DNNC_DataType type,
                     std::vector<size_t> shape, node::NODE_TYPE ntype) {
@@ -75,7 +73,7 @@ protected:
              "found operator node with same name as io node.");
       return dynamic_cast<ioNode *>(newNode);
     }
-    name = name.empty() ? createName("io") : name;
+    name = name.empty() ? createName() : name;
     ioNode *new_ioNode = new ioNode(name, ntype, type, shape);
     _nodes.push_back(new_ioNode);
     ntype == node::INPUT ? _inputs.push_back(_nodes.size() - 1)
@@ -95,7 +93,7 @@ public:
     _subgraphs.push_back(sg);
     return *sg;
   }
-  ~graph() {
+  void destroy() {
     if (_parent) {
       // Before dying, deregister itself from parent's _subgraphs.
       // Erase-Remove idiom
@@ -107,7 +105,15 @@ public:
       delete sg;
     for (auto &n : _nodes)
       delete n;
+    _name = "";
+    _nodeIndex = 0;
+    _nodes.clear();
+    _inputs.clear();
+    _outputs.clear();
+    _initializers.clear();
+    _subgraphs.clear();
   }
+  ~graph() { destroy(); }
   void setName(std::string name) { _name = name; }
 
   /*<! add compute node to the graph */
@@ -123,7 +129,7 @@ public:
              "found operator node with same name and difference symbol");
       return dynamic_cast<opNode *>(newNode);
     }
-    name = name.empty() ? createName("op") : name;
+    name = name.empty() ? createName() : name;
     opNode *new_opNode = new opNode(symbol, name);
     _nodes.push_back(new_opNode);
     return new_opNode;

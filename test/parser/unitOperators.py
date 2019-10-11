@@ -27,6 +27,7 @@ class unitOperatorsTest(unittest.TestCase):
             dc_graph = parser.main(onnx_file)
             cppCode = dnnc.cppCodeGen(dc_graph, cpp_file);
             cppCode.write();
+            dc_graph.destroy();
 
         # unmute stdout
         sys.stdout = sys_stdout

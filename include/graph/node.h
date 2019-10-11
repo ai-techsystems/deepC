@@ -59,7 +59,8 @@ public:
 class node {
 protected:
   std::string _name;
-
+  // TODO: add node attributes like level, placeholder,
+  //       const, variable etc.
 public:
   enum NODE_TYPE { NONE = 0, INPUT, OUTPUT, OPERATOR };
 
@@ -87,7 +88,7 @@ public:
   ioNode(std::string n, NODE_TYPE nt, DNNC_DataType dt, std::vector<size_t> shp)
       : node(n), _ntype(nt), _dtype(dt), _shape(shp) {}
   DNNC_DataType dtype() { return _dtype; }
-  NODE_TYPE ntype() { return _ntype; }
+  NODE_TYPE ntype() override { return _ntype; }
   std::vector<size_t> shape() { return _shape; }
 };
 
@@ -97,8 +98,6 @@ public:
  * */
 class opNode : public node {
 protected:
-  // TODO: add node attributes like level, graph-input, graph-output,
-  //       placeholder, const, variable etc.
   OPCODE _symbol; /*!< operator aka symbol */
   std::vector<std::string>
       _inputs; /*!< inputs, i.e. tensors coming to   this node */
@@ -107,6 +106,7 @@ protected:
   std::vector<nodeAttribute> _attributes; /*!< attributes of the node, i.e.
                                         values that don't flow in and out */
 
+  bool getNodes(graph &, std::vector<node *> &, std::vector<std::string>);
   opNode() = delete; /*!< default constructor not allowed */
 public:
   opNode(OPCODE sym, std::string n = "") : node(n), _symbol(sym) {}
@@ -116,10 +116,16 @@ public:
   void addOutput(std::string n) { _outputs.push_back(n); }
   void addAttribute(nodeAttribute &attr) { _attributes.push_back(attr); }
 
-  OPCODE symbol() { return _symbol; }
-  NODE_TYPE ntype() { return OPERATOR; }
+  OPCODE symbol() override { return _symbol; }
+  NODE_TYPE ntype() override { return OPERATOR; }
   std::vector<std::string> inputs() { return _inputs; }
   std::vector<std::string> outputs() { return _outputs; }
+  bool inputNodes(graph &g, std::vector<node *> &nodes) {
+    return getNodes(g, nodes, _inputs);
+  };
+  bool outputNodes(graph &g, std::vector<node *> &nodes) {
+    return getNodes(g, nodes, _outputs);
+  }
 
 #ifndef SWIGPYTHON
   struct attr_iter {
