@@ -24,7 +24,7 @@
 
 namespace dnnc {
 
-DNNC_DataType getDNNC_DataType(std::string &stype) {
+DNNC_DataType getDNNC_DataType(std::string stype) {
   DNNC_DataType type = NOTYPE;
   if (stype == "float")
     type = FLOAT;
@@ -99,6 +99,108 @@ std::string getDNNC_DataTypeStr(DNNC_DataType dtype) {
     type = "int64_t";
     break;
   case NOTYPE:
+  default:
+    type = "notype";
+    break;
+  }
+  return type;
+}
+
+IR_DataType getDNNC_IRType(std::string stype) {
+  IR_DataType type = IR_DataType::NOTYPE;
+  if (stype == "float")
+    type = IR_DataType::FLOAT;
+  if (stype == "double")
+    type = IR_DataType::DOUBLE;
+  if (stype == "int32_t")
+    type = IR_DataType::INT32;
+  if (stype == "uint8_t")
+    type = IR_DataType::UINT8;
+  if (stype == "int16_t")
+    type = IR_DataType::INT16;
+  if (stype == "int8_t")
+    type = IR_DataType::INT8;
+  if (stype == "string")
+    type = IR_DataType::STRING;
+  if (stype == "int64_t")
+    type = IR_DataType::INT64;
+  if (stype == "bool")
+    type = IR_DataType::BOOL;
+  if (stype == "uint16_t")
+    type = IR_DataType::UINT16;
+  if (stype == "half")
+    type = IR_DataType::FLOAT16;
+  if (stype == "uint32_t")
+    type = IR_DataType::UINT32;
+  if (stype == "int64_t")
+    type = IR_DataType::UINT64;
+  if (stype == "tensor<bool>")
+    type = IR_DataType::TENSOR_BOOL;
+  if (stype == "tensor<int>")
+    type = IR_DataType::TENSOR_INT;
+  if (stype == "tensor<float>")
+    type = IR_DataType::TENSOR_FLOAT;
+  if (stype == "graph")
+    type = IR_DataType::GRAPH;
+  return type;
+}
+
+std::string getDNNC_IRTypeStr(IR_DataType dtype) {
+  std::string type = "";
+  switch (dtype) {
+  case IR_DataType::FLOAT:
+    type = "float";
+    break;
+  case IR_DataType::DOUBLE:
+    type = "double";
+    break;
+  case IR_DataType::INT32:
+    type = "int32_t";
+    break;
+  case IR_DataType::UINT8:
+    type = "uint8_t";
+    break;
+  case IR_DataType::INT16:
+    type = "int16_t";
+    break;
+  case IR_DataType::INT8:
+    type = "int8_t";
+    break;
+  case IR_DataType::STRING:
+    type = "string";
+    break;
+  case IR_DataType::INT64:
+    type = "int64_t";
+    break;
+  case IR_DataType::BOOL:
+    type = "bool";
+    break;
+  case IR_DataType::FLOAT16:
+  case IR_DataType::BFLOAT16:
+    type = "half";
+    break;
+  case IR_DataType::UINT16:
+    type = "uint16_t";
+    break;
+  case IR_DataType::UINT32:
+    type = "uint32_t";
+    break;
+  case IR_DataType::UINT64:
+    type = "int64_t";
+    break;
+  case IR_DataType::TENSOR_BOOL:
+    type = "tensor<bool>";
+    break;
+  case IR_DataType::TENSOR_INT:
+    type = "tensor<int>";
+    break;
+  case IR_DataType::TENSOR_FLOAT:
+    type = "tensor<float>";
+    break;
+  case IR_DataType::GRAPH:
+    type = "graph";
+    break;
+  case IR_DataType::NOTYPE:
   default:
     type = "notype";
     break;

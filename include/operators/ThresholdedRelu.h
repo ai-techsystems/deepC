@@ -35,9 +35,16 @@ public:
   ThresholdedRelu(std::string name = "opThresholdedRelu")
       : baseOperator<T, T, T>(opThresholdedRelu, name) {}
 
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_alpha) {
       obj = alpha;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_alpha) {
+      alpha = obj;
       return true;
     }
     return false;

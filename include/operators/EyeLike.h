@@ -54,9 +54,16 @@ public:
     this->k = k;
   }
 
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_k) {
       obj = k;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_k) {
+      k = obj;
       return true;
     }
     return false;

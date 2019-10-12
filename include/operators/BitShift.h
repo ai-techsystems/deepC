@@ -68,16 +68,23 @@ public:
     this->direction = direction;
   }
 
-  bool getAttribute(OPATTR attrName, std::string &obj) {
+  bool getAttribute(OPATTR attrName, std::string &obj) override {
     if (attrName == attr_direction) {
       obj = direction;
       return true;
     }
     return false;
   }
+  bool setAttribute(OPATTR attrName, std::string obj) override {
+    if (attrName == attr_direction) {
+      direction = obj;
+      return true;
+    }
+    return false;
+  }
 
-  tensor<T> compute(tensor<T> &a /*!<[int]: ND tensor*/,
-                    tensor<T> &b /*!<[int]: ND tensor*/) {
+  tensor<T> compute(tensor<T> a /*!<[int]: ND tensor*/,
+                    tensor<T> b /*!<[int]: ND tensor*/) override {
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);

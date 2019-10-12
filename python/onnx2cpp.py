@@ -21,4 +21,43 @@
 # This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 #
+############################
+# Description:
+#   DNNC CPP FIle generator
+#############################
+
 import os, sys
+if __name__ == "__main__":
+  DNNC_PATH=os.path.abspath(os.path.dirname(__file__)+os.path.sep+'..')
+  sys.path.append(DNNC_PATH+os.path.sep+'swig')
+  sys.path.append(DNNC_PATH+os.path.sep+'python')
+
+import dnnc
+import read_onnx
+
+class dnncCpp:
+  """ write C++ file, given a DNNC graph. """
+
+  def __init__ (self):
+      self.deleteMe = ""
+
+  def main(self, dc_graph, cpp_file=""):
+      print("Writing C++ file", cpp_file);
+      cppCode = dnnc.cppCodeGen(dc_graph, cpp_file);
+      cppCode.write();
+
+if __name__ == "__main__":
+  if len(sys.argv) >= 2:
+    onnx_file = sys.argv[1];
+    parser = read_onnx.pbReader()
+    dcGraph = parser.main(sys.argv[1], optimize=False, checker=False)
+
+    if ( len(sys.argv) >=3 ):
+        cpp_file = sys.argv[2];
+    else:
+        cpp_file = os.path.splitext(os.path.abspath(onnx_file))[0]+'.cpp'
+    cppCodeGen = dnncCpp();
+    cppFile = cppCodeGen.main(dcGraph, cpp_file);
+
+  else:
+    print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")

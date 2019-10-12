@@ -62,7 +62,7 @@ public:
     this->transB = transB;
   }
 
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_transA) {
       obj = transA;
       return true;
@@ -72,12 +72,32 @@ public:
     }
     return false;
   }
-  bool getAttribute(OPATTR attrName, float &obj) {
+  bool getAttribute(OPATTR attrName, float &obj) override {
     if (attrName == attr_alpha) {
       obj = alpha;
       return true;
     } else if (attrName == attr_beta) {
       obj = beta;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_transA) {
+      transA = obj;
+      return true;
+    } else if (attrName == attr_transB) {
+      transB = obj;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, float obj) override {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    } else if (attrName == attr_beta) {
+      beta = obj;
       return true;
     }
     return false;

@@ -48,12 +48,22 @@ public:
     this->detect_positive = detect_positive;
     this->detect_negative = detect_negative;
   }
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_detect_positive) {
       obj = detect_positive;
       return true;
     } else if (attrName == attr_detect_negative) {
       obj = detect_negative;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_detect_positive) {
+      detect_positive = obj;
+      return true;
+    } else if (attrName == attr_detect_negative) {
+      detect_negative = obj;
       return true;
     }
     return false;

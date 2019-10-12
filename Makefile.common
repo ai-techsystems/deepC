@@ -43,6 +43,8 @@ endif
 OBJ_DIR=./obj
 LIB_DIR=./lib
 CORE_OBJ=$(ROOT_DIR)/src/core/obj
+CODE_OBJ=$(ROOT_DIR)/src/codegen/obj
+GRPH_OBJ=$(ROOT_DIR)/src/graph/obj
 OPER_OBJ=$(ROOT_DIR)/src/operators/obj
 
 MKDIR_P=mkdir -p

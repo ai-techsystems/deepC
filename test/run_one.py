@@ -1,10 +1,10 @@
 import unittest
 import os, sys
 import common
-import swig
+import importlib
 
 if __name__ == '__main__':
-    for folder in ['swig'] :
+    for folder in ['swig', 'parser'] :
 
         # add the test name here
         if ( len(sys.argv) > 1 ):
@@ -12,12 +12,13 @@ if __name__ == '__main__':
         else:
             test = input("Enter test name (ex. 'MatMul.py'): ")
 
-        folder = os.path.join(os.getcwd(), folder)
-        print (folder)
-
         loader = unittest.TestLoader()
         tests = []
-        swig.load_test(loader,test,tests)
+        pkg = importlib.import_module(folder)
+
+        pkg.load_test(loader,test,tests)
+        if ( len(tests) == 0 ):
+            continue;
 
         suite = unittest.TestSuite(tests)
         runner = unittest.TextTestRunner(verbosity=0)

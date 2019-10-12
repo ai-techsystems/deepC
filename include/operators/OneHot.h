@@ -37,14 +37,14 @@ public:
   OneHot(std::string name = "opOneHot", int xis = -1)
       : baseOperator<To, Ti1, Ti2>(opOneHot, name), _axis(xis) {}
 
-  bool getAttribute(OPATTR attrName, float &xis) {
+  bool getAttribute(OPATTR attrName, float &xis) override {
     if (attrName == attr_axis) {
       xis = _axis;
       return true;
     }
     return false;
   }
-  bool setAttribute(OPATTR attrName, int xis) {
+  bool setAttribute(OPATTR attrName, int xis) override {
     if (attrName == attr_axis) {
       _axis = xis;
       return true;

@@ -54,8 +54,11 @@ $(OBJ_DIR)/%.o:%.cpp
 	@echo "compiling $<"
 	$(CC) $(CPP_FLAGS) $(PY_INCLUDES) $(DNNC_INCLUDES) $(EIGEN_INCLUDES) -c $< -o $@
 
-OTHER_OBJECTS = $(CORE_OBJ)/datatypes.o \
-				$(OPER_OBJ)/opTypes.o \
+OTHER_OBJECTS = $(CORE_OBJ)/datatypes.o   \
+				$(OPER_OBJ)/opTypes.o     \
+				$(GRPH_OBJ)/node.o        \
+				$(GRPH_OBJ)/graph.o        \
+				$(CODE_OBJ)/cppCodeGen.o
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 

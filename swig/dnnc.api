@@ -372,9 +372,9 @@ tensor<output> conv(tensor<input> X, tensor<input> W, tensor<input> B,
                     std::vector<int> pads = std::vector<int>(),
                     std::vector<int> strides = std::vector<int>())
 {
-	Conv<output> op("opConv", auto_pad, dilations,
-                    group, kernal_shape,
-                    pads, strides);
+	Conv<output, input, input> op("opConv", auto_pad, dilations,
+                                     group, kernal_shape,
+                                     pads, strides);
 	return op.compute(X, W, B);
 	dtype = {
 		"float" : "float",

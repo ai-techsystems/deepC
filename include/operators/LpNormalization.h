@@ -52,12 +52,22 @@ public:
     this->axis = axis;
   }
 
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_p) {
       obj = p;
       return true;
     } else if (attrName == attr_axis) {
       obj = axis;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_p) {
+      p = obj;
+      return true;
+    } else if (attrName == attr_axis) {
+      axis = obj;
       return true;
     }
     return false;

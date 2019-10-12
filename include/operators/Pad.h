@@ -37,9 +37,16 @@ public:
       : baseOperator<T, T, T>(opPad, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-  bool getAttribute(OPATTR attrName, std::string &obj) {
+  bool getAttribute(OPATTR attrName, std::string &obj) override {
     if (attrName == attr_mode) {
       obj = mode;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, std::string obj) override {
+    if (attrName == attr_mode) {
+      mode = obj;
       return true;
     }
     return false;

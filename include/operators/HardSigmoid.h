@@ -42,12 +42,22 @@ public:
     this->alpha = alpha;
     this->beta = beta;
   }
-  bool getAttribute(OPATTR attrName, float &obj) {
+  bool getAttribute(OPATTR attrName, float &obj) override {
     if (attrName == attr_alpha) {
       obj = alpha;
       return true;
     } else if (attrName == attr_beta) {
       obj = beta;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, float obj) override {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    } else if (attrName == attr_beta) {
+      beta = obj;
       return true;
     }
     return false;

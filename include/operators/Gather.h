@@ -41,9 +41,16 @@ public:
     this->axis = axis;
   }
 
-  bool getAttribute(OPATTR attrName, float &obj) {
+  bool getAttribute(OPATTR attrName, float &obj) override {
     if (attrName == attr_axis) {
       obj = axis;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, float obj) override {
+    if (attrName == attr_axis) {
+      axis = obj;
       return true;
     }
     return false;

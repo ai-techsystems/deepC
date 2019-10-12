@@ -57,7 +57,7 @@ public:
     this->bias = bias;
     this->size = size;
   }
-  bool getAttribute(OPATTR attrName, float &obj) {
+  bool getAttribute(OPATTR attrName, float &obj) override {
     if (attrName == attr_alpha) {
       obj = alpha;
       return true;
@@ -70,9 +70,29 @@ public:
     }
     return false;
   }
-  bool getAttribute(OPATTR attrName, int &obj) {
+  bool getAttribute(OPATTR attrName, int &obj) override {
     if (attrName == attr_size) {
       obj = size;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, float obj) override {
+    if (attrName == attr_alpha) {
+      alpha = obj;
+      return true;
+    } else if (attrName == attr_beta) {
+      beta = obj;
+      return true;
+    } else if (attrName == attr_bias) {
+      bias = obj;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_size) {
+      size = obj;
       return true;
     }
     return false;

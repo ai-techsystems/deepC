@@ -23,127 +23,14 @@
 #pragma once
 
 #include "core/iterator.h"
-#include "core/tensor.h"
+#include "graph/irData.h"
 #include "operators/baseOperator.h"
 #include <vector>
 
 namespace dnnc {
 
-class irTypeData {
-protected:
-  IR_DataType _type = IR_DataType::NOTYPE;
-  size_t *_ref; /*<! reference count of _data */
-  void *_data = 0x0;
-
-public:
-  irTypeData(IR_DataType ty, std::vector<int> &d) : _type(ty) {
-    assert(ty == IR_DataType::INT8 || ty == IR_DataType::INT16 ||
-           ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
-    _ref = new size_t;
-    *_ref = 1;
-    _data = new std::vector<int>(d.begin(), d.end());
-  }
-  irTypeData(IR_DataType ty, std::vector<float> &d) : _type(ty) {
-    assert(ty == IR_DataType::FLOAT || ty == IR_DataType::FLOAT16 ||
-           ty == IR_DataType::DOUBLE);
-    _ref = new size_t;
-    *_ref = 1;
-    _data = new std::vector<float>(d.begin(), d.end());
-  }
-  irTypeData(IR_DataType ty, std::vector<std::string> &d) : _type(ty) {
-    assert(ty == IR_DataType::STRING);
-    _ref = new size_t;
-    *_ref = 1;
-    _data = new std::vector<std::string>(d.begin(), d.end());
-  }
-  irTypeData(IR_DataType ty, std::vector<tensor<bool>> &d) : _type(ty) {
-    assert(ty == IR_DataType::BOOL);
-    _ref = new size_t;
-    *_ref = 1;
-    _data = new std::vector<tensor<bool>>(d.begin(), d.end());
-  }
-  irTypeData(IR_DataType ty, std::vector<tensor<int>> &d)
-      : _type(IR_DataType::TENSOR_INT) {
-    assert(ty == IR_DataType::INT8 || ty == IR_DataType::INT16 ||
-           ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
-    _ref = new size_t;
-    *_ref = 1;
-    _data = new std::vector<tensor<int>>(d.begin(), d.end());
-  }
-  irTypeData(IR_DataType ty, std::vector<tensor<float>> &d)
-      : _type(IR_DataType::TENSOR_FLOAT) {
-    assert(ty == IR_DataType::FLOAT || ty == IR_DataType::FLOAT16 ||
-           ty == IR_DataType::DOUBLE);
-    _ref = new size_t;
-    *_ref = 1;
-    _data = new std::vector<tensor<float>>(d.begin(), d.end());
-  }
-  /// \brief copy  constructor
-  irTypeData(const irTypeData &other) {
-    _ref = other._ref;
-    _type = other._type;
-    _data = other._data;
-    (*_ref)++;
-  }
-  /// \brief Assignment Operator
-  irTypeData &operator=(const irTypeData &other) {
-    if (this == &other)
-      return *this;
-
-    _ref = other._ref;
-    _type = other._type;
-    _data = other._data;
-    (*_ref)++;
-
-    return *this;
-  }
-  ~irTypeData() {
-    if (_ref)
-      --(*_ref);
-    if (_ref && *_ref == 0 && _data) {
-      free(_ref);
-      switch (_type) {
-      case IR_DataType::INT8:
-      case IR_DataType::INT16:
-      case IR_DataType::INT32:
-      case IR_DataType::INT64:
-        delete static_cast<std::vector<int> *>(_data);
-        break;
-      case IR_DataType::FLOAT:
-      case IR_DataType::FLOAT16:
-      case IR_DataType::DOUBLE:
-        delete static_cast<std::vector<float> *>(_data);
-        break;
-      case IR_DataType::STRING:
-        delete static_cast<std::string *>(_data);
-        break;
-      case IR_DataType::TENSOR_BOOL:
-        delete static_cast<std::vector<tensor<bool>> *>(_data);
-        break;
-      case IR_DataType::TENSOR_INT:
-        delete static_cast<std::vector<tensor<int>> *>(_data);
-        break;
-      case IR_DataType::TENSOR_FLOAT:
-        delete static_cast<std::vector<tensor<float>> *>(_data);
-        break;
-      default:
-        assert(false && "irTypeData object created without type");
-        break;
-      }
-    }
-  }
-  operator int() const {
-    if (_type != IR_DataType::INT64)
-      throw std::bad_cast();
-
-    std::vector<int> ivec = *static_cast<std::vector<int> *>(_data);
-
-    if (ivec.size() == 0)
-      throw std::out_of_range("vector of size 0");
-
-    return ivec[0];
-  }
-};
+// Forward declaration
+class graph;
 
 class dnnParameters {
 protected:
@@ -169,48 +56,98 @@ public:
 
 /*! Graph node
  * */
-/*! Compute Graph Node.
+class node {
+protected:
+  std::string _name;
+  // TODO: add node attributes like level, placeholder,
+  //       const, variable etc.
+public:
+  enum NODE_TYPE { NONE = 0, INPUT, OUTPUT, OPERATOR };
+
+  node(std::string n = "") : _name(n) {}
+  void setName(std::string n) { _name = n; }
+  std::string name() { return _name; }
+
+  virtual OPCODE symbol() { return opInvalid; }
+  virtual NODE_TYPE ntype() { return NONE; }
+  virtual DNNC_DataType dtype() { return NOTYPE; }
+  virtual ~node() {}
+};
+
+/*! Compute Graph IO Node.
+ *       It represents place holder unit (for inputs and outputs)
+ * represented as memory buffer in underlying hardware.
+ * */
+class ioNode : public node {
+protected:
+  NODE_TYPE _ntype;
+  DNNC_DataType _dtype;
+  std::vector<size_t> _shape;
+
+  ioNode() = delete;
+
+public:
+  ioNode(std::string n, NODE_TYPE nt, DNNC_DataType dt, std::vector<size_t> shp)
+      : node(n), _ntype(nt), _dtype(dt), _shape(shp) {}
+  DNNC_DataType dtype() override { return _dtype; }
+  NODE_TYPE ntype() override { return _ntype; }
+  std::vector<size_t> shape() { return _shape; }
+};
+
+/*! Compute Graph operator Node.
  *       It represents basic computational unit (like adder/multiplier)
  * available in underlying hardware.
  * */
-class node {
+class opNode : public node {
 protected:
-  // TODO: add node attributes like level, graph-input, graph-output,
-  //       placeholder, const, variable etc.
-  OPCODE _symbol;    /*!< operator aka symbol */
-  std::string _name; /*! node name */
+  OPCODE _symbol; /*!< operator aka symbol */
   std::vector<std::string>
-      _input_names; /*!< inputs, i.e. tensors coming to   this node */
+      _inputs; /*!< inputs, i.e. tensors coming to   this node */
+  // This is a vector of one element, kept for future requirement.
   std::vector<std::string>
-      _output_names; /*!< outputs, i.e tensors going  from this node */
+      _outputs; /*!< outputs, i.e tensor going  from this node */
   std::vector<nodeAttribute> _attributes; /*!< attributes of the node, i.e.
                                         values that don't flow in and out */
 
-  node() = delete; /*!< default constructor not allowed */
+  bool getNodes(graph &, std::vector<node *> &, std::vector<std::string>);
+  opNode() = delete; /*!< default constructor not allowed */
 public:
-  node(OPCODE sym, std::string n = "") : _symbol(sym), _name(n) {}
-  ~node() {}
+  opNode(OPCODE sym, std::string n = "") : node(n), _symbol(sym) {}
+  ~opNode() {}
 
-  void addInput(std::string n) { _input_names.push_back(n); }
-  void addOutput(std::string n) { _output_names.push_back(n); }
+  void addInput(std::string n) { _inputs.push_back(n); }
+  void addOutput(std::string n) { _outputs.push_back(n); }
   void addAttribute(nodeAttribute &attr) { _attributes.push_back(attr); }
 
-  OPCODE symbol() { return _symbol; }
-  std::string name() { return _name; }
+  OPCODE symbol() override { return _symbol; }
+  NODE_TYPE ntype() override { return OPERATOR; }
+  DNNC_DataType
+  dtype() override { /*!< graph DFS will inference dtype in future. */
+    return FLOAT;
+  }
+
+  std::vector<std::string> inputs() { return _inputs; }
+  std::vector<std::string> outputs() { return _outputs; }
+  bool inputNodes(graph &g, std::vector<node *> &nodes) {
+    return getNodes(g, nodes, _inputs);
+  };
+  bool outputNodes(graph &g, std::vector<node *> &nodes) {
+    return getNodes(g, nodes, _outputs);
+  }
 
 #ifndef SWIGPYTHON
   struct attr_iter {
     int pos;
-    inline void next(const node *ref) { ++pos; }
-    inline void begin(const node *ref) { pos = 0; }
-    inline void end(const node *ref) { pos = ref->_attributes.size(); }
-    inline nodeAttribute &get(node *ref) { return ref->_attributes[pos]; }
-    inline const nodeAttribute &get(const node *ref) {
+    inline void next(const opNode *ref) { ++pos; }
+    inline void begin(const opNode *ref) { pos = 0; }
+    inline void end(const opNode *ref) { pos = ref->_attributes.size(); }
+    inline nodeAttribute &get(opNode *ref) { return ref->_attributes[pos]; }
+    inline const nodeAttribute &get(const opNode *ref) {
       return ref->_attributes[pos];
     }
     inline bool cmp(const attr_iter &s) const { return pos != s.pos; }
   };
-  SETUP_ITERATORS(node, nodeAttribute &, attr_iter)
+  SETUP_ITERATORS(opNode, nodeAttribute &, attr_iter)
 #endif
 };
 

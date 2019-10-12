@@ -72,5 +72,41 @@
                     "message": 5
                 }
             }
+        },
+        {
+            "label": "run tests",
+            "type": "shell",
+            "command": "make",
+            "args": ["TEST"],
+    
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                // Reveal the output only if unrecognized errors occur.
+                "echo": true,
+                "focus": false,
+                "reveal": "always",
+                "panel": "shared"
+            },
+    
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
         }
     ]
+}
