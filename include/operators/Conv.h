@@ -47,7 +47,7 @@ public:
        // inferred from input W.
        std::vector<int> pads = {}, std::vector<int> strides = {})
       : baseOperator<To, Ti1, Ti2>(opConv, name) {
-    this->auto_pad  = auto_pad;
+    this->auto_pad = auto_pad;
     this->dilations = dilations;
     this->group = group;
     this->kernel_shape = kernel_shape;
@@ -258,11 +258,11 @@ public:
       // no padding
       padType = 'N';
       for (size_t axis = 2; axis < X.rank(); axis++) {
-	if (X.shape()[axis] <=  kernelShape[axis]) {
-	  errMsg << "Kernel is too big for the given input and paddings"
-		 << std::endl;
-	  throw std::invalid_argument(errMsg.str().c_str());
-	}
+        if (X.shape()[axis] <= kernelShape[axis]) {
+          errMsg << "Kernel is too big for the given input and paddings"
+                 << std::endl;
+          throw std::invalid_argument(errMsg.str().c_str());
+        }
         resultShape.push_back(
             ((X.shape()[axis] - kernelShape[axis]) / strides[axis - 2]) + 1);
       }
@@ -301,13 +301,16 @@ public:
         throw std::invalid_argument(errMsg.str().c_str());
       }
       for (size_t axis = 2; axis < X.rank(); axis++) {
-	if ((X.shape()[axis] + pads[axis] + pads[axis-2]) <=  kernelShape[axis]) {
-	  errMsg << "Kernel is too big for the given input and paddings"
-		 << std::endl;
-	  throw std::invalid_argument(errMsg.str().c_str());
-	}
-        resultShape.push_back(
-            ((X.shape()[axis] - kernelShape[axis] + pads[axis] + pads[axis-2]) / strides[axis - 2]) + 1);
+        if ((X.shape()[axis] + pads[axis] + pads[axis - 2]) <=
+            kernelShape[axis]) {
+          errMsg << "Kernel is too big for the given input and paddings"
+                 << std::endl;
+          throw std::invalid_argument(errMsg.str().c_str());
+        }
+        resultShape.push_back(((X.shape()[axis] - kernelShape[axis] +
+                                pads[axis] + pads[axis - 2]) /
+                               strides[axis - 2]) +
+                              1);
       }
     } else {
       errMsg << "auto_pad must be either \"NOTSET\", \"SAME_UPPER\", "
@@ -393,10 +396,8 @@ public:
              featureMapIndx++) {
 
           // convolve
-          for (size_t hIndx = 0; hIndx < resultShape[3];
-               hIndx = hIndx+1) {
-            for (size_t wIndx = 0; wIndx < resultShape[4];
-                 wIndx = wIndx+1) {
+          for (size_t hIndx = 0; hIndx < resultShape[3]; hIndx = hIndx + 1) {
+            for (size_t wIndx = 0; wIndx < resultShape[4]; wIndx = wIndx + 1) {
               result(batchIndx, featureMapIndx, channelIndx, hIndx, wIndx) = 0;
               if (B != NULL_TENSOR<Ti1>) {
                 result(batchIndx, featureMapIndx, channelIndx, hIndx, wIndx) =
@@ -406,7 +407,8 @@ public:
                 for (size_t j = 0; j < kernelShape[3]; j++) {
                   result(batchIndx, featureMapIndx, channelIndx, hIndx,
                          wIndx) += kernel(featureMapIndx, channelIndx, i, j) *
-                                   paddedInput(hIndx*(size_t)strides[1] + i, wIndx*(size_t)strides[1] + j);
+                                   paddedInput(hIndx * (size_t)strides[1] + i,
+                                               wIndx * (size_t)strides[1] + j);
                 }
               }
             }

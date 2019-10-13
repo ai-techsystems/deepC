@@ -27,7 +27,7 @@ using namespace dnnc;
 
 bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes,
                             std::vector<std::string> names) {
-  bool result = true;
+  bool result = bool(names.size());
   for (std::string name : names) {
     node *newNode = 0x0;
     if (g.findNodeByName(name, newNode)) {
