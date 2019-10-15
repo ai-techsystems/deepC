@@ -362,7 +362,7 @@ class pbReader :
 
     try:
         print("running DNNC graph sanity check.");
-        if ( false == self._deGraph.sanityCheck() ):
+        if ( False == self._dcGraph.sanityCheck() ):
             print("        FAILED. Please check your model.");
     except Exception as e:
         print ("        FAILED.\n" + str(e));

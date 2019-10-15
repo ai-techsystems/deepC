@@ -102,7 +102,7 @@ public:
   NODE_TYPE ntype() override { return _ntype; }
   std::vector<size_t> shape() { return _shape; }
 
-  bool outputNode(graph &g, std::vector<node *> &nodes) {
+  bool outputNodes(graph &g, std::vector<node *> &nodes) {
     return getNodes(g, nodes, true);
   };
   bool inputNodes(graph &g, std::vector<node *> &nodes) {

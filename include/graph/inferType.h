@@ -75,7 +75,7 @@ public:
 
     for (ioNode *n : _graph.inputs()) {
       std::vector<node *> nextLevelNodes;
-      if (n->outputNode(_graph, nextLevelNodes))
+      if (n->outputNodes(_graph, nextLevelNodes))
         for (node *next : nextLevelNodes) {
           if (next->ntype() == node::OPERATOR) {
             inferred &= propagate(*dynamic_cast<opNode *>(next), n->dtype());

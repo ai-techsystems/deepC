@@ -35,16 +35,16 @@ bool dnnc::graph::sanityCheck() {
   for (node *n : _nodes) {
     if (n->ntype() == node::INPUT) {
       std::vector<node *> opNodes;
-      if (false == dynamic_cast<ioNode *>(n)->inputNodes(*this, opNodes)) {
+      if (false == dynamic_cast<ioNode *>(n)->outputNodes(*this, opNodes)) {
         std::cerr << "ERROR (GRAPH): graph input node(" + n->name() +
-                         " is not connected to other nodes in the graph.";
+                         " is not connected to other nodes in the graph.\n";
         result = false;
       }
     } else if (n->ntype() == node::OUTPUT) {
       std::vector<node *> opNodes;
       if (false == dynamic_cast<ioNode *>(n)->inputNodes(*this, opNodes)) {
         std::cerr << "ERROR (GRAPH): graph output node(" + n->name() +
-                         " is not connected to other nodes in the graph.";
+                         " is not connected to other nodes in the graph.\n";
         result = false;
       }
     } else if (n->ntype() == node::OPERATOR) {
@@ -53,7 +53,7 @@ bool dnnc::graph::sanityCheck() {
         node *newNode = 0x0;
         if (false == findNodeByName(in, newNode)) {
           std::cerr << "ERROR (GRAPH): graph operator node(" + n->name() +
-                           ")'s input " + in + " is not found in the graph.";
+                           ")'s input " + in + " is not found in the graph.\n";
           result = false;
         }
       }
@@ -61,7 +61,8 @@ bool dnnc::graph::sanityCheck() {
         node *newNode = 0x0;
         if (false == findNodeByName(out, newNode)) {
           std::cerr << "ERROR (GRAPH): graph operator node(" + n->name() +
-                           ")'s output " + out + " is not found in the graph.";
+                           ")'s output " + out +
+                           " is not found in the graph.\n";
           result = false;
         }
       }
