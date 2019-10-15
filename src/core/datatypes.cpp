@@ -207,4 +207,66 @@ std::string getDNNC_IRTypeStr(IR_DataType dtype) {
   }
   return type;
 }
+
+short typePrecisionIndex(DNNC_DataType dtype) {
+  switch (dtype) {
+  case BOOL:
+    return 1;
+    break;
+  case UINT8:
+    return 2;
+    break;
+  case INT8:
+    return 3;
+    break;
+  case UINT16:
+    return 4;
+    break;
+  case INT16:
+    return 5;
+    break;
+  case FLOAT16:
+  case BFLOAT16:
+    return 6;
+    break;
+  case UINT32:
+    return 7;
+    break;
+  case INT32:
+    return 8;
+    break;
+  case FLOAT:
+    return 9;
+    break;
+  case UINT64:
+    return 10;
+    break;
+  case INT64:
+    return 11;
+    break;
+  case DOUBLE:
+    return 12;
+    break;
+  case STRING:
+    return 13;
+    break;
+  case COMPLEX64:
+    return 14;
+    break;
+  case COMPLEX128:
+    return 15;
+    break;
+  default:
+    return 0;
+    break;
+  }
+  return 0;
+}
+
+/*<! return if ty1 has higher precedence over ty2.
+ */
+bool typePrecedence(DNNC_DataType ty1, DNNC_DataType ty2) {
+  return typePrecisionIndex(ty1) > typePrecisionIndex(ty2);
+}
+
 } // namespace dnnc

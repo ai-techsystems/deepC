@@ -25,10 +25,29 @@
 
 using namespace dnnc;
 
+void dnnc::graph::resetNodeMarks() {
+  for (node *n : _nodes)
+    n->resetMarks();
+}
+
 bool dnnc::graph::sanityCheck() {
   bool result = true;
   for (node *n : _nodes) {
-    if (n->ntype() == node::OPERATOR) {
+    if (n->ntype() == node::INPUT) {
+      std::vector<node *> opNodes;
+      if (false == dynamic_cast<ioNode *>(n)->inputNodes(*this, opNodes)) {
+        std::cerr << "ERROR (GRAPH): graph input node(" + n->name() +
+                         " is not connected to other nodes in the graph.";
+        result = false;
+      }
+    } else if (n->ntype() == node::OUTPUT) {
+      std::vector<node *> opNodes;
+      if (false == dynamic_cast<ioNode *>(n)->inputNodes(*this, opNodes)) {
+        std::cerr << "ERROR (GRAPH): graph output node(" + n->name() +
+                         " is not connected to other nodes in the graph.";
+        result = false;
+      }
+    } else if (n->ntype() == node::OPERATOR) {
       opNode *oNode = dynamic_cast<opNode *>(n);
       for (auto in : oNode->inputs()) {
         node *newNode = 0x0;

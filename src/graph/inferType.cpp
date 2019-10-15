@@ -21,40 +21,13 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "graph/graph.h"
+#include "graph/inferType.h"
 
 using namespace dnnc;
 
-bool dnnc::ioNode::getNodes(graph &g, std::vector<node *> &nodes, bool input) {
-  nodes = g.findNodesWithIO(_name, input);
-  return bool(nodes.size());
-}
-
-bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes,
-                            std::vector<std::string> names) {
-  bool result = bool(names.size());
-  for (std::string name : names) {
-    node *newNode = 0x0;
-    if (g.findNodeByName(name, newNode)) {
-      nodes.push_back(newNode);
-    } else {
-      result = false;
-    }
-  }
-  return result;
-}
-
-#ifdef DNNC_NODE_TEST
-#include "operators/Add.h"
-using namespace dnnc;
-
+#ifdef DNNC_INFERTYPE_TEST
 int main() {
-  Add<float, float> *op = new Add<float, float>("graph node");
-  baseOperator<float, float, float> *bop = op;
-  node add1(op);
-  node add2(bop);
-  std::cout << bop << std::endl;
+  std::cout << "not implemented yet.";
   return 0;
 }
-
 #endif

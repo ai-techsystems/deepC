@@ -22,6 +22,7 @@
 //
 #pragma once
 
+#include "core/flag.h"
 #include "core/iterator.h"
 #include "graph/irData.h"
 #include "operators/baseOperator.h"
@@ -59,10 +60,16 @@ public:
 class node {
 protected:
   std::string _name;
-  // TODO: add node attributes like level, placeholder,
-  //       const, variable etc.
+  flag _properties; // used in other algorithms like DFS, TopoSort etc.
 public:
   enum NODE_TYPE { NONE = 0, INPUT, OUTPUT, OPERATOR };
+  enum NODE_PROP { NOT_VISITED = 0, VISITING, VISITED };
+
+  // properties methods.
+  void mark(short prop) { _properties.set(prop); }
+  void unmark(short prop) { _properties.reset(prop); }
+  bool isMarked(short prop) const { return _properties.get(prop); }
+  void resetMarks() { _properties = 0; }
 
   node(std::string n = "") : _name(n) {}
   void setName(std::string n) { _name = n; }
@@ -86,12 +93,21 @@ protected:
 
   ioNode() = delete;
 
+  bool getNodes(graph &, std::vector<node *> &, bool input = true);
+
 public:
   ioNode(std::string n, NODE_TYPE nt, DNNC_DataType dt, std::vector<size_t> shp)
       : node(n), _ntype(nt), _dtype(dt), _shape(shp) {}
   DNNC_DataType dtype() override { return _dtype; }
   NODE_TYPE ntype() override { return _ntype; }
   std::vector<size_t> shape() { return _shape; }
+
+  bool outputNode(graph &g, std::vector<node *> &nodes) {
+    return getNodes(g, nodes, true);
+  };
+  bool inputNodes(graph &g, std::vector<node *> &nodes) {
+    return getNodes(g, nodes, false);
+  }
 };
 
 /*! Compute Graph operator Node.
@@ -100,10 +116,10 @@ public:
  * */
 class opNode : public node {
 protected:
-  OPCODE _symbol; /*!< operator aka symbol */
+  OPCODE _symbol = opInvalid;    /*!< operator aka symbol */
+  DNNC_DataType _dtype = NOTYPE; /*<! inferred data type for outputs */
   std::vector<std::string>
       _inputs; /*!< inputs, i.e. tensors coming to   this node */
-  // This is a vector of one element, kept for future requirement.
   std::vector<std::string>
       _outputs; /*!< outputs, i.e tensor going  from this node */
   std::vector<nodeAttribute> _attributes; /*!< attributes of the node, i.e.
@@ -121,10 +137,10 @@ public:
 
   OPCODE symbol() override { return _symbol; }
   NODE_TYPE ntype() override { return OPERATOR; }
-  DNNC_DataType
-  dtype() override { /*!< graph DFS will inference dtype in future. */
-    return FLOAT;
-  }
+
+  /*!< inferred dtype. */
+  void dtype(DNNC_DataType dtype) { _dtype = dtype; }
+  DNNC_DataType dtype() override { return _dtype; }
 
   std::vector<std::string> inputs() { return _inputs; }
   std::vector<std::string> outputs() { return _outputs; }

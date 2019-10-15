@@ -111,4 +111,6 @@ std::string getDNNC_DataTypeStr(DNNC_DataType dtype);
 IR_DataType getDNNC_IRType(std::string stype);
 std::string getDNNC_IRTypeStr(IR_DataType dtype);
 
+bool typePrecedence(DNNC_DataType ty1, DNNC_DataType ty2);
+
 } // namespace dnnc

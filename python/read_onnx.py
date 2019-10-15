@@ -305,7 +305,7 @@ class pbReader :
 
     return (term_name, data_type, term_shape)
 
-  def main(self, onnx_filename, optimize=False, checker=False):
+  def main(self, onnx_filename, checker=False, optimize=False):
     if sys.modules.get('dnnc') is None:
       print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
       return ;
@@ -329,13 +329,14 @@ class pbReader :
 
     if ( checker ) :
         try:
-            print ("running model shape inference engine and verification");
+            print ("running ONNX model shape inference engine and verification");
             onnx.checker.check_model(model)
             from onnx import shape_inference
             model = shape_inference.infer_shapes(model)
             onnx.checker.check_model(model)
         except Exception as e:
             print ("        failed. moving to next step." + str(e));
+
 
     graph = model.graph
 
@@ -359,11 +360,18 @@ class pbReader :
     for param in graph.initializer:
       dcParam = self.addParams(param);
 
+    try:
+        print("running DNNC graph sanity check.");
+        if ( false == self._deGraph.sanityCheck() ):
+            print("        FAILED. Please check your model.");
+    except Exception as e:
+        print ("        FAILED.\n" + str(e));
+
     return self._dcGraph
 
 if __name__ == "__main__":
   if len(sys.argv) >= 2:
     parser = pbReader()
-    parser.main(sys.argv[1], optimize=False, checker=False)
+    parser.main(sys.argv[1], checker=False, optimize=False)
   else:
     print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")

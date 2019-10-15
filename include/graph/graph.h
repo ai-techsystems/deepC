@@ -116,6 +116,10 @@ public:
   ~graph() { destroy(); }
   void setName(std::string name) { _name = name; }
 
+  size_t nNodes() { return _nodes.size(); }
+  /*<! reset all existing marks on the graph nodes */
+  void resetNodeMarks();
+
   /*<! add compute node to the graph */
   opNode *addOPNode(std::string name, OPCODE symbol) {
     assert(symbol != opInvalid &&
@@ -160,6 +164,26 @@ public:
 
   std::vector<dnnParameters> parameters() { return _initializers; }
 
+  /*<! Search all nodes in the graph. Return a vector of nodes with
+   * IO (input or output) same as name passed as argument.*/
+  std::vector<node *> findNodesWithIO(std::string name, bool in = true) {
+    std::vector<node *> nodes;
+    for (node *n : _nodes) {
+      if (n->ntype() == node::OPERATOR) {
+        if (in) {
+          std::vector<std::string> n_ins = dynamic_cast<opNode *>(n)->inputs();
+          if (std::find(n_ins.begin(), n_ins.end(), name) != n_ins.end())
+            nodes.push_back(n);
+        } else {
+          std::vector<std::string> n_outs =
+              dynamic_cast<opNode *>(n)->outputs();
+          if (std::find(n_outs.begin(), n_outs.end(), name) != n_outs.end())
+            nodes.push_back(n);
+        }
+      }
+    }
+    return nodes;
+  }
   bool findNodeByName(std::string name, node *&n) {
     for (node *other : _nodes) { // TODO: use std::find
       if (other->name() == name) {

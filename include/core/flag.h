@@ -20,41 +20,23 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
+#pragma once
 
-#include "graph/graph.h"
+namespace dnnc {
+/*!< This class uses individual bits to store ENUM information
+ *   for any given object. Efficient in storage and compute.
+ *   It can accomodate upto 15 enums */
+class flag {
+protected:
+  short _info;
 
-using namespace dnnc;
-
-bool dnnc::ioNode::getNodes(graph &g, std::vector<node *> &nodes, bool input) {
-  nodes = g.findNodesWithIO(_name, input);
-  return bool(nodes.size());
-}
-
-bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes,
-                            std::vector<std::string> names) {
-  bool result = bool(names.size());
-  for (std::string name : names) {
-    node *newNode = 0x0;
-    if (g.findNodeByName(name, newNode)) {
-      nodes.push_back(newNode);
-    } else {
-      result = false;
-    }
-  }
-  return result;
-}
-
-#ifdef DNNC_NODE_TEST
-#include "operators/Add.h"
-using namespace dnnc;
-
-int main() {
-  Add<float, float> *op = new Add<float, float>("graph node");
-  baseOperator<float, float, float> *bop = op;
-  node add1(op);
-  node add2(bop);
-  std::cout << bop << std::endl;
-  return 0;
-}
-
-#endif
+public:
+  flag() : _info(0){};
+  flag(short info) : _info(info) {}
+  bool get(short index) const { return _info & (1 << index); }
+  void set(short index) { _info |= (1 << index); }
+  void reset(short index) { _info &= ~(1 << index); }
+  flag operator|(const flag &rhs) const { return _info | rhs._info; }
+  bool operator<(const flag &rhs) const { return (_info < rhs._info); }
+};
+} // namespace dnnc
