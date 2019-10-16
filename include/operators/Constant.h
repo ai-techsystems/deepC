@@ -28,17 +28,29 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Constant : public baseOperator<T, T, T> {
+template <typename To> class Constant : public baseOperator<To, To, To> {
   //  Constant attributes
+  tensor<To> _data;
+
 public:
-  Constant(std::string name = "opConstant")
-      : baseOperator<T, T, T>(opConstant, name) {}
+  Constant(std::string name = "opConstant", tensor<To> data = NULL_TENSOR<To>)
+      : _data(data), baseOperator<To, To, To>(opConstant, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
-
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  bool getAttribute(OPATTR attrName, tensor<To> &obj) override {
+    if (attrName == attr_value) {
+      obj = _data;
+      return true;
+    }
+    return false;
   }
+  bool getAttribute(OPATTR attrName, tensor<To> obj) override {
+    if (attrName == attr_value) {
+      _data = obj;
+      return true;
+    }
+    return false;
+  }
+
+  tensor<To> compute(void) { return _data; }
 };
 } // namespace dnnc

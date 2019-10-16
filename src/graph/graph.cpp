@@ -33,38 +33,23 @@ void dnnc::graph::resetNodeMarks() {
 bool dnnc::graph::sanityCheck() {
   bool result = true;
   for (node *n : _nodes) {
-    if (n->ntype() == node::INPUT) {
-      std::vector<node *> opNodes;
-      if (false == dynamic_cast<ioNode *>(n)->outputNodes(*this, opNodes)) {
-        std::cerr << "ERROR (GRAPH): graph input node(" + n->name() +
-                         " is not connected to other nodes in the graph.\n";
+    std::vector<node *> next_level_nodes;
+    if (false == n->inputNodes(*this, next_level_nodes)) {
+      if (n->ntype() != node::INPUT && n->symbol() != opConstant) {
+        std::cerr << "ERROR (GRAPH): some of graph " + _name + "'s node " +
+                         n->name() + "'s\n";
+        std::cerr << "               outputs are not connected to other nodes "
+                     "in the graph.\n";
         result = false;
       }
-    } else if (n->ntype() == node::OUTPUT) {
-      std::vector<node *> opNodes;
-      if (false == dynamic_cast<ioNode *>(n)->inputNodes(*this, opNodes)) {
-        std::cerr << "ERROR (GRAPH): graph output node(" + n->name() +
-                         " is not connected to other nodes in the graph.\n";
+    }
+    if (false == n->outputNodes(*this, next_level_nodes)) {
+      if (n->ntype() != node::OUTPUT) {
+        std::cerr << "ERROR (GRAPH): some of graph " + _name + "'s node " +
+                         n->name() + "'s\n";
+        std::cerr << "               inputs are not connected to other nodes "
+                     "in the graph.\n";
         result = false;
-      }
-    } else if (n->ntype() == node::OPERATOR) {
-      opNode *oNode = dynamic_cast<opNode *>(n);
-      for (auto in : oNode->inputs()) {
-        node *newNode = 0x0;
-        if (false == findNodeByName(in, newNode)) {
-          std::cerr << "ERROR (GRAPH): graph operator node(" + n->name() +
-                           ")'s input " + in + " is not found in the graph.\n";
-          result = false;
-        }
-      }
-      for (auto out : oNode->outputs()) {
-        node *newNode = 0x0;
-        if (false == findNodeByName(out, newNode)) {
-          std::cerr << "ERROR (GRAPH): graph operator node(" + n->name() +
-                           ")'s output " + out +
-                           " is not found in the graph.\n";
-          result = false;
-        }
       }
     }
   }

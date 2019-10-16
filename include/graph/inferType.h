@@ -47,7 +47,7 @@ protected:
 
     std::vector<node *> outs;
     if (false == computeNode.outputNodes(_graph, outs)) {
-      std::cerr << "ERROR (DIFR): cound not find all nodes for "
+      std::cerr << "ERROR (TYPE INFER): cound not find all nodes for "
                 << computeNode.name() << ",\n";
     }
 

@@ -30,16 +30,13 @@ bool dnnc::ioNode::getNodes(graph &g, std::vector<node *> &nodes, bool input) {
   return bool(nodes.size());
 }
 
-bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes,
-                            std::vector<std::string> names) {
+bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes, bool input) {
+  std::vector<std::string> names = input ? _inputs : _outputs;
   bool result = bool(names.size());
   for (std::string name : names) {
-    node *newNode = 0x0;
-    if (g.findNodeByName(name, newNode)) {
-      nodes.push_back(newNode);
-    } else {
-      result = false;
-    }
+    std::vector<node *> newNodes = g.findNodesWithIO(name, !input);
+    nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
+    result &= bool(newNodes.size());
   }
   return result;
 }

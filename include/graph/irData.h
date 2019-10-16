@@ -196,6 +196,42 @@ public:
 
     return svec[0];
   }
+  operator std::vector<tensor<bool>>() const {
+    if (_type != IR_DataType::TENSOR_BOOL)
+      throw std::bad_cast();
+
+    std::vector<tensor<bool>> tbvec =
+        *static_cast<std::vector<tensor<bool>> *>(_data);
+
+    if (tbvec.size() == 0)
+      throw std::out_of_range("vector of tensor_int with size 0");
+
+    return tbvec;
+  }
+  operator std::vector<tensor<int>>() const {
+    if (_type != IR_DataType::TENSOR_INT)
+      throw std::bad_cast();
+
+    std::vector<tensor<int>> tivec =
+        *static_cast<std::vector<tensor<int>> *>(_data);
+
+    if (tivec.size() == 0)
+      throw std::out_of_range("vector of tensor<int> with size 0");
+
+    return tivec;
+  }
+  operator std::vector<tensor<float>>() const {
+    if (_type != IR_DataType::TENSOR_FLOAT)
+      throw std::bad_cast();
+
+    std::vector<tensor<float>> tfvec =
+        *static_cast<std::vector<tensor<float>> *>(_data);
+
+    if (tfvec.size() == 0)
+      throw std::out_of_range("vector of tensor<float> with size 0");
+
+    return tfvec;
+  }
 #endif
   IR_DataType type() { return _type; }
 };

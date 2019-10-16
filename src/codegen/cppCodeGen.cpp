@@ -21,13 +21,15 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
+#include "codegen/cppCodeGen.h"
+#include "graph/inferType.h"
 #include <assert.h>
-#include <codegen/cppCodeGen.h>
 #include <fstream>
 
 bool dnnc::cppCodeGen::write() {
 
-  _includes.clear();
+  inferDataType typeInference(_graph);
+  typeInference.main();
 
   std::string code = "";
 
@@ -77,10 +79,11 @@ std::string dnnc::cppCodeGen::writeMainFunction(std::string body) {
   return code;
 }
 
-std::pair<std::string, std::string>
-dnnc::cppCodeGen::initializeData(irTypeData dtype) {
+std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
+                                             std::string name) {
   std::string varType;  // int, float, std::vector<float> etc
   std::string initData; // = {1.3, 1.5} etc
+  std::string code;     // vector<int> value = {1, 4, 6};
   switch (dtype.type()) {
   case IR_DataType::INT8:
   case IR_DataType::INT16:
@@ -92,6 +95,7 @@ dnnc::cppCodeGen::initializeData(irTypeData dtype) {
     initData += values.size() ? "}" : "";
     varType = getDNNC_IRTypeStr(dtype.type());
     varType = values.size() ? "std::vector<" + varType + ">" : varType + "\n";
+    code = _tab + varType + " " + name + " = " + initData + " ;\n";
     break;
   }
   case IR_DataType::UINT8:
@@ -104,6 +108,7 @@ dnnc::cppCodeGen::initializeData(irTypeData dtype) {
     initData += values.size() ? "}" : "";
     varType = getDNNC_IRTypeStr(dtype.type());
     varType = values.size() ? "std::vector<" + varType + ">" : varType + "\n";
+    code = _tab + varType + " " + name + " = " + initData + " ;\n";
     break;
   }
   case IR_DataType::FLOAT:
@@ -115,31 +120,52 @@ dnnc::cppCodeGen::initializeData(irTypeData dtype) {
     initData += values.size() ? "}" : "";
     varType = getDNNC_IRTypeStr(dtype.type());
     varType = values.size() ? "std::vector<" + varType + ">" : varType + "\n";
+    code = _tab + varType + " " + name + " = " + initData + " ;\n";
     break;
   }
   case IR_DataType::STRING:
     varType = "std::string";
     initData = std::string(dtype);
+    code = _tab + varType + " " + name + " = " + initData + " ;\n";
     break;
   case IR_DataType::TENSOR_BOOL:
     // TODO:
     break;
-  case IR_DataType::TENSOR_INT:
-    // TODO:
+  case IR_DataType::TENSOR_INT: {
+    tensor<int> values = std::vector<tensor<int>>(dtype)[0];
+    for (auto el : values)
+      initData += (initData.size() ? "," : "{") + std::to_string(el);
+    initData += values.length() ? "}" : "";
+    std::string initVec = name + "_vec";
+    initData = "std::vector<int> " + initVec + " = " + initData + ";\n";
+    varType = getDNNC_IRTypeStr(dtype.type());
+    code = _tab + initData;
+    code += _tab + varType + " " + name + "(1); " + name + ".load(" + initVec +
+            ");\n";
     break;
-  case IR_DataType::TENSOR_FLOAT:
-    // TODO:
+  }
+  case IR_DataType::TENSOR_FLOAT: {
+    tensor<float> values = std::vector<tensor<float>>(dtype)[0];
+    for (auto el : values)
+      initData += (initData.size() ? "," : "{") + std::to_string(el);
+    initData += values.length() ? "}" : "";
+    std::string initVec = name + "_vec";
+    initData = "std::vector<float> " + initVec + " = " + initData + ";\n";
+    varType = getDNNC_IRTypeStr(dtype.type());
+    code = _tab + initData;
+    code += _tab + varType + " " + name + "(1); " + name + ".load(" + initVec +
+            ");\n";
     break;
+  }
   default:
     assert(false && "irTypeData object created without type");
     break;
   }
-  return std::pair<std::string, std::string>(varType, initData);
+  return code;
 }
 
 std::string dnnc::cppCodeGen::write(dnnParameters param) {
-  std::pair<std::string, std::string> var = initializeData(param.data());
-  return var.first + " " + param.name() + " = " + var.second + " ;\n";
+  return initializeData(param.data(), param.name());
 }
 
 std::string dnnc::cppCodeGen::write(ioNode &term) {
@@ -166,7 +192,8 @@ std::string dnnc::cppCodeGen::write(opNode &computeNode) {
   assert(opName.length());
 
   std::vector<node *> ins, outs;
-  if (false == computeNode.inputNodes(_graph, ins) ||
+  if ((computeNode.symbol() != opConstant &&
+       false == computeNode.inputNodes(_graph, ins)) ||
       false == computeNode.outputNodes(_graph, outs)) {
     std::cerr
         << "ERROR (CODEGEN): cound not find all nodes for " << opName << ",\n"
@@ -175,7 +202,9 @@ std::string dnnc::cppCodeGen::write(opNode &computeNode) {
     return code;
   }
 
-  if (ins.size() == 1 && outs.size() == 1) {
+  if (ins.size() == 0 && outs.size() == 1) {
+    code = writeConstantOperator(computeNode, outs);
+  } else if (ins.size() == 1 && outs.size() == 1) {
     code = writeUnaryOperator(computeNode, ins, outs);
   } else if (ins.size() == 2 && outs.size() == 1) {
     code = writeBinaryOperator(computeNode, ins, outs);
@@ -185,6 +214,40 @@ std::string dnnc::cppCodeGen::write(opNode &computeNode) {
     code = writeCustomOperator(computeNode, ins, outs);
   }
   return code + "\n";
+}
+
+std::string dnnc::cppCodeGen::writeConstantOperator(opNode &computeNode,
+                                                    std::vector<node *> &outs) {
+  std::string code;
+
+  assert(outs.size() == 1);
+
+  std::string opCode = getOpCodeStr(computeNode.symbol());
+
+  std::string opName = computeNode.name();
+
+  assert(opName.length());
+
+  std::string outType = getDNNC_DataTypeStr(outs[0]->dtype());
+
+  // Step 1: Instantiate opterator
+  code += "\n";
+  code +=
+      _tab + opCode + "<" + outType + "> " + opName + "(\"" + opName + "\");\n";
+
+  // Step 2: Add attribute
+  for (nodeAttribute attr : computeNode) {
+    std::string attrName = getAttrNameStr(attr.name());
+    code += initializeData(attr.data(), attrName);
+    code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
+            attrName + " );\n";
+  }
+
+  // Step 3: Add compute function.
+  code += _tab + "tensor<" + outType + "> " + nodeName(outs[0]) + " = " +
+          opName + ".compute ();\n";
+
+  return code;
 }
 
 std::string dnnc::cppCodeGen::writeUnaryOperator(opNode &computeNode,
@@ -204,14 +267,14 @@ std::string dnnc::cppCodeGen::writeUnaryOperator(opNode &computeNode,
   std::string inType = getDNNC_DataTypeStr(ins[0]->dtype());
 
   // Step 1: Instantiate opterator
+  code += "\n";
   code += _tab + opCode + "<" + outType + ", " + inType + ", " + inType + "> " +
           opName + "(\"" + opName + "\");\n";
 
   // Step 2: Add attribute
   for (nodeAttribute attr : computeNode) {
     std::string attrName = getAttrNameStr(attr.name());
-    std::pair<std::string, std::string> var = initializeData(attr.data());
-    code += _tab + var.first + " " + attrName + " = " + var.second + " ;\n";
+    code += initializeData(attr.data(), attrName);
     code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
             attrName + " );\n";
   }
@@ -241,14 +304,14 @@ std::string dnnc::cppCodeGen::writeBinaryOperator(opNode &computeNode,
   std::string in2Type = getDNNC_DataTypeStr(ins[1]->dtype());
 
   // Step 1: Instantiate opterator
+  code += "\n";
   code += _tab + opCode + "<" + outType + ", " + in1Type + ", " + in2Type +
           "> " + opName + "(\"" + opName + "\");\n";
 
   // Step 2: Add attribute
   for (nodeAttribute attr : computeNode) {
     std::string attrName = getAttrNameStr(attr.name());
-    std::pair<std::string, std::string> var = initializeData(attr.data());
-    code += _tab + var.first + " " + attrName + " = " + var.second + " ;\n";
+    code += initializeData(attr.data(), attrName);
     code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
             attrName + " );\n";
   }
@@ -279,14 +342,14 @@ std::string dnnc::cppCodeGen::writeTernaryOperator(opNode &computeNode,
   std::string in2Type = getDNNC_DataTypeStr(ins[1]->dtype());
 
   // Step 1: Instantiate opterator
+  code += "\n";
   code += _tab + opCode + "<" + outType + ", " + in1Type + ", " + in2Type +
           "> " + opName + "(\"" + opName + "\");\n";
 
   // Step 2: Add attribute
   for (nodeAttribute attr : computeNode) {
     std::string attrName = getAttrNameStr(attr.name());
-    std::pair<std::string, std::string> var = initializeData(attr.data());
-    code += _tab + var.first + " " + attrName + " = " + var.second + " ;\n";
+    code += initializeData(attr.data(), attrName);
     code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
             attrName + " );\n";
   }

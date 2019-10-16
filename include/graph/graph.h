@@ -180,6 +180,12 @@ public:
           if (std::find(n_outs.begin(), n_outs.end(), name) != n_outs.end())
             nodes.push_back(n);
         }
+      } else if (n->ntype() == node::INPUT && in == false) {
+        if (n->name() == name)
+          nodes.push_back(n);
+      } else if (n->ntype() == node::OUTPUT && in == true) {
+        if (n->name() == name)
+          nodes.push_back(n);
       }
     }
     return nodes;

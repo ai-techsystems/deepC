@@ -78,6 +78,8 @@ public:
   virtual OPCODE symbol() { return opInvalid; }
   virtual NODE_TYPE ntype() { return NONE; }
   virtual DNNC_DataType dtype() { return NOTYPE; }
+  virtual bool inputNodes(graph &g, std::vector<node *> &nodes) = 0;
+  virtual bool outputNodes(graph &g, std::vector<node *> &nodes) = 0;
   virtual ~node() {}
 };
 
@@ -102,10 +104,10 @@ public:
   NODE_TYPE ntype() override { return _ntype; }
   std::vector<size_t> shape() { return _shape; }
 
-  bool outputNodes(graph &g, std::vector<node *> &nodes) {
+  bool outputNodes(graph &g, std::vector<node *> &nodes) override {
     return getNodes(g, nodes, true);
   };
-  bool inputNodes(graph &g, std::vector<node *> &nodes) {
+  bool inputNodes(graph &g, std::vector<node *> &nodes) override {
     return getNodes(g, nodes, false);
   }
 };
@@ -125,7 +127,7 @@ protected:
   std::vector<nodeAttribute> _attributes; /*!< attributes of the node, i.e.
                                         values that don't flow in and out */
 
-  bool getNodes(graph &, std::vector<node *> &, std::vector<std::string>);
+  bool getNodes(graph &, std::vector<node *> &, bool input = true);
   opNode() = delete; /*!< default constructor not allowed */
 public:
   opNode(OPCODE sym, std::string n = "") : node(n), _symbol(sym) {}
@@ -133,7 +135,20 @@ public:
 
   void addInput(std::string n) { _inputs.push_back(n); }
   void addOutput(std::string n) { _outputs.push_back(n); }
-  void addAttribute(nodeAttribute &attr) { _attributes.push_back(attr); }
+  void addAttribute(nodeAttribute &attr) {
+    _attributes.push_back(attr);
+    if (_symbol == opConstant && attr.name() == attr_value) {
+      IR_DataType data_type = attr.data().type();
+      if (data_type == IR_DataType::TENSOR_BOOL)
+        _dtype = BOOL;
+      else if (data_type == IR_DataType::TENSOR_INT)
+        _dtype = INT32;
+      else if (data_type == IR_DataType::TENSOR_FLOAT)
+        _dtype = FLOAT;
+      else
+        _dtype = static_cast<dnnc::DNNC_DataType>(data_type);
+    }
+  }
 
   OPCODE symbol() override { return _symbol; }
   NODE_TYPE ntype() override { return OPERATOR; }
@@ -144,11 +159,11 @@ public:
 
   std::vector<std::string> inputs() { return _inputs; }
   std::vector<std::string> outputs() { return _outputs; }
-  bool inputNodes(graph &g, std::vector<node *> &nodes) {
-    return getNodes(g, nodes, _inputs);
+  bool inputNodes(graph &g, std::vector<node *> &nodes) override {
+    return getNodes(g, nodes, true);
   };
-  bool outputNodes(graph &g, std::vector<node *> &nodes) {
-    return getNodes(g, nodes, _outputs);
+  bool outputNodes(graph &g, std::vector<node *> &nodes) override {
+    return getNodes(g, nodes, false);
   }
 
 #ifndef SWIGPYTHON

@@ -32,7 +32,7 @@ protected:
   std::string _outFile;
   std::vector<std::string> _includes;
 
-  std::pair<std::string, std::string> initializeData(irTypeData);
+  std::string initializeData(irTypeData, std::string);
   std::string writeIncludes();
   std::string writeMainFunction(std::string);
 
@@ -40,6 +40,8 @@ protected:
 
   std::string write(opNode &);
   std::string write(ioNode &);
+  std::string writeConstantOperator(opNode &computeNode,
+                                    std::vector<node *> &outs);
   std::string writeUnaryOperator(opNode &computeNode, std::vector<node *> &ins,
                                  std::vector<node *> &outs);
   std::string writeBinaryOperator(opNode &computeNode, std::vector<node *> &ins,

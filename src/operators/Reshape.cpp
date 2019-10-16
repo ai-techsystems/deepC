@@ -29,6 +29,19 @@ using namespace Eigen;
 #ifdef DNNC_RESHAPE_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float d1[6] = {1., 2., 3., 4., 5., 6.};
+  tensor<float> a(2, 3);
+  a.load(d1);
+  long int i1[4] = {1, 2, 1, 3};
+  tensor<long int> b(4);
+  b.load(i1);
+
+  Reshape<float> m("localOpName");
+  auto result = m.compute(a, b);
+
+  std::cout << "before reshape\n" << a << "\n";
+  std::cout << "after  reshape\n" << result << "\n";
+  std::cout << "\n";
+  return 0;
 }
 #endif

@@ -57,58 +57,86 @@ class pbReader :
       if param.data_type == param.INT8 :
         param_type = dnnc.IR_DataType_INT8;
         param_vals = [int(n) for n in param.int32_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [int(n) for n in param.raw_data]
         param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT16 :
         param_type = dnnc.IR_DataType_INT16;
         param_vals = [int(n) for n in param.int32_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [int(n) for n in param.raw_data]
         param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT32:
         param_type = dnnc.IR_DataType_INT32;
         param_vals = [int(n) for n in param.int32_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [int(n) for n in param.raw_data]
         param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT64:
         param_type = dnnc.IR_DataType_INT64;
         param_vals = [int(n) for n in param.int64_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [int(n) for n in param.raw_data]
         param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT8 :
         param_type = dnnc.IR_DataType_UINT8;
         param_vals = [int(n) for n in param.uint64_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [int(n) for n in param.raw_data]
         param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT16 :
         param_type = dnnc.IR_DataType_UINT16;
         param_vals = [int(n) for n in param.uint64_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [int(n) for n in param.raw_data]
         param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT32:
         param_type = dnnc.IR_DataType_UINT32;
         param_vals = [int(n) for n in param.uint64_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [int(n) for n in param.raw_data]
         param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT64:
         param_type = dnnc.IR_DataType_UINT64;
         param_vals = [int(n) for n in param.uint64_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [int(n) for n in param.raw_data]
         param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.FLOAT16 :
         param_type = dnnc.IR_DataType_FLOAT16;
         param_vals = [float(n) for n in param.float_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [float(n) for n in param.raw_data]
         param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.BFLOAT16 :
         param_type = dnnc.IR_DataType_BFLOAT16;
         param_vals = [float(n) for n in param.float_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [float(n) for n in param.raw_data]
         param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.FLOAT:
         param_type = dnnc.IR_DataType_FLOAT;
         param_vals = [float(n) for n in param.float_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [float(n) for n in param.raw_data]
         param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.DOUBLE:
         param_type = dnnc.IR_DataType_DOUBLE;
         param_vals = [float(n) for n in param.double_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [float(n) for n in param.raw_data]
         param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.STRING:
         param_type = dnnc.IR_DataType_STRING;
         param_vals = [str(s) for s in param.string_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [str(n) for n in param.raw_data]
         param_vec = dnnc.vectorStr(param_vals)
       elif param.data_type == param.BOOL:
         param_type = dnnc.IR_DataType_BOOL;
         param_vals = [bool(b) for b in param.raw_data]
+        if ( len(param_vals) == 0 ):
+            param_vals = [bool(b) for b in param.raw_data]
         param_vec = dnnc.vectorBool(param_vals)
       else:
         print("ERROR (ONNX): graph-node " + node.name + "\'s attribute " + \

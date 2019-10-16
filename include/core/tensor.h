@@ -24,6 +24,7 @@
 #pragma once
 
 #include "core/datatypes.h"
+#include "core/iterator.h"
 #include "core/macros.h"
 
 #ifndef SWIGPYTHON
@@ -272,12 +273,31 @@ public:
       _mem_layout[i] = data[i];
   }
 #ifndef SWIGPYTHON
+  /*<! convert tensor to a vector */
+  operator std::vector<T>() const {
+    std::vector<T> vec;
+    for (size_t i = 0; i < length(); i++)
+      vec.push_back(_mem_layout[i]);
+    return vec;
+  }
   friend std::ostream &operator<<(std::ostream &os, const tensor<T> &t) {
     if (t._name.size())
       os << t._name << "=";
     os << t.to_string();
     return os;
   }
+  struct it_state {
+    size_t pos;
+    inline void next(const tensor<T> *ref) { ++pos; }
+    inline void begin(const tensor<T> *ref) { pos = 0; }
+    inline void end(const tensor<T> *ref) { pos = ref->length(); }
+    inline T &get(tensor<T> *ref) { return ref->_mem_layout[pos]; }
+    inline const float &get(const tensor<T> *ref) {
+      return ref->_mem_layout[pos];
+    }
+    inline bool cmp(const it_state &s) const { return pos != s.pos; }
+  };
+  SETUP_ITERATORS(tensor<T>, T &, it_state);
 #endif
 
   std::string to_string(const size_t max_el = DNNC_TENSOR_MAX_EL) const {
