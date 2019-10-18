@@ -9,11 +9,14 @@
 ## Mentors
 1. Gunjan Nandy
 1. Nalin Shani
+1. Rishav Chourasia, PhD Student
 
 ## Committers
 1. Hrishikesh
 1. Nikhil Tiwari
 1. Vishal Yadav
+
+## Advisors
 
 ## Reviewers
 
