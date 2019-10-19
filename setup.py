@@ -40,4 +40,9 @@ setuptools.setup(
             'compile-onnx = python.onnx2exe:main',
         ]
     },
+    dependency_links=[
+        # Make sure to include the `#egg` portion so the `install_requires` recognizes the package
+        'git+ssh://git@github.com/onnx/onnx.git#egg=rel-1.5.0'
+        https://github.com/
+    ]
 )
