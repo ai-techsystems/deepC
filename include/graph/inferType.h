@@ -52,7 +52,7 @@ protected:
     }
 
     // infer data type and set it on the node.
-    // TODO: performance tuneup. do not propagate forward, if 
+    // TODO: performance tuneup. do not propagate forward, if
     //    1. old and new dtype are same.
     //    2. inType is NOTYPE
     computeNode.dtype(typePrecedence(inType, computeNode.dtype())
@@ -85,7 +85,7 @@ public:
         }
     }
     for (node *n : _graph) {
-      if ( n->ntype() == node::OPERATOR && n->symbol() == opConstant )
+      if (n->ntype() == node::OPERATOR && n->symbol() == opConstant)
         inferred &= propagate(*dynamic_cast<opNode *>(n), n->dtype());
     }
 

@@ -25,10 +25,10 @@
 #include <graph/graph.h>
 
 namespace dnnc {
-/*<!  cppCodeGen class works on DNNC Directed Acyclic Graph to generate c++ code as an intermediate
- *    step for debugging purposes.
- *    We skip the step of AST (Abstract Syntax Tree) generation for now. It'll be easy enough to
- *    generate AST, when needed in future.
+/*<!  cppCodeGen class works on DNNC Directed Acyclic Graph to generate c++ code
+ * as an intermediate step for debugging purposes. We skip the step of AST
+ * (Abstract Syntax Tree) generation for now. It'll be easy enough to generate
+ * AST, when needed in future.
  * */
 class cppCodeGen {
 protected:
