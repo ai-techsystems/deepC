@@ -28,7 +28,8 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename To> class Reshape : public baseOperator<To, To, To> {
+template <typename To, typename Ti1, typename Ti2>
+class Reshape : public baseOperator<To, Ti1, Ti2> {
 protected:
   long int shape_length(tensor<long int> &shape) {
     long int new_length = 1;
@@ -39,9 +40,9 @@ protected:
 
 public:
   Reshape(std::string name = "opReshape")
-      : baseOperator<To, To, To>(opReshape, name) {}
+      : baseOperator<To, Ti1, Ti2>(opReshape, name) {}
 
-  tensor<To> compute(tensor<To> input, tensor<long int> shape) {
+  tensor<To> compute(tensor<Ti1> input, tensor<long int> shape) {
 
     // A dimension could also be 0, in which case
     // the actual dimension value is unchanged,
@@ -61,7 +62,7 @@ public:
       }
     }
 
-    tensor<To> newTensor = input.copy();
+    tensor<To> newTensor = input.template asType<To>();
     std::vector<size_t> shape_vec = shape.asType<size_t>();
     newTensor.reshape(shape_vec);
     return newTensor;

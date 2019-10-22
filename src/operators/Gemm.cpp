@@ -43,7 +43,7 @@ int main() {
   int transA = 1;
   int transB = 1;
 
-  Gemm<float> m("localOpName", alpha, beta, transA, transB);
+  Gemm<float, float, float> m("localOpName", alpha, beta, transA, transB);
 
   auto result = m.compute(a, b, c);
 

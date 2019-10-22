@@ -136,9 +136,9 @@ IR_DataType getDNNC_IRType(std::string stype) {
     type = IR_DataType::UINT64;
   if (stype == "tensor<bool>")
     type = IR_DataType::TENSOR_BOOL;
-  if (stype == "tensor<int>")
+  if (stype == "tensor<long int>")
     type = IR_DataType::TENSOR_INT;
-  if (stype == "tensor<float>")
+  if (stype == "tensor<double>")
     type = IR_DataType::TENSOR_FLOAT;
   if (stype == "graph")
     type = IR_DataType::GRAPH;
@@ -192,10 +192,10 @@ std::string getDNNC_IRTypeStr(IR_DataType dtype) {
     type = "tensor<bool>";
     break;
   case IR_DataType::TENSOR_INT:
-    type = "tensor<int>";
+    type = "tensor<long int>";
     break;
   case IR_DataType::TENSOR_FLOAT:
-    type = "tensor<float>";
+    type = "tensor<double>";
     break;
   case IR_DataType::GRAPH:
     type = "graph";

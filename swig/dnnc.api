@@ -478,11 +478,11 @@ tensor<output> floor(tensor<input> &a) {
 }
 
 tensor<output> gemm(tensor<input> &a, tensor<input> &b, tensor<input> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) {
-	Gemm<input> op("localOpName", alpha, beta, transA, transB);
+	Gemm<output, input, input> op("localOpName", alpha, beta, transA, transB);
 	return op.compute(a, b, c);
 	dtype = {
 		"double" : "double",
-		"float" : "float"
+		"float" : "float",
 	}
 }
 

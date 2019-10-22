@@ -272,6 +272,27 @@ public:
     for (size_t i = 0; i < length(); i++)
       _mem_layout[i] = data[i];
   }
+
+#ifdef TENSOR_CONVERSION
+  /*<! implicit conversion operators are sometimes
+   *   needed for compiler. They are a last resort to
+   *   complete compilation without error.
+   *   They'll eventually be removed, since they cause
+   *   performance overhead.
+   *   */
+  operator tensor<float>() { return asType<float>(); }
+  operator tensor<uint8_t>() { return asType<uint8_t>(); }
+  operator tensor<int8_t>() { return asType<int8_t>(); }
+  operator tensor<uint16_t>() { return asType<uint16_t>(); }
+  operator tensor<int16_t>() { return asType<int16_t>(); }
+  operator tensor<int32_t>() { return asType<int32_t>(); }
+  operator tensor<int64_t>() { return asType<int64_t>(); }
+  operator tensor<bool>() { return asType<bool>(); }
+  operator tensor<double>() { return asType<double>(); }
+  operator tensor<uint32_t>() { return asType<uint32_t>(); }
+  operator tensor<uint64_t>() { return asType<uint64_t>(); }
+#endif
+
 #ifndef SWIGPYTHON
   /*<! convert tensor to a vector */
   operator std::vector<T>() const {
@@ -280,6 +301,7 @@ public:
       vec.push_back(_mem_layout[i]);
     return vec;
   }
+
   friend std::ostream &operator<<(std::ostream &os, const tensor<T> &t) {
     if (t._name.size())
       os << t._name << "=";

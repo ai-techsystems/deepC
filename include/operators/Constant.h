@@ -43,7 +43,7 @@ public:
     }
     return false;
   }
-  bool getAttribute(OPATTR attrName, tensor<To> obj) override {
+  bool setAttribute(OPATTR attrName, tensor<To> obj) override {
     if (attrName == attr_value) {
       _data = obj;
       return true;

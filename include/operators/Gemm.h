@@ -44,7 +44,8 @@ transA is non-zero, same for B and transB.\n This operator supports
 unidirectional broadcasting (tensor C should be
 unidirectional broadcastable to tensor A * B)*/
 
-template <typename T> class Gemm : public baseOperator<T, T, T> {
+template <typename To, typename Ti1, typename Ti2>
+class Gemm : public baseOperator<To, Ti1, Ti2> {
 protected:
   float alpha =
       1.0; /*!< Scalar multiplier for the product of input tensors A * B */
@@ -55,7 +56,7 @@ protected:
 public:
   Gemm(std::string name = "opGemm", float alpha = 1.0, float beta = 1.0,
        int transA = 0, int transB = 0)
-      : baseOperator<T, T, T>(opGemm, name) {
+      : baseOperator<To, Ti1, Ti2>(opGemm, name) {
     this->alpha = alpha;
     this->beta = beta;
     this->transA = transA;
@@ -103,29 +104,29 @@ public:
     return false;
   }
 
-  tensor<T> compute(tensor<T> &a/*!<Input tensor A. The shape of A should be (M, K) 
+  tensor<To> compute(tensor<Ti1> a/*!<Input tensor A. The shape of A should be (M, K) 
                                   if \f$ A_{trans} \f$ is 0, or (K, M) if \f$ A_{trans} \f$ 
                                   is non-zero.*/,
-                   tensor<T> &b/*!<Input tensor B. The shape of B should be (K, N) 
+                   tensor<Ti1> b/*!<Input tensor B. The shape of B should be (K, N) 
                                   if \f$ B_{trans} \f$ is 0, or (N, K) if \f$ B_{trans} \f$ 
                                   is non-zero.*/,
-                   tensor<T> &c/*!<Input tensor C. The shape of C should be
-                                   unidirectional broadcastable to (M, N)*/) {
+                   tensor<Ti1> c/*!<Input tensor C. The shape of C should be
+                                   unidirectional broadcastable to (M, N)*/) override {
 
     if (a.rank() != 2 || b.rank() != 2 || c.rank() != 2)
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Gemm operator.");
 
-    if (!(this->template type_check<float, double, int>(typeid(T))))
+    if (!(this->template type_check<float, double, int>(typeid(Ti1))))
       throw std::invalid_argument(
           "Constrain input and output types to float and int tensors.");
 
-    tensor<T> result(c.shape(), c.name());
-    DNNC_EIGEN_MATRIX(eigenMatrixA, T, a);
-    DNNC_EIGEN_MATRIX(eigenMatrixB, T, b);
-    DNNC_EIGEN_MATRIX(eigenMatrixC, T, c);
-    Matrix<T, Dynamic, Dynamic, RowMajor> eResult(c.shape()[0], c.shape()[1]);
-    // DNNC_EIGEN_VECTOR_CTOR(T) eResult;
+    tensor<Ti1> result(c.shape(), c.name());
+    DNNC_EIGEN_MATRIX(eigenMatrixA, Ti1, a);
+    DNNC_EIGEN_MATRIX(eigenMatrixB, Ti1, b);
+    DNNC_EIGEN_MATRIX(eigenMatrixC, Ti1, c);
+    Matrix<Ti1, Dynamic, Dynamic, RowMajor> eResult(c.shape()[0], c.shape()[1]);
+    // DNNC_EIGEN_VECTOR_CTOR(Ti1) eResult;
 
     // if (transA==1)
     // 	eigenMatrixA.transposeInPlace();
@@ -152,6 +153,11 @@ public:
           "tensor dimenions not appropriate for Gemm operator.");
     }
     result.load(eResult.data());
+
+    // perform type conversion
+    if (typeid(To) != typeid(Ti1))
+      return result.template asType<To>();
+
     return result;
   }
   /*!<

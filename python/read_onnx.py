@@ -148,6 +148,7 @@ class pbReader :
 
       param_irData = dnnc.irTypeData(param_type, param_vec) ;
       dnnc_param  = dnnc.dnnParameters(param.name, param_irData);
+      self._dcGraph.addParameters(dnnc_param) ;
 
       return dnnc_param;
 
@@ -172,11 +173,11 @@ class pbReader :
       attr_vals = []
       attr_vec  = None
       if attr.type == onnx.AttributeProto.INT:
-        attr_type = dnnc.IR_DataType_INT64;
+        attr_type = dnnc.IR_DataType_INT32;
         attr_vals.append(attr.i)
         attr_vec = dnnc.vectorInt(attr_vals)
       elif attr.type == onnx.AttributeProto.INTS:
-        attr_type = dnnc.IR_DataType_INT64;
+        attr_type = dnnc.IR_DataType_INT32;
         for val in attr.ints:
           attr_vals.append(int(val))
         attr_vec = dnnc.vectorInt(attr_vals)
@@ -386,7 +387,7 @@ class pbReader :
         self._dcGraph.addOutput(dcTerm[0], dcTerm[1], dcTerm[2]);
 
     for param in graph.initializer:
-      dcParam = self.addParams(param);
+      self.addParams(param);
 
     try:
         print("running DNNC graph sanity check.");

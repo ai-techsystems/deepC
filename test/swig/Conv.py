@@ -25,7 +25,6 @@ import dnnc as dc
 import numpy as np
 import unittest
 import sys
-from scipy import signal
 
 class ConvTest(unittest.TestCase):
     def setUp(self):
@@ -107,7 +106,7 @@ class ConvTest(unittest.TestCase):
                                  1,
                                  dc.vectorInt([]),
                                  dc.vectorInt([]),
-                                 dc.vectorInt([2,2])) 
+                                 dc.vectorInt([2,2]))
         np.testing.assert_allclose(self.onnx_npr_vl_s2.astype(np.float32), np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
 
 
@@ -119,9 +118,9 @@ class ConvTest(unittest.TestCase):
                                  1,
                                  dc.vectorInt([]),
                                  dc.vectorInt([1,1,1,1]),
-                                 dc.vectorInt([2,2])) 
+                                 dc.vectorInt([2,2]))
         np.testing.assert_allclose(self.onnx_npr_sp_s2.astype(np.float32), np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
-        
+
 # stride 2, explicit asymmetrical padding
     def test_onnx_conv_ns_ap_s2 (self):
         dcr            = dc.conv(self.onnx_dc_X2, self.onnx_dc_W,  self.dc_B,
@@ -130,7 +129,7 @@ class ConvTest(unittest.TestCase):
                                  1,
                                  dc.vectorInt([]),
                                  dc.vectorInt([1,0,1,0]),
-                                 dc.vectorInt([2,2])) 
+                                 dc.vectorInt([2,2]))
         np.testing.assert_allclose(self.onnx_npr_ap_s2.astype(np.float32), np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
 
 # negative, kernel too big
@@ -139,7 +138,7 @@ class ConvTest(unittest.TestCase):
             dcr            = dc.conv(self.onnx_dc_X, self.onnx_dc_BIGW,  self.dc_B, "VALID")
         except ValueError as e:
             assert e
-            
+
     def tearDown(self):
         return "test finished"
 

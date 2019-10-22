@@ -34,7 +34,12 @@ bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes, bool input) {
   std::vector<std::string> names = input ? _inputs : _outputs;
   bool result = bool(names.size());
   for (std::string name : names) {
-    std::vector<node *> newNodes = g.findNodesWithIO(name, !input);
+    std::vector<node *> newNodes;
+    if (input) {
+      newNodes = g.findNodesWithIO(name, !input);
+    } else {
+      newNodes.push_back(this);
+    }
     nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
     result &= bool(newNodes.size());
   }

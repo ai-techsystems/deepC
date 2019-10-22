@@ -160,8 +160,8 @@ public:
       vouts.push_back(dynamic_cast<ioNode *>(_nodes[i]));
     return vouts;
   }
-  void addInitializer(dnnParameters param) { _initializers.push_back(param); }
 
+  void addParameters(dnnParameters param) { _initializers.push_back(param); }
   std::vector<dnnParameters> parameters() { return _initializers; }
 
   /*<! Search all nodes in the graph. Return a vector of nodes with

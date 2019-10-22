@@ -64,7 +64,7 @@ public:
            ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
     _ref = new size_t;
     *_ref = 1;
-    _data = new std::vector<tensor<int>>(d.begin(), d.end());
+    _data = new std::vector<tensor<long int>>(d.begin(), d.end());
   }
   irTypeData(IR_DataType ty, std::vector<tensor<float>> &d)
       : _type(IR_DataType::TENSOR_FLOAT) {
@@ -123,10 +123,10 @@ public:
         delete static_cast<std::vector<tensor<bool>> *>(_data);
         break;
       case IR_DataType::TENSOR_INT:
-        delete static_cast<std::vector<tensor<int>> *>(_data);
+        delete static_cast<std::vector<tensor<long int>> *>(_data);
         break;
       case IR_DataType::TENSOR_FLOAT:
-        delete static_cast<std::vector<tensor<float>> *>(_data);
+        delete static_cast<std::vector<tensor<double>> *>(_data);
         break;
       default:
         assert(false && "irTypeData object created without type");
@@ -208,24 +208,24 @@ public:
 
     return tbvec;
   }
-  operator std::vector<tensor<int>>() const {
+  operator std::vector<tensor<long int>>() const {
     if (_type != IR_DataType::TENSOR_INT)
       throw std::bad_cast();
 
-    std::vector<tensor<int>> tivec =
-        *static_cast<std::vector<tensor<int>> *>(_data);
+    std::vector<tensor<long int>> tivec =
+        *static_cast<std::vector<tensor<long int>> *>(_data);
 
     if (tivec.size() == 0)
       throw std::out_of_range("vector of tensor<int> with size 0");
 
     return tivec;
   }
-  operator std::vector<tensor<float>>() const {
+  operator std::vector<tensor<double>>() const {
     if (_type != IR_DataType::TENSOR_FLOAT)
       throw std::bad_cast();
 
-    std::vector<tensor<float>> tfvec =
-        *static_cast<std::vector<tensor<float>> *>(_data);
+    std::vector<tensor<double>> tfvec =
+        *static_cast<std::vector<tensor<double>> *>(_data);
 
     if (tfvec.size() == 0)
       throw std::out_of_range("vector of tensor<float> with size 0");

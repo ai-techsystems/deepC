@@ -41,6 +41,7 @@ protected:
   std::string writeIncludes();
   std::string writeMainFunction(std::string);
 
+  std::string cppName(std::string str);
   std::string nodeName(node *n);
 
   std::string write(opNode &);

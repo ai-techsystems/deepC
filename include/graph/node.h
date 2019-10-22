@@ -142,9 +142,9 @@ public:
       if (data_type == IR_DataType::TENSOR_BOOL)
         _dtype = BOOL;
       else if (data_type == IR_DataType::TENSOR_INT)
-        _dtype = INT32;
+        _dtype = INT64;
       else if (data_type == IR_DataType::TENSOR_FLOAT)
-        _dtype = FLOAT;
+        _dtype = DOUBLE;
       else
         _dtype = static_cast<dnnc::DNNC_DataType>(data_type);
     }

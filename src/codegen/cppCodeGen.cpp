@@ -25,6 +25,7 @@
 #include "graph/inferType.h"
 #include <assert.h>
 #include <fstream>
+#include <regex>
 
 bool dnnc::cppCodeGen::write() {
 
@@ -59,8 +60,24 @@ bool dnnc::cppCodeGen::write() {
   return code.length();
 }
 
+// \brief replace all characters that can't appear
+// in C++ variable name.
+std::string dnnc::cppCodeGen::cppName(std::string str) {
+  std::string new_str = std::regex_replace(str, std::regex("\\."), "_dot_");
+  return new_str;
+}
+
 std::string dnnc::cppCodeGen::nodeName(node *n) {
-  return "dnnc__node_" + n->name();
+  if (n->ntype() == node::OPERATOR)
+    return "dnnc_" + cppName(n->name()) + "_" +
+           static_cast<opNode *>(n)->outputs()[0];
+  else if (n->ntype() == node::INPUT)
+    return "dnnc_" + cppName(n->name());
+  else if (n->ntype() == node::OUTPUT)
+    return "dnnc_" + cppName(n->name());
+  else
+    assert(false);
+  return "dnnc_" + cppName(n->name());
 }
 
 std::string dnnc::cppCodeGen::writeIncludes() {
@@ -89,12 +106,16 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
   case IR_DataType::INT16:
   case IR_DataType::INT32:
   case IR_DataType::INT64: {
-    std::vector<int> values = std::vector<int>(dtype);
-    for (auto el : values)
-      initData += (initData.size() ? "," : "{") + std::to_string(el);
-    initData += values.size() ? "}" : "";
     varType = getDNNC_IRTypeStr(dtype.type());
-    varType = values.size() ? "std::vector<" + varType + ">" : varType + "\n";
+    std::vector<int> values = std::vector<int>(dtype);
+    if (values.size() == 1) {
+      initData = std::to_string(values[0]);
+    } else {
+      for (auto el : values)
+        initData += (initData.size() ? "," : "{") + std::to_string(el);
+      initData += values.size() ? "}" : "";
+      varType = "std::vector<" + varType + ">";
+    }
     code = _tab + varType + " " + name + " = " + initData + " ;\n";
     break;
   }
@@ -102,24 +123,32 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
   case IR_DataType::UINT16:
   case IR_DataType::UINT32:
   case IR_DataType::UINT64: {
-    std::vector<unsigned int> values = std::vector<unsigned int>(dtype);
-    for (auto el : values)
-      initData += (initData.size() ? "," : "{") + std::to_string(el);
-    initData += values.size() ? "}" : "";
     varType = getDNNC_IRTypeStr(dtype.type());
-    varType = values.size() ? "std::vector<" + varType + ">" : varType + "\n";
+    std::vector<unsigned int> values = std::vector<unsigned int>(dtype);
+    if (values.size() == 1) {
+      initData = std::to_string(values[0]);
+    } else {
+      for (auto el : values)
+        initData += (initData.size() ? "," : "{") + std::to_string(el);
+      initData += values.size() ? "}" : "";
+      varType = "std::vector<" + varType + ">";
+    }
     code = _tab + varType + " " + name + " = " + initData + " ;\n";
     break;
   }
   case IR_DataType::FLOAT:
   case IR_DataType::FLOAT16:
   case IR_DataType::DOUBLE: {
-    std::vector<float> values = std::vector<float>(dtype);
-    for (auto el : values)
-      initData += (initData.size() ? "," : "{") + std::to_string(el);
-    initData += values.size() ? "}" : "";
     varType = getDNNC_IRTypeStr(dtype.type());
-    varType = values.size() ? "std::vector<" + varType + ">" : varType + "\n";
+    std::vector<float> values = std::vector<float>(dtype);
+    if (values.size() == 1) {
+      initData = std::to_string(values[0]);
+    } else {
+      for (auto el : values)
+        initData += (initData.size() ? "," : "{") + std::to_string(el);
+      initData += values.size() ? "}" : "";
+      varType = "std::vector<" + varType + ">";
+    }
     code = _tab + varType + " " + name + " = " + initData + " ;\n";
     break;
   }
@@ -132,12 +161,12 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
     // TODO:
     break;
   case IR_DataType::TENSOR_INT: {
-    tensor<int> values = std::vector<tensor<int>>(dtype)[0];
+    tensor<long int> values = std::vector<tensor<long int>>(dtype)[0];
     for (auto el : values)
       initData += (initData.size() ? "," : "{") + std::to_string(el);
     initData += values.length() ? "}" : "";
     std::string initVec = name + "_vec";
-    initData = "std::vector<int> " + initVec + " = " + initData + ";\n";
+    initData = "std::vector<long int> " + initVec + " = " + initData + ";\n";
     varType = getDNNC_IRTypeStr(dtype.type());
     code = _tab + initData;
     code += _tab + varType + " " + name + "(1); " + name + ".load(" + initVec +
@@ -145,12 +174,12 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
     break;
   }
   case IR_DataType::TENSOR_FLOAT: {
-    tensor<float> values = std::vector<tensor<float>>(dtype)[0];
+    tensor<double> values = std::vector<tensor<double>>(dtype)[0];
     for (auto el : values)
       initData += (initData.size() ? "," : "{") + std::to_string(el);
     initData += values.length() ? "}" : "";
     std::string initVec = name + "_vec";
-    initData = "std::vector<float> " + initVec + " = " + initData + ";\n";
+    initData = "std::vector<double> " + initVec + " = " + initData + ";\n";
     varType = getDNNC_IRTypeStr(dtype.type());
     code = _tab + initData;
     code += _tab + varType + " " + name + "(1); " + name + ".load(" + initVec +
@@ -228,7 +257,7 @@ std::string dnnc::cppCodeGen::writeConstantOperator(opNode &computeNode,
 
   assert(opName.length());
 
-  std::string outType = getDNNC_DataTypeStr(outs[0]->dtype());
+  std::string outType = getDNNC_DataTypeStr(computeNode.dtype());
 
   // Step 1: Instantiate opterator
   code += "\n";
