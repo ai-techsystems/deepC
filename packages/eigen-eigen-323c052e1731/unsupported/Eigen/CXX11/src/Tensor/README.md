@@ -660,7 +660,6 @@ contains 2 lists of 3 floats each.
 call.
 ```
     Eigen::Tensor<float, 2> a(2, 3);
-    a.setValues({{0.0f, 1.0f, 2.0f}, {3.0f, 4.0f, 5.0f}});
     cout << "a" << endl << a << endl << endl;
     =>
     a
