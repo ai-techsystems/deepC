@@ -28,21 +28,22 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ThresholdedRelu : public baseOperator<T, T, T> {
+template <typename To, typename Ti>
+class ThresholdedRelu : public baseOperator<To, Ti, Ti> {
   //  ThresholdedRelu attributes
   float alpha = 1.0; // alpha's default value.
 public:
   ThresholdedRelu(std::string name = "opThresholdedRelu")
-      : baseOperator<T, T, T>(opThresholdedRelu, name) {}
+      : baseOperator<To, Ti, Ti>(opThresholdedRelu, name) {}
 
-  bool getAttribute(OPATTR attrName, int &obj) override {
+  bool getAttribute(OPATTR attrName, float &obj) override {
     if (attrName == attr_alpha) {
       obj = alpha;
       return true;
     }
     return false;
   }
-  bool setAttribute(OPATTR attrName, int obj) override {
+  bool setAttribute(OPATTR attrName, float obj) override {
     if (attrName == attr_alpha) {
       alpha = obj;
       return true;
@@ -50,9 +51,9 @@ public:
     return false;
   }
 
-  tensor<T> compute(tensor<T> &input) {
+  tensor<To> compute(tensor<Ti> &input) {
     // create a new copy of input.
-    tensor<T> result(input.shape(), input.name());
+    tensor<Ti> result(input.shape(), input.name());
     for (size_t i = 0; i < input.length(); i++)
       result[i] = input[i] > alpha ? input[i] : 0.0;
 

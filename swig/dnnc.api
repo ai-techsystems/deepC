@@ -608,7 +608,7 @@ tensor<output> log(tensor<input> &a) {
 }
 
 tensor<output> logsoftmax(tensor<input> &a, int axis = 1) {
-	LogSoftmax<input> op("localOpName", axis);
+	LogSoftmax<output, input> op("localOpName", axis);
 	return op.compute(a);
 	dtype = {
     "float" : "float",
@@ -671,7 +671,7 @@ tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod_flag = 0) {
 } 
 
 tensor<output> thresholded_relu(tensor<input> &a) {
-  ThresholdedRelu<output> op;
+  ThresholdedRelu<output, input> op;
   return op.compute(a);
   dtype = {
     "float" : "float",

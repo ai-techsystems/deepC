@@ -37,7 +37,8 @@ namespace dnnc {
 /*! A tensor of N-dimension \f$ [a_0, a_1, ..., a_{k-1}, a_k, ..., a_{n-1}] \f$
  * where k is a attribute ,will be coerced into 2-D \f$ [a_0 * ... * a_{k-1},
  * a_k * ... * a_{n-1}] \f$ .*/
-template <typename T> class LogSoftmax : public baseOperator<T, T, T> {
+template <typename To, typename Ti>
+class LogSoftmax : public baseOperator<To, Ti, Ti> {
   //  LogSoftmax attributes
 protected:
   // default
@@ -46,7 +47,7 @@ protected:
      one because the 0th axis most likely describes the batch_size */
 public:
   LogSoftmax(std::string name = "opLogSoftmax", int axis = 1)
-      : baseOperator<T, T, T>(opLogSoftmax, name) {
+      : baseOperator<To, Ti, Ti>(opLogSoftmax, name) {
     this->axis = axis;
   }
 
@@ -65,8 +66,8 @@ public:
     return false;
   }
 
-  tensor<T> compute(tensor<T> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
-    if (!(this->template type_check<float, double>(typeid(T))))
+  tensor<To> compute(tensor<Ti> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
+    if (!(this->template type_check<float, double>(typeid(Ti))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     if (axis >= int(a.rank()))
@@ -82,11 +83,11 @@ public:
     axis2 = a.length() / axis1;
     std::vector<size_t> shape{axis1, axis2};
     a.reshape(shape);
-    tensor<T> result(a.shape()[0], a.shape()[1]);
+    tensor<Ti> result(a.shape()[0], a.shape()[1]);
 
     Eigen::MatrixXf::Index max_index;
 
-    DNNC_EIGEN_MATRIX(eigenMatrix1, T, a);
+    DNNC_EIGEN_MATRIX(eigenMatrix1, Ti, a);
     for (int i = 0; i < int(a.shape()[0]); i++) {
       float sum = 0;
       float e_x = 0;
@@ -101,7 +102,8 @@ public:
       }
     }
     result.reshape(original_shape);
-    return result;
+
+    return result.template asType<To>();
   }
 };
 } // namespace dnnc

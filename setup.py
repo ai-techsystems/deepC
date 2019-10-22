@@ -1,6 +1,10 @@
 import setuptools
 
-VERSION=0.01a
+VERSION=0.1
+
+long_description = ""
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 packages = setuptools.find_packages()
 
@@ -17,8 +21,10 @@ install_requires.extend([
 extras_require = {}
 setuptools.setup(
     name="dnnc",
-    version=VERSION
+    version=VERSION,
     description="Deep Neural Network Compiler",
+    long_description_content_type="text/markdown",
+    long_description=long_description,
     packages=packages,
     include_package_data=True,
     install_requires=install_requires,
@@ -43,6 +49,5 @@ setuptools.setup(
     dependency_links=[
         # Make sure to include the `#egg` portion so the `install_requires` recognizes the package
         'git+ssh://git@github.com/onnx/onnx.git#egg=rel-1.5.0'
-        https://github.com/
     ]
 )

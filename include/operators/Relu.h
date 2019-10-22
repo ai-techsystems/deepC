@@ -28,16 +28,29 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Relu : public baseOperator<T, T, T> {
+template <typename To, typename Ti>
+class Relu : public baseOperator<To, Ti, Ti> {
   //  Relu attributes
+  static Ti relu_func(Ti x) {
+    Ti zero = 0;
+    return x < zero ? zero : x;
+  }
+
 public:
-  Relu(std::string name = "opRelu") : baseOperator<T, T, T>(opRelu, name) {}
+  Relu(std::string name = "opRelu") : baseOperator<To, Ti, Ti>(opRelu, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<To> compute(tensor<Ti> &input) {
+    if (!(this->template type_check<float, double>(typeid(Ti))))
+      throw std::invalid_argument(
+          "Constrain input and output types to float tensors.");
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+    tensor<Ti> result(input.shape(), input.name());
+    DNNC_EIGEN_ARRAY_MAP(eigenVector, Ti, input);
+    DNNC_EIGEN_VECTOR_CTOR(Ti) eResult;
+    eResult.array() = eigenVector.array().unaryExpr(&relu_func);
+    result.load(eResult.data());
+
+    return result.template asType<To>();
   }
 };
 } // namespace dnnc

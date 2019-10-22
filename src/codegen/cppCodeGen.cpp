@@ -69,15 +69,15 @@ std::string dnnc::cppCodeGen::cppName(std::string str) {
 
 std::string dnnc::cppCodeGen::nodeName(node *n) {
   if (n->ntype() == node::OPERATOR)
-    return "dnnc_" + cppName(n->name()) + "_" +
+    return _prefix + cppName(n->name()) + "_" +
            static_cast<opNode *>(n)->outputs()[0];
   else if (n->ntype() == node::INPUT)
-    return "dnnc_" + cppName(n->name());
+    return _prefix + cppName(n->name());
   else if (n->ntype() == node::OUTPUT)
-    return "dnnc_" + cppName(n->name());
+    return _prefix + cppName(n->name());
   else
     assert(false);
-  return "dnnc_" + cppName(n->name());
+  return _prefix + cppName(n->name());
 }
 
 std::string dnnc::cppCodeGen::writeIncludes() {
@@ -194,7 +194,7 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
 }
 
 std::string dnnc::cppCodeGen::write(dnnParameters param) {
-  return initializeData(param.data(), param.name());
+  return initializeData(param.data(), _prefix + cppName(param.name()));
 }
 
 std::string dnnc::cppCodeGen::write(ioNode &term) {
@@ -267,13 +267,14 @@ std::string dnnc::cppCodeGen::writeConstantOperator(opNode &computeNode,
   // Step 2: Add attribute
   for (nodeAttribute attr : computeNode) {
     std::string attrName = getAttrNameStr(attr.name());
-    code += initializeData(attr.data(), attrName);
+    std::string attrVar = opName + "_" + attrName;
+    code += initializeData(attr.data(), attrVar);
     code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
-            attrName + " );\n";
+            attrVar + " );\n";
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + nodeName(outs[0]) + " = " +
+  code += _tab + "tensor<" + outType + "> " + nodeName(&computeNode) + " = " +
           opName + ".compute ();\n";
 
   return code;
@@ -292,24 +293,25 @@ std::string dnnc::cppCodeGen::writeUnaryOperator(opNode &computeNode,
 
   assert(opName.length());
 
-  std::string outType = getDNNC_DataTypeStr(outs[0]->dtype());
+  std::string outType = getDNNC_DataTypeStr(computeNode.dtype());
   std::string inType = getDNNC_DataTypeStr(ins[0]->dtype());
 
   // Step 1: Instantiate opterator
   code += "\n";
-  code += _tab + opCode + "<" + outType + ", " + inType + ", " + inType + "> " +
-          opName + "(\"" + opName + "\");\n";
+  code += _tab + opCode + "<" + outType + ", " + inType + "> " + opName +
+          "(\"" + opName + "\");\n";
 
   // Step 2: Add attribute
   for (nodeAttribute attr : computeNode) {
     std::string attrName = getAttrNameStr(attr.name());
-    code += initializeData(attr.data(), attrName);
+    std::string attrVar = opName + "_" + attrName;
+    code += initializeData(attr.data(), attrVar);
     code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
-            attrName + " );\n";
+            attrVar + " );\n";
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + nodeName(outs[0]) + " = " +
+  code += _tab + "tensor<" + outType + "> " + nodeName(&computeNode) + " = " +
           opName + ".compute ( " + nodeName(ins[0]) + ");\n";
 
   return code;
@@ -328,7 +330,7 @@ std::string dnnc::cppCodeGen::writeBinaryOperator(opNode &computeNode,
 
   assert(opName.length());
 
-  std::string outType = getDNNC_DataTypeStr(outs[0]->dtype());
+  std::string outType = getDNNC_DataTypeStr(computeNode.dtype());
   std::string in1Type = getDNNC_DataTypeStr(ins[0]->dtype());
   std::string in2Type = getDNNC_DataTypeStr(ins[1]->dtype());
 
@@ -340,13 +342,14 @@ std::string dnnc::cppCodeGen::writeBinaryOperator(opNode &computeNode,
   // Step 2: Add attribute
   for (nodeAttribute attr : computeNode) {
     std::string attrName = getAttrNameStr(attr.name());
-    code += initializeData(attr.data(), attrName);
+    std::string attrVar = opName + "_" + attrName;
+    code += initializeData(attr.data(), attrVar);
     code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
-            attrName + " );\n";
+            attrVar + " );\n";
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + nodeName(outs[0]) + " = " +
+  code += _tab + "tensor<" + outType + "> " + nodeName(&computeNode) + " = " +
           opName + ".compute ( " + nodeName(ins[0]) + ", " + nodeName(ins[1]) +
           ");\n";
 
@@ -366,7 +369,7 @@ std::string dnnc::cppCodeGen::writeTernaryOperator(opNode &computeNode,
 
   assert(opName.length());
 
-  std::string outType = getDNNC_DataTypeStr(outs[0]->dtype());
+  std::string outType = getDNNC_DataTypeStr(computeNode.dtype());
   std::string in1Type = getDNNC_DataTypeStr(ins[0]->dtype());
   std::string in2Type = getDNNC_DataTypeStr(ins[1]->dtype());
 
@@ -378,13 +381,14 @@ std::string dnnc::cppCodeGen::writeTernaryOperator(opNode &computeNode,
   // Step 2: Add attribute
   for (nodeAttribute attr : computeNode) {
     std::string attrName = getAttrNameStr(attr.name());
-    code += initializeData(attr.data(), attrName);
+    std::string attrVar = opName + "_" + attrName;
+    code += initializeData(attr.data(), attrVar);
     code += _tab + opName + ".setAttribute ( attr_" + attrName + ", " +
-            attrName + " );\n";
+            attrVar + " );\n";
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + nodeName(outs[0]) + " = " +
+  code += _tab + "tensor<" + outType + "> " + nodeName(&computeNode) + " = " +
           opName + ".compute ( " + nodeName(ins[0]) + ", " + nodeName(ins[1]) +
           ", " + nodeName(ins[2]) + ");\n";
 

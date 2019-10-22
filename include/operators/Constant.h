@@ -34,7 +34,7 @@ template <typename To> class Constant : public baseOperator<To, To, To> {
 
 public:
   Constant(std::string name = "opConstant", tensor<To> data = NULL_TENSOR<To>)
-      : _data(data), baseOperator<To, To, To>(opConstant, name) {}
+      : baseOperator<To, To, To>(opConstant, name), _data(data) {}
 
   bool getAttribute(OPATTR attrName, tensor<To> &obj) override {
     if (attrName == attr_value) {

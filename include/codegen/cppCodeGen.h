@@ -33,6 +33,7 @@ namespace dnnc {
 class cppCodeGen {
 protected:
   std::string _tab = "  ";
+  std::string _prefix = "dnnc_";
   graph &_graph;
   std::string _outFile;
   std::vector<std::string> _includes;

@@ -25,21 +25,18 @@
 
 using namespace dnnc;
 
-bool dnnc::ioNode::getNodes(graph &g, std::vector<node *> &nodes, bool input) {
-  nodes = g.findNodesWithIO(_name, input);
+bool dnnc::ioNode::getNodes(graph &g, std::vector<node *> &nodes,
+                            bool matchInput) {
+  nodes = g.findNodesWithIO(_name, matchInput);
   return bool(nodes.size());
 }
 
-bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes, bool input) {
-  std::vector<std::string> names = input ? _inputs : _outputs;
+bool dnnc::opNode::getNodes(graph &g, std::vector<node *> &nodes,
+                            bool matchInput) {
+  std::vector<std::string> names = matchInput ? _inputs : _outputs;
   bool result = bool(names.size());
   for (std::string name : names) {
-    std::vector<node *> newNodes;
-    if (input) {
-      newNodes = g.findNodesWithIO(name, !input);
-    } else {
-      newNodes.push_back(this);
-    }
+    std::vector<node *> newNodes = g.findNodesWithIO(name, !matchInput);
     nodes.insert(nodes.end(), newNodes.begin(), newNodes.end());
     result &= bool(newNodes.size());
   }
