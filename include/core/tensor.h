@@ -158,9 +158,9 @@ public:
   /// \brief Comparison Operator
   bool operator==(const tensor &other) {
     if (_mem_layout == other._mem_layout) {
-      return this->shape() == other._shape ? true : false;
+      return this->shape() == other.shape() ? true : false;
     }
-    if (this->shape() != other._shape)
+    if (this->shape() != other.shape())
       return false;
     for (size_t i = 0; i < this->length(); i++) {
       if (!(_mem_layout[i] == other._mem_layout[i]))
@@ -493,6 +493,7 @@ public:
       indices.push_back(u);
     return this->operator()(indices);
   }
+  bool empty() { return this->length() == 0; }
   std::string dtype() { return dtype_str[typeid(T).name()[0] - 'a']; }
   std::string to_proto() // return proto string
   {

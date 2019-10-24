@@ -65,6 +65,5 @@ public:
     _shape.push_back(sz);
     return;
   }
-  bool empty() { return length() == 0; }
 };
 } // namespace dnnc
