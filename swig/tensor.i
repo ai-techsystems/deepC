@@ -27,6 +27,7 @@
 %ignore *::operator==;
 %ignore *::operator[];
 %include "python/pyopers.swg"
+%include "core/placeHolder.h"
 %include "core/tensor.h"
 %include "dnnc_swig_externs.h"
 %{
@@ -796,6 +797,11 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 // <\/>
 
 }
+%template(boolplaceHolder)   dnnc::placeHolder<bool>;
+%template(intplaceHolder)    dnnc::placeHolder<int>;
+%template(uLongplaceHolder)  dnnc::placeHolder<size_t>;
+%template(floatplaceHolder)  dnnc::placeHolder<float>;
+%template(doubleplaceHolder) dnnc::placeHolder<double>;
 %template(boolTensor)   dnnc::tensor<bool>;
 %template(intTensor)    dnnc::tensor<int>;
 %template(uLongTensor)  dnnc::tensor<size_t>;
