@@ -370,8 +370,7 @@ tensor<output> conv(tensor<input> X, tensor<input> W, tensor<input> B,
                     int group = 1, 
                     std::vector<int> kernal_shape = std::vector<int>(),
                     std::vector<int> pads = std::vector<int>(),
-                    std::vector<int> strides = std::vector<int>())
-{
+                    std::vector<int> strides = std::vector<int>()) {
 	Conv<output, input, input> op("opConv", auto_pad, dilations,
                                      group, kernal_shape,
                                      pads, strides);
@@ -386,8 +385,8 @@ tensor<output> dequantize_linear(tensor<input> &a, tensor<float> &b, tensor<inpu
 	DequantizeLinear<output, input> op;
 	return op.compute(a, b, c);
 	dtype = {
-		"int" : "float",
-		"int" : "float"
+		"float" : "int",
+		"float" : "int"
 	}
 }
 
@@ -477,12 +476,12 @@ tensor<output> floor(tensor<input> &a) {
 	}
 }
 
-tensor<output> gemm(tensor<input> &a, tensor<input> &b, tensor<input> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) {
-	Gemm<output, input, input> op("localOpName", alpha, beta, transA, transB);
+tensor<output> gemm(tensor<input1> &a, tensor<input2> &b, tensor<input3> &c, float alpha = 1.0, float beta = 1.0, int transA = 0, int transB = 0) {
+	Gemm<output, input1, input2> op("localOpName", alpha, beta, transA, transB);
 	return op.compute(a, b, c);
 	dtype = {
-		"double" : "double",
-		"float" : "float",
+		"double" : ["double","double","double"],
+		"float" : ["float","float","float"],
 	}
 }
 
@@ -555,8 +554,7 @@ tensor<output> isinf(tensor<input> &a, int detect_positive = 1,int detect_negati
   IsInf<output, input> op("localOpName", detect_positive, detect_negative);
   return op.compute(a);
   dtype = {
-    "float" : "bool",
-    "double" : "bool"
+    "bool" : ("float", "double"),
   }
 }
 
@@ -564,8 +562,7 @@ tensor<output> isnan(tensor<input> &a) {
   IsNaN<output, input> op;
   return op.compute(a);
   dtype = {
-    "float" : "bool",
-    "double" : "bool"
+    "bool" : ("float", "double"),
   }
 }
 
@@ -693,10 +690,7 @@ tensor<output> logical_not(tensor<input> &a) {
   Not<output, input> op;
   return op.compute(a);
   dtype = {
-    "bool" : "bool",
-    "int" : "bool",
-    "float" : "bool",
-    "double" : "bool",
+    "bool" : ("bool", "int", "float", "double"),
   }
 }
 

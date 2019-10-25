@@ -358,11 +358,31 @@ def normal_operators(s):
 		if "dtype" in content:
 			raise Exception("dtype block could not be removed, try again!")
 
-		for input, output in dtype.items():
-			temp = content.replace("input",input) .replace("output",output) + "\n\n"
-			cpp_file += temp.replace("\n","\n\t")
-			temp = get_swig_extern(dc_operator, temp)
-			swig_extern_file += temp
+		for output, input in dtype.items():
+			temp = ""
+			if type(input) is tuple:
+				for input_items in input:
+					if type(input_items) is list:
+						temp = content.replace("output",output) + "\n\n"
+						for i, input_item in enumerate(input_items):
+							temp = temp.replace("input"+str(i+1), input_item)
+					elif type(input_items) is str:
+						temp = content.replace("input",input_items).replace("output",output) + "\n\n"
+
+					cpp_file += temp.replace("\n","\n\t")
+					temp = get_swig_extern(dc_operator, temp)
+					swig_extern_file += temp
+			else:
+				if type(input) is list:
+					temp = content.replace("output",output) + "\n\n"
+					for i, input_item in enumerate(input):
+						temp = temp.replace("input"+str(i+1), input_item)
+				elif type(input) is str:
+					temp = content.replace("input",input).replace("output",output) + "\n\n"
+
+				cpp_file += temp.replace("\n","\n\t")
+				temp = get_swig_extern(dc_operator, temp)
+				swig_extern_file += temp
 
 	return cpp_file, swig_extern_file
 

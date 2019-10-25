@@ -426,7 +426,7 @@ tensor<output> dequantize_linear(tensor<input> &a, tensor<float> &b, tensor<inpu
 	DequantizeLinear<input> op;
 	return op.compute(a, b, c);
 	dtype = {
-		"int" : "float"
+		"float" : "int"
 	}
 }
 ```
@@ -450,9 +450,9 @@ tensor<output> equal(tensor<input> &a, tensor<input> &b) {
 	Equal<input> op;
 	return op.compute(a, b);
 	dtype = {
-		"float" : "bool",
-		"int" : "bool",
-		"bool" : "bool"
+		"bool" : "bool",
+		"bool" : "int",
+		"bool" : "float"
 	}
 }
 ```
@@ -487,7 +487,7 @@ tensor<output> dequantize_linear(tensor<input> &a, tensor<float> &b, tensor<inpu
 	DequantizeLinear<input> op;
 	return op.compute(a, b, c);
 	dtype = {
-		"int" : "float"
+		"float" : "int"
 	}
 }
 
@@ -503,8 +503,8 @@ tensor<output> equal(tensor<input> &a, tensor<input> &b) {
 	Equal<input> op;
 	return op.compute(a, b);
 	dtype = {
-		"float" : "bool",
-		"int" : "bool",
+		"bool" : "float",
+		"bool" : "int",
 		"bool" : "bool"
 	}
 }
@@ -515,9 +515,9 @@ tensor<output> equal(tensor<input> &a, tensor<input> &b) {
 * Everything except **dtype** block is a cpp block, and **dtype** is a python dictionary which contains all kinds of input output datatype combination possible for the operators:
 	```python
 	dtype = {
-		"input1" : "output1",
-		"input2" : "output2",
-		"input2" : "output1",
+		"output1" : "input1",
+		"output2" : "input2",
+		"output2" : "input1",
 		...
 	}
 	```
@@ -532,9 +532,10 @@ tensor<output> equal(tensor<input> &a, tensor<input> &b) {
 		LessEqual<input> op;
 		return op.compute(a, b);
 		dtype = {
-			"int" : "bool",
-			"float" : "bool",
-			"double" : "bool"
+			"bool" : "bool",
+			"bool" : "int",
+			"bool" : "float",
+			"bool" : "double"
 		}
 	}
 
@@ -549,10 +550,10 @@ tensor<output> equal(tensor<input> &a, tensor<input> &b) {
 		Xor<input> op;
 		return op.compute(a, b);
 		dtype = {
-			"double" : "bool",
-			"float" : "bool",
+			"bool" : "double",
+			"bool" : "float",
 			"bool" : "bool",
-			"int" : "bool"
+			"bool" : "int"
 		}
 	} */
 
