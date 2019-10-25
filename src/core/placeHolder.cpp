@@ -20,22 +20,12 @@
 // This file is part of AITS DNN compiler maintained at
 // https://github.com/ai-techsystems/dnnCompiler
 //
-#pragma once
 
-#define _USE_EIGEN 1
+#include "core/tensor.h"
 
-#define TENSOR_DIMENSIONS_EQUAL(t1, t2)                                        \
-  { t1.size() == t2.size() }
+using namespace dnnc;
 
-/*<! python interface tensor print limit */
-#define DNNC_TENSOR_MAX_EL 30
+#ifdef DNNC_PLACEHOLDER_TEST
 
-#if defined(WIN32) || defined(_WIN32)
-#define FS_PATH_SEPARATOR "\\"
-#else
-#define FS_PATH_SEPARATOR "/"
+int main() { return 0; }
 #endif
-namespace dnnc {
-typedef size_t INDEX;
-typedef size_t DIMENSION;
-} // namespace dnnc

@@ -41,23 +41,33 @@ class dnncCpp:
   def __init__ (self):
       self.deleteMe = ""
 
-  def main(self, dc_graph, cpp_file=""):
-      print("Writing C++ file", cpp_file);
-      cppCode = dnnc.cppCodeGen(dc_graph, cpp_file);
+  def main(self, dc_graph, bundle_dir, cpp_file):
+      print("Writing C++ file ", bundle_dir+os.path.sep+cpp_file);
+      cppCode = dnnc.cppCodeGen(dc_graph, bundle_dir, cpp_file);
       cppCode.write();
 
 if __name__ == "__main__":
+  onnx_file = None
   if len(sys.argv) >= 2:
-    onnx_file = sys.argv[1];
-    parser = read_onnx.pbReader()
-    dcGraph = parser.main(sys.argv[1], optimize=False, checker=False)
+    onnx_file = sys.argv[1]
 
-    if ( len(sys.argv) >=3 ):
-        cpp_file = sys.argv[2];
-    else:
-        cpp_file = os.path.splitext(os.path.abspath(onnx_file))[0]+'.cpp'
-    cppCodeGen = dnncCpp();
-    cppFile = cppCodeGen.main(dcGraph, cpp_file);
+  if ( onnx_file is None ) :
+    print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx [bundle_dir] \n")
+    exit(0)
 
+  bundle_dir = None
+  if len(sys.argv) >= 3:
+    bundle_dir = sys.argv[2]
   else:
-    print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")
+    bundle_dir = os.path.dirname(onnx_filename);
+
+  cpp_file = os.path.splitext(os.path.basename(onnx_file))[0]+'.cpp'
+
+  parser = read_onnx.pbReader()
+  dcGraph = parser.main(onnx_file, bundle_dir, optimize=False, checker=False)
+
+  cppCodeGen = dnncCpp();
+  cppFile = cppCodeGen.main(dcGraph, bundle_dir, cpp_file);
+
+  return bundle_dir, cpp_file
+

@@ -25,10 +25,13 @@
 
 #include "core/datatypes.h"
 #include "core/iterator.h"
+#include "core/macros.h"
 #include "core/placeHolder.h"
 
 #ifndef SWIGPYTHON
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <stdlib.h> // malloc, free
 #endif
@@ -503,10 +506,56 @@ public:
 
 }; // class tensor
 
+#ifndef SWIGPYTHON
+// \brief return a tensor of type T from a text file with
+//        name _name present in bundle directory
+//        full of T-type elements.
+template <typename T>
+tensor<T> readTensor(placeHolder<T> ph, std::string bundleDir = "") {
+
+  std::string fileName =
+      bundleDir.empty() ? bundleDir + FS_PATH_SEPARATOR + ph.name() : ph.name();
+  std::fstream fs;
+  fs.open(fileName, std::ios::in);
+  // parameter file could not be opened.
+  if (!fs.is_open() || fs.fail()) {
+    return NULL_TENSOR<T>;
+  }
+
+  std::string typedStr;
+  T fNum;
+  T *data = new T[ph.length()];
+  size_t index = 0;
+  while (std::getline(fs, typedStr)) {
+    std::stringstream linestream(typedStr);
+    while (linestream >> fNum) {
+      if (index >= ph.length()) {
+        break;
+      }
+      data[index++] = fNum;
+    }
+    if (index >= ph.length()) {
+      break;
+    }
+  }
+  fs.close();
+
+  // parameter file did not have parametres equal to tensor length.
+  if (index < ph.length()) {
+    delete[] data;
+    return NULL_TENSOR<T>;
+  }
+
+  tensor<T> newTensor(ph.shape(), ph.name());
+  newTensor.load(data);
+  return newTensor;
+}
+
 template <typename T> struct tensorCmp {
   bool operator()(const tensor<T> &lhs, const tensor<T> &rhs) {
     return lhs.identifier() < rhs.identifier();
   }
 };
+#endif
 
 } // namespace dnnc

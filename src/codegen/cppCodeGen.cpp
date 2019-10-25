@@ -48,8 +48,8 @@ bool dnnc::cppCodeGen::write() {
 
   // OUTPUTs are written with operators.
 
-  std::ofstream out(_outFile);
-  if (out.fail()) {
+  std::ofstream out(_bundleDir + FS_PATH_SEPARATOR + _outFile);
+  if (!out.is_open() || out.fail()) {
     std::cerr << "ERROR (CODEGEN): could not open file " + _outFile +
                      "to write.\n";
     return false;

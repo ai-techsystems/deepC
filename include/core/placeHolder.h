@@ -23,7 +23,6 @@
 
 #pragma once
 
-#include "core/macros.h"
 #ifndef SWIGPYTHON
 #include <string>
 #include <vector>
@@ -57,7 +56,7 @@ public:
       sz = sz * _shape[i];
     return sz;
   }
-  /*! It flattens tensor in place, reducing the tensor's rank to
+  /*<! It flattens tensor in place, reducing the tensor's rank to
    * 1 as in flat 1D array */
   void flatteninplace() {
     DIMENSION sz = length();

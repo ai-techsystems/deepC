@@ -35,6 +35,7 @@ protected:
   std::string _tab = "  ";
   std::string _prefix = "dnnc_";
   graph &_graph;
+  std::string _bundleDir;
   std::string _outFile;
   std::vector<std::string> _includes;
 
@@ -62,8 +63,8 @@ protected:
   std::string write(nodeAttribute &, std::string);
 
 public:
-  cppCodeGen(graph &graph, std::string outFile)
-      : _graph(graph), _outFile(outFile) {}
+  cppCodeGen(graph &graph, std::string bundleDir, std::string outFile)
+      : _graph(graph), _bundleDir(bundleDir), _outFile(outFile) {}
   bool write();
 };
 } // namespace dnnc

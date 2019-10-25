@@ -39,9 +39,16 @@ class pbReader :
       if sys.modules.get('dnnc') is None:
         print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
       self._dcGraph = None ;
+      self._bundleDir = None;
 
   def __del__(self):
       del self._dcGraph ;
+
+  def writeParamsToFile(self, name, data):
+    with open(os.path.join(self._bundleDir,name), "w") as fp:
+      str_data = '\n'.join([str(d) for d in data])
+      fp.write(str_data)
+    fp.close();
 
   def addParams(self, param):
       if ( param is None ):
@@ -54,6 +61,7 @@ class pbReader :
 
       param_type = dnnc.IR_DataType_NOTYPE;
       param_vec  = None
+      param_vals = None
       if param.data_type == param.INT8 :
         param_type = dnnc.IR_DataType_INT8;
         param_vals = [int(n) for n in param.int32_data]
@@ -146,9 +154,10 @@ class pbReader :
         print("ERROR (ONNX): did not find data for initializer ", param.name);
         return;
 
+      self.writeParamsToFile(param.name, param_vals);
       param_irData = dnnc.irTypeData(param_type, param_vec) ;
       dnnc_param  = dnnc.dnnParameters(param.name, param_irData);
-      self._dcGraph.addParameters(dnnc_param) ;
+      #self._dcGraph.addParameters(dnnc_param) ;
 
       return dnnc_param;
 
@@ -334,12 +343,16 @@ class pbReader :
 
     return (term_name, data_type, term_shape)
 
-  def main(self, onnx_filename, checker=False, optimize=False):
+  def main(self, onnx_filename, bundle_dir=None, checker=False, optimize=False):
     if sys.modules.get('dnnc') is None:
       print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
       return ;
 
     print("reading onnx model from file ", onnx_filename)
+
+    self._bundleDir = bundle_dir
+    if ( self._bundleDir is None ) :
+        self._bundleDir = os.path.dirname(onnx_filename);
 
     model = onnx.load(onnx_filename)
     print("Model info:\n  ir_vesion : ", model.ir_version, "\n  doc       :", model.doc_string)
@@ -399,8 +412,20 @@ class pbReader :
     return self._dcGraph
 
 if __name__ == "__main__":
+
+  onnx_file = None
   if len(sys.argv) >= 2:
-    parser = pbReader()
-    parser.main(sys.argv[1], checker=False, optimize=False)
+    onnx_file = sys.argv[1]
+
+  if ( onnx_file is None ) :
+    print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx [bundle_dir]\n")
+    exit(0)
+
+  bundle_dir = None
+  if len(sys.argv) >= 3:
+    bundle_dir = sys.argv[2]
   else:
-    print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")
+    bundle_dir = os.path.dirname(onnx_filename);
+
+  parser = pbReader()
+  parser.main(onnx_file, bundle_dir, checker=False, optimize=False)

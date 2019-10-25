@@ -22,10 +22,11 @@ class unitOperatorsTest(unittest.TestCase):
 
         onnx_files = self.find('*.onnx', '.')
         for onnx_file in onnx_files:
-            cpp_file = os.path.splitext(os.path.abspath(onnx_file))[0]+'.cpp'
+            cpp_file = os.path.splitext(os.path.basename(onnx_file))[0]+'.cpp'
+            bundle_dir = os.path.dirname(onnx_file);
             parser = read_onnx.pbReader()
             dc_graph = parser.main(onnx_file)
-            cppCode = dnnc.cppCodeGen(dc_graph, cpp_file);
+            cppCode = dnnc.cppCodeGen(dc_graph, bundle_dir, cpp_file);
             cppCode.write();
             dc_graph.destroy();
 
