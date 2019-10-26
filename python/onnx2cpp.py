@@ -59,7 +59,7 @@ if __name__ == "__main__":
   if len(sys.argv) >= 3:
     bundle_dir = sys.argv[2]
   else:
-    bundle_dir = os.path.dirname(onnx_filename);
+    bundle_dir = os.path.dirname(onnx_file);
 
   cpp_file = os.path.splitext(os.path.basename(onnx_file))[0]+'.cpp'
 
@@ -69,5 +69,5 @@ if __name__ == "__main__":
   cppCodeGen = dnncCpp();
   cppFile = cppCodeGen.main(dcGraph, bundle_dir, cpp_file);
 
-  return bundle_dir, cpp_file
+  print("INFO (ONNX): model files are ready in dir " + bundle_dir);
 

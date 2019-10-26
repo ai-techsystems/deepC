@@ -36,11 +36,14 @@ class graph;
 class dnnParameters {
 protected:
   std::string _name;
+  std::vector<DIMENSION> _shape;
   irTypeData _value;
 
 public:
-  dnnParameters(std::string n, irTypeData &v) : _name(n), _value(v) {}
+  dnnParameters(std::string n, std::vector<DIMENSION> shape, irTypeData &v)
+      : _name(n), _shape(shape), _value(v) {}
   std::string name() { return _name; }
+  std::vector<DIMENSION> shape() { return _shape; }
   irTypeData data() { return _value; }
 };
 

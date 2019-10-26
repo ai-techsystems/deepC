@@ -40,17 +40,26 @@ class pbReader :
         print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
       self._dcGraph = None ;
       self._bundleDir = None;
+      self._writeParamToDisk = True ;
 
   def __del__(self):
       del self._dcGraph ;
 
   def writeParamsToFile(self, name, data):
-    with open(os.path.join(self._bundleDir,name), "w") as fp:
-      str_data = '\n'.join([str(d) for d in data])
+
+    str_data = '\n'.join([str(d) for d in data])
+    if ( len(str_data) == 0 ):
+      print("ERROR (ONNX): did not find data for initializer ", name);
+      return
+
+    paramFile = os.path.join(self._bundleDir,name)
+    print("INFO (ONNX): writing model parameter " + name + " to dir " + self._bundleDir + ".");
+    with open(paramFile, "w") as fp:
       fp.write(str_data)
-    fp.close();
+      fp.close();
 
   def addParams(self, param):
+
       if ( param is None ):
         return None;
 
@@ -60,6 +69,7 @@ class pbReader :
         print("                trying to load data with errors.\n");
 
       param_type = dnnc.IR_DataType_NOTYPE;
+      param_shape = dnnc.vectorSizeT(param.dims)
       param_vec  = None
       param_vals = None
       if param.data_type == param.INT8 :
@@ -67,97 +77,153 @@ class pbReader :
         param_vals = [int(n) for n in param.int32_data]
         if ( len(param_vals) == 0 ):
             param_vals = [int(n) for n in param.raw_data]
-        param_vec = dnnc.vectorInt(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT16 :
         param_type = dnnc.IR_DataType_INT16;
         param_vals = [int(n) for n in param.int32_data]
         if ( len(param_vals) == 0 ):
             param_vals = [int(n) for n in param.raw_data]
-        param_vec = dnnc.vectorInt(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT32:
         param_type = dnnc.IR_DataType_INT32;
         param_vals = [int(n) for n in param.int32_data]
         if ( len(param_vals) == 0 ):
             param_vals = [int(n) for n in param.raw_data]
-        param_vec = dnnc.vectorInt(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT64:
         param_type = dnnc.IR_DataType_INT64;
         param_vals = [int(n) for n in param.int64_data]
         if ( len(param_vals) == 0 ):
             param_vals = [int(n) for n in param.raw_data]
-        param_vec = dnnc.vectorInt(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT8 :
         param_type = dnnc.IR_DataType_UINT8;
         param_vals = [int(n) for n in param.uint64_data]
         if ( len(param_vals) == 0 ):
             param_vals = [int(n) for n in param.raw_data]
-        param_vec = dnnc.vectorInt(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT16 :
         param_type = dnnc.IR_DataType_UINT16;
         param_vals = [int(n) for n in param.uint64_data]
         if ( len(param_vals) == 0 ):
             param_vals = [int(n) for n in param.raw_data]
-        param_vec = dnnc.vectorInt(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT32:
         param_type = dnnc.IR_DataType_UINT32;
         param_vals = [int(n) for n in param.uint64_data]
         if ( len(param_vals) == 0 ):
             param_vals = [int(n) for n in param.raw_data]
-        param_vec = dnnc.vectorInt(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT64:
         param_type = dnnc.IR_DataType_UINT64;
         param_vals = [int(n) for n in param.uint64_data]
         if ( len(param_vals) == 0 ):
             param_vals = [int(n) for n in param.raw_data]
-        param_vec = dnnc.vectorInt(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.FLOAT16 :
         param_type = dnnc.IR_DataType_FLOAT16;
         param_vals = [float(n) for n in param.float_data]
         if ( len(param_vals) == 0 ):
             param_vals = [float(n) for n in param.raw_data]
-        param_vec = dnnc.vectorFloat(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorInt()
+        else:
+          param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.BFLOAT16 :
         param_type = dnnc.IR_DataType_BFLOAT16;
         param_vals = [float(n) for n in param.float_data]
         if ( len(param_vals) == 0 ):
             param_vals = [float(n) for n in param.raw_data]
-        param_vec = dnnc.vectorFloat(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorFloat()
+        else:
+          param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.FLOAT:
         param_type = dnnc.IR_DataType_FLOAT;
         param_vals = [float(n) for n in param.float_data]
         if ( len(param_vals) == 0 ):
             param_vals = [float(n) for n in param.raw_data]
-        param_vec = dnnc.vectorFloat(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorFloat()
+        else:
+          param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.DOUBLE:
         param_type = dnnc.IR_DataType_DOUBLE;
         param_vals = [float(n) for n in param.double_data]
         if ( len(param_vals) == 0 ):
             param_vals = [float(n) for n in param.raw_data]
-        param_vec = dnnc.vectorFloat(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorFloat()
+        else:
+          param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.STRING:
         param_type = dnnc.IR_DataType_STRING;
         param_vals = [str(s) for s in param.string_data]
         if ( len(param_vals) == 0 ):
             param_vals = [str(n) for n in param.raw_data]
-        param_vec = dnnc.vectorStr(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorStr()
+        else:
+          param_vec = dnnc.vectorStr(param_vals)
       elif param.data_type == param.BOOL:
         param_type = dnnc.IR_DataType_BOOL;
         param_vals = [bool(b) for b in param.raw_data]
         if ( len(param_vals) == 0 ):
             param_vals = [bool(b) for b in param.raw_data]
-        param_vec = dnnc.vectorBool(param_vals)
+        if ( self._writeParamToDisk ) :
+          self.writeParamsToFile(param.name, param_vals);
+          param_vec = dnnc.vectorBool()
+        else:
+          param_vec = dnnc.vectorBool(param_vals)
       else:
         print("ERROR (ONNX): graph-node " + node.name + "\'s attribute " + \
                param.name + " type " + str(param.data_type) + " is not valid.")
 
-      if ( param_type is dnnc.IR_DataType_NOTYPE or param_vec is None or param_vec.size()==0 ) :
+      if ( self._writeParamToDisk is False and
+              (param_type is dnnc.IR_DataType_NOTYPE or param_vec is None or param_vec.size()==0) ) :
         print("ERROR (ONNX): did not find data for initializer ", param.name);
         return;
 
-      self.writeParamsToFile(param.name, param_vals);
       param_irData = dnnc.irTypeData(param_type, param_vec) ;
-      dnnc_param  = dnnc.dnnParameters(param.name, param_irData);
-      #self._dcGraph.addParameters(dnnc_param) ;
+      dnnc_param  = dnnc.dnnParameters(param.name, param_shape, param_irData);
+      self._dcGraph.addParameters(dnnc_param) ;
 
       return dnnc_param;
 
