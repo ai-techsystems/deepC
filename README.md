@@ -63,20 +63,14 @@ ln -s -f lib/libdnnc.so _dnnc.so
 /usr/bin/python3 ../test/swig/basic.py
 ```
 
-## 🏃‍♂️ Usage
-```
-[build]$ wget https://onnxzoo.blob.core.windows.net/models/opset_8/mnist/mnist.tar.gz
-[build]$ tar xvf mnist.tar.gx
-[build]$ ./dnnc
-```
-*Usage:  ./dnnc onnx_model_file*
-```
-[build]$ ./dnnc mnist/model.onnx
-reading CNTK graph from mnist/model.onnx 
-populating graph ...
-```
+## 🏃‍♂️ Using DNNC
 
----
+We're in pre-alpha stage. However, you can
+
+1. try DNNC with a [Docker File](Dockerfile) 
+1. try DNNC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
+
+We'll soon release examples dir.
 
 ## ➕ Contribute
 
@@ -93,4 +87,4 @@ dnnCompiler is targeted towards devices with small formfactor like microcontroll
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
 
 
-**🚧 Project Under Development.** *Stay tuned. We plan to release the first version in the third quarter of 2019.*
+**🚧 Project Under Development.** *Stay tuned. We plan to release the first version in Nov. 2019.*

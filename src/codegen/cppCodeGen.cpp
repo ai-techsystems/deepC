@@ -108,6 +108,8 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
   case IR_DataType::INT64: {
     varType = getDNNC_IRTypeStr(dtype.type());
     std::vector<int> values = std::vector<int>(dtype);
+    if (values.size() == 0)
+      return code;
     if (values.size() == 1) {
       initData = std::to_string(values[0]);
     } else {
@@ -125,6 +127,8 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
   case IR_DataType::UINT64: {
     varType = getDNNC_IRTypeStr(dtype.type());
     std::vector<unsigned int> values = std::vector<unsigned int>(dtype);
+    if (values.size() == 0)
+      return code;
     if (values.size() == 1) {
       initData = std::to_string(values[0]);
     } else {
@@ -141,6 +145,8 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
   case IR_DataType::DOUBLE: {
     varType = getDNNC_IRTypeStr(dtype.type());
     std::vector<float> values = std::vector<float>(dtype);
+    if (values.size() == 0)
+      return code;
     if (values.size() == 1) {
       initData = std::to_string(values[0]);
     } else {
@@ -161,12 +167,14 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
     // TODO:
     break;
   case IR_DataType::TENSOR_INT: {
-    tensor<long int> values = std::vector<tensor<long int>>(dtype)[0];
+    tensor<int> values = std::vector<tensor<int>>(dtype)[0];
+    if (values.length() == 0)
+      return code;
     for (auto el : values)
       initData += (initData.size() ? "," : "{") + std::to_string(el);
     initData += values.length() ? "}" : "";
     std::string initVec = name + "_vec";
-    initData = "std::vector<long int> " + initVec + " = " + initData + ";\n";
+    initData = "std::vector<int> " + initVec + " = " + initData + ";\n";
     varType = getDNNC_IRTypeStr(dtype.type());
     code = _tab + initData;
     code += _tab + varType + " " + name + "(1); " + name + ".load(" + initVec +
@@ -175,6 +183,8 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
   }
   case IR_DataType::TENSOR_FLOAT: {
     tensor<double> values = std::vector<tensor<double>>(dtype)[0];
+    if (values.length() == 0)
+      return code;
     for (auto el : values)
       initData += (initData.size() ? "," : "{") + std::to_string(el);
     initData += values.length() ? "}" : "";
@@ -198,11 +208,16 @@ std::string dnnc::cppCodeGen::write(dnnParameters param) {
 }
 
 std::string dnnc::cppCodeGen::write(ioNode &term) {
+  // TODO: don't write this ioNode, if graph has initialier
+  //       with the same name.
   std::string dtype = getDNNC_DataTypeStr(term.dtype());
-  std::string shape;
-  for (size_t i : term.shape())
-    shape += shape.size() ? ", " : "" + std::to_string(i);
-  return _tab + "tensor<" + dtype + "> " + nodeName(&term) + " ;\n";
+  std::string shapeStr;
+  std::vector<DIMENSION> shapeVec = term.shape();
+  for (size_t i = 0; i < shapeVec.size(); i++)
+    shapeStr +=
+        std::to_string(shapeVec[i]) + (i == shapeVec.size() - 1 ? "" : ", ");
+  return _tab + "tensor<" + dtype + "> " + nodeName(&term) + "(" + shapeStr +
+         ")" + ";\n";
 }
 
 std::string dnnc::cppCodeGen::write(opNode &computeNode) {

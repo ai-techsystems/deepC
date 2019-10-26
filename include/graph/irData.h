@@ -64,7 +64,7 @@ public:
            ty == IR_DataType::INT32 || ty == IR_DataType::INT64);
     _ref = new size_t;
     *_ref = 1;
-    _data = new std::vector<tensor<long int>>(d.begin(), d.end());
+    _data = new std::vector<tensor<int>>(d.begin(), d.end());
   }
   irTypeData(IR_DataType ty, std::vector<tensor<float>> &d)
       : _type(IR_DataType::TENSOR_FLOAT) {
@@ -123,7 +123,7 @@ public:
         delete static_cast<std::vector<tensor<bool>> *>(_data);
         break;
       case IR_DataType::TENSOR_INT:
-        delete static_cast<std::vector<tensor<long int>> *>(_data);
+        delete static_cast<std::vector<tensor<int>> *>(_data);
         break;
       case IR_DataType::TENSOR_FLOAT:
         delete static_cast<std::vector<tensor<double>> *>(_data);
@@ -142,9 +142,6 @@ public:
 
     std::vector<int> ivec = *static_cast<std::vector<int> *>(_data);
 
-    if (ivec.size() == 0)
-      throw std::out_of_range("vector of size 0");
-
     return ivec;
   }
   operator std::vector<unsigned int>() const {
@@ -155,9 +152,6 @@ public:
     std::vector<unsigned int> uivec =
         *static_cast<std::vector<unsigned int> *>(_data);
 
-    if (uivec.size() == 0)
-      throw std::out_of_range("vector of size 0");
-
     return uivec;
   }
   operator std::vector<float>() const {
@@ -166,9 +160,6 @@ public:
       throw std::bad_cast();
 
     std::vector<float> fvec = *static_cast<std::vector<float> *>(_data);
-
-    if (fvec.size() == 0)
-      throw std::out_of_range("vector of size 0");
 
     return fvec;
   }
@@ -179,9 +170,6 @@ public:
     std::vector<std::string> svec =
         *static_cast<std::vector<std::string> *>(_data);
 
-    if (svec.size() == 0)
-      throw std::out_of_range("vector of size 0");
-
     return svec;
   }
   operator std::string() const {
@@ -190,9 +178,6 @@ public:
 
     std::vector<std::string> svec =
         *static_cast<std::vector<std::string> *>(_data);
-
-    if (svec.size() == 0)
-      throw std::out_of_range("vector of size 0");
 
     return svec[0];
   }
@@ -208,12 +193,12 @@ public:
 
     return tbvec;
   }
-  operator std::vector<tensor<long int>>() const {
+  operator std::vector<tensor<int>>() const {
     if (_type != IR_DataType::TENSOR_INT)
       throw std::bad_cast();
 
-    std::vector<tensor<long int>> tivec =
-        *static_cast<std::vector<tensor<long int>> *>(_data);
+    std::vector<tensor<int>> tivec =
+        *static_cast<std::vector<tensor<int>> *>(_data);
 
     if (tivec.size() == 0)
       throw std::out_of_range("vector of tensor<int> with size 0");
