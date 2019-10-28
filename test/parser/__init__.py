@@ -3,8 +3,8 @@ import unittest
 
 DNNC_ROOT=os.path.abspath(os.path.dirname(__file__)+os.path.sep+'..'+os.path.sep+'..')
 sys.path.append(DNNC_ROOT)
-sys.path.append(DNNC_ROOT+os.path.sep+'swig')
-sys.path.append(DNNC_ROOT+os.path.sep+'python')
+sys.path.append(DNNC_ROOT+os.path.sep+'deepC')
+sys.path.append(DNNC_ROOT+os.path.sep+'scripts')
 
 # def load_tests(loader, tests, pattern):
 def load_tests(loader, tests):

@@ -27,13 +27,9 @@
 #############################
 
 import os, sys
-if __name__ == "__main__":
-  DNNC_PATH=os.path.abspath(os.path.dirname(__file__)+os.path.sep+'..')
-  sys.path.append(DNNC_PATH+os.path.sep+'swig')
-  sys.path.append(DNNC_PATH+os.path.sep+'python')
 
-import dnnc
-import read_onnx
+import deepC.dnnc as dnnc
+import deepC.scripts.read_onnx as read_onnx
 
 class dnncCpp:
   """ write C++ file, given a DNNC graph. """
@@ -46,7 +42,7 @@ class dnncCpp:
       cppCode = dnnc.cppCodeGen(dc_graph, bundle_dir, cpp_file);
       cppCode.write();
 
-if __name__ == "__main__":
+def main():
   onnx_file = None
   if len(sys.argv) >= 2:
     onnx_file = sys.argv[1]
@@ -71,3 +67,5 @@ if __name__ == "__main__":
 
   print("INFO (ONNX): model files are ready in dir " + bundle_dir);
 
+if __name__ == "__main__":
+  main()

@@ -23,7 +23,7 @@
 #
 include Makefile.common
 
-all:FORMAT SRC SWIG TEST
+all:FORMAT SRC DEEPC TEST
 
 FORMAT:
 	@echo "formatting code ..."
@@ -33,14 +33,14 @@ TEST:
 	@echo "running unit tests ..."
 	cd test &&  $(PYTHON) ./run_all.py
 
-SWIG: SRC
-	$(MAKE) -C swig
+DEEPC: SRC
+	$(MAKE) -C deepC
 
 SRC:
 	$(MAKE) -C src
 
 clean:
-	$(MAKE) -C swig clean
+	$(MAKE) -C deepC clean
 	$(MAKE) -C src  clean
 
 .PHONY: print_vars

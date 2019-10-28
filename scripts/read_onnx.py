@@ -23,20 +23,19 @@
 #
 
 import os, sys
-if __name__ == "__main__":
-  DNNC_PATH=os.path.abspath(os.path.dirname(__file__)+os.path.sep+'..'+os.path.sep+'swig')
-  sys.path.append(DNNC_PATH)
+
+import deepC.dnnc as dnnc
 
 import onnx
 import struct
-import dnnc
 
 
 class pbReader :
   """Reader class for DNNC models in ONNX binary/protobuf format."""
 
   def __init__(self):
-      if sys.modules.get('dnnc') is None:
+      dnncModule = sys.modules.get('deepC.dnnc')
+      if ( dnncModule is None ) :
         print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
       self._dcGraph = None ;
       self._bundleDir = None;
@@ -410,7 +409,8 @@ class pbReader :
     return (term_name, data_type, term_shape)
 
   def main(self, onnx_filename, bundle_dir=None, checker=False, optimize=False):
-    if sys.modules.get('dnnc') is None:
+    dnncModule = sys.modules.get('deepC.dnnc')
+    if ( dnncModule is None ) :
       print("ERROR (DNNC): could not find dnnc module. Please make sure dnnc is imported before calling ", __name__)
       return ;
 
@@ -477,8 +477,8 @@ class pbReader :
 
     return self._dcGraph
 
-if __name__ == "__main__":
 
+def main():
   onnx_file = None
   if len(sys.argv) >= 2:
     onnx_file = sys.argv[1]
@@ -495,3 +495,6 @@ if __name__ == "__main__":
 
   parser = pbReader()
   parser.main(onnx_file, bundle_dir, checker=False, optimize=False)
+
+if __name__ == "__main__":
+  main()

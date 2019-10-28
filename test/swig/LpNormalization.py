@@ -21,7 +21,7 @@
 
 import os,sys
 # DNNC_ROOT='/Desktop/dnnCompiler'
-sys.path.append(os.path.abspath('..'+os.path.sep+'..'+os.path.sep+'swig'));
+sys.path.append(os.path.abspath('..'+os.path.sep+'..'+os.path.sep+'deepC'));
 
 import dnnc as dc
 import numpy as np
@@ -39,15 +39,15 @@ class LpNormalizationTest(unittest.TestCase):
         self.p = 2
 
     def norm_2(self,x):
-        return x/np.linalg.norm(x,ord=self.p) 
+        return x/np.linalg.norm(x,ord=self.p)
     def norm_1(self,x):
-        return x/np.linalg.norm(x,ord=1)  
+        return x/np.linalg.norm(x,ord=1)
 
     def test_LpNormalization2D_1 (self):
         np_a = np.reshape(self.np_a, (4,6))
         dc_a = dc.reshape(self.dc_a, (4,6));
         npr = np.apply_along_axis(self.norm_2,self.axis,np_a)
-        dcr = dc.lpnormalization(dc_a, self.p, self.axis);  
+        dcr = dc.lpnormalization(dc_a, self.p, self.axis);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -57,7 +57,7 @@ class LpNormalizationTest(unittest.TestCase):
         axis = 0
         p = 2
         npr = np.apply_along_axis(self.norm_2,axis,np_a)
-        dcr = dc.lpnormalization(dc_a, p, axis);  
+        dcr = dc.lpnormalization(dc_a, p, axis);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -67,7 +67,7 @@ class LpNormalizationTest(unittest.TestCase):
         axis = 0
         p = 1
         npr = np.apply_along_axis(self.norm_1,axis,np_a)
-        dcr = dc.lpnormalization(dc_a, p, axis);  
+        dcr = dc.lpnormalization(dc_a, p, axis);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -77,7 +77,7 @@ class LpNormalizationTest(unittest.TestCase):
         axis = 1
         p = 1
         npr = np.apply_along_axis(self.norm_1,axis,np_a)
-        dcr = dc.lpnormalization(dc_a, p, axis);  
+        dcr = dc.lpnormalization(dc_a, p, axis);
         np.testing.assert_allclose(npr.flatten(), np.array(dcr.data()).astype(np.float32),
                 rtol=1e-3, atol=1e-3)
 
@@ -86,4 +86,4 @@ class LpNormalizationTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
+

@@ -38,7 +38,7 @@ import onnx_cpp
 def compilerWrapper;
   """Compiler class for models in ONNX binary/protobuf format."""
 
-if __name__ == "__main__":
+def main():
   if len(sys.argv) >= 2:
     parser = pbReader()
     dcGraph = parser.main(sys.argv[1])
@@ -50,3 +50,6 @@ if __name__ == "__main__":
     onnxCC.main(cppFile);
   else:
     print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx \n")
+
+if __name__ == "__main__":
+  main()
