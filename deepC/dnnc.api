@@ -290,17 +290,17 @@ tensor<float> array(PyObject *objects) {
 	return tensor<float>();
 }
 
-tensor<float> arange(size_t stop, size_t start = 0, size_t step = 1) {
+tensor<float> arange(int stop, int start = 0, size_t step = 1) {
 	// swap if the range is invalid.
 	if (stop < start) {
-		size_t tmp = start;
+		int tmp = start;
 		start = stop;
 		stop = tmp;
 	}
 	if (stop == start)
 		throw std::logic_error("arange expects stop arg more than start.\n");
 	std::vector<float> vContents;
-	for (size_t i = start; i < stop; i = i + step)
+	for (int i = start; i < stop; i = i + step)
 		vContents.push_back(static_cast<float>(i));
 	tensor<float> result(vContents.size());
 	result.load(vContents);

@@ -54,7 +54,8 @@ setuptools.setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: C++',
         'License :: OSI Approved :: MIT License',
-        'Operating System :: Ubuntu',
+        'Operating System :: POSIX :: Linux',
+        'Operating System :: Unix',
     ],
     python_requires='>=3.5',
     entry_points={

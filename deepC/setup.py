@@ -79,7 +79,8 @@ setup(
         'Development Status :: 0.1 - prealpha',
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
-        'Operating System :: Ubuntu'
+        'Operating System :: POSIX :: Linux',
+        'Operating System :: Unix',
     ],
     ext_packages = [NAME],
     ext_modules = [dnnc_module],
