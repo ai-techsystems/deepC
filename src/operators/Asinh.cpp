@@ -30,7 +30,7 @@ using namespace Eigen;
 #include <iostream>
 int main() {
   loat d1[4] = {4., -2, 0, 3};
-  tensor<float> a(2, 2);
+  tensor<float> a({2, 2});
   a.load(d1);
 
   Asinh<float> ASINH("localOpName");

@@ -106,7 +106,7 @@ def get_scalar(dc_operator, i):
 	s = ""
 	if i == 1:
 		s = '''tensor<output> dc_operator(tensor<input1> &a, input2 b) {
-	tensor<input2> tensor_b(1);
+	tensor<input2> tensor_b(std::vector<size_t>(1,1));
 	tensor_b.load(&b);
 	return dc_operator(a, tensor_b);
 }
@@ -114,7 +114,7 @@ def get_scalar(dc_operator, i):
 
 	if i == 2:
 		s = '''tensor<output> dc_operator(input1 a, tensor<input2> &b) {
-	tensor<input1> tensor_a(1);
+	tensor<input1> tensor_a(std::vector<size_t>(1,1));
 	tensor_a.load(&a);
 	return dc_operator(tensor_a, b);
 }
@@ -122,8 +122,8 @@ def get_scalar(dc_operator, i):
 
 	if i == 3:
 		s = '''output dc_operator(input1 a, input2 b) {
-	tensor<input1> tensor_a(1);
-	tensor<input2> tensor_b(1);
+	tensor<input1> tensor_a(std::vector<size_t>(1,1));
+	tensor<input2> tensor_b(std::vector<size_t>(1,1));
 	tensor_a.load(&a);
 	tensor_b.load(&b);
 	return dc_operator(tensor_a, tensor_b)[0];
@@ -142,7 +142,7 @@ def binary_operators(s):
 
 	temp_content = s.split("\n\n")[2]
 	for dc_operator, dc_operator_values in operator_list.items():
-		
+
 		for i in range (4):
 			if i==0:
 
@@ -160,15 +160,15 @@ def binary_operators(s):
 				py_file += overload_python_operator(dc_operator, operator_python)
 
 				for output, input_2d in dtype.items():
-					
+
 					# true_div only outputs in float
 					if (dc_operator == "true_div"):
-						output = "double" 
-					
+						output = "double"
+
 					# floor_div only outputs in int
 					if (dc_operator == "floor_div"):
-						output = "int" 
-					
+						output = "int"
+
 					for input_1d in input_2d:
 
 						input1, input2 = input_1d
@@ -181,7 +181,7 @@ def binary_operators(s):
 
 						temp = content.replace("input1",input1).replace("input2",input2).replace("input",output).replace("output",output) + "\n\n"
 						temp = temp.replace(") {\n",temp_typecast)
-						
+
 						if "asType" in temp:
 							temp = change_compute(temp)
 						cpp_file += temp.replace("\n","\n\t")
@@ -194,11 +194,11 @@ def binary_operators(s):
 				for output, input_2d in dtype.items():
 					# true_div only outputs in float
 					if (dc_operator == "true_div"):
-						output = "double" 
+						output = "double"
 					# floor_div only outputs in int
 					if (dc_operator == "floor_div"):
-						output = "int" 
-					
+						output = "int"
+
 					for input_1d in input_2d:
 						input1, input2 = input_1d
 						temp = content.replace("input1",input1).replace("input2",input2).replace("output",output) + "\n"
@@ -218,12 +218,12 @@ def logical_operators(s):
 
 	temp_content = s.split("\n\n")[2]
 	for dc_operator, dc_operator_values in operator_list['logical'].items():
-		
+
 		for i in range (4):
 			if i==0:
 
 				content = temp_content[:]
-				
+
 				operator_header, operator_python = dc_operator_values
 				content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
 
@@ -237,7 +237,7 @@ def logical_operators(s):
 					for input_1d in input_2d:
 						input1, input2 = input_1d
 						temp_typecast = ") {\n"
-						
+
 						if (input1 != output):
 							temp_typecast += change_dtype(output,1)
 						if (input2 != output):
@@ -252,7 +252,7 @@ def logical_operators(s):
 						temp = get_swig_extern(dc_operator, temp)
 						swig_extern_file += temp
 
-			
+
 			if i>0 and i<4:
 				content = get_scalar(dc_operator, i)
 				for output, input_2d in dtype.items():
@@ -276,12 +276,12 @@ def comparison_operators(s, dtype_precedence_dict):
 
 	temp_content = s.split("\n\n")[2]
 	for dc_operator, dc_operator_values in operator_list['comparison'].items():
-		
+
 		for i in range (4):
 			if i==0:
 
 				content = temp_content[:]
-				
+
 				operator_header, operator_python = dc_operator_values
 				content = content.replace("dc_operator", dc_operator).replace("operator_header", operator_header)
 
@@ -295,7 +295,7 @@ def comparison_operators(s, dtype_precedence_dict):
 					for input_1d in input_2d:
 						input1, input2 = input_1d
 						temp_typecast = ") {\n"
-						
+
 						input = ""
 						if (input1 != input2):
 							if (dtype_precedence_dict[input1] > dtype_precedence_dict[input2]):
@@ -335,7 +335,7 @@ def comparison_operators(s, dtype_precedence_dict):
 
 def normal_operators(s):
 	cpp_file = swig_extern_file = ""
-	
+
 	for content in s.split("\n\n"):
 		dc_operator = content.split("> ")[1].split("(")[0]
 		if "<output>" not in content and "<input>" not in content:
@@ -413,7 +413,7 @@ def main():
 		swig_extern_file = contents.split("#include")[0] + "namespace dnnc {\n"
 		py_file = generate_py_file(contents.split("#include")[0])
 		tensor_swig_helper_file = ""
-		
+
 		contents = remove_comments(contents)
 		if check_comments(contents):
 			return 1
@@ -469,7 +469,7 @@ def main():
 
 			# Uncomment the below line to stop adding these operators in 'tensor.i'
 			# tensor_swig_helper_file = "\n\n\n"
-			
+
 			try:
 				s = s.split(comment)[0] + comment + tensor_swig_helper_file + comment + s.split(comment)[2]
 			except:

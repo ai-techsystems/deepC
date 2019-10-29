@@ -30,7 +30,7 @@ using namespace Eigen;
 #include <iostream>
 int main() {
   float data[9] = {0.1, 0.2, 1.3, 4.5, 0.5, 0.6, 1.2, 1.2, 1.2};
-  tensor<float> fTensor(3, 3);
+  tensor<float> fTensor({3, 3});
   fTensor.load(data);
 
   Relu<float> m("localOpName");

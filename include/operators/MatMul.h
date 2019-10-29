@@ -41,7 +41,7 @@ public:
         throw std::invalid_argument(
             "vector dimensions not appropriate for multiplication operator.");
 
-      tensor<T> result(1);
+      tensor<T> result({1});
       result[0] = 0.0;
       for (size_t i = 0; i < a.length(); i++)
         result[0] += a[i] * b[i];
@@ -52,7 +52,7 @@ public:
         throw std::invalid_argument("matrix dimensions not appropriate for 2D "
                                     "multiplication operator.");
 
-      tensor<T> result(a.shape()[0], b.shape()[1]);
+      tensor<T> result({a.shape()[0], b.shape()[1]});
 
       DNNC_EIGEN_MATRIX(eigenMatrixA, T, a);
       DNNC_EIGEN_MATRIX(eigenMatrixB, T, b);
@@ -68,7 +68,7 @@ public:
                                     "multiplication operator.");
       }
 
-      tensor<T> result(a.shape()[0], a.shape()[1], b.shape()[2]);
+      tensor<T> result({a.shape()[0], a.shape()[1], b.shape()[2]});
 
       DNNC_EIGEN_TENSOR_MAP(eigenTensorA, T, a);
       DNNC_EIGEN_TENSOR_MAP(eigenTensorB, T, b);
@@ -100,7 +100,8 @@ public:
             "tensor dimenions not appropriate for multiplication operator.");
       }
 
-      tensor<T> result(a.shape()[0], a.shape()[1], a.shape()[2], b.shape()[3]);
+      tensor<T> result(
+          {a.shape()[0], a.shape()[1], a.shape()[2], b.shape()[3]});
 
       DNNC_EIGEN_TENSOR4D_MAP(eigenTensorA, T, a);
       DNNC_EIGEN_TENSOR4D_MAP(eigenTensorB, T, b);

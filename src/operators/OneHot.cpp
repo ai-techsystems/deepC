@@ -39,23 +39,23 @@ int main() {
   bool b2[6] = {false, true, true, true, false, true};
   double onoff[2] = {0., 1.};
 
-  tensor<bool> tb1(2, 3);
+  tensor<bool> tb1({2, 3});
   tb1.load(b1);
-  tensor<bool> tb2(2, 3);
+  tensor<bool> tb2({2, 3});
   tb2.load(b2);
-  tensor<int> ti1(2, 3);
+  tensor<int> ti1({2, 3});
   ti1.load(i1);
-  tensor<int> ti2(2, 3);
+  tensor<int> ti2({2, 3});
   ti2.load(i2);
-  tensor<float> tf1(2, 3);
+  tensor<float> tf1({2, 3});
   tf1.load(f1);
-  tensor<float> tf2(2, 3);
+  tensor<float> tf2({2, 3});
   tf2.load(f2);
-  tensor<double> td1(2, 3);
+  tensor<double> td1({2, 3});
   td1.load(d1);
-  tensor<double> td2(2, 3);
+  tensor<double> td2({2, 3});
   td2.load(d2);
-  tensor<double> val(2);
+  tensor<double> val({2});
   val.load(onoff);
 
   // float sf1=1.0;

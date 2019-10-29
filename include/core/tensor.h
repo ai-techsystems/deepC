@@ -108,26 +108,9 @@ public:
 
   /// CTOR 1: Use this contructor with shape vector and to initialize
   ///         with zero, one, or random numbers.
-  tensor(std::vector<DIMENSION> dimn, std::string n = "",
-         INIT_TYPE fill = INIT_NONE, T init_val = 0)
-      : placeHolder<T>(n, dimn), _ref(0x0), _mem_layout(0x0) {
-    init(fill, init_val);
-  }
-  /// CTOR 1a: Use this contructor with upto 4 dimensions to initialize with
-  ///          zero, one, or random numbers.
-  tensor(DIMENSION x = 0, DIMENSION y = 0, DIMENSION z = 0, DIMENSION w = 0,
+  tensor(std::vector<DIMENSION> dimn = std::vector<DIMENSION>(),
          std::string n = "", INIT_TYPE fill = INIT_NONE, T init_val = 0)
-      : placeHolder<T>(n, std::vector<DIMENSION>()), _ref(0x0),
-        _mem_layout(0x0) {
-    if (x) {
-      this->_shape.push_back(x);
-      if (y)
-        this->_shape.push_back(y);
-      if (z)
-        this->_shape.push_back(z);
-      if (w)
-        this->_shape.push_back(w);
-    }
+      : placeHolder<T>(n, dimn), _ref(0x0), _mem_layout(0x0) {
     init(fill, init_val);
   }
   /// USE WITH CAUTION.
@@ -139,6 +122,17 @@ public:
       : placeHolder<T>(n, dimn), _ref(0x0), _mem_layout(data) {
     init_ref();
   }
+  /*
+  #ifdef SWIGPYTHON
+    // CTOR 3: This constructs a tensor of one element and shape(1)
+    //         created for convenience for implicit conversion of
+    //         numbers to tensor in python interface only.
+    tensor(T num, std::string n = "")
+        : placeHolder<T>({1}, n), _ref(0x0), _mem_layout(0x0) {
+      init(INIT_VALUE, num);
+    }
+  #endif
+  */
   /// \brief Copy Constructor
   tensor(tensor const &other) : placeHolder<T>(other) {
     _ref = other._ref;
@@ -502,6 +496,12 @@ public:
   {
     std::string tensor_proto = "";
     return tensor_proto;
+  }
+  T sum() const {
+    T result = 0;
+    for (size_t i = 0; i < this->length(); i++)
+      result += _mem_layout[i];
+    return result;
   }
 
 }; // class tensor

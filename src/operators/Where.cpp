@@ -35,13 +35,13 @@ int main() {
   int d2[8] = {9, 8, 7, 6, 5, 4};
   bool d3[8] = {1, 0, 0, 1, 0, 1};
 
-  tensor<int> a(2, 4);
+  tensor<int> a({2, 4});
   a.load(d1);
 
-  tensor<int> b(2, 4);
+  tensor<int> b({2, 4});
   b.load(d2);
 
-  tensor<bool> c(2, 4);
+  tensor<bool> c({2, 4});
   c.load(d3);
 
   Where<int> w("localOpName");

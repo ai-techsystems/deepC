@@ -36,14 +36,23 @@ protected:
   std::string _name;             //! placeHolder name
   std::vector<DIMENSION> _shape; //! placeHolder shape
 
+  void init(std::vector<DIMENSION> &dimn) {
+    for (auto num : dimn) {
+      if (num == 0)
+        break;
+      _shape.push_back(num);
+    }
+  }
   // class tensor uses this constructor to allow for
   // _shape with no dimension, i.e. rank 0.
-  placeHolder(std::string n, std::vector<DIMENSION> dimn)
-      : _name(n), _shape(dimn) {}
+  placeHolder(std::string n, std::vector<DIMENSION> dimn) : _name(n) {
+    init(dimn);
+  }
 
 public:
-  placeHolder(std::vector<DIMENSION> dimn, std::string n = "")
-      : _name(n), _shape(dimn) {}
+  placeHolder(std::vector<DIMENSION> dimn, std::string n = "") : _name(n) {
+    init(dimn);
+  }
 
   void name(std::string n) { _name = n; }
   std::string name() const { return _name; }

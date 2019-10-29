@@ -33,9 +33,9 @@ int main() {
                   1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.};
   float d2[24] = {1., 2., 3., 1., 5., 6., 1., 2., 3., 1., 5., 6.,
                   1., 2., 3., 4., 5., 6., 1., 2., 3., 4., 5., 6.};
-  tensor<float> a(2, 3, 2, 2);
+  tensor<float> a({2, 3, 2, 2});
   a.load(d1);
-  tensor<float> b(2, 3, 2, 2);
+  tensor<float> b({2, 3, 2, 2});
   b.load(d2);
   Sub<float> m("localOpName");
   auto result = m.compute(a, b);

@@ -39,7 +39,7 @@ template <typename T> void print_tensor(tensor<T> &v) {
 template <typename T> void type_test() {
   std::cout << "==================================\n";
   size_t x1 = 2, x2 = 3, x3 = 4, x4 = 5;
-  tensor<T> t1(x1, x2, x3, x4);
+  tensor<T> t1({x1, x2, x3, x4});
 
   size_t sz = x1 * x2;
   for (size_t i = 0; i < sz; i++)

@@ -30,7 +30,7 @@ using namespace Eigen;
 #include <iostream>
 int main() {
   float d1[12] = {1., -2., 0.3, 4., 2.5, 6., 1., -2., 3., 3.4, 0., 6.};
-  tensor<float> a(4, 3);
+  tensor<float> a({4, 3});
   a.load(d1);
   // tensor<float> b(3,2); b.load(d2);
   float min = -1.0;

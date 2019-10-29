@@ -31,7 +31,7 @@ using namespace Eigen;
 int main() {
 
   float d1[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-  tensor<float> a(2, 2, 2);
+  tensor<float> a({2, 2, 2});
   a.load(d1);
   GlobalMaxPool<float> m("localOpName");
   std::cout << a << "\n";

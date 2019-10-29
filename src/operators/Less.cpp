@@ -31,9 +31,9 @@ using namespace Eigen;
 int main() {
   float d1[8] = {2., 3., 3., 5., 7., 6., 9., 10.};
   float d2[8] = {1., 2., 3., 4., 5., 6., 7., 8.};
-  tensor<float> a(2, 2, 2);
+  tensor<float> a({2, 2, 2});
   a.load(d1);
-  tensor<float> b(2, 2, 2);
+  tensor<float> b({2, 2, 2});
   b.load(d2);
 
   Less<float> m("localOpName");

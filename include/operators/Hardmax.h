@@ -76,7 +76,7 @@ public:
     axis2 = a.length() / axis1;
     std::vector<size_t> shape{axis1, axis2};
     a.reshape(shape);
-    tensor<T> result(a.shape()[0], a.shape()[1]);
+    tensor<T> result(a.shape());
 
     Eigen::MatrixXf::Index max_index;
 

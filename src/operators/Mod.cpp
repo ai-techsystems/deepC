@@ -34,9 +34,9 @@ int main() {
 
   float d1[4] = {21., 22., 23., 24.};
   float d2[4] = {20., 20., 20., 20.};
-  tensor<float> a(4);
+  tensor<float> a({4});
   a.load(d1);
-  tensor<float> b(4);
+  tensor<float> b({4});
   b.load(d1);
   int fmod_flag = 1;
   // std::cout << fmod(21.0, 21.0);

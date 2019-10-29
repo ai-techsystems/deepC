@@ -46,9 +46,9 @@ int main() {
                 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6};
   int d2[24] = {2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1,
                 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 0, 1};
-  tensor<int> a(2, 3, 2, 2);
+  tensor<int> a({2, 3, 2, 2)};
   a.load(d1);
-  tensor<int> b(2, 3, 2, 2);
+  tensor<int> b({2, 3, 2, 2});
   b.load(d2);
   Div<int> m("localOpName");
   auto result = m.compute(a, b);

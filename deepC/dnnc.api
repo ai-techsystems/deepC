@@ -233,23 +233,23 @@ tensor<output> dc_operator(tensor<input1> &a, tensor<input2> &b) {
 <\/>
 
 tensor<float> array(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
-	return tensor<float>(x, y, z, w, "", dnnc::INIT_RANDOM);
+	return tensor<float>({x, y, z, w}, "", dnnc::INIT_RANDOM);
 }
 
 tensor<float> empty(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
-	return tensor<float>(x, y, z, w, "", dnnc::INIT_NONE);
+	return tensor<float>({x, y, z, w}, "", dnnc::INIT_NONE);
 }
 
 tensor<float> zeros(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
-	return tensor<float>(x, y, z, w, "", dnnc::INIT_ZERO);
+	return tensor<float>({x, y, z, w}, "", dnnc::INIT_ZERO);
 }
 
 tensor<float> ones(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
-	return tensor<float>(x, y, z, w, "", dnnc::INIT_ONE);
+	return tensor<float>({x, y, z, w}, "", dnnc::INIT_ONE);
 }
 
 tensor<float> random(size_t x, size_t y = 0, size_t z = 0, size_t w = 0) {
-	return tensor<float>(x, y, z, w, "", dnnc::INIT_RANDOM);
+	return tensor<float>({x, y, z, w}, "", dnnc::INIT_RANDOM);
 }
 
 tensor<float> array(PyObject *objects) {
@@ -277,13 +277,15 @@ tensor<float> array(PyObject *objects) {
 						"2D array expects list of lists with same size.");
 		}
 		// fill it as row major data.
-		tensor<float> result(vDims.size(), vDims[0]);
+		std::vector<size_t> shape{vDims.size(), vDims[0]};
+		tensor<float> result(shape);
 		result.load(vContents);
 		return result;
 	} else {
 		// 1D: dc.array([2,3,4])
 		std::vector<float> aVec = listTupleToVector_Float(objects);
-		tensor<float> result(aVec.size());
+		std::vector<size_t> shape(1, aVec.size());
+		tensor<float> result(shape);
 		result.load(aVec);
 		return result;
 	}
@@ -302,7 +304,7 @@ tensor<float> arange(int stop, int start = 0, size_t step = 1) {
 	std::vector<float> vContents;
 	for (int i = start; i < stop; i = i + step)
 		vContents.push_back(static_cast<float>(i));
-	tensor<float> result(vContents.size());
+	tensor<float> result(std::vector<size_t>(1,vContents.size()));
 	result.load(vContents);
 	return result;
 }

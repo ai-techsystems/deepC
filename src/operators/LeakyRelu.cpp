@@ -32,7 +32,7 @@ using namespace Eigen;
 int main() {
   // float d1[6] = {1., -2., 3., 4., 5., 6.};
   double d1[6] = {12, -2, 3, 4, 5, 6};
-  tensor<double> a(2, 3);
+  tensor<double> a({2, 3});
   a.load(d1);
   // tensor<float> b(3,2); b.load(d2);
   float alpha = 0.3;

@@ -34,9 +34,9 @@ int main() {
 
   float d1[4] = {21., 22., 23., 24.};
   float d2[4] = {20., 20., 20., 20.};
-  tensor<float> a(4);
+  tensor<float> a({4});
   a.load(d1);
-  tensor<float> b(4);
+  tensor<float> b({4});
   b.load(d2);
   Remainder<float, float> m("localOpName");
   auto result = m.compute(a, b);
@@ -46,9 +46,9 @@ int main() {
 
   int d1_int[4] = {21, 22, 23, 24};
   int d2_int[4] = {20, 21, 22, 23};
-  tensor<int> a_int(4);
+  tensor<int> a_int({4});
   a_int.load(d1_int);
-  tensor<int> b_int(4);
+  tensor<int> b_int({4});
   b_int.load(d2_int);
   // int fremainder_flag = 0;
 

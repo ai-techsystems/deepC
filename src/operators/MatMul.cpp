@@ -32,9 +32,9 @@ using namespace Eigen;
 int main() {
   float d1[6] = {1., 2., 3., 4., 5., 6.};
   float d2[6] = {1., 2., 3., 4., 5., 6.};
-  tensor<float> a(2, 3);
+  tensor<float> a({2, 3});
   a.load(d1);
-  tensor<float> b(3, 2);
+  tensor<float> b({3, 2});
   b.load(d2);
 
   MatMul<float> m("localOpName");
@@ -46,9 +46,9 @@ int main() {
 #define DNNC_HIGHRANK_SUPPORT
   float i1[8] = {1, 2, 3, 4, 5, 6, 7, 8};
   float i2[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-  dnnc::tensor<float> c(2, 2, 2);
+  dnnc::tensor<float> c({2, 2, 2});
   c.load(i1);
-  dnnc::tensor<float> d(2, 2, 2);
+  dnnc::tensor<float> d({2, 2, 2});
   d.load(i2);
   MatMul<float> m1("localfloat");
   dnnc::tensor<float> iresult = m1.compute(c, d);

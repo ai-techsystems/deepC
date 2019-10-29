@@ -32,9 +32,9 @@ using namespace Eigen;
 int main() {
   int d1[6] = {6, 2, 4, 4, 3, 6};
   int d2[6] = {1, 2, 3, 4, 5, 6};
-  tensor<int> a(2, 1, 3);
+  tensor<int> a({2, 1, 3});
   a.load(d1);
-  tensor<int> b(2, 1, 3);
+  tensor<int> b({2, 1, 3});
   b.load(d2);
   // std::cout << a << "\n";
   // std::cout << b << "\n";

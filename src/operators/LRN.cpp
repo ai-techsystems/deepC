@@ -31,7 +31,7 @@ using namespace Eigen;
 int main() {
 
   float d1[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-  tensor<float> a(2, 4, 1);
+  tensor<float> a({2, 4, 1});
   a.load(d1);
   // float alpha = 0.0001;
   // float beta = 0.75;

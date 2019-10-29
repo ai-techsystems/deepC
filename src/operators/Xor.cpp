@@ -33,13 +33,13 @@ int main() {
   float d2[6] = {1., 2., 3., 4., 5., 0.};
   int d3[6] = {0, 1, 2, 3, 6, 5};
   int d4[6] = {1, 0, 6, 4, 6, 5};
-  tensor<float> a(2, 3);
+  tensor<float> a({2, 3});
   a.load(d1);
-  tensor<float> b(2, 3);
+  tensor<float> b({2, 3});
   b.load(d2);
-  tensor<int> c(2, 3);
+  tensor<int> c({2, 3});
   c.load(d3);
-  tensor<int> d(2, 3);
+  tensor<int> d({2, 3});
   d.load(d4);
 
   // Xor<int, float> m("localOpName");

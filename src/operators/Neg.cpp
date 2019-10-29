@@ -31,7 +31,7 @@ using namespace Eigen;
 int main() {
 
   float d1[6] = {1., 2., 3., 4., 5., 0.};
-  tensor<float> a(3, 2);
+  tensor<float> a({3, 2});
   a.load(d1);
 
   Neg<float> m("localOpName");

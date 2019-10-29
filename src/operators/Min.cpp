@@ -35,9 +35,9 @@ int main() {
   float data2[12] = {-0.72546995, -0.66292864, 0.03466121, 1.1469446,
                      0.62084216,  1.8464565,   2.229277,   0.6344861,
                      0.28158414,  -0.9978712,  0.10784209, -0.4692914};
-  tensor<float> fTensor1(1, 12);
+  tensor<float> fTensor1({1, 12});
   fTensor1.load(data1);
-  tensor<float> fTensor2(1, 12);
+  tensor<float> fTensor2({1, 12});
   fTensor2.load(data2);
 
   // std::cout << fTensor1 << std::endl;

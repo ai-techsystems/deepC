@@ -70,6 +70,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %feature("python:slot",    "tp_repr", functype="reprfunc")                    dnnc::tensor::__str__;
 %feature("python:slot",    "tp_str", functype="reprfunc")                     dnnc::tensor::__repr__;
 
+//%implicitconv dnnc::tensor;
 %extend dnnc::tensor {
   const T& __getitem__(PyObject* indices) {
     std::vector<size_t> vIndices = listTupleToVector_SizeT(indices);
@@ -130,7 +131,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::NULL_TENSOR<float>;
   }
   
-  dnnc::tensor<T> other(1);
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
   
   return dnnc::true_div(*$self, other).asType<float>();
@@ -151,7 +152,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::NULL_TENSOR<float>;
   }
   
-  dnnc::tensor<T> other(1);
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
   
   return dnnc::true_div(other, *$self).asType<float>();
@@ -165,7 +166,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::true_div(*$self, other).asType<float>();
   }
   dnnc::tensor<float> __itruediv__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::true_div(*$self, other).asType<float>();
   }
@@ -190,7 +191,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
       return dnnc::NULL_TENSOR<int>;
     }
   
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&data);
     
     return dnnc::floor_div(*$self, other).asType<int>();
@@ -211,7 +212,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::NULL_TENSOR<int>;
   }
   
-  dnnc::tensor<T> other(1);
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
   
   return dnnc::floor_div(other, *$self).asType<int>();
@@ -225,7 +226,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::floor_div(*$self, other).asType<int>();
   }
   dnnc::tensor<int> __ifloordiv__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::floor_div(*$self, other).asType<int>();
   }
@@ -241,7 +242,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   dnnc::tensor<int> __lshift__(int scalar) {
     dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
-    dnnc::tensor<int> other(1);
+    dnnc::tensor<int> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     std::string direction = "LEFT";
     dnnc::BitShift<int> op("pythonOp", direction);
@@ -259,7 +260,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   dnnc::tensor<int> __ilshift__(int scalar) {
     dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
-    dnnc::tensor<int> other(1);
+    dnnc::tensor<int> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     std::string direction = "LEFT";
     dnnc::BitShift<int> op("pythonOp", direction);
@@ -278,7 +279,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   dnnc::tensor<int> __rshift__(int scalar) {
     dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
-    dnnc::tensor<int> other(1);
+    dnnc::tensor<int> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     std::string direction = "LEFT";
     dnnc::BitShift<int> op("pythonOp", direction);
@@ -296,7 +297,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   }
   dnnc::tensor<int> __irshift__(int scalar) {
     dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
-    dnnc::tensor<int> other(1);
+    dnnc::tensor<int> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     std::string direction = "LEFT";
     dnnc::BitShift<int> op("pythonOp", direction);
@@ -332,10 +333,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::add(*$self, other).asType<T>();
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
@@ -353,10 +354,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::add(other, *$self).asType<T>();
   }
 
@@ -368,7 +369,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::add(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __iadd__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::add(*$self, other).asType<T>();
   }
@@ -401,10 +402,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::sub(*$self, other).asType<T>();
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
@@ -422,10 +423,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::sub(other, *$self).asType<T>();
   }
 
@@ -437,7 +438,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::sub(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __isub__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::sub(*$self, other).asType<T>();
   }
@@ -470,10 +471,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::mul(*$self, other).asType<T>();
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
@@ -491,10 +492,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::mul(other, *$self).asType<T>();
   }
 
@@ -506,7 +507,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::mul(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __imul__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::mul(*$self, other).asType<T>();
   }
@@ -539,10 +540,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::remainder(*$self, other).asType<T>();
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
@@ -560,10 +561,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::remainder(other, *$self).asType<T>();
   }
 
@@ -575,7 +576,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::remainder(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __imod__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::remainder(*$self, other).asType<T>();
   }
@@ -608,10 +609,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::power(*$self, other).asType<T>();
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
@@ -629,10 +630,10 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::power(other, *$self).asType<T>();
   }
 
@@ -644,7 +645,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::power(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __ipow__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::power(*$self, other).asType<T>();
   }
@@ -657,13 +658,13 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::logical_and(*$self, other).asType<bool>();
   }
   dnnc::tensor<bool> __and__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_and(*$self, other).asType<bool>();
   }
   %pybinoperator(__rand__, dnnc::tensor::__rand__, binaryfunc, nb_rand);
   dnnc::tensor<bool> __rand__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_and(other, *$self).asType<bool>();
   }
@@ -676,7 +677,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::logical_and(*$self, other).asType<bool>();
   }
   dnnc::tensor<bool> __iand__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_and(*$self, other).asType<bool>();
   }
@@ -689,13 +690,13 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::logical_or(*$self, other).asType<bool>();
   }
   dnnc::tensor<bool> __or__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_or(*$self, other).asType<bool>();
   }
   %pybinoperator(__ror__, dnnc::tensor::__ror__, binaryfunc, nb_ror);
   dnnc::tensor<bool> __ror__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_or(other, *$self).asType<bool>();
   }
@@ -708,7 +709,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::logical_or(*$self, other).asType<bool>();
   }
   dnnc::tensor<bool> __ior__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_or(*$self, other).asType<bool>();
   }
@@ -721,13 +722,13 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::logical_xor(*$self, other).asType<bool>();
   }
   dnnc::tensor<bool> __xor__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_xor(*$self, other).asType<bool>();
   }
   %pybinoperator(__rxor__, dnnc::tensor::__rxor__, binaryfunc, nb_rxor);
   dnnc::tensor<bool> __rxor__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_xor(other, *$self).asType<bool>();
   }
@@ -740,7 +741,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     return dnnc::logical_xor(*$self, other).asType<bool>();
   }
   dnnc::tensor<bool> __ixor__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::logical_xor(*$self, other).asType<bool>();
   }

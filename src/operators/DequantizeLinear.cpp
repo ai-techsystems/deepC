@@ -39,15 +39,15 @@ int main() {
 
   // we can't pass both int and float tensor to the compute function for now
   // tensor<int> a(2,3); a.load(d1);
-  tensor<int> a(2, 2, 3, 2);
+  tensor<int> a({2, 2, 3, 2});
   a.load(d1);
 
-  tensor<float> b(1);
+  tensor<float> b({1});
   b.load(d2);
 
   // we can't pass both int and float tensor to the compute function for now
   // tensor<int> c(1,1); c.load(d3);
-  tensor<int> c(1);
+  tensor<int> c({1});
   c.load(d3);
 
   DequantizeLinear<int> m("localOpName");

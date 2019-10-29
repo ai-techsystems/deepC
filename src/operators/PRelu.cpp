@@ -32,10 +32,10 @@ int main() {
   float x[8] = {-2.3, 4.5, -2.0, 4.0, -1.0, 3.5, -5.2, 9.0};
   float slope[8] = {2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0};
 
-  tensor<float> x_tensor(2, 4);
+  tensor<float> x_tensor({2, 4});
   x_tensor.load(x);
 
-  tensor<float> slope_tensor(2, 4);
+  tensor<float> slope_tensor({2, 4});
   slope_tensor.load(slope);
 
   PRelu<float> op;

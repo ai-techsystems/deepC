@@ -32,7 +32,7 @@ int main() {
   // bool d1[8] = {true, false, true, false, true, false, true, false};
   float d1[6] = {1., 2., 3., 4., 5., 0.};
   // tensor<bool> a(2, 2, 2);
-  tensor<float> a(3, 2);
+  tensor<float> a({3, 2});
   a.load(d1);
 
   // Not<bool> m("localOpName");

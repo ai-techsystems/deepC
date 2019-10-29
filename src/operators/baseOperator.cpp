@@ -53,23 +53,23 @@ public:
 using namespace dnnc;
 
 int main() {
-  tensor<float> tf(3, 4);
+  tensor<float> tf({3, 4});
   fakeOperatorTest<float> fotf;
   fotf.testEigenMatrix(tf);
 
-  tensor<double> td(3, 4);
+  tensor<double> td({3, 4});
   fakeOperatorTest<double> fotd;
   fotd.testEigenMatrix(td);
 
-  tensor<int> ti(3, 4);
+  tensor<int> ti({3, 4});
   fakeOperatorTest<int> foti;
   foti.testEigenMatrix(ti);
 
-  tensor<float> tf1(2, 3, 4, 5);
+  tensor<float> tf1({2, 3, 4, 5});
   fakeOperatorTest<float> fotf1;
   fotf1.testEigenMatrix(tf1);
 
-  tensor<double> td1(3, 4, 6, 7);
+  tensor<double> td1({3, 4, 6, 7});
   fakeOperatorTest<double> fotd1;
   fotd1.testEigenMatrix(td1);
 

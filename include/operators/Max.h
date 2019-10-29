@@ -60,7 +60,7 @@ public:
     if (inputs.size() == 0) {
       throw std::invalid_argument(
           "Max operator requires non-zero size input vector.");
-      return tensor<T>(0);
+      return tensor<T>();
     }
 
     try {
@@ -80,7 +80,7 @@ public:
       std::cout
           << "operands could not be broadcast together with given shapes!!!"
           << "\n";
-      return 1;
+      return tensor<T>();
     }
 
     // std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);

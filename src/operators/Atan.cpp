@@ -31,7 +31,7 @@ using namespace Eigen;
 int main() {
 
   float d1[1] = {-1.};
-  tensor<float> a(1, 1);
+  tensor<float> a({1, 1});
   a.load(d1);
 
   Atan<float> ATAN("localOpName", 0x0);

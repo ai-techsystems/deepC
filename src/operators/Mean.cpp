@@ -32,11 +32,11 @@ int main() {
   float data1[9] = {0.1, 0.02, 1.3, 4.05, 0.5, 0.06, 1.2, 1.03, 1.4};
   float data2[9] = {0.01, 0.2, 1.03, 4.5, 0.05, 0.6, 1.02, 1.3, 1.4};
   float data3[9] = {0.12, 0.032, 1.34, 4.056, 0.25, 0.062, 1.82, 2.03, 3.4};
-  tensor<float> fTensor1(3, 3);
+  tensor<float> fTensor1({3, 3});
   fTensor1.load(data1);
-  tensor<float> fTensor2(3, 3);
+  tensor<float> fTensor2({3, 3});
   fTensor2.load(data2);
-  tensor<float> fTensor3(3, 3);
+  tensor<float> fTensor3({3, 3});
   fTensor3.load(data3);
 
   std::vector<tensor<float>> vt;

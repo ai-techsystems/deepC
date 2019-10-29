@@ -30,10 +30,10 @@ using namespace Eigen;
 #include <iostream>
 int main() {
   float d1[6] = {1., 2., 3., 4., 5., 6.};
-  tensor<float> a(2, 3);
+  tensor<float> a({2, 3});
   a.load(d1);
   long int i1[4] = {1, 2, 1, 3};
-  tensor<long int> b(4);
+  tensor<long int> b({4});
   b.load(i1);
 
   Reshape<float> m("localOpName");

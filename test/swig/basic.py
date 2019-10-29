@@ -1,7 +1,7 @@
 import os,sys
 sys.path.append(os.path.abspath('.'));
 
-import dnnc as dc
+import deepC.dnnc as dc
 t1=dc.array(2,3)
 t2=dc.array(3,2)
 

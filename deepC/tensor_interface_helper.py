@@ -44,13 +44,13 @@ def tensor_swig_helper_logical(dc_operator, operator_header, operator_python):
     return dnnc::<dc_operator>(*$self, other).asType<bool>();
   }
   dnnc::tensor<bool> __<operand>__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::<dc_operator>(*$self, other).asType<bool>();
   }
   %pybinoperator(__r<operand>__, dnnc::tensor::__r<operand>__, binaryfunc, nb_r<operand>);
   dnnc::tensor<bool> __r<operand>__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::<dc_operator>(other, *$self).asType<bool>();
   }
@@ -63,7 +63,7 @@ def tensor_swig_helper_logical(dc_operator, operator_header, operator_python):
     return dnnc::<dc_operator>(*$self, other).asType<bool>();
   }
   dnnc::tensor<bool> __i<operand>__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::<dc_operator>(*$self, other).asType<bool>();
   }
@@ -73,7 +73,7 @@ def tensor_swig_helper_logical(dc_operator, operator_header, operator_python):
 
 
 def tensor_swig_helper_binary(dc_operator, operator_header, operator_python):
-	
+
 	s = '''
   /*  Binary <operator>  */
   %pybinoperator(__<operand>__, dnnc::tensor::__<operand>__, binaryfunc, nb_<operand>);
@@ -101,10 +101,10 @@ def tensor_swig_helper_binary(dc_operator, operator_header, operator_python):
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::<dc_operator>(*$self, other).asType<T>();
   }
   // 'swig -builtin' option limits all reverse operator from being overloaded.
@@ -122,10 +122,10 @@ def tensor_swig_helper_binary(dc_operator, operator_header, operator_python):
     throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
     return dnnc::NULL_TENSOR<T>;
   }
-  
-  dnnc::tensor<T> other(1);
+
+  dnnc::tensor<T> other(std::vector<size_t>(1,1));
   other.load(&data);
-  
+
   return dnnc::<dc_operator>(other, *$self).asType<T>();
   }
 
@@ -137,7 +137,7 @@ def tensor_swig_helper_binary(dc_operator, operator_header, operator_python):
     return dnnc::<dc_operator>(*$self, other).asType<T>();
   }
   dnnc::tensor<T> __i<operand>__(T scalar) {
-    dnnc::tensor<T> other(1);
+    dnnc::tensor<T> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     return dnnc::<dc_operator>(*$self, other).asType<T>();
   }
