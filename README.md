@@ -1,6 +1,6 @@
 # dnn Compiler
 ---
-
+[![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc) 
 ## 📛 Introduction 
 
 dnn Compiler is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like FPGAs, eFPGAs and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ) and others.
@@ -88,3 +88,33 @@ By bringing deep learning models to tiny microcontrollers, we can boost the inte
 
 
 **🚧 Project Under Development.** *Stay tuned. We plan to release the first version in Nov. 2019.*
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/ai-techsystems/dnnCompiler/graphs/contributors"><img src="https://opencollective.com/dnnc/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/dnnc/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/dnnc"><img src="https://opencollective.com/dnnc/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/dnnc/contribute)]
+
+<a href="https://opencollective.com/dnnc/organization/0/website"><img src="https://opencollective.com/dnnc/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/1/website"><img src="https://opencollective.com/dnnc/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/2/website"><img src="https://opencollective.com/dnnc/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/3/website"><img src="https://opencollective.com/dnnc/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/4/website"><img src="https://opencollective.com/dnnc/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/5/website"><img src="https://opencollective.com/dnnc/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/6/website"><img src="https://opencollective.com/dnnc/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/7/website"><img src="https://opencollective.com/dnnc/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/8/website"><img src="https://opencollective.com/dnnc/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/dnnc/organization/9/website"><img src="https://opencollective.com/dnnc/organization/9/avatar.svg"></a>
