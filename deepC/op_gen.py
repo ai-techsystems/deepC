@@ -421,7 +421,7 @@ def main():
 		parser = argparse.ArgumentParser(description="generate api for swig")
 		parser.add_argument("-dev", "--developer", action="store_true", help="skip generating cpps for binary operators for faster development purposes")
 		args = parser.parse_args()
-		
+
 		if not args.developer:
 
 			dtype_precedence_dict = ast.literal_eval(contents[split_position:].split(split_string)[1].split("dtype_precedence_dict = ")[1])
@@ -429,7 +429,7 @@ def main():
 			temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = binary_operators(contents[split_position:].split(split_string)[2][:-1])
 			cpp_file += temp_cpp_file
 			swig_extern_file += temp_swig_extern_file
-			tensor_swig_helper_file += temp_tensor_swig_helper_file
+			tensor_swig_helper_file += temp_tensor_swig_helper_file + tensor_swig_helper_div()
 			py_file += temp_py_file
 
 			temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = logical_operators(contents[split_position:].split(split_string)[3][:-1])
