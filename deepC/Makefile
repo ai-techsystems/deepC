@@ -69,7 +69,7 @@ VERIFY:
 	$(PYTHON) ../test/swig/basic.py
 
 clean:
-	$(RM_F) $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc.py dnnc.pyc $(DNNC_API_CPPS) $(PYMOD) __pycache__
+	$(RM_F) $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc_swig_externs.h dnnc.py dnnc.pyc $(DNNC_API_CPPS) $(PYMOD) __pycache__
 
 .DEFAULT: all
 .PHONY: print_vars
