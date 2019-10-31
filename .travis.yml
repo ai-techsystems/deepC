@@ -1,0 +1,37 @@
+# os:
+#   - bionic
+#   - osx
+
+# env:
+#   - BADGE=linux
+#   - BADGE=osx
+
+# hack to get some OS-specific badges
+# matrix:
+#   exclude:
+#     - os: linux
+#       env: BADGE=osx
+#     - os: osx
+#       env: BADGE=linux
+
+dist: bionic
+
+addons:
+  apt:
+    update: true
+    packages:
+    - build-essential
+    - python3.6-dev
+    - python3-pip
+    - swig
+    - doxygen
+    - clang-format
+    - clang
+    - clang-8
+    - llvm-8
+    - llvm-8-dev
+
+language: bash
+script: 
+  - pip3 install numpy onnx
+  - make
