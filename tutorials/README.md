@@ -1,6 +1,6 @@
 ## Tutorials
 
-1. [Getting Started with Framework](Getting_Started_With_DNNC.ipynb)
+1. [Getting Started with Framework](tutorials/Getting_Started_With_deepC.ipynb)
 
 ## Examples
 
