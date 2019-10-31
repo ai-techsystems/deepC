@@ -59,8 +59,10 @@ OTHER_OBJECTS = $(CORE_OBJ)/datatypes.o   \
 				$(GRPH_OBJ)/node.o        \
 				$(GRPH_OBJ)/graph.o        \
 				$(CODE_OBJ)/cppCodeGen.o
+$(OTHER_OBJECTS):
+	make -C ../src
 
-$(LIB):$(OBJECTS)
+$(LIB):$(OTHER_OBJECTS) $(OBJECTS)
 	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
 	$(CC) $(LD_FLAGS) $(OTHER_OBJECTS) $(OBJECTS) -o $@
 	$(LN_S) -f $@ $(PYMOD)
