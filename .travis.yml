@@ -14,10 +14,29 @@
 #     - os: osx
 #       env: BADGE=linux
 
-dist: bionic
+matrix:
+  include:
+    - os: linux 
+      arch: arm64 
+      dist: bionic
+    - os: osx
+      osx_image: xcode11.1
 
 addons:
   apt:
+    update: true
+    packages:
+    - build-essential
+    - python3.6-dev
+    - python3-pip
+    - swig
+    - doxygen
+    - clang-format
+    - clang
+    - clang-8
+    - llvm-8
+    - llvm-8-dev
+  homebrew:
     update: true
     packages:
     - build-essential
