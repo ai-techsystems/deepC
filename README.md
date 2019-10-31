@@ -1,7 +1,7 @@
 # dnn Compiler
 ---
 
-[![Build Status](https://travis-ci.com/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.com/ai-techsystems/dnnCompiler)
+[![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
 
 ## 📛 Introduction 
 
