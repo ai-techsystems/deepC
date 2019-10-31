@@ -28,17 +28,51 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ArgMax : public baseOperator<T, T, T> {
-  //  ArgMax attributes
+template <typename To, typename Ti>
+class ArgMax : public baseOperator<To, Ti, Ti> {
+
+  int _axis = 0;
+  int _keepdims = 1;
+
 public:
   ArgMax(std::string name = "opArgMax")
-      : baseOperator<T, T, T>(opArgMax, name) {}
+      : baseOperator<To, Ti, Ti>(opArgMax, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  bool getAttribute(OPATTR attrName, int &obj) override {
+    if (attrName == attr_axis) {
+      obj = _axis;
+      return true;
+    } else if (attrName == attr_keepdims) {
+      obj = _keepdims;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_axis) {
+      _axis = obj;
+      return true;
+    } else if (attrName == attr_keepdims) {
+      _keepdims = obj;
+      return true;
+    }
+    return false;
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<To> compute(tensor<Ti> input) {
+
+    if (!(this->template type_check<short int, int, long int>(typeid(To))))
+      throw std::invalid_argument("Constrain output tensor type to int type.");
+
+    if (_axis < -input.rank() || _axis > input.rank() - 1)
+      throw std::invalid_argument("axis is out of bounds for tensor.");
+
+    if (input.rank() == 1 || input.rank() == 2) {
+    } else if (input.rank() == 3) {
+    } else if (input.rank() == 4) {
+    } else {
+    }
+    return NULL_TENSOR<To>;
   }
 };
 } // namespace dnnc

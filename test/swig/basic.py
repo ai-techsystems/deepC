@@ -14,7 +14,14 @@ t3 = dc.array(2,3,4)
 #print("old shape", t1.shape())
 new_shape = dc.vectorSizeT([2,12])
 t3.reshape(new_shape)
+t3.reshape(4,6)
+t3.reshape((4,6))
+t3.reshape([4,6])
 #print("new shape", t1.shape())
+
+py_list = list(t3);   # convert tensor to python list
+py_tuple = tuple(t3); # convert tensor to python tuple
+np_ary = t3.numpy();  # convert to numpy array
 
 #t4 = dc.thresholded_relu(t1);
 #print("relu", t4.to_string())

@@ -797,6 +797,37 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
 // <\/>
 
+%pythoncode %{
+def numpy(self) :
+  """
+     convert tensor to numpy array.
+  """
+  import numpy as np
+  return np.array(self.data()).reshape(self.shape())  
+
+def len(self):
+  return self.length()
+%}
+
+
+%feature("shadow") reshape(std::vector<size_t> &shape) %{
+def reshape(self, *args):
+  """
+    reshape tensor to a new shape permitting same length of old and new shape.
+  """
+  new_shape = []
+  for arg in args:
+    if isinstance(arg, int):
+      new_shape.append(arg)
+    else:
+      return $action (self, vectorSizeT(arg))
+ 
+  if len(new_shape):
+    return $action (self, vectorSizeT(new_shape))
+
+  return $action (args)
+%}
+
 }
 %template(boolplaceHolder)   dnnc::placeHolder<bool>;
 %template(intplaceHolder)    dnnc::placeHolder<int>;
