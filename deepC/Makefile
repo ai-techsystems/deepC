@@ -36,7 +36,7 @@ API_MODULES=dnnc.api
 DNNC_API_CPPS=$(API_MODULES:%.api=%_api.cpp)
 $(DNNC_API_CPPS): $(API_MODULES)
 	@echo "generating APIs from $<"
-	$(PYTHON) ./op_gen.py
+	$(PYTHON) $(API_GENERATOR)
 
 dnnc.i:tensor.i graph.i
 dnnc_swig.cpp: dnnc.i
@@ -68,10 +68,10 @@ $(LIB):$(OTHER_OBJECTS) $(OBJECTS)
 	$(LN_S) -f $@ $(PYMOD)
 
 VERIFY:
-	$(PYTHON) ../test/swig/basic.py
+	$(PYTHON) $(BASIC_TEST)
 
 clean:
-	$(RM_F) $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc.py dnnc.pyc $(DNNC_API_CPPS) $(PYMOD) __pycache__
+	$(RM_F) $(OBJ_DIR) $(LIB_DIR) dnnc_swig.cpp dnnc_swig_externs.h dnnc.py dnnc.pyc $(DNNC_API_CPPS) $(PYMOD) __pycache__
 
 .DEFAULT: all
 .PHONY: print_vars

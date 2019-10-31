@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
   clang \
   clang-8 \
   llvm-8 \
-  llvm-8-dev
+  llvm-8-dev \
+  vim
 
 # install numpy onnx with pip
 RUN pip3 install numpy onnx

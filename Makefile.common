@@ -36,8 +36,16 @@ LD_FLAGS=-shared
 CPP_FLAGS=-O3 -Wall -std=c++17 -fPIC -march=native -msse2
 
 SWIG_FLAGS=-python -c++ -Wall 
+API_GENERATOR=./op_gen.py
+BASIC_TEST=../test/swig/basic.py
+
 ifneq (,$(findstring $(FAST_SWIG),yY))
 SWIG_FLAGS=-python -c++ -Wall -builtin
+endif
+
+ifneq (,$(findstring $(DEV),yY))
+API_GENERATOR=./op_gen.py -dev
+BASIC_TEST=../test/swig/basic.py -dev
 endif
 
 OBJ_DIR=./obj
