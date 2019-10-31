@@ -2,7 +2,6 @@
 ---
 
 [![Build Status](https://travis-ci.com/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.com/ai-techsystems/dnnCompiler)
-[![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
 
 ## 📛 Introduction 
 
@@ -94,10 +93,12 @@ By bringing deep learning models to tiny microcontrollers, we can boost the inte
 
 ## Contributors
 
-### Code Contributors
+### Code Contributors 
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/ai-techsystems/dnnCompiler/graphs/contributors"><img src="https://opencollective.com/dnnc/contributors.svg?width=890&button=false" /></a>
+
+[![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
 
 ### Financial Contributors
 
