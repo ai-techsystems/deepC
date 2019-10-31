@@ -21,7 +21,7 @@
 
 
 from tensor_interface_helper import *
-import ast
+import ast, argparse
 
 
 def check_comments(s):
@@ -418,25 +418,31 @@ def main():
 		if check_comments(contents):
 			return 1
 
-		dtype_precedence_dict = ast.literal_eval(contents[split_position:].split(split_string)[1].split("dtype_precedence_dict = ")[1])
+		parser = argparse.ArgumentParser(description="generate api for swig")
+		parser.add_argument("-dev", "--developer", action="store_true", help="skip generating cpps for binary operators for faster development purposes")
+		args = parser.parse_args()
+		
+		if not args.developer:
 
-		temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = binary_operators(contents[split_position:].split(split_string)[2][:-1])
-		cpp_file += temp_cpp_file
-		swig_extern_file += temp_swig_extern_file
-		tensor_swig_helper_file += temp_tensor_swig_helper_file
-		py_file += temp_py_file
+			dtype_precedence_dict = ast.literal_eval(contents[split_position:].split(split_string)[1].split("dtype_precedence_dict = ")[1])
 
-		temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = logical_operators(contents[split_position:].split(split_string)[3][:-1])
-		cpp_file += temp_cpp_file
-		swig_extern_file += temp_swig_extern_file
-		tensor_swig_helper_file += temp_tensor_swig_helper_file
-		py_file += temp_py_file
+			temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = binary_operators(contents[split_position:].split(split_string)[2][:-1])
+			cpp_file += temp_cpp_file
+			swig_extern_file += temp_swig_extern_file
+			tensor_swig_helper_file += temp_tensor_swig_helper_file
+			py_file += temp_py_file
 
-		temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = comparison_operators(contents[split_position:].split(split_string)[3][:-1], dtype_precedence_dict)
-		cpp_file += temp_cpp_file
-		swig_extern_file += temp_swig_extern_file
-		tensor_swig_helper_file += temp_tensor_swig_helper_file
-		py_file += temp_py_file
+			temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = logical_operators(contents[split_position:].split(split_string)[3][:-1])
+			cpp_file += temp_cpp_file
+			swig_extern_file += temp_swig_extern_file
+			tensor_swig_helper_file += temp_tensor_swig_helper_file
+			py_file += temp_py_file
+
+			temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = comparison_operators(contents[split_position:].split(split_string)[3][:-1], dtype_precedence_dict)
+			cpp_file += temp_cpp_file
+			swig_extern_file += temp_swig_extern_file
+			tensor_swig_helper_file += temp_tensor_swig_helper_file
+			py_file += temp_py_file
 
 		temp_cpp_file, temp_swig_extern_file = normal_operators(contents[split_position:].split(split_string)[4])
 		cpp_file += temp_cpp_file

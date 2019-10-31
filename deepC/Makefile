@@ -36,7 +36,7 @@ API_MODULES=dnnc.api
 DNNC_API_CPPS=$(API_MODULES:%.api=%_api.cpp)
 $(DNNC_API_CPPS): $(API_MODULES)
 	@echo "generating APIs from $<"
-	$(PYTHON) ./op_gen.py
+	$(PYTHON) $(API_GENERATOR)
 
 dnnc.i:tensor.i graph.i
 dnnc_swig.cpp: dnnc.i
