@@ -29,6 +29,23 @@ using namespace Eigen;
 #ifdef DNNC_ARGMIN_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float f1[6] = {1., 2., 3., 4., 5., 6};
+  float f2[9] = {6., 1., 0., 5., 7., 4., 2., 3., 8};
+
+  tensor<float> tf1({2, 3});
+  tf1.load(f1);
+  tensor<float> tf2({3, 3});
+  tf2.load(f2);
+
+  ArgMin<int, float> ArgMinF1("floatArgMin");
+  std::cout << ArgMinF1.compute(tf1) << std::endl;
+
+  ArgMin<int, float> ArgMinF2("floatArgMin");
+  std::cout << ArgMinF2.compute(tf2) << std::endl;
+  ArgMinF2.setAttribute(attr_keepdims, 0);
+  std::cout << ArgMinF2.compute(tf2) << std::endl;
+  ArgMinF2.setAttribute(attr_keepdims, 1);
+  ArgMinF2.setAttribute(attr_axis, 1);
+  std::cout << ArgMinF2.compute(tf2) << std::endl;
 }
 #endif

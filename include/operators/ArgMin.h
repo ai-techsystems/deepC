@@ -28,17 +28,227 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ArgMin : public baseOperator<T, T, T> {
-  //  ArgMin attributes
+template <typename To, typename Ti>
+class ArgMin : public baseOperator<To, Ti, Ti> {
+
+  int _axis = 0;
+  int _keepdims = 1;
+
+  void updateMin(To index, Ti value, To &minIndex, Ti &minValue) {
+    if (value < minValue) {
+      minValue = value;
+      minIndex = index;
+    }
+  }
+
 public:
   ArgMin(std::string name = "opArgMin")
-      : baseOperator<T, T, T>(opArgMin, name) {}
+      : baseOperator<To, Ti, Ti>(opArgMin, name) {}
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  bool getAttribute(OPATTR attrName, int &obj) override {
+    if (attrName == attr_axis) {
+      obj = _axis;
+      return true;
+    } else if (attrName == attr_keepdims) {
+      obj = _keepdims;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_axis) {
+      _axis = obj;
+      return true;
+    } else if (attrName == attr_keepdims) {
+      _keepdims = obj;
+      return true;
+    }
+    return false;
+  }
 
-  void compute(void) {
-    // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
+  tensor<To> compute(tensor<Ti> input) override {
+
+    if (!(this->template type_check<short int, int, long int>(typeid(To))))
+      throw std::invalid_argument("Constrain output tensor type to int type.");
+
+    int rank = input.rank();
+
+    if (_axis < -rank || _axis > rank - 1)
+      throw std::invalid_argument("axis " + std::to_string(_axis) +
+                                  " is out of bounds for tensor.");
+
+    size_t axis = _axis + (_axis < 0 ? rank : 0); // ascertain positive number.
+
+    std::vector<DIMENSION> axes = input.shape();
+    size_t axis0 = rank > 0 ? axes[0] : 0;
+    size_t axis1 = rank > 1 ? axes[1] : 0;
+    size_t axis2 = rank > 2 ? axes[2] : 0;
+    size_t axis3 = rank > 3 ? axes[3] : 0;
+    size_t axis4 = rank > 4 ? axes[4] : 0;
+
+    std::vector<DIMENSION> new_shape;
+    if (_keepdims) {
+      new_shape = axes;
+    } else {
+      for (size_t x = 0; x < axes.size(); x++) {
+        if (x != axis) {
+          new_shape.push_back(axes[x]);
+        }
+      }
+    }
+    tensor<To> result(new_shape);
+
+    if (axis == 0) {
+      for (size_t j = 0; j == 0 || j < axis1; j++) {
+        for (size_t k = 0; k == 0 || k < axis2; k++) {
+          for (size_t l = 0; l == 0 || l < axis3; l++) {
+            for (size_t m = 0; m == 0 || m < axis4; m++) {
+              Ti minValue;
+              To minIndex;
+              for (size_t i = 0; i == 0 || i < axis0; i++) {
+                if (i == 0) {
+                  minValue = input(i, j, k, l, m);
+                  minIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMin(i, value, minIndex, minValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t i = 0; i < axis0; i++)
+                  result.load(minIndex, i, j, k, l, m);
+              } else {
+                result.load(minIndex, j, k, l, m);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else if (axis == 1) {
+      for (size_t i = 0; i == 0 || i < axis0; i++) {
+        for (size_t k = 0; k == 0 || k < axis2; k++) {
+          for (size_t l = 0; l == 0 || l < axis3; l++) {
+            for (size_t m = 0; m == 0 || m < axis4; m++) {
+              Ti minValue;
+              To minIndex;
+              for (size_t j = 0; j == 0 || j < axis1; j++) {
+                if (j == 0) {
+                  minValue = input(i, j, k, l, m);
+                  minIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMin(j, value, minIndex, minValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t j = 0; j < axis1; j++)
+                  result.load(minIndex, i, j, k, l, m);
+              } else {
+                result.load(minIndex, i, k, l, m);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else if (axis == 2) {
+      for (size_t i = 0; i == 0 || i < axis0; i++) {
+        for (size_t j = 0; j == 0 || j < axis1; j++) {
+          for (size_t l = 0; l == 0 || l < axis3; l++) {
+            for (size_t m = 0; m == 0 || m < axis4; m++) {
+              Ti minValue;
+              To minIndex;
+              for (size_t k = 0; k == 0 || k < axis2; k++) {
+                if (k == 0) {
+                  minValue = input(i, j, k, l, m);
+                  minIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMin(k, value, minIndex, minValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t k = 0; k < axis2; k++)
+                  result.load(minIndex, i, j, k, l, m);
+              } else {
+                result.load(minIndex, i, j, l, m);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else if (axis == 3) {
+      for (size_t i = 0; i == 0 || i < axis0; i++) {
+        for (size_t j = 0; j == 0 || j < axis1; j++) {
+          for (size_t k = 0; k == 0 || k < axis2; k++) {
+            for (size_t m = 0; m == 0 || m < axis4; m++) {
+              Ti minValue;
+              To minIndex;
+              for (size_t l = 0; l == 0 || l < axis3; l++) {
+                if (l == 0) {
+                  minValue = input(i, j, k, l, m);
+                  minIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMin(l, value, minIndex, minValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t l = 0; l < axis3; l++)
+                  result.load(minIndex, i, j, k, l, m);
+              } else {
+                result.load(minIndex, i, j, k, m);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else if (axis == 4) {
+      for (size_t i = 0; i == 0 || i < axis0; i++) {
+        for (size_t j = 0; j == 0 || j < axis1; j++) {
+          for (size_t k = 0; k == 0 || k < axis2; k++) {
+            for (size_t l = 0; l == 0 || l < axis3; l++) {
+              Ti minValue;
+              To minIndex;
+              for (size_t m = 0; m == 0 || m < axis4; m++) {
+                if (m == 0) {
+                  minValue = input(i, j, k, l, m);
+                  minIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMin(m, value, minIndex, minValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t m = 0; m < axis4; m++)
+                  result.load(minIndex, i, j, k, l, m);
+              } else {
+                result.load(minIndex, i, j, k, l);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else {
+      throw std::invalid_argument("axis " + std::to_string(_axis) +
+                                  " more than 5 for ArgMin is not supported.");
+    }
+
+    return NULL_TENSOR<To>;
   }
 };
 } // namespace dnnc
