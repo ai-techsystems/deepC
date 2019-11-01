@@ -244,8 +244,8 @@ public:
     this->operator()(indices) = data;
   }
   inline void load(const T &data, size_t i, size_t j = 0, size_t k = 0,
-                   size_t l = 0) {
-    this->operator()(i, j, k, l) = data;
+                   size_t l = 0, size_t m = 0) {
+    this->operator()(i, j, k, l, m) = data;
   }
   /// \brief load 1D vector into the tensor
   void load(std::vector<T> data) {
