@@ -73,10 +73,11 @@ def test_non_binary():
 
 def test_binary():
 
-	t1 = dc.array(2,3)
-	t2 = dc.array(2,3)
+	t1 = dc.array(2,3).asTypeFloat()
+	t2 = dc.array(2,3).asTypeInt()
 
 	add = dc.add(t1,t1)
+	add = t1 + t1
 	#print ("addition : " , add.to_string())
 
 

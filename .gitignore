@@ -2,8 +2,8 @@ build/
 obj/
 lib/
 __pycache__/
-swig/dnnc_api.cpp
-swig/dnnc_swig_externs.h
+deepC/dnnc_api.cpp
+deepC/dnnc_swig_externs.h
 
 *.o
 *.so
@@ -28,6 +28,6 @@ a.out
 
 
 
-swig/dnnc.py*
-swig/dnnc.py
-swig/dnnc_swig.cpp
+deepC/dnnc.py*
+deepC/dnnc.py
+deepC/dnnc_swig.cpp

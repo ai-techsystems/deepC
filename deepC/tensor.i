@@ -189,613 +189,303 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 
 
 // <\/>
-  /*  Binary Add  */
-  %pybinoperator(__add__, dnnc::tensor::__add__, binaryfunc, nb_add);
-  dnnc::tensor<T> __add__(dnnc::tensor<bool>& other) {
-  return dnnc::add(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __add__(dnnc::tensor<int>& other) {
-  return dnnc::add(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __add__(dnnc::tensor<size_t>& other) {
-  return dnnc::add(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __add__(dnnc::tensor<float>& other) {
-  return dnnc::add(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __add__(PyObject *scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::add(*$self, other).asType<T>();
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__radd__, dnnc::tensor::__radd__, binaryfunc, nb_radd);
-  dnnc::tensor<T> __radd__(PyObject* scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::add(other, *$self).asType<T>();
-  }
-
-
-
-    /*  Assignment Add  */
-  %pyinplaceoper(__iadd__, dnnc::tensor::__iadd__, binaryfunc, nb_inplace_add);
-  dnnc::tensor<T> __iadd__(dnnc::tensor<T>& other) {
-    return dnnc::add(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __iadd__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::add(*$self, other).asType<T>();
-  }
-
-
-
-  /*  Binary Sub  */
-  %pybinoperator(__sub__, dnnc::tensor::__sub__, binaryfunc, nb_sub);
-  dnnc::tensor<T> __sub__(dnnc::tensor<bool>& other) {
-  return dnnc::sub(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __sub__(dnnc::tensor<int>& other) {
-  return dnnc::sub(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __sub__(dnnc::tensor<size_t>& other) {
-  return dnnc::sub(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __sub__(dnnc::tensor<float>& other) {
-  return dnnc::sub(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __sub__(PyObject *scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::sub(*$self, other).asType<T>();
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rsub__, dnnc::tensor::__rsub__, binaryfunc, nb_rsub);
-  dnnc::tensor<T> __rsub__(PyObject* scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::sub(other, *$self).asType<T>();
-  }
-
-
-
-    /*  Assignment Sub  */
-  %pyinplaceoper(__isub__, dnnc::tensor::__isub__, binaryfunc, nb_inplace_sub);
-  dnnc::tensor<T> __isub__(dnnc::tensor<T>& other) {
-    return dnnc::sub(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __isub__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::sub(*$self, other).asType<T>();
-  }
-
-
-
-  /*  Binary Mul  */
-  %pybinoperator(__mul__, dnnc::tensor::__mul__, binaryfunc, nb_mul);
-  dnnc::tensor<T> __mul__(dnnc::tensor<bool>& other) {
-  return dnnc::mul(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __mul__(dnnc::tensor<int>& other) {
-  return dnnc::mul(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __mul__(dnnc::tensor<size_t>& other) {
-  return dnnc::mul(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __mul__(dnnc::tensor<float>& other) {
-  return dnnc::mul(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __mul__(PyObject *scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::mul(*$self, other).asType<T>();
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rmul__, dnnc::tensor::__rmul__, binaryfunc, nb_rmul);
-  dnnc::tensor<T> __rmul__(PyObject* scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::mul(other, *$self).asType<T>();
-  }
-
-
-
-    /*  Assignment Mul  */
-  %pyinplaceoper(__imul__, dnnc::tensor::__imul__, binaryfunc, nb_inplace_mul);
-  dnnc::tensor<T> __imul__(dnnc::tensor<T>& other) {
-    return dnnc::mul(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __imul__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::mul(*$self, other).asType<T>();
-  }
-
-
-
-  /*  Binary Remainder  */
-  %pybinoperator(__mod__, dnnc::tensor::__mod__, binaryfunc, nb_mod);
-  dnnc::tensor<T> __mod__(dnnc::tensor<bool>& other) {
-  return dnnc::remainder(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __mod__(dnnc::tensor<int>& other) {
-  return dnnc::remainder(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __mod__(dnnc::tensor<size_t>& other) {
-  return dnnc::remainder(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __mod__(dnnc::tensor<float>& other) {
-  return dnnc::remainder(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __mod__(PyObject *scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::remainder(*$self, other).asType<T>();
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rmod__, dnnc::tensor::__rmod__, binaryfunc, nb_rmod);
-  dnnc::tensor<T> __rmod__(PyObject* scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::remainder(other, *$self).asType<T>();
-  }
-
-
-
-    /*  Assignment Remainder  */
-  %pyinplaceoper(__imod__, dnnc::tensor::__imod__, binaryfunc, nb_inplace_mod);
-  dnnc::tensor<T> __imod__(dnnc::tensor<T>& other) {
-    return dnnc::remainder(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __imod__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::remainder(*$self, other).asType<T>();
-  }
-
-
-
-  /*  Binary Pow  */
-  %pybinoperator(__pow__, dnnc::tensor::__pow__, binaryfunc, nb_pow);
-  dnnc::tensor<T> __pow__(dnnc::tensor<bool>& other) {
-  return dnnc::power(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __pow__(dnnc::tensor<int>& other) {
-  return dnnc::power(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __pow__(dnnc::tensor<size_t>& other) {
-  return dnnc::power(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __pow__(dnnc::tensor<float>& other) {
-  return dnnc::power(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __pow__(PyObject *scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::power(*$self, other).asType<T>();
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rpow__, dnnc::tensor::__rpow__, binaryfunc, nb_rpow);
-  dnnc::tensor<T> __rpow__(PyObject* scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<T>;
-  }
-
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-
-  return dnnc::power(other, *$self).asType<T>();
-  }
-
-
-
-    /*  Assignment Pow  */
-  %pyinplaceoper(__ipow__, dnnc::tensor::__ipow__, binaryfunc, nb_inplace_pow);
-  dnnc::tensor<T> __ipow__(dnnc::tensor<T>& other) {
-    return dnnc::power(*$self, other).asType<T>();
-  }
-  dnnc::tensor<T> __ipow__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::power(*$self, other).asType<T>();
-  }
-
-
-
-    /*  Binary TrueDiv */
-  %pybinoperator(__truediv__, dnnc::tensor::__truediv__, binaryfunc, nb_truediv);
-  dnnc::tensor<float> __truediv__(dnnc::tensor<T>& other) {
-    return dnnc::true_div(*$self, other).asType<float>();
-  }
-  dnnc::tensor<float> __truediv__(PyObject *scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<float>;
-  }
-  
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-  
-  return dnnc::true_div(*$self, other).asType<float>();
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rtruediv__, dnnc::tensor::__rtruediv__, binaryfunc, nb_rdiv);
-  dnnc::tensor<float> __rtruediv__(PyObject* scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<float>;
-  }
-  
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-  
-  return dnnc::true_div(other, *$self).asType<float>();
-  }
-
-
-
-    /*  Assignment TrueDiv  */
-  %pyinplaceoper(__itruediv__, dnnc::tensor::__itruediv__, binaryfunc, nb_inplace_truediv);
-  dnnc::tensor<float> __itruediv__(dnnc::tensor<T>& other) {
-    return dnnc::true_div(*$self, other).asType<float>();
-  }
-  dnnc::tensor<float> __itruediv__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::true_div(*$self, other).asType<float>();
-  }
-
-
-
-  /*  Binary FloorDiv */
-  %pybinoperator(__floordiv__, dnnc::tensor::__floordiv__, binaryfunc, nb_floordiv);
-  dnnc::tensor<int> __floordiv__(dnnc::tensor<T>& other) {
-    return dnnc::floor_div(*$self, other).asType<int>();
-  }
-  dnnc::tensor<int> __floordiv__(PyObject *scalar) {
-    T data ;
-    if (PyBool_Check(scalar)) {
-      data = scalar == Py_True ? true : false ;
-    } else if (PyLong_Check(scalar)) {
-      data = PyLong_AsLong(scalar);
-    } else if (PyFloat_Check(scalar)) {
-      data = PyFloat_AsDouble(scalar);
-    } else {
-      throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-      return dnnc::NULL_TENSOR<int>;
-    }
-  
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&data);
-    
-    return dnnc::floor_div(*$self, other).asType<int>();
-  }
-  // 'swig -builtin' option limits all reverse operator from being overloaded.
-  //       y=1+x; #(whre x and y are tensors) will not work
-  %pybinoperator(__rfloordiv__, dnnc::tensor::__rfloordiv__, binaryfunc, nb_rfloordiv);
-  dnnc::tensor<int> __rfloordiv__(PyObject* scalar) {
-  T data ;
-  if (PyBool_Check(scalar)) {
-    data = scalar == Py_True ? true : false ;
-  } else if (PyLong_Check(scalar)) {
-    data = PyLong_AsLong(scalar);
-  } else if (PyFloat_Check(scalar)) {
-    data = PyFloat_AsDouble(scalar);
-  } else {
-    throw std::invalid_argument(std::string("scalar operation not supported with tensor type <") + dnnc::dtype_str[typeid(T).name()[0] - 'a'] + std::string(">") );
-    return dnnc::NULL_TENSOR<int>;
-  }
-  
-  dnnc::tensor<T> other(std::vector<size_t>(1,1));
-  other.load(&data);
-  
-  return dnnc::floor_div(other, *$self).asType<int>();
-  }
-
-
-
-    /*  Assignment FloorDiv  */
-  %pyinplaceoper(__ifloordiv__, dnnc::tensor::__ifloordiv__, binaryfunc, nb_inplace_floordiv);
-  dnnc::tensor<int> __ifloordiv__(dnnc::tensor<T>& other) {
-    return dnnc::floor_div(*$self, other).asType<int>();
-  }
-  dnnc::tensor<int> __ifloordiv__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::floor_div(*$self, other).asType<int>();
-  }
-
-  /*  Logical And  */
-  %pybinoperator(__and__, dnnc::tensor::__and__, binaryfunc, nb_and);
-  dnnc::tensor<bool> __and__(dnnc::tensor<T>& other) {
-    return dnnc::logical_and(*$self, other).asType<bool>();
-  }
-  dnnc::tensor<bool> __and__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_and(*$self, other).asType<bool>();
-  }
-  %pybinoperator(__rand__, dnnc::tensor::__rand__, binaryfunc, nb_rand);
-  dnnc::tensor<bool> __rand__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_and(other, *$self).asType<bool>();
-  }
-
-
-
-  /*  Assignment And  */
-  %pyinplaceoper(__iand__, dnnc::tensor::__iand__, binaryfunc, nb_inplace_and);
-  dnnc::tensor<bool> __iand__(dnnc::tensor<T>& other) {
-    return dnnc::logical_and(*$self, other).asType<bool>();
-  }
-  dnnc::tensor<bool> __iand__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_and(*$self, other).asType<bool>();
-  }
-
-
-
-  /*  Logical Or  */
-  %pybinoperator(__or__, dnnc::tensor::__or__, binaryfunc, nb_or);
-  dnnc::tensor<bool> __or__(dnnc::tensor<T>& other) {
-    return dnnc::logical_or(*$self, other).asType<bool>();
-  }
-  dnnc::tensor<bool> __or__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_or(*$self, other).asType<bool>();
-  }
-  %pybinoperator(__ror__, dnnc::tensor::__ror__, binaryfunc, nb_ror);
-  dnnc::tensor<bool> __ror__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_or(other, *$self).asType<bool>();
-  }
-
-
-
-  /*  Assignment Or  */
-  %pyinplaceoper(__ior__, dnnc::tensor::__ior__, binaryfunc, nb_inplace_or);
-  dnnc::tensor<bool> __ior__(dnnc::tensor<T>& other) {
-    return dnnc::logical_or(*$self, other).asType<bool>();
-  }
-  dnnc::tensor<bool> __ior__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_or(*$self, other).asType<bool>();
-  }
-
-
-
-  /*  Logical Xor  */
-  %pybinoperator(__xor__, dnnc::tensor::__xor__, binaryfunc, nb_xor);
-  dnnc::tensor<bool> __xor__(dnnc::tensor<T>& other) {
-    return dnnc::logical_xor(*$self, other).asType<bool>();
-  }
-  dnnc::tensor<bool> __xor__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_xor(*$self, other).asType<bool>();
-  }
-  %pybinoperator(__rxor__, dnnc::tensor::__rxor__, binaryfunc, nb_rxor);
-  dnnc::tensor<bool> __rxor__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_xor(other, *$self).asType<bool>();
-  }
-
-
-
-  /*  Assignment Xor  */
-  %pyinplaceoper(__ixor__, dnnc::tensor::__ixor__, binaryfunc, nb_inplace_xor);
-  dnnc::tensor<bool> __ixor__(dnnc::tensor<T>& other) {
-    return dnnc::logical_xor(*$self, other).asType<bool>();
-  }
-  dnnc::tensor<bool> __ixor__(T scalar) {
-    dnnc::tensor<T> other(std::vector<size_t>(1,1));
-    other.load(&scalar);
-    return dnnc::logical_xor(*$self, other).asType<bool>();
-  }
-
-
-
-  /*  Comparison Equal  */
-    %pycompare(__eq__, dnnc::tensor::__eq__, Py_EQ);
-  dnnc::tensor<bool> __eq__(dnnc::tensor<T>& other) {
-    return dnnc::equal(*$self, other).asType<bool>();
-  }
-
-
-
-  /*  Comparison Less  */
-    %pycompare(__lt__, dnnc::tensor::__lt__, Py_LT);
-  dnnc::tensor<bool> __lt__(dnnc::tensor<T>& other) {
-    return dnnc::less(*$self, other).asType<bool>();
-  }
-
-
-
-  /*  Comparison Greater  */
-    %pycompare(__gt__, dnnc::tensor::__gt__, Py_GT);
-  dnnc::tensor<bool> __gt__(dnnc::tensor<T>& other) {
-    return dnnc::greater(*$self, other).asType<bool>();
-  }
-
-
-
-  /*  Comparison NotEqual  */
-    %pycompare(__ne__, dnnc::tensor::__ne__, Py_NE);
-  dnnc::tensor<bool> __ne__(dnnc::tensor<T>& other) {
-    return dnnc::not_equal(*$self, other).asType<bool>();
-  }
-
-
-
-  /*  Comparison LessEqual  */
-    %pycompare(__le__, dnnc::tensor::__le__, Py_LE);
-  dnnc::tensor<bool> __le__(dnnc::tensor<T>& other) {
-    return dnnc::less_equal(*$self, other).asType<bool>();
-  }
-
-
-
-  /*  Comparison GreaterEqual  */
-    %pycompare(__ge__, dnnc::tensor::__ge__, Py_GE);
-  dnnc::tensor<bool> __ge__(dnnc::tensor<T>& other) {
-    return dnnc::greater_equal(*$self, other).asType<bool>();
-  }
-
-
-// <\/>
+%pythoncode %{
+
+def __add__(self, other):
+	import dnnc as dc
+	return dc.add(self, other)
+
+def __radd__(self, other):
+	import dnnc as dc
+	return dc.add(other, self)
+
+def __iadd__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.add(self, other)
+
+def __sub__(self, other):
+	import dnnc as dc
+	return dc.sub(self, other)
+
+def __rsub__(self, other):
+	import dnnc as dc
+	return dc.sub(other, self)
+
+def __isub__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.sub(self, other)
+
+def __mul__(self, other):
+	import dnnc as dc
+	return dc.mul(self, other)
+
+def __rmul__(self, other):
+	import dnnc as dc
+	return dc.mul(other, self)
+
+def __imul__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.mul(self, other)
+
+def __floordiv__(self, other):
+	import dnnc as dc
+	return dc.floor_div(self, other)
+
+def __rfloordiv__(self, other):
+	import dnnc as dc
+	return dc.floor_div(other, self)
+
+def __ifloordiv__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.floor_div(self, other)
+
+def __truediv__(self, other):
+	import dnnc as dc
+	return dc.true_div(self, other)
+
+def __rtruediv__(self, other):
+	import dnnc as dc
+	return dc.true_div(other, self)
+
+def __itruediv__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.true_div(self, other)
+
+def __mod__(self, other):
+	import dnnc as dc
+	return dc.remainder(self, other)
+
+def __rmod__(self, other):
+	import dnnc as dc
+	return dc.remainder(other, self)
+
+def __imod__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.remainder(self, other)
+
+def __pow__(self, other):
+	import dnnc as dc
+	return dc.power(self, other)
+
+def __rpow__(self, other):
+	import dnnc as dc
+	return dc.power(other, self)
+
+def __ipow__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.power(self, other)
+
+def __and__(self, other):
+	import dnnc as dc
+	return dc.logical_and(self, other)
+
+def __rand__(self, other):
+	import dnnc as dc
+	return dc.logical_and(other, self)
+
+def __iand__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.logical_and(self, other)
+
+def __or__(self, other):
+	import dnnc as dc
+	return dc.logical_or(self, other)
+
+def __ror__(self, other):
+	import dnnc as dc
+	return dc.logical_or(other, self)
+
+def __ior__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.logical_or(self, other)
+
+def __xor__(self, other):
+	import dnnc as dc
+	return dc.logical_xor(self, other)
+
+def __rxor__(self, other):
+	import dnnc as dc
+	return dc.logical_xor(other, self)
+
+def __ixor__(self, other):
+	"""
+		making sure left hand operand is immutable
+	"""
+	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+	left_operand_dtype = right_operand_dtype = ""
+	try:
+		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+	except:
+		left_operand_dtype = str(type(self)).split("'")[1]
+	try:
+		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+	except:
+		right_operand_dtype = str(type(other)).split("'")[1]
+	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+		raise TypeError("cannot modify left hand operand datatype.")
+	import dnnc as dc
+	return dc.logical_xor(self, other)
+
+def __eq__(self, other):
+	import dnnc as dc
+	return dc.equal(self, other)
+
+def __lt__(self, other):
+	import dnnc as dc
+	return dc.less(self, other)
+
+def __gt__(self, other):
+	import dnnc as dc
+	return dc.greater(self, other)
+
+def __ne__(self, other):
+	import dnnc as dc
+	return dc.not_equal(self, other)
+
+def __le__(self, other):
+	import dnnc as dc
+	return dc.less_equal(self, other)
+
+def __ge__(self, other):
+	import dnnc as dc
+	return dc.greater_equal(self, other)
+
+%}// <\/>
 
 %pythoncode %{
 def numpy(self) :

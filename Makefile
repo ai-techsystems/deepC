@@ -42,6 +42,7 @@ SRC:
 clean:
 	$(MAKE) -C deepC clean
 	$(MAKE) -C src  clean
+	find test/parser -name \*cpp | xargs rm
 
 .PHONY: print_vars
 

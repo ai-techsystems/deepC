@@ -79,8 +79,8 @@ class tensorOperatorsTest(unittest.TestCase):
         dnnc_testing.utils.assert_equal( temp_ones , self.zeros )
 
         # TrueDiv
-        temp_zeros = self.zeros.copy()
-        temp_zeros /= self.ones
+        temp_zeros = self.zeros.copy().asTypeFloat()
+        temp_zeros /= self.ones.asTypeFloat()
         dnnc_testing.utils.assert_equal( temp_zeros.asTypeFloat() , self.zeros.asTypeFloat() )
         temp_zeros = self.zeros.copy()
         temp_zeros /= 1
@@ -192,6 +192,7 @@ class tensorOperatorsTest(unittest.TestCase):
 
         # True Div
         dnnc_testing.utils.assert_equal( self.ones.asTypeFloat(), self.ones/self.ones)
+        dnnc_testing.utils.assert_equal( self.ones.asTypeFloat(), dc.true_div(self.ones, self.ones))
         dnnc_testing.utils.assert_equal( self.ones, 1.0/self.ones)
         dnnc_testing.utils.assert_equal( self.zeros.asTypeFloat(), self.zeros/1.0)
         dnnc_testing.utils.assert_equal( self.ones.asTypeFloat(), self.ones/1.0)
