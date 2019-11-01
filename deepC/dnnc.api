@@ -129,7 +129,7 @@ operator_list = {
 	"sub" : ["Sub", "sub"],
 	"mul" : ["Mul", "mul"],
 	"floor_div" : ["FloorDiv", "floordiv"],
-	"true_div" : ["TrueDiv", "div"],
+	"true_div" : ["TrueDiv", "truediv"],
 	"remainder" : ["Remainder", "mod"],
 	"power" : ["Pow", "pow"],
 }
