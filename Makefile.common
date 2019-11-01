@@ -22,7 +22,7 @@
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
-CC=/usr/bin/clang++
+CC=/usr/bin/clang++-8
 LD=/usr/bin/ld
 PYTHON=/usr/bin/python3
 SWIG=/usr/bin/swig
