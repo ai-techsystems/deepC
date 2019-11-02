@@ -317,6 +317,8 @@ public:
     std::string str = this->name().size() ? this->name() + "=" : "";
     if (this->rank() == 0) {
       str += "null tensor";
+    } else if (this->rank() == 1 && this->length() == 1) {
+      str += std::to_string(_mem_layout[0]);
     } else if (this->rank() == 1) {
       str += "[";
       size_t i = 0;

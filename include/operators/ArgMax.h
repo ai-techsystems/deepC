@@ -90,9 +90,13 @@ public:
     if (_keepdims) {
       new_shape = axes;
     } else {
-      for (size_t x = 0; x < axes.size(); x++) {
-        if (x != axis) {
-          new_shape.push_back(axes[x]);
+      if (input.rank() == 1) {
+        new_shape.push_back(1);
+      } else {
+        for (size_t x = 0; x < axes.size(); x++) {
+          if (x != axis) {
+            new_shape.push_back(axes[x]);
+          }
         }
       }
     }

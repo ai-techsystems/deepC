@@ -25,6 +25,8 @@
 #include "core/tensor.h"
 #include "operators/Add.h"
 #include "operators/Abs.h"
+#include "operators/ArgMax.h"
+#include "operators/ArgMin.h"
 #include "operators/And.h"
 #include "operators/Conv.h"
 #include "operators/BitShift.h"
@@ -354,6 +356,30 @@ tensor<output> abs(tensor<input> &a) {
 	dtype = {
 		"double" : "double",
 		"float" : "float",
+		"int" : "int"
+	}
+}
+
+tensor<output> argmax(tensor<input> &a, int axis=0, int keepdims=0) {
+	ArgMax<output, input> op;
+    op.setAttribute(attr_keepdims, keepdims);
+    op.setAttribute(attr_axis, axis);
+	return op.compute(a);
+	dtype = {
+		"int" : "double",
+		"int" : "float",
+		"int" : "int"
+	}
+}
+
+tensor<output> argmin(tensor<input> &a, int axis=0, int keepdims=0) {
+	ArgMin<output, input> op;
+    op.setAttribute(attr_keepdims, keepdims);
+    op.setAttribute(attr_axis, axis);
+	return op.compute(a);
+	dtype = {
+		"int" : "double",
+		"int" : "float",
 		"int" : "int"
 	}
 }
