@@ -95,12 +95,10 @@ def overload_python_operator(dc_operator, operator_python, dtype_precedence_dict
 	if flag == "logical" or flag == "binary":
 		s = '''
 def __<operand>__(self, other):
-	import dnnc as dc
-	return dc.<operator>(self, other)
+	return <operator>(self, other)
 
 def __r<operand>__(self, other):
-	import dnnc as dc
-	return dc.<operator>(other, self)
+	return <operator>(other, self)
 
 def __i<operand>__(self, other):
 	"""
@@ -109,24 +107,22 @@ def __i<operand>__(self, other):
 	dtype_precedence_dict = '''
 		s += str(dtype_precedence_dict) + '''
 	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
+	if "Tensor" in str(type(self)):
+		left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
+	else:
 		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
+	if "Tensor" in str(type(other)):
+		right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
+	else:
 		right_operand_dtype = str(type(other)).split("'")[1]
 	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
 		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.<operator>(self, other)
+	return <operator>(self, other)
 '''
 	elif flag == "comparison":
 		s = '''
 def __<operand>__(self, other):
-	import dnnc as dc
-	return dc.<operator>(self, other)
+	return <operator>(self, other)
 '''
 	s = s.replace("<operator>",dc_operator).replace("<operand>",operator_python)
 	return s

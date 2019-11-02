@@ -23,7 +23,7 @@ import common
 
 import numpy as np
 import tensorflow as tf
-import dnnc as dc
+import deepC.dnnc as dc
 
 import time
 

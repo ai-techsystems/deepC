@@ -23,7 +23,7 @@ import os,sys
 # DNNC_ROOT='/Desktop/dnnCompiler'
 sys.path.append(os.path.abspath('..'+os.path.sep+'..'+os.path.sep+'deepC'));
 
-import dnnc as dc
+import deepC.dnnc as dc
 import numpy as np
 
 import unittest

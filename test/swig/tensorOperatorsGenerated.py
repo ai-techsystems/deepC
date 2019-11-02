@@ -24,7 +24,7 @@
 
 import common
 
-import dnnc as dc
+import deepC.dnnc as dc
 import numpy as np
 import unittest
 
