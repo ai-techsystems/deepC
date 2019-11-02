@@ -42,7 +42,7 @@ SRC:
 clean:
 	$(MAKE) -C deepC clean
 	$(MAKE) -C src  clean
-	find test/parser -name \*cpp | xargs rm
+	@$(RM) $(wildcard test/parser/unit_operators/testcases/*/*.cpp) &>/dev/null
 
 .PHONY: print_vars
 

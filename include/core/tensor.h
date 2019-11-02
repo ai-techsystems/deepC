@@ -244,8 +244,8 @@ public:
     this->operator()(indices) = data;
   }
   inline void load(const T &data, size_t i, size_t j = 0, size_t k = 0,
-                   size_t l = 0) {
-    this->operator()(i, j, k, l) = data;
+                   size_t l = 0, size_t m = 0) {
+    this->operator()(i, j, k, l, m) = data;
   }
   /// \brief load 1D vector into the tensor
   void load(std::vector<T> data) {
@@ -317,6 +317,8 @@ public:
     std::string str = this->name().size() ? this->name() + "=" : "";
     if (this->rank() == 0) {
       str += "null tensor";
+    } else if (this->rank() == 1 && this->length() == 1) {
+      str += std::to_string(_mem_layout[0]);
     } else if (this->rank() == 1) {
       str += "[";
       size_t i = 0;

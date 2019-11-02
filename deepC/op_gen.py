@@ -414,12 +414,12 @@ def normal_operators(s):
 
 
 # def generate_py_file(s):
-# 	s += '''
+#	 s += '''
 # import dnnc as dc
 
 # class mydnnc(dc):
 # '''
-# 	return s
+#	 return s
 
 
 def main():
@@ -489,8 +489,8 @@ def main():
 			f.write(swig_extern_file)
 
 		# with open ("mydnnc.py" ,"w") as f:
-		# 	print("Saving 'mydnnc.py'")
-		# 	f.write(py_file)
+		#	 print("Saving 'mydnnc.py'")
+		#	 f.write(py_file)
 
 		try:
 			with open ("tensor.i", "r") as f:

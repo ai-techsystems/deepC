@@ -7,7 +7,7 @@ import shutil, errno
 import setuptools
 
 NAME='deepC'
-VERSION=0.1
+VERSION=0.11
 
 long_description = ""
 with open("README.md", "r") as fh:

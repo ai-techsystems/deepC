@@ -34,6 +34,13 @@ class ArgMax : public baseOperator<To, Ti, Ti> {
   int _axis = 0;
   int _keepdims = 1;
 
+  void updateMax(To index, Ti value, To &maxIndex, Ti &maxValue) {
+    if (value > maxValue) {
+      maxValue = value;
+      maxIndex = index;
+    }
+  }
+
 public:
   ArgMax(std::string name = "opArgMax")
       : baseOperator<To, Ti, Ti>(opArgMax, name) {}
@@ -59,19 +66,192 @@ public:
     return false;
   }
 
-  tensor<To> compute(tensor<Ti> input) {
+  tensor<To> compute(tensor<Ti> input) override {
 
     if (!(this->template type_check<short int, int, long int>(typeid(To))))
       throw std::invalid_argument("Constrain output tensor type to int type.");
 
-    if (_axis < -input.rank() || _axis > input.rank() - 1)
-      throw std::invalid_argument("axis is out of bounds for tensor.");
+    int rank = input.rank();
 
-    if (input.rank() == 1 || input.rank() == 2) {
-    } else if (input.rank() == 3) {
-    } else if (input.rank() == 4) {
+    if (_axis < -rank || _axis > rank - 1)
+      throw std::invalid_argument("axis " + std::to_string(_axis) +
+                                  " is out of bounds for tensor.");
+
+    size_t axis = _axis + (_axis < 0 ? rank : 0); // ascertain positive number.
+
+    std::vector<DIMENSION> axes = input.shape();
+    size_t axis0 = rank > 0 ? axes[0] : 0;
+    size_t axis1 = rank > 1 ? axes[1] : 0;
+    size_t axis2 = rank > 2 ? axes[2] : 0;
+    size_t axis3 = rank > 3 ? axes[3] : 0;
+    size_t axis4 = rank > 4 ? axes[4] : 0;
+
+    std::vector<DIMENSION> new_shape;
+    if (_keepdims) {
+      new_shape = axes;
     } else {
+      if (input.rank() == 1) {
+        new_shape.push_back(1);
+      } else {
+        for (size_t x = 0; x < axes.size(); x++) {
+          if (x != axis) {
+            new_shape.push_back(axes[x]);
+          }
+        }
+      }
     }
+    tensor<To> result(new_shape);
+
+    if (axis == 0) {
+      for (size_t j = 0; j == 0 || j < axis1; j++) {
+        for (size_t k = 0; k == 0 || k < axis2; k++) {
+          for (size_t l = 0; l == 0 || l < axis3; l++) {
+            for (size_t m = 0; m == 0 || m < axis4; m++) {
+              Ti maxValue;
+              To maxIndex;
+              for (size_t i = 0; i == 0 || i < axis0; i++) {
+                if (i == 0) {
+                  maxValue = input(i, j, k, l, m);
+                  maxIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMax(i, value, maxIndex, maxValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t i = 0; i < axis0; i++)
+                  result.load(maxIndex, i, j, k, l, m);
+              } else {
+                result.load(maxIndex, j, k, l, m);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else if (axis == 1) {
+      for (size_t i = 0; i == 0 || i < axis0; i++) {
+        for (size_t k = 0; k == 0 || k < axis2; k++) {
+          for (size_t l = 0; l == 0 || l < axis3; l++) {
+            for (size_t m = 0; m == 0 || m < axis4; m++) {
+              Ti maxValue;
+              To maxIndex;
+              for (size_t j = 0; j == 0 || j < axis1; j++) {
+                if (j == 0) {
+                  maxValue = input(i, j, k, l, m);
+                  maxIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMax(j, value, maxIndex, maxValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t j = 0; j < axis1; j++)
+                  result.load(maxIndex, i, j, k, l, m);
+              } else {
+                result.load(maxIndex, i, k, l, m);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else if (axis == 2) {
+      for (size_t i = 0; i == 0 || i < axis0; i++) {
+        for (size_t j = 0; j == 0 || j < axis1; j++) {
+          for (size_t l = 0; l == 0 || l < axis3; l++) {
+            for (size_t m = 0; m == 0 || m < axis4; m++) {
+              Ti maxValue;
+              To maxIndex;
+              for (size_t k = 0; k == 0 || k < axis2; k++) {
+                if (k == 0) {
+                  maxValue = input(i, j, k, l, m);
+                  maxIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMax(k, value, maxIndex, maxValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t k = 0; k < axis2; k++)
+                  result.load(maxIndex, i, j, k, l, m);
+              } else {
+                result.load(maxIndex, i, j, l, m);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else if (axis == 3) {
+      for (size_t i = 0; i == 0 || i < axis0; i++) {
+        for (size_t j = 0; j == 0 || j < axis1; j++) {
+          for (size_t k = 0; k == 0 || k < axis2; k++) {
+            for (size_t m = 0; m == 0 || m < axis4; m++) {
+              Ti maxValue;
+              To maxIndex;
+              for (size_t l = 0; l == 0 || l < axis3; l++) {
+                if (l == 0) {
+                  maxValue = input(i, j, k, l, m);
+                  maxIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMax(l, value, maxIndex, maxValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t l = 0; l < axis3; l++)
+                  result.load(maxIndex, i, j, k, l, m);
+              } else {
+                result.load(maxIndex, i, j, k, m);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else if (axis == 4) {
+      for (size_t i = 0; i == 0 || i < axis0; i++) {
+        for (size_t j = 0; j == 0 || j < axis1; j++) {
+          for (size_t k = 0; k == 0 || k < axis2; k++) {
+            for (size_t l = 0; l == 0 || l < axis3; l++) {
+              Ti maxValue;
+              To maxIndex;
+              for (size_t m = 0; m == 0 || m < axis4; m++) {
+                if (m == 0) {
+                  maxValue = input(i, j, k, l, m);
+                  maxIndex = 0;
+                } else {
+                  Ti value =
+                      input(i, j, k, l,
+                            m); // TODO: use input.operator[] for performance
+                  updateMax(m, value, maxIndex, maxValue);
+                }
+              }
+              if (_keepdims) {
+                for (size_t m = 0; m < axis4; m++)
+                  result.load(maxIndex, i, j, k, l, m);
+              } else {
+                result.load(maxIndex, i, j, k, l);
+              }
+            }
+          }
+        }
+      }
+      return result;
+    } else {
+      throw std::invalid_argument("axis " + std::to_string(_axis) +
+                                  " more than 5 for ArgMax is not supported.");
+    }
+
     return NULL_TENSOR<To>;
   }
 };
