@@ -46,7 +46,7 @@ tensorOperators = {
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				# "float_scalar",		# Numpy doesn't support
 				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
@@ -54,11 +54,11 @@ tensorOperators = {
 			],
 			"float_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
-				# "int_tensor_2",		# Dnnc doesn't support
+				"int_tensor_2",	
 			],
 		},
 		"sub" : {
@@ -72,7 +72,7 @@ tensorOperators = {
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				# "float_scalar",		# Numpy doesn't support
 				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
@@ -80,11 +80,11 @@ tensorOperators = {
 			],
 			"float_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
-				# "int_tensor_2",		# Dnnc doesn't support
+				"int_tensor_2",	
 			],
 		},
 		"mul" : {
@@ -98,7 +98,7 @@ tensorOperators = {
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				# "float_scalar",		# Numpy doesn't support
 				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
@@ -106,11 +106,11 @@ tensorOperators = {
 			],
 			"float_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
-				# "int_tensor_2",		# Dnnc doesn't support
+				"int_tensor_2",	
 			],
 		},
 		"true_div" : {
@@ -131,12 +131,12 @@ tensorOperators = {
 				# "int_tensor_2",		# Numpy doesn't support
 			],
 			"float_tensor_1" : [
-				# "bool_scalar",		# Dnnc doesn't support
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_scalar",	
+				"bool_tensor_2",	
 				# "float_scalar",		# Dnnc != Numpy
 				# "float_tensor_2",		# Dnnc != Numpy
 				# "int_scalar",			# Dnnc != Numpy
-				# "int_tensor_2",		# Dnnc doesn't support
+				# "int_tensor_2",		# Dnnc != Numpy
 			],
 		},
 		"floor_div" : {
@@ -150,7 +150,7 @@ tensorOperators = {
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				# "float_scalar",		# Numpy doesn't support
 				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
@@ -158,11 +158,63 @@ tensorOperators = {
 			],
 			"float_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
-				# "int_tensor_2",		# Dnnc doesn't support
+				"int_tensor_2",	
+			],
+		},
+		"lshift" : {
+			"bool_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support	
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support	
+			],
+			"int_tensor_1" : [
+				"bool_scalar",
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				"int_scalar",
+				"int_tensor_2",
+			],
+			"float_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support
+			],
+		},
+		"rshift" : {
+			"bool_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support	
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support	
+			],
+			"int_tensor_1" : [
+				"bool_scalar",
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				"int_scalar",
+				"int_tensor_2",
+			],
+			"float_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support
 			],
 		},
 		"power" : {
@@ -176,7 +228,7 @@ tensorOperators = {
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				# "float_scalar",		# Numpy doesn't support
 				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
@@ -184,11 +236,11 @@ tensorOperators = {
 			],
 			"float_tensor_1" : [
 				"bool_scalar",
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
-				# "int_tensor_2",		# Dnnc doesn't support
+				"int_tensor_2",	
 			],
 		},
 		"and" : {
@@ -201,12 +253,12 @@ tensorOperators = {
 				# "int_tensor_2",		# Numpy doesn't support
 			],
 			"int_tensor_1" : [
-				# "bool_scalar",		# Dnnc != Numpy
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_scalar",
+				"bool_tensor_2",	
 				# "float_scalar",		# Numpy doesn't support
 				# "float_tensor_2",		# Numpy doesn't support
-				# "int_scalar",			# Dnnc != Numpy
-				# "int_tensor_2",		# Dnnc != Numpy
+				"int_scalar",
+				"int_tensor_2",
 			],
 			"float_tensor_1" : [
 				# "bool_scalar",		# Numpy doesn't support
@@ -227,12 +279,12 @@ tensorOperators = {
 				# "int_tensor_2",		# Numpy doesn't support
 			],
 			"int_tensor_1" : [
-				# "bool_scalar",		# Dnnc != Numpy
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_scalar",
+				"bool_tensor_2",	
 				# "float_scalar",		# Numpy doesn't support
 				# "float_tensor_2",		# Numpy doesn't support
-				# "int_scalar",			# Dnnc != Numpy
-				# "int_tensor_2",		# Dnnc != Numpy
+				"int_scalar",
+				"int_tensor_2",
 			],
 			"float_tensor_1" : [
 				# "bool_scalar",		# Numpy doesn't support
@@ -253,12 +305,12 @@ tensorOperators = {
 				# "int_tensor_2",		# Numpy doesn't support
 			],
 			"int_tensor_1" : [
-				# "bool_scalar",		# Dnnc != Numpy
-				# "bool_tensor_2",		# Dnnc doesn't support
+				"bool_scalar",
+				"bool_tensor_2",	
 				# "float_scalar",		# Numpy doesn't support
 				# "float_tensor_2",		# Numpy doesn't support
-				# "int_scalar",			# Dnnc != Numpy
-				# "int_tensor_2",		# Dnnc != Numpy
+				"int_scalar",
+				"int_tensor_2",
 			],
 			"float_tensor_1" : [
 				# "bool_scalar",		# Numpy doesn't support
@@ -275,32 +327,32 @@ tensorOperators = {
 			"bool_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",		# Dnnc doesn't support
-				"float_tensor_2",		# Dnnc doesn't support
-				"int_scalar",			# Dnnc doesn't support
-				"int_tensor_2",		# Dnnc doesn't support
+				"float_scalar",	
+				"float_tensor_2",	
+				"int_scalar",		
+				"int_tensor_2",	
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
-				"bool_tensor_2",		# Dnnc doesn't support
-				"float_scalar",		# Dnnc doesn't support
-				"float_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
+				"float_scalar",	
+				"float_tensor_2",	
 				"int_scalar",
 				"int_tensor_2",
 			],
 			"float_tensor_1" : [
 				"bool_scalar",
-				"bool_tensor_2",		# Dnnc doesn't support
+				"bool_tensor_2",	
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
-				"int_tensor_2",		# Dnnc doesn't support
+				"int_tensor_2",	
 			],
 		},
 		"sub" : {
 			"bool_tensor_1" : [
-				"bool_scalar",
-				"bool_tensor_2",
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
@@ -353,26 +405,26 @@ tensorOperators = {
 			"bool_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
-				"int_scalar",
-				"int_tensor_2",
+				# "float_scalar",		# Dnnc != Numpy
+				# "float_tensor_2",		# Dnnc != Numpy
+				# "int_scalar",			# Dnnc != Numpy
+				# "int_tensor_2",		# Dnnc != Numpy
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
-				"int_scalar",
-				"int_tensor_2",
+				# "float_scalar",		# Dnnc != Numpy
+				# "float_tensor_2",		# Dnnc != Numpy
+				# "int_scalar",			# Dnnc != Numpy
+				# "int_tensor_2",		# Dnnc != Numpy
 			],
 			"float_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
-				"int_scalar",
-				"int_tensor_2",
+				# "float_scalar",		# Dnnc != Numpy
+				# "float_tensor_2",		# Dnnc != Numpy
+				# "int_scalar",			# Dnnc != Numpy
+				# "int_tensor_2",		# Dnnc != Numpy
 			],
 		},
 		"floor_div" : {
@@ -427,10 +479,62 @@ tensorOperators = {
 				"int_tensor_2",
 			],
 		},
-		"power" : {
+		"lshift" : {
 			"bool_tensor_1" : [
 				"bool_scalar",
-				"bool_tensor_2",
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				"int_scalar",
+				"int_tensor_2",
+			],
+			"int_tensor_1" : [
+				"bool_scalar",
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				"int_scalar",
+				"int_tensor_2",
+			],
+			"float_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support
+			],
+		},
+		"rshift" : {
+			"bool_tensor_1" : [
+				"bool_scalar",
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				"int_scalar",
+				"int_tensor_2",
+			],
+			"int_tensor_1" : [
+				"bool_scalar",
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				"int_scalar",
+				"int_tensor_2",
+			],
+			"float_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support
+			],
+		},
+		"power" : {
+			"bool_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
 				"float_scalar",
 				"float_tensor_2",
 				"int_scalar",
@@ -457,52 +561,78 @@ tensorOperators = {
 			"bool_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
 				"int_tensor_2",
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
 				"int_tensor_2",
 			],
 			"float_tensor_1" : [
-				"bool_scalar",
-				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
-				"int_scalar",
-				"int_tensor_2",
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support
 			],
 		},
 		"or" : {
 			"bool_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
 				"int_tensor_2",
 			],
 			"int_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
 				"int_tensor_2",
 			],
 			"float_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support
+			],
+		},
+		"xor" : {
+			"bool_tensor_1" : [
 				"bool_scalar",
 				"bool_tensor_2",
-				"float_scalar",
-				"float_tensor_2",
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
 				"int_scalar",
 				"int_tensor_2",
+			],
+			"int_tensor_1" : [
+				"bool_scalar",
+				"bool_tensor_2",
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				"int_scalar",
+				"int_tensor_2",
+			],
+			"float_tensor_1" : [
+				# "bool_scalar",		# Numpy doesn't support
+				# "bool_tensor_2",		# Numpy doesn't support
+				# "float_scalar",		# Numpy doesn't support
+				# "float_tensor_2",		# Numpy doesn't support
+				# "int_scalar",			# Numpy doesn't support
+				# "int_tensor_2",		# Numpy doesn't support
 			],
 		},
 	},

@@ -195,6 +195,11 @@ def binary_operators(s, dtype_precedence_dict):
 					if (dc_operator == "floor_div"):
 						output = "int"
 
+					# bitwise operators only outputs in int or bool
+					if ("bitwise" in dc_operator):
+						if (output != "bool"):
+							output = "int"
+
 					for input_1d in input_2d:
 
 						input1, input2 = input_1d
@@ -224,6 +229,10 @@ def binary_operators(s, dtype_precedence_dict):
 					# floor_div only outputs in int
 					if (dc_operator == "floor_div"):
 						output = "int"
+					# bitwise operators only outputs in int or bool
+					if ("bitwise" in dc_operator):
+						if (output != "bool"):
+							output = "int"
 
 					for input_1d in input_2d:
 						input1, input2 = input_1d
@@ -257,7 +266,7 @@ def logical_operators(s, dtype_precedence_dict):
 					raise Exception("dtype block could not be removed, try again!")
 
 				tensor_swig_helper_file += tensor_swig_helper_logical(dc_operator, operator_header, operator_python)
-				py_file += overload_python_operator(dc_operator, operator_python, dtype_precedence_dict, "logical")
+				# py_file += overload_python_operator(dc_operator, operator_python, dtype_precedence_dict, "logical")
 
 				for output, input_2d in dtype.items():
 					for input_1d in input_2d:

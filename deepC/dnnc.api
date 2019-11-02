@@ -30,6 +30,9 @@
 #include "operators/And.h"
 #include "operators/Conv.h"
 #include "operators/BitShift.h"
+#include "operators/BitwiseAnd.h"
+#include "operators/BitwiseOr.h"
+#include "operators/BitwiseXor.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
 #include "operators/Dropout.h"
@@ -134,6 +137,9 @@ operator_list = {
 	"true_div" : ["TrueDiv", "truediv"],
 	"remainder" : ["Remainder", "mod"],
 	"power" : ["Pow", "pow"],
+	"bitwise_and" : ["BitwiseAnd", "and"],
+	"bitwise_or" : ["BitwiseOr", "or"],
+	"bitwise_xor" : ["BitwiseXor", "xor"],
 }
 
 dtype = {

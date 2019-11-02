@@ -155,7 +155,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   %pyinplaceoper(__rshift__, dnnc::tensor::__rshift__, binaryfunc, nb_rshift);
   dnnc::tensor<int> __rshift__(dnnc::tensor<int>& other) {
     dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
-    std::string direction = "LEFT";
+    std::string direction = "RIGHT";
     dnnc::BitShift<int> op("pythonOp", direction);
     return op.compute(other_int, other);
   }
@@ -163,7 +163,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
     dnnc::tensor<int> other(std::vector<size_t>(1,1));
     other.load(&scalar);
-    std::string direction = "LEFT";
+    std::string direction = "RIGHT";
     dnnc::BitShift<int> op("pythonOp", direction);
     return op.compute(other_int, other);
   }
@@ -173,7 +173,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
   %pyinplaceoper(__irshift__, dnnc::tensor::__irshift__, binaryfunc, nb_inplace_rshift);
   dnnc::tensor<int> __irshift__(dnnc::tensor<int>& other) {
     dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
-    std::string direction = "LEFT";
+    std::string direction = "RIGHT";
     dnnc::BitShift<int> op("pythonOp", direction);
     return op.compute(other_int, other);
   }
@@ -181,7 +181,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
     dnnc::tensor<int> other(std::vector<size_t>(1,1));
     other.load(&scalar);
-    std::string direction = "LEFT";
+    std::string direction = "RIGHT";
     dnnc::BitShift<int> op("pythonOp", direction);
     return op.compute(other_int, other);
   }
@@ -360,10 +360,10 @@ def __ipow__(self, other):
 	return power(self, other)
 
 def __and__(self, other):
-	return logical_and(self, other)
+	return bitwise_and(self, other)
 
 def __rand__(self, other):
-	return logical_and(other, self)
+	return bitwise_and(other, self)
 
 def __iand__(self, other):
 	"""
@@ -381,13 +381,13 @@ def __iand__(self, other):
 		right_operand_dtype = str(type(other)).split("'")[1]
 	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
 		raise TypeError("cannot modify left hand operand datatype.")
-	return logical_and(self, other)
+	return bitwise_and(self, other)
 
 def __or__(self, other):
-	return logical_or(self, other)
+	return bitwise_or(self, other)
 
 def __ror__(self, other):
-	return logical_or(other, self)
+	return bitwise_or(other, self)
 
 def __ior__(self, other):
 	"""
@@ -405,13 +405,13 @@ def __ior__(self, other):
 		right_operand_dtype = str(type(other)).split("'")[1]
 	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
 		raise TypeError("cannot modify left hand operand datatype.")
-	return logical_or(self, other)
+	return bitwise_or(self, other)
 
 def __xor__(self, other):
-	return logical_xor(self, other)
+	return bitwise_xor(self, other)
 
 def __rxor__(self, other):
-	return logical_xor(other, self)
+	return bitwise_xor(other, self)
 
 def __ixor__(self, other):
 	"""
@@ -429,7 +429,7 @@ def __ixor__(self, other):
 		right_operand_dtype = str(type(other)).split("'")[1]
 	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
 		raise TypeError("cannot modify left hand operand datatype.")
-	return logical_xor(self, other)
+	return bitwise_xor(self, other)
 
 def __eq__(self, other):
 	return equal(self, other)
