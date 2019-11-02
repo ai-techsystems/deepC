@@ -192,298 +192,298 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %pythoncode %{
 
 def __add__(self, other):
-	import dnnc as dc
-	return dc.add(self, other)
+    import dnnc as dc
+    return dc.add(self, other)
 
 def __radd__(self, other):
-	import dnnc as dc
-	return dc.add(other, self)
+    import dnnc as dc
+    return dc.add(other, self)
 
 def __iadd__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.add(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.add(self, other)
 
 def __sub__(self, other):
-	import dnnc as dc
-	return dc.sub(self, other)
+    import dnnc as dc
+    return dc.sub(self, other)
 
 def __rsub__(self, other):
-	import dnnc as dc
-	return dc.sub(other, self)
+    import dnnc as dc
+    return dc.sub(other, self)
 
 def __isub__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.sub(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.sub(self, other)
 
 def __mul__(self, other):
-	import dnnc as dc
-	return dc.mul(self, other)
+    import dnnc as dc
+    return dc.mul(self, other)
 
 def __rmul__(self, other):
-	import dnnc as dc
-	return dc.mul(other, self)
+    import dnnc as dc
+    return dc.mul(other, self)
 
 def __imul__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.mul(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.mul(self, other)
 
 def __floordiv__(self, other):
-	import dnnc as dc
-	return dc.floor_div(self, other)
+    import dnnc as dc
+    return dc.floor_div(self, other)
 
 def __rfloordiv__(self, other):
-	import dnnc as dc
-	return dc.floor_div(other, self)
+    import dnnc as dc
+    return dc.floor_div(other, self)
 
 def __ifloordiv__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.floor_div(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.floor_div(self, other)
 
 def __truediv__(self, other):
-	import dnnc as dc
-	return dc.true_div(self, other)
+    import dnnc as dc
+    return dc.true_div(self, other)
 
 def __rtruediv__(self, other):
-	import dnnc as dc
-	return dc.true_div(other, self)
+    import dnnc as dc
+    return dc.true_div(other, self)
 
 def __itruediv__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.true_div(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.true_div(self, other)
 
 def __mod__(self, other):
-	import dnnc as dc
-	return dc.remainder(self, other)
+    import dnnc as dc
+    return dc.remainder(self, other)
 
 def __rmod__(self, other):
-	import dnnc as dc
-	return dc.remainder(other, self)
+    import dnnc as dc
+    return dc.remainder(other, self)
 
 def __imod__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.remainder(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.remainder(self, other)
 
 def __pow__(self, other):
-	import dnnc as dc
-	return dc.power(self, other)
+    import dnnc as dc
+    return dc.power(self, other)
 
 def __rpow__(self, other):
-	import dnnc as dc
-	return dc.power(other, self)
+    import dnnc as dc
+    return dc.power(other, self)
 
 def __ipow__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.power(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.power(self, other)
 
 def __and__(self, other):
-	import dnnc as dc
-	return dc.logical_and(self, other)
+    import dnnc as dc
+    return dc.logical_and(self, other)
 
 def __rand__(self, other):
-	import dnnc as dc
-	return dc.logical_and(other, self)
+    import dnnc as dc
+    return dc.logical_and(other, self)
 
 def __iand__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.logical_and(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.logical_and(self, other)
 
 def __or__(self, other):
-	import dnnc as dc
-	return dc.logical_or(self, other)
+    import dnnc as dc
+    return dc.logical_or(self, other)
 
 def __ror__(self, other):
-	import dnnc as dc
-	return dc.logical_or(other, self)
+    import dnnc as dc
+    return dc.logical_or(other, self)
 
 def __ior__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.logical_or(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.logical_or(self, other)
 
 def __xor__(self, other):
-	import dnnc as dc
-	return dc.logical_xor(self, other)
+    import dnnc as dc
+    return dc.logical_xor(self, other)
 
 def __rxor__(self, other):
-	import dnnc as dc
-	return dc.logical_xor(other, self)
+    import dnnc as dc
+    return dc.logical_xor(other, self)
 
 def __ixor__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-	left_operand_dtype = right_operand_dtype = ""
-	try:
-		left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
-	except:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	try:
-		right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
-	except:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	import dnnc as dc
-	return dc.logical_xor(self, other)
+    """
+        making sure left hand operand is immutable
+    """
+    dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
+    left_operand_dtype = right_operand_dtype = ""
+    try:
+        left_operand_dtype = str(type(self)).split(".")[1].split("Tensor")[0]
+    except:
+        left_operand_dtype = str(type(self)).split("'")[1]
+    try:
+        right_operand_dtype = str(type(other)).split(".")[1].split("Tensor")[0]
+    except:
+        right_operand_dtype = str(type(other)).split("'")[1]
+    if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
+        raise TypeError("cannot modify left hand operand datatype.")
+    import dnnc as dc
+    return dc.logical_xor(self, other)
 
 def __eq__(self, other):
-	import dnnc as dc
-	return dc.equal(self, other)
+    import dnnc as dc
+    return dc.equal(self, other)
 
 def __lt__(self, other):
-	import dnnc as dc
-	return dc.less(self, other)
+    import dnnc as dc
+    return dc.less(self, other)
 
 def __gt__(self, other):
-	import dnnc as dc
-	return dc.greater(self, other)
+    import dnnc as dc
+    return dc.greater(self, other)
 
 def __ne__(self, other):
-	import dnnc as dc
-	return dc.not_equal(self, other)
+    import dnnc as dc
+    return dc.not_equal(self, other)
 
 def __le__(self, other):
-	import dnnc as dc
-	return dc.less_equal(self, other)
+    import dnnc as dc
+    return dc.less_equal(self, other)
 
 def __ge__(self, other):
-	import dnnc as dc
-	return dc.greater_equal(self, other)
+    import dnnc as dc
+    return dc.greater_equal(self, other)
 
 %}// <\/>
 

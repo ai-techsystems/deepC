@@ -362,25 +362,21 @@ tensor<output> abs(tensor<input> &a) {
 
 tensor<output> argmax(tensor<input> &a, int axis=0, int keepdims=0) {
 	ArgMax<output, input> op;
-    op.setAttribute(attr_keepdims, keepdims);
-    op.setAttribute(attr_axis, axis);
+	op.setAttribute(attr_keepdims, keepdims);
+	op.setAttribute(attr_axis, axis);
 	return op.compute(a);
 	dtype = {
-		"int" : "double",
-		"int" : "float",
-		"int" : "int"
+		"int" : ("double", "float", "int")
 	}
 }
 
 tensor<output> argmin(tensor<input> &a, int axis=0, int keepdims=0) {
 	ArgMin<output, input> op;
-    op.setAttribute(attr_keepdims, keepdims);
-    op.setAttribute(attr_axis, axis);
+	op.setAttribute(attr_keepdims, keepdims);
+	op.setAttribute(attr_axis, axis);
 	return op.compute(a);
 	dtype = {
-		"int" : "double",
-		"int" : "float",
-		"int" : "int"
+		"int" : ("double", "float", "int")
 	}
 }
 
