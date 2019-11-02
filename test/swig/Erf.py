@@ -22,7 +22,7 @@
 import common
 
 import math
-import dnnc as dc
+import deepC.dnnc as dc
 import numpy as np
 import unittest
 

@@ -21,7 +21,7 @@
 
 import common; # DNNC path setup
 
-import dnnc as dc
+import deepC.dnnc as dc
 import numpy as np
 import unittest
 

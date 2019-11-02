@@ -1,7 +1,7 @@
 import os, argparse
 import common
 
-import dnnc as dc
+import deepC.dnnc as dc
 
 def test_multiply(a,b):
     c = dc.matmul(a, b)
