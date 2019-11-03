@@ -6,21 +6,22 @@
 [![txt](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
 [![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
 
-## 📛 Introduction 
+
+## 🏃‍♂️ Using deepC
+
+Here are few of many ways.
+
+1. Try deepC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
+1. Install it on Ubuntu (or other debian derivatives) using ```pip install deepC```
+1. Use deepC with a [Docker File](Dockerfile) 
+
+See more examples in [tutorial](tutorials/README.md) dir.
+
+## 📛 what is deepC? 
 
 deepC Compiler and infrance framework is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like FPGAs, eFPGAs and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ) and others.
 
 dnn Compiler is ahead of time compiler producing optimized executable based on [LLVM compiler tool chain](https://llvm.org/) and [openAcc](https://www.openacc.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
-
-## 🏃‍♂️ Using DNNC
-
-We're in pre-alpha stage. However, you can
-
-1. try DNNC with a [Docker File](Dockerfile) 
-1. try DNNC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
-1. install it on Ubuntu using ```pip install deepC```
-
-See more examples in [tutorial](tutorials/README.md) dir.
 
 ## 📝 Design
 
