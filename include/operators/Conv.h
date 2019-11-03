@@ -258,11 +258,11 @@ public:
       // no padding
       padType = 'N';
       for (size_t axis = 2; axis < X.rank(); axis++) {
-  if (X.shape()[axis] <=  kernelShape[axis]) {
-    errMsg << "Kernel is too big for the given input and paddings"
-     << std::endl;
-    throw std::invalid_argument(errMsg.str().c_str());
-  }
+	if (X.shape()[axis] <=  kernelShape[axis]) {
+	  errMsg << "Kernel is too big for the given input and paddings"
+		 << std::endl;
+	  throw std::invalid_argument(errMsg.str().c_str());
+	}
         resultShape.push_back(
             ((X.shape()[axis] - kernelShape[axis]) / strides[axis - 2]) + 1);
       }
@@ -301,11 +301,11 @@ public:
         throw std::invalid_argument(errMsg.str().c_str());
       }
       for (size_t axis = 2; axis < X.rank(); axis++) {
-  if ((X.shape()[axis] + pads[axis] + pads[axis-2]) <=  kernelShape[axis]) {
-    errMsg << "Kernel is too big for the given input and paddings"
-     << std::endl;
-    throw std::invalid_argument(errMsg.str().c_str());
-  }
+	if ((X.shape()[axis] + pads[axis] + pads[axis-2]) <=  kernelShape[axis]) {
+	  errMsg << "Kernel is too big for the given input and paddings"
+		 << std::endl;
+	  throw std::invalid_argument(errMsg.str().c_str());
+	}
         resultShape.push_back(
             ((X.shape()[axis] - kernelShape[axis] + pads[axis] + pads[axis-2]) / strides[axis - 2]) + 1);
       }
