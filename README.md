@@ -12,6 +12,15 @@ deepC Compiler and infrance framework is designed to **enable and perform** deep
 
 dnn Compiler is ahead of time compiler producing optimized executable based on [LLVM compiler tool chain](https://llvm.org/) and [openAcc](https://www.openacc.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
 
+## 🏃‍♂️ Using DNNC
+
+We're in pre-alpha stage. However, you can
+
+1. try DNNC with a [Docker File](Dockerfile) 
+1. try DNNC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
+1. install it on Ubuntu using ```pip install deepC```
+
+See more examples in [tutorial](tutorials/README.md) dir.
 
 ## 📝 Design
 
@@ -67,16 +76,6 @@ compiling tensor.cpp
 ln -s -f lib/libdnnc.so _dnnc.so
 /usr/bin/python3 ../test/swig/basic.py
 ```
-
-## 🏃‍♂️ Using DNNC
-
-We're in pre-alpha stage. However, you can
-
-1. try DNNC with a [Docker File](Dockerfile) 
-1. try DNNC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
-1. install it on Ubuntu using ```pip install deepC```
-
-We'll soon release examples dir.
 
 ## ➕ Contribute
 
