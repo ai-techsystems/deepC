@@ -1,6 +1,8 @@
 ## Tutorials
 
-1. [Getting Started with Framework](Getting_Started_With_deepC.ipynb)
+1. [Getting Started with deepC](Getting_Started_With_deepC.ipynb)
+1. [Gradient Descent with deepC](Gradient_Descent_With_DeepC.ipynb)
+1. [k nearest neighbor with deepC](KNN_with_DeepC.ipynb)
 
 ## Examples
 
