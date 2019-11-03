@@ -41,7 +41,7 @@ int main() {
   int fmod_flag = 1;
   // std::cout << fmod(21.0, 21.0);
 
-  Mod<float, float> m("localOpName", fmod_flag);
+  Mod<float> m("localOpName", fmod_flag);
   auto result = m.compute(a, b);
 
   std::cout << result;
@@ -55,7 +55,7 @@ int main() {
   b_int.load(d2_int);
   // int fmod_flag = 0;
 
-  Mod<int, int> m_int("localOpName");
+  Mod<int> m_int("localOpName");
   auto result_int = m_int.compute(a_int, b_int);
 
   std::cout << result_int;
