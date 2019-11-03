@@ -79,7 +79,7 @@ public:
       tensor<int> default_axis(shape);
       axes = default_axis;
       for (size_t i = 0; i < num_axes; i++) {
-        axes(i) = i + 1;
+        axes(i) = i;
       }
     }
 
@@ -151,7 +151,7 @@ public:
         }
         axes(i) = rank + axes(i);
       }
-      if (axes(i) > rank) {
+      if (axes(i) > rank - 1) {
         errMsg << "axes value (" << axes(i) << ") along axis " << i
                << " is large than the number of dimensions of input tensor"
                << std::endl;
@@ -180,7 +180,7 @@ public:
 
       // determine slicing along the axis-th dimension
       for (size_t i = 0; i < num_axes; i++) {
-        if ((axes(i) - 1) == axis) {
+        if (axes(i) == axis) {
           start_index[axis] = start(i);
           end_index[axis] = end(i) - 1;
           step[axis] = steps[i];
