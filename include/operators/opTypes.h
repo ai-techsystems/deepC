@@ -45,6 +45,7 @@ enum OPCODE {
   opBitwiseXor,
   opCast,
   opCeil,
+  opChip,
   opClip,
   opCompress,
   opConcat,

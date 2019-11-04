@@ -492,10 +492,18 @@ OPCODE getOpCode(std::string opCodeStr) {
     return opBatchNormalization;
   if (opCodeStr == "BitShift")
     return opBitShift;
+  if (opCodeStr == "BitwiseAnd")
+    return opBitwiseAnd;
+  if (opCodeStr == "BitwiseOr")
+    return opBitwiseOr;
+  if (opCodeStr == "BitwiseXor")
+    return opBitwiseXor;
   if (opCodeStr == "Cast")
     return opCast;
   if (opCodeStr == "Ceil")
     return opCeil;
+  if (opCodeStr == "Chip")
+    return opChip;
   if (opCodeStr == "Clip")
     return opClip;
   if (opCodeStr == "Compress")

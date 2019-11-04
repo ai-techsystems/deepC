@@ -2,6 +2,7 @@ import os, argparse
 import common
 
 import deepC.dnnc as dc
+import numpy as np
 
 def test_multiply(a,b):
     c = dc.matmul(a, b)
@@ -24,8 +25,8 @@ def test_non_binary():
 	t3.reshape([4,6])
 	#print("new shape", t1.shape())
 
-	py_list = list(t3);   # convert tensor to python list
-	py_tuple = tuple(t3); # convert tensor to python tuple
+	# py_list = list(t3);   # convert tensor to python list
+	# py_tuple = tuple(t3); # convert tensor to python tuple
 	np_ary = t3.numpy();  # convert to numpy array
 
 	#t4 = dc.thresholded_relu(t1);
@@ -71,6 +72,7 @@ def test_non_binary():
 	b.load(bdata)
 	test_multiply(a,b)
 
+
 def test_binary():
 
 	t1 = dc.array(2,3).asTypeFloat()
@@ -78,6 +80,7 @@ def test_binary():
 
 	add = dc.add(t1,t1)
 	add = t1 + t1
+
 	#print ("addition : " , add.to_string())
 
 
