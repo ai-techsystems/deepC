@@ -48,10 +48,12 @@ bool dnnc::cppCodeGen::write() {
 
   // OUTPUTs are written with operators.
 
-  std::ofstream out(_bundleDir + FS_PATH_SEPARATOR + _outFile);
+  std::ofstream out(_bundleDir.size()
+                        ? (_bundleDir + FS_PATH_SEPARATOR + _outFile)
+                        : _outFile);
   if (!out.is_open() || out.fail()) {
     std::cerr << "ERROR (CODEGEN): could not open file " + _outFile +
-                     "to write.\n";
+                     " to write.\n";
     return false;
   }
   out << writeIncludes() << "\n";
@@ -132,8 +134,9 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
     if (values.size() == 1) {
       initData = std::to_string(values[0]);
     } else {
-      for (auto el : values)
+      for (auto el : values) {
         initData += (initData.size() ? "," : "{") + std::to_string(el);
+      }
       initData += values.size() ? "}" : "";
       varType = "std::vector<" + varType + ">";
     }
@@ -150,8 +153,9 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
     if (values.size() == 1) {
       initData = std::to_string(values[0]);
     } else {
-      for (auto el : values)
+      for (auto el : values) {
         initData += (initData.size() ? "," : "{") + std::to_string(el);
+      }
       initData += values.size() ? "}" : "";
       varType = "std::vector<" + varType + ">";
     }
@@ -170,30 +174,32 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
     tensor<int> values = std::vector<tensor<int>>(dtype)[0];
     if (values.length() == 0)
       return code;
-    for (auto el : values)
+    for (auto el : values) {
       initData += (initData.size() ? "," : "{") + std::to_string(el);
+    }
     initData += values.length() ? "}" : "";
     std::string initVec = name + "_vec";
-    initData = "std::vector<int> " + initVec + " = " + initData + ";\n";
+    initData = "std::vector<long int> " + initVec + " = " + initData + ";\n";
     varType = getDNNC_IRTypeStr(dtype.type());
     code = _tab + initData;
-    code += _tab + varType + " " + name + "(1); " + name + ".load(" + initVec +
-            ");\n";
+    code += _tab + varType + " " + name + "({1}); " + name + ".load(" +
+            initVec + ");\n";
     break;
   }
   case IR_DataType::TENSOR_FLOAT: {
     tensor<double> values = std::vector<tensor<double>>(dtype)[0];
     if (values.length() == 0)
       return code;
-    for (auto el : values)
+    for (auto el : values) {
       initData += (initData.size() ? "," : "{") + std::to_string(el);
+    }
     initData += values.length() ? "}" : "";
     std::string initVec = name + "_vec";
     initData = "std::vector<double> " + initVec + " = " + initData + ";\n";
     varType = getDNNC_IRTypeStr(dtype.type());
     code = _tab + initData;
-    code += _tab + varType + " " + name + "(1); " + name + ".load(" + initVec +
-            ");\n";
+    code += _tab + varType + " " + name + "({1}); " + name + ".load(" +
+            initVec + ");\n";
     break;
   }
   default:
@@ -216,8 +222,8 @@ std::string dnnc::cppCodeGen::write(ioNode &term) {
   for (size_t i = 0; i < shapeVec.size(); i++)
     shapeStr +=
         std::to_string(shapeVec[i]) + (i == shapeVec.size() - 1 ? "" : ", ");
-  return _tab + "tensor<" + dtype + "> " + nodeName(&term) + "(" + shapeStr +
-         ")" + ";\n";
+  return _tab + "tensor<" + dtype + "> " + nodeName(&term) + "({" + shapeStr +
+         "})" + ";\n";
 }
 
 std::string dnnc::cppCodeGen::write(opNode &computeNode) {
