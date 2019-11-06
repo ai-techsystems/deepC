@@ -29,7 +29,7 @@
 import os, sys
 
 import deepC.dnnc as dnnc
-import deepC.scripts.read_onnx as read_onnx
+import scripts.read_onnx as read_onnx
 
 class dnncCpp:
   """ write C++ file, given a DNNC graph. """
@@ -56,6 +56,8 @@ def main():
     bundle_dir = sys.argv[2]
   else:
     bundle_dir = os.path.dirname(onnx_file);
+  if not bundle_dir:
+    bundle_dir = "."
 
   cpp_file = os.path.splitext(os.path.basename(onnx_file))[0]+'.cpp'
 

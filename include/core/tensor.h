@@ -506,6 +506,48 @@ public:
     return result;
   }
 
+#ifndef SWIGPYTHON
+  // \brief load tensor data from file.
+  //        returns true on success, false for failure.
+  //        numbers equal to the number of tensor-length
+  //        are read, rest are discarded.
+  //        if numbers are less, it returns false.
+  bool read(std::string fileName) {
+
+    std::fstream fs;
+    fs.open(fileName, std::ios::in);
+    // parameter file could not be opened.
+    if (!fs.is_open() || fs.fail()) {
+      return false;
+    }
+    size_t len = this->length();
+
+    std::string typedStr;
+    T fNum;
+    size_t index = 0;
+    while (std::getline(fs, typedStr)) {
+      std::stringstream linestream(typedStr);
+      while (linestream >> fNum) {
+        if (index >= len) {
+          break;
+        }
+        _mem_layout[index++] = fNum;
+      }
+      if (index >= len) {
+        break;
+      }
+    }
+    fs.close();
+
+    // parameter file did not have parametres equal to tensor length.
+    if (index < len) {
+      return false;
+    }
+
+    return true;
+  }
+#endif
+
 }; // class tensor
 
 #ifndef SWIGPYTHON

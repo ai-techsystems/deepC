@@ -47,7 +47,7 @@ public:
     // A dimension could also be 0, in which case
     // the actual dimension value is unchanged,
     // i.e. taken from the input tensor
-    for (size_t i = 0; i < shape.length(); i++) {
+    for (size_t i = 0; i < shape.shape().size(); i++) {
       if (shape[i] == 0 && input.rank() > i)
         shape[i] = input.shape()[i];
     }
@@ -55,7 +55,7 @@ public:
     // At most one dimension of the new shape can be -1.
     // In this case, the value is inferred from the
     // size of the tensor and the remaining dimensions.
-    for (size_t i = 0; i < shape.length(); i++) {
+    for (size_t i = 0; i < shape.shape().size(); i++) {
       if (shape[i] == -1) {
         shape[i] = 1;
         shape[i] = static_cast<long int>(input.length() / shape_length(shape));

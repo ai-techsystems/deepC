@@ -34,4 +34,4 @@ class unitOperatorsTest(unittest.TestCase):
         sys.stdout = sys_stdout
 
         print("read %d files." %len(onnx_files))
-        assert(len(onnx_files)==131)
+        assert(len(onnx_files)==132)

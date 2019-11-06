@@ -53,6 +53,10 @@ protected:
   int transA = 0;   /*!< Whether A should be transposed */
   int transB = 0;   /*!< Whether B should be transposed */
 
+  inline std::vector<size_t> swap0And1(std::vector<size_t> v) {
+    return (v.size() == 2) ? std::vector<size_t>({v[1], v[0]}) : v;
+  }
+
 public:
   Gemm(std::string name = "opGemm", float alpha = 1.0, float beta = 1.0,
        int transA = 0, int transB = 0)
@@ -113,7 +117,27 @@ public:
                    tensor<Ti1> c/*!<Input tensor C. The shape of C should be
                                    unidirectional broadcastable to (M, N)*/) override {
 
-    if (a.rank() != 2 || b.rank() != 2 || c.rank() != 2)
+    std::vector<size_t> aShape = transA ? swap0And1(a.shape()) : a.shape();
+    std::vector<size_t> bShape = transB ? swap0And1(b.shape()) : b.shape();
+
+    if (a.rank() == 1 && b.rank() == 2) {
+      if (aShape[0] == bShape[0])
+        aShape = {1, aShape[0]};
+      else if (bShape[0] == 1)
+        aShape = {aShape[0], 1};
+      aShape = transA ? swap0And1(aShape) : aShape;
+      a.reshape(aShape);
+    }
+    if (a.rank() == 2 && b.rank() == 1) {
+      if (aShape[1] == bShape[0])
+        bShape = {bShape[0], 1};
+      else if (aShape[1] == 1)
+        bShape = {1, bShape[0]};
+      bShape = transB ? swap0And1(bShape) : bShape;
+      b.reshape(bShape);
+    }
+
+    if (a.rank() != 2 || b.rank() != 2)
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Gemm operator.");
 
@@ -121,20 +145,17 @@ public:
       throw std::invalid_argument(
           "Constrain input and output types to float and int tensors.");
 
-    tensor<Ti1> result(c.shape(), c.name());
+    std::vector<size_t> targetShape = {aShape[0], bShape[1]};
+    tensor<Ti1> broadcastedC = broadcast(c, targetShape);
+
+    tensor<Ti1> result(broadcastedC.shape(), broadcastedC.name());
     DNNC_EIGEN_MATRIX(eigenMatrixA, Ti1, a);
     DNNC_EIGEN_MATRIX(eigenMatrixB, Ti1, b);
-    DNNC_EIGEN_MATRIX(eigenMatrixC, Ti1, c);
-    Matrix<Ti1, Dynamic, Dynamic, RowMajor> eResult(c.shape()[0], c.shape()[1]);
-    // DNNC_EIGEN_VECTOR_CTOR(Ti1) eResult;
-
-    // if (transA==1)
-    // 	eigenMatrixA.transposeInPlace();
-    // if (transB==1)
-    // 	eigenMatrixB.transposeInPlace();
+    DNNC_EIGEN_MATRIX(eigenMatrixC, Ti1, broadcastedC);
+    Matrix<Ti1, Dynamic, Dynamic, RowMajor> eResult(broadcastedC.shape()[0],
+                                                    broadcastedC.shape()[1]);
 
     try {
-      // eResult = alpha*(eigenMatrixA * eigenMatrixB) + beta * eigenMatrixC;
       if (transA == 0 && transB == 0) {
         eResult = alpha * (eigenMatrixA * eigenMatrixB) + beta * eigenMatrixC;
       } else if (transA == 1 && transB == 0) {
