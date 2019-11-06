@@ -10,10 +10,14 @@ using namespace dnnc;
 int main() {
 
   tensor<float> dnnc_0({784});
-  tensor<float> dnnc_fc_dot_weight({1, 784});
-  tensor<float> dnnc_fc_dot_bias({1});
-  tensor<float> dnnc_fc2_dot_weight({10, 1});
+  tensor<float> dnnc_fc_dot_weight({100, 784});
+  dnnc_fc_dot_weight.read("./compiler/mnist/fc.weight");
+  tensor<float> dnnc_fc_dot_bias({100});
+  dnnc_fc_dot_bias.read("./compiler/mnist/fc.bias");
+  tensor<float> dnnc_fc2_dot_weight({10, 100});
+  dnnc_fc2_dot_weight.read("./compiler/mnist/fc2.weight");
   tensor<float> dnnc_fc2_dot_bias({10});
+  dnnc_fc2_dot_bias.read("./compiler/mnist/fc2.bias");
 
   Constant<int64_t> dnnc___1("dnnc___1");
   std::vector<long int> dnnc___1_value_vec = {-1,784};

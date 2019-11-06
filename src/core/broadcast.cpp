@@ -26,9 +26,11 @@
 using namespace dnnc;
 
 // reference: https://github.com/onnx/onnx/blob/master/docs/Broadcasting.md
+/*
+NOTE: This is part of header file.
 template <typename T>
 tensor<T> broadcast(const tensor<T> a,
-                    const std::vector<DIMENSION> targetShape) {
+                          const std::vector<DIMENSION> targetShape) {
   // TODO:
   // 1. uni-directional broadcasting
   // 2. multi-directional broadcasting
@@ -51,5 +53,6 @@ tensor<T> broadcast(const tensor<T> a,
     std::cout << "Not supported";
   }
 
-  return null;
+  return NULL_TENSOR<T>;
 }
+*/

@@ -39,10 +39,11 @@ protected:
   std::string _outFile;
   std::vector<std::string> _includes;
 
-  std::string initializeData(irTypeData, std::string);
+  std::string initializeData(irTypeData, std::string, std::string fname = "");
   std::string writeIncludes();
   std::string writeMainFunction(std::string);
 
+  std::string paramFile(std::string str);
   std::string cppName(std::string str);
   std::string nodeName(node *n);
 

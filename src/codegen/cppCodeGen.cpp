@@ -26,6 +26,8 @@
 #include <assert.h>
 #include <fstream>
 #include <regex>
+#include <sys/stat.h>
+#include <unistd.h>
 
 bool dnnc::cppCodeGen::write() {
 
@@ -69,6 +71,16 @@ std::string dnnc::cppCodeGen::cppName(std::string str) {
   return new_str;
 }
 
+// \brief get parametre file, given term/param name
+std::string dnnc::cppCodeGen::paramFile(std::string param_name) {
+  // check if there is a param file to load in the bundle dir.
+  struct stat buffer;
+  std::string param_file =
+      (_bundleDir.size() ? _bundleDir + FS_PATH_SEPARATOR : "") + param_name;
+
+  return (stat(param_file.c_str(), &buffer) == 0) ? param_file : "";
+}
+
 std::string dnnc::cppCodeGen::nodeName(node *n) {
   if (n->ntype() == node::OPERATOR)
     return _prefix + cppName(n->name()) + "_" +
@@ -98,8 +110,8 @@ std::string dnnc::cppCodeGen::writeMainFunction(std::string body) {
   return code;
 }
 
-std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
-                                             std::string name) {
+std::string dnnc::cppCodeGen::initializeData(irTypeData dtype, std::string name,
+                                             std::string fname) {
   std::string varType;  // int, float, std::vector<float> etc
   std::string initData; // = {1.3, 1.5} etc
   std::string code;     // vector<int> value = {1, 4, 6};
@@ -184,6 +196,9 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
     code = _tab + initData;
     code += _tab + varType + " " + name + "({1}); " + name + ".load(" +
             initVec + ");\n";
+    if (fname.size()) {
+      code += _tab + name + ".read(\"" + fname + "\");\n";
+    }
     break;
   }
   case IR_DataType::TENSOR_FLOAT: {
@@ -200,6 +215,9 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
     code = _tab + initData;
     code += _tab + varType + " " + name + "({1}); " + name + ".load(" +
             initVec + ");\n";
+    if (fname.size()) {
+      code += _tab + name + ".read(\"" + fname + "\");\n";
+    }
     break;
   }
   default:
@@ -210,7 +228,9 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype,
 }
 
 std::string dnnc::cppCodeGen::write(dnnParameters param) {
-  return initializeData(param.data(), _prefix + cppName(param.name()));
+
+  return initializeData(param.data(), _prefix + cppName(param.name()),
+                        paramFile(param.name()));
 }
 
 std::string dnnc::cppCodeGen::write(ioNode &term) {
@@ -219,11 +239,20 @@ std::string dnnc::cppCodeGen::write(ioNode &term) {
   std::string dtype = getDNNC_DataTypeStr(term.dtype());
   std::string shapeStr;
   std::vector<DIMENSION> shapeVec = term.shape();
-  for (size_t i = 0; i < shapeVec.size(); i++)
+
+  for (size_t i = 0; i < shapeVec.size(); i++) {
     shapeStr +=
         std::to_string(shapeVec[i]) + (i == shapeVec.size() - 1 ? "" : ", ");
-  return _tab + "tensor<" + dtype + "> " + nodeName(&term) + "({" + shapeStr +
-         "})" + ";\n";
+  }
+
+  std::string code = _tab + "tensor<" + dtype + "> " + nodeName(&term) + "({" +
+                     shapeStr + "})" + ";\n";
+
+  std::string param_file = paramFile(term.name());
+  if (param_file.size()) {
+    code += _tab + nodeName(&term) + ".read(\"" + param_file + "\");\n";
+  }
+  return code;
 }
 
 std::string dnnc::cppCodeGen::write(opNode &computeNode) {
