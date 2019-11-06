@@ -28,7 +28,6 @@
 #include "operators/ArgMax.h"
 #include "operators/ArgMin.h"
 #include "operators/And.h"
-#include "operators/Chip.h"
 #include "operators/Conv.h"
 #include "operators/BitShift.h"
 #include "operators/BitwiseAnd.h"
@@ -883,16 +882,5 @@ tensor<output> prelu(tensor<input> &x, tensor<input> &slope) {
     "float" : "float",
     "double" : "double",
     "int" : "int"
-  }
-}
-
-tensor<output> chip(int value, int axis, tensor<input> &a) {
-	Chip<input> op(value, axis, "localOpName");
-	return op.compute(a);
-	dtype = {
-      "float" : "float",
-      "double" : "double",
-      "int" : "int",
-      "bool" : "bool"
   }
 }

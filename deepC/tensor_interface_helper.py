@@ -28,7 +28,7 @@ def build_python_file():
 %pythoncode %{
 
 def __getitem__(self, index):
-  
+
   def get_item_helper_int(item, axis):
     start = item
     stop = item+1
@@ -36,6 +36,7 @@ def __getitem__(self, index):
     return start, stop, step
 
   def get_item_helper_slice(index, axis):
+    flag = 0   # to check if all index items are supported or not
     start = 0
     stop = self.shape()[axis]
     step = 1
@@ -44,21 +45,23 @@ def __getitem__(self, index):
     elif str(type(item.start)).split("'")[1] == "NoneType":
       pass
     else:
-      print("item.start ", type(item.start), "not supported!")
+      print("start of", type(item.start), "not supported!")
+      flag = 1
     if type(item.stop) == int:
       stop = item.stop
     elif str(type(item.stop)).split("'")[1] == "NoneType":
       pass
     else:
-      print("item.stop ", type(item.stop), "not supported!")
+      print("stop of", type(item.stop), "not supported!")
+      flag = 1
     if type(item.step) == int:
       step = item.step
     elif str(type(item.step)).split("'")[1] == "NoneType":
       pass
     else:
-      print("item.step ", type(item.step), "not supported!")
-    return start, stop, step
-
+      print("step of", type(item.step), "not supported!")
+      flag = 1
+    return start, stop, step, flag
 
   if str(type(index)).split("'")[1] == "int":
     axis = 0
@@ -67,57 +70,121 @@ def __getitem__(self, index):
     stop = array([stop]).asTypeULong()
     axis = array([axis]).asTypeInt()
     step = array([step]).asTypeULong()
-    return slice(self, start, stop, axis, step)
-    # return self.getitem_helper(index)
+    if (self.rank() == 1):
+      # return self.operator[](index)
+      return slice(self, start, stop, axis, step).reshape(1)
+    return slice(self, start, stop, axis, step).reshape(self.shape()[1:])
 
-  elif isinstance(index, list) or isinstance(index, tuple):
-    start_list = []
-    stop_list = []
-    step_list = []
-    axis_list = []
-    for axis,item in enumerate(index):
-      if str(type(item)).split("'")[1] == "int":
-        start, stop, step = get_item_helper_int(item, axis)
-        # print("int", start, stop, axis, step)
-        start_list.append(start)
-        stop_list.append(stop)
-        step_list.append(step)
-        axis_list.append(axis)
-      elif str(type(item)).split("'")[1] == "slice":
-        start, stop, step = get_item_helper_slice(item, axis)
-        # print("slice", start, stop, axis, step)
-        start_list.append(start)
-        stop_list.append(stop)
-        step_list.append(step)
-        axis_list.append(axis)
-      
-      else:
-        print("else", type(item))
-    
-    # print(start_list, stop_list, axis_list, step_list)
-    start_list = array(start_list).asTypeULong()
-    stop_list = array(stop_list).asTypeULong()
-    axis_list = array(axis_list).asTypeInt()
-    step_list = array(step_list).asTypeULong()
-    return slice(self, start_list, stop_list, axis_list, step_list)
-  
   elif str(type(index)).split("'")[1] == "slice":
     axis = 0
-    start, stop, step = get_item_helper_slice(index, axis)
+    start, stop, step, flag = get_item_helper_slice(index, axis)
+    if flag:
+      return dc.empty(0)
     start = array([start]).asTypeULong()
     stop = array([stop]).asTypeULong()
     axis = array([axis]).asTypeInt()
     step = array([step]).asTypeULong()
     return slice(self, start, stop, axis, step)
-    
-  else :
-    print("else")
-    print(type(index))
 
-  return
+  elif str(type(index)).split("'")[1] == "ellipsis":
+    return self.copy()
+    
+  elif isinstance(index, list) or isinstance(index, tuple):
+    
+    # checks if any float or bool or complex is not present 
+    if any(isinstance(x,(bool,float,complex)) for x in index):
+      print("Restrict to only integers as a slicing argument!")
+      return dc.empty(0)
+    
+    start_list = []
+    stop_list = []
+    step_list = []
+    axis_list = []
+    axis = -1   # -1 for starting axis as 0 in the next loops
+    reshape_counter = 0
+    replace_start = replace_stop = 0   # replace ellipsis with slice methods by index
+
+    if Ellipsis in index:
+      if (index.count(Ellipsis) > 1):
+        print(index.count(Ellipsis),"'Ellipsis' found, maximum 1 is supported!")
+        return dc.empty(0)
+      elif (index.count(Ellipsis) == 1):
+        non_ellipsis_count = 0
+        for item in index:
+          if str(type(item)).split("'")[1] == "int" or str(type(item)).split("'")[1] == "slice":
+            non_ellipsis_count += 1 
+        # replace holds start and stop index which will be replaced by slice method in place of ellipsis
+        replace_start = index.index(Ellipsis)
+        replace_stop = replace_start + self.rank() - non_ellipsis_count
+      else:
+        print("Error occured while handling ellipsis!")
+        return dc.empty(0)
+
+    for item in index:
+      axis += 1
+      if str(type(item)).split("'")[1] == "ellipsis":
+        while (axis >= replace_start and axis < replace_stop):
+          start = 0
+          stop = self.shape()[axis]
+          step = 1
+          start_list.append(start)
+          stop_list.append(stop)
+          step_list.append(step)
+          axis_list.append(axis)
+          axis += 1
+        axis -= 1   # recovering from last axis increment
+      elif str(type(item)).split("'")[1] == "int":
+        start, stop, step = get_item_helper_int(item, axis)
+        start_list.append(start)
+        stop_list.append(stop)
+        step_list.append(step)
+        axis_list.append(axis)
+        reshape_counter += 1
+      elif str(type(item)).split("'")[1] == "slice":
+        start, stop, step, flag = get_item_helper_slice(index, axis)
+        if flag:
+          return dc.empty(0)
+        start_list.append(start)
+        stop_list.append(stop)
+        step_list.append(step)
+        axis_list.append(axis)
+      else:
+        print("Doen't support", item , "of", type(item), "as a slicing argument!")
+        return dc.empty(0)
+    
+    while (axis < self.rank()-1):
+      axis += 1
+      start = 0
+      stop = self.shape()[axis]
+      step = 1
+      start_list.append(start)
+      stop_list.append(stop)
+      step_list.append(step)
+      axis_list.append(axis)
+
+    start_list = array(start_list).asTypeULong()
+    stop_list = array(stop_list).asTypeULong()
+    axis_list = array(axis_list).asTypeInt()
+    step_list = array(step_list).asTypeULong()
+    result = slice(self, start_list, stop_list, axis_list, step_list)
+
+    # This is a bug, we are returning 1D tensor, even if we need to return Scalar
+    if (reshape_counter > 0):
+      if (reshape_counter == self.rank()):
+        # return result.operator[](0)
+        return result.reshape(1)
+      return (result).reshape(result.shape()[reshape_counter:])
+    
+    return result
+
+  else :
+    print("Doen't support", type(index), "as a slicing argument!")
+
+  return dc.empty(0)
 
 """
   return s
+
 
 def overload_python_operator(dc_operator, operator_python, dtype_precedence_dict, flag):
   s = ""
@@ -145,7 +212,7 @@ def __i<operand>__(self, other):
   else:
     right_operand_dtype = str(type(other)).split("'")[1]
   if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
+    print TypeError("cannot modify left hand operand datatype.")
   return <operator>(self, other)
 '''
   elif flag == "comparison":

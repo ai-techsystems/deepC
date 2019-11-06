@@ -193,7 +193,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
 %pythoncode %{
 
 def __getitem__(self, index):
-  
+
   def get_item_helper_int(item, axis):
     start = item
     stop = item+1
@@ -201,6 +201,7 @@ def __getitem__(self, index):
     return start, stop, step
 
   def get_item_helper_slice(index, axis):
+    flag = 0   # to check if all index items are supported or not
     start = 0
     stop = self.shape()[axis]
     step = 1
@@ -209,21 +210,23 @@ def __getitem__(self, index):
     elif str(type(item.start)).split("'")[1] == "NoneType":
       pass
     else:
-      print("item.start ", type(item.start), "not supported!")
+      print("start of", type(item.start), "not supported!")
+      flag = 1
     if type(item.stop) == int:
       stop = item.stop
     elif str(type(item.stop)).split("'")[1] == "NoneType":
       pass
     else:
-      print("item.stop ", type(item.stop), "not supported!")
+      print("stop of", type(item.stop), "not supported!")
+      flag = 1
     if type(item.step) == int:
       step = item.step
     elif str(type(item.step)).split("'")[1] == "NoneType":
       pass
     else:
-      print("item.step ", type(item.step), "not supported!")
-    return start, stop, step
-
+      print("step of", type(item.step), "not supported!")
+      flag = 1
+    return start, stop, step, flag
 
   if str(type(index)).split("'")[1] == "int":
     axis = 0
@@ -232,313 +235,118 @@ def __getitem__(self, index):
     stop = array([stop]).asTypeULong()
     axis = array([axis]).asTypeInt()
     step = array([step]).asTypeULong()
-    return slice(self, start, stop, axis, step)
-    # return self.getitem_helper(index)
+    if (self.rank() == 1):
+      # return self.operator[](index)
+      return slice(self, start, stop, axis, step).reshape(1)
+    return slice(self, start, stop, axis, step).reshape(self.shape()[1:])
 
-  elif isinstance(index, list) or isinstance(index, tuple):
-    start_list = []
-    stop_list = []
-    step_list = []
-    axis_list = []
-    for axis,item in enumerate(index):
-      if str(type(item)).split("'")[1] == "int":
-        start, stop, step = get_item_helper_int(item, axis)
-        # print("int", start, stop, axis, step)
-        start_list.append(start)
-        stop_list.append(stop)
-        step_list.append(step)
-        axis_list.append(axis)
-      elif str(type(item)).split("'")[1] == "slice":
-        start, stop, step = get_item_helper_slice(item, axis)
-        # print("slice", start, stop, axis, step)
-        start_list.append(start)
-        stop_list.append(stop)
-        step_list.append(step)
-        axis_list.append(axis)
-      
-      else:
-        print("else", type(item))
-    
-    # print(start_list, stop_list, axis_list, step_list)
-    start_list = array(start_list).asTypeULong()
-    stop_list = array(stop_list).asTypeULong()
-    axis_list = array(axis_list).asTypeInt()
-    step_list = array(step_list).asTypeULong()
-    return slice(self, start_list, stop_list, axis_list, step_list)
-  
   elif str(type(index)).split("'")[1] == "slice":
     axis = 0
-    start, stop, step = get_item_helper_slice(index, axis)
+    start, stop, step, flag = get_item_helper_slice(index, axis)
+    if flag:
+      return dc.empty(0)
     start = array([start]).asTypeULong()
     stop = array([stop]).asTypeULong()
     axis = array([axis]).asTypeInt()
     step = array([step]).asTypeULong()
     return slice(self, start, stop, axis, step)
+
+  elif str(type(index)).split("'")[1] == "ellipsis":
+    return self.copy()
     
+  elif isinstance(index, list) or isinstance(index, tuple):
+    
+    # checks if any float or bool or complex is not present 
+    if any(isinstance(x,(bool,float,complex)) for x in index):
+      print("Restrict to only integers as a slicing argument!")
+      return dc.empty(0)
+    
+    start_list = []
+    stop_list = []
+    step_list = []
+    axis_list = []
+    axis = -1   # -1 for starting axis as 0 in the next loops
+    reshape_counter = 0
+    replace_start = replace_stop = 0   # replace ellipsis with slice methods by index
+
+    if Ellipsis in index:
+      if (index.count(Ellipsis) > 1):
+        print(index.count(Ellipsis),"'Ellipsis' found, maximum 1 is supported!")
+        return dc.empty(0)
+      elif (index.count(Ellipsis) == 1):
+        non_ellipsis_count = 0
+        for item in index:
+          if str(type(item)).split("'")[1] == "int" or str(type(item)).split("'")[1] == "slice":
+            non_ellipsis_count += 1 
+        # replace holds start and stop index which will be replaced by slice method in place of ellipsis
+        replace_start = index.index(Ellipsis)
+        replace_stop = replace_start + self.rank() - non_ellipsis_count
+      else:
+        print("Error occured while handling ellipsis!")
+        return dc.empty(0)
+
+    for item in index:
+      axis += 1
+      if str(type(item)).split("'")[1] == "ellipsis":
+        while (axis >= replace_start and axis < replace_stop):
+          start = 0
+          stop = self.shape()[axis]
+          step = 1
+          start_list.append(start)
+          stop_list.append(stop)
+          step_list.append(step)
+          axis_list.append(axis)
+          axis += 1
+        axis -= 1   # recovering from last axis increment
+      elif str(type(item)).split("'")[1] == "int":
+        start, stop, step = get_item_helper_int(item, axis)
+        start_list.append(start)
+        stop_list.append(stop)
+        step_list.append(step)
+        axis_list.append(axis)
+        reshape_counter += 1
+      elif str(type(item)).split("'")[1] == "slice":
+        start, stop, step, flag = get_item_helper_slice(index, axis)
+        if flag:
+          return dc.empty(0)
+        start_list.append(start)
+        stop_list.append(stop)
+        step_list.append(step)
+        axis_list.append(axis)
+      else:
+        print("Doen't support", item , "of", type(item), "as a slicing argument!")
+        return dc.empty(0)
+    
+    while (axis < self.rank()-1):
+      axis += 1
+      start = 0
+      stop = self.shape()[axis]
+      step = 1
+      start_list.append(start)
+      stop_list.append(stop)
+      step_list.append(step)
+      axis_list.append(axis)
+
+    start_list = array(start_list).asTypeULong()
+    stop_list = array(stop_list).asTypeULong()
+    axis_list = array(axis_list).asTypeInt()
+    step_list = array(step_list).asTypeULong()
+    result = slice(self, start_list, stop_list, axis_list, step_list)
+
+    # This is a bug, we are returning 1D tensor, even if we need to return Scalar
+    if (reshape_counter > 0):
+      if (reshape_counter == self.rank()):
+        # return result.operator[](0)
+        return result.reshape(1)
+      return (result).reshape(result.shape()[reshape_counter:])
+    
+    return result
+
   else :
-    print("else")
-    print(type(index))
+    print("Doen't support", type(index), "as a slicing argument!")
 
-  return
+  return dc.empty(0)
 
-
-def __add__(self, other):
-  return add(self, other)
-
-def __radd__(self, other):
-  return add(other, self)
-
-def __iadd__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return add(self, other)
-
-def __sub__(self, other):
-  return sub(self, other)
-
-def __rsub__(self, other):
-  return sub(other, self)
-
-def __isub__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return sub(self, other)
-
-def __mul__(self, other):
-  return mul(self, other)
-
-def __rmul__(self, other):
-  return mul(other, self)
-
-def __imul__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return mul(self, other)
-
-def __floordiv__(self, other):
-  return floor_div(self, other)
-
-def __rfloordiv__(self, other):
-  return floor_div(other, self)
-
-def __ifloordiv__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return floor_div(self, other)
-
-def __truediv__(self, other):
-  return true_div(self, other)
-
-def __rtruediv__(self, other):
-  return true_div(other, self)
-
-def __itruediv__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return true_div(self, other)
-
-def __mod__(self, other):
-  return remainder(self, other)
-
-def __rmod__(self, other):
-  return remainder(other, self)
-
-def __imod__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return remainder(self, other)
-
-def __pow__(self, other):
-  return power(self, other)
-
-def __rpow__(self, other):
-  return power(other, self)
-
-def __ipow__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return power(self, other)
-
-def __and__(self, other):
-  return bitwise_and(self, other)
-
-def __rand__(self, other):
-  return bitwise_and(other, self)
-
-def __iand__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return bitwise_and(self, other)
-
-def __or__(self, other):
-  return bitwise_or(self, other)
-
-def __ror__(self, other):
-  return bitwise_or(other, self)
-
-def __ior__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return bitwise_or(self, other)
-
-def __xor__(self, other):
-  return bitwise_xor(self, other)
-
-def __rxor__(self, other):
-  return bitwise_xor(other, self)
-
-def __ixor__(self, other):
-  """
-    making sure left hand operand is immutable
-  """
-  dtype_precedence_dict = {'double': 16, 'float': 14, 'size_t': 12, 'long': 10, 'int': 8, 'short': 6, 'bool': 4, 'char': 2}
-  left_operand_dtype = right_operand_dtype = ""
-  if "Tensor" in str(type(self)):
-    left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-  else:
-    left_operand_dtype = str(type(self)).split("'")[1]
-  if "Tensor" in str(type(other)):
-    right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-  else:
-    right_operand_dtype = str(type(other)).split("'")[1]
-  if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    raise TypeError("cannot modify left hand operand datatype.")
-  return bitwise_xor(self, other)
-
-def __eq__(self, other):
-  return equal(self, other)
-
-def __lt__(self, other):
-  return less(self, other)
-
-def __gt__(self, other):
-  return greater(self, other)
-
-def __ne__(self, other):
-  return not_equal(self, other)
-
-def __le__(self, other):
-  return less_equal(self, other)
-
-def __ge__(self, other):
-  return greater_equal(self, other)
 
 %}// <\/>
 
@@ -552,6 +360,15 @@ def numpy(self) :
 
 def len(self):
   return self.length()
+
+def __int__(self):
+  return self.asTypeInt()
+
+def __float__(self):
+  return self.asTypeFloat()
+
+def __bool__(self):
+  return self.asTypeBool()
 %}
 
 
