@@ -25,6 +25,7 @@ def test_non_detailed():
 	t3.reshape([4,6])
 	#print("new shape", t1.shape())
 
+	# bug ref: #98
 	# py_list = list(t3);   # convert tensor to python list
 	# py_tuple = tuple(t3); # convert tensor to python tuple
 	np_ary = t3.numpy();  # convert to numpy array
@@ -87,12 +88,15 @@ def test_detailed():
 
 	t_dc[2]
 	t_dc[2,1]
+	int(t_dc[2,1])
 	t_dc[2:3,:]
 	t_dc[2]
 	t_dc[2,:]
 	t_dc[2:3,1:2]
 	t_dc[1,::2]
 	t_dc[1:2:1,1:2]
+	t_dc[1:2:1,...]
+	t_dc[...,1]
 
 
 def main():

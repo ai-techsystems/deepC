@@ -502,8 +502,6 @@ OPCODE getOpCode(std::string opCodeStr) {
     return opCast;
   if (opCodeStr == "Ceil")
     return opCeil;
-  if (opCodeStr == "Chip")
-    return opChip;
   if (opCodeStr == "Clip")
     return opClip;
   if (opCodeStr == "Compress")

@@ -71,8 +71,8 @@ def __getitem__(self, index):
     axis = array([axis]).asTypeInt()
     step = array([step]).asTypeULong()
     if (self.rank() == 1):
-      # return self.operator[](index)
-      return slice(self, start, stop, axis, step).reshape(1)
+      return self.data()[index]
+      # return slice(self, start, stop, axis, step).reshape(1)
     return slice(self, start, stop, axis, step).reshape(self.shape()[1:])
 
   elif str(type(index)).split("'")[1] == "slice":
@@ -100,8 +100,8 @@ def __getitem__(self, index):
     stop_list = []
     step_list = []
     axis_list = []
+    reshape_list = []   # reshape list to reshape
     axis = -1   # -1 for starting axis as 0 in the next loops
-    reshape_counter = 0
     replace_start = replace_stop = 0   # replace ellipsis with slice methods by index
 
     if Ellipsis in index:
@@ -131,6 +131,7 @@ def __getitem__(self, index):
           stop_list.append(stop)
           step_list.append(step)
           axis_list.append(axis)
+          reshape_list.append(1)  # This shape will be taken
           axis += 1
         axis -= 1   # recovering from last axis increment
       elif str(type(item)).split("'")[1] == "int":
@@ -139,7 +140,7 @@ def __getitem__(self, index):
         stop_list.append(stop)
         step_list.append(step)
         axis_list.append(axis)
-        reshape_counter += 1
+        reshape_list.append(0)  # This shape will not be taken
       elif str(type(item)).split("'")[1] == "slice":
         start, stop, step, flag = get_item_helper_slice(index, axis)
         if flag:
@@ -148,6 +149,7 @@ def __getitem__(self, index):
         stop_list.append(stop)
         step_list.append(step)
         axis_list.append(axis)
+        reshape_list.append(1)  # This shape will be taken
       else:
         print("Doen't support", item , "of", type(item), "as a slicing argument!")
         return dc.empty(0)
@@ -161,6 +163,7 @@ def __getitem__(self, index):
       stop_list.append(stop)
       step_list.append(step)
       axis_list.append(axis)
+      reshape_list.append(1)  # This shape will be taken
 
     start_list = array(start_list).asTypeULong()
     stop_list = array(stop_list).asTypeULong()
@@ -168,12 +171,10 @@ def __getitem__(self, index):
     step_list = array(step_list).asTypeULong()
     result = slice(self, start_list, stop_list, axis_list, step_list)
 
-    # This is a bug, we are returning 1D tensor, even if we need to return Scalar
-    if (reshape_counter > 0):
-      if (reshape_counter == self.rank()):
-        # return result.operator[](0)
-        return result.reshape(1)
-      return (result).reshape(result.shape()[reshape_counter:])
+    if 0 in reshape_list:
+      if not 1 in reshape_list:
+        return result.data()[0]
+      return (result.reshape([x for x, y in zip(result.shape(), reshape_list) if y == 1]))
     
     return result
 
@@ -212,7 +213,7 @@ def __i<operand>__(self, other):
   else:
     right_operand_dtype = str(type(other)).split("'")[1]
   if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-    print TypeError("cannot modify left hand operand datatype.")
+    raise TypeError("cannot modify left hand operand datatype.")
   return <operator>(self, other)
 '''
   elif flag == "comparison":
