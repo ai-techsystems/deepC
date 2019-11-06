@@ -89,45 +89,6 @@ def change_compute(s):
 		raise Exception("asType() count is wrong, try again!")
 	return s
 
-
-def overload_python_operator(dc_operator, operator_python, dtype_precedence_dict, flag):
-	s = ""
-	if flag == "logical" or flag == "binary":
-		s = '''
-def __<operand>__(self, other):
-	return <operator>(self, other)
-
-def __r<operand>__(self, other):
-	return <operator>(other, self)
-
-def __i<operand>__(self, other):
-	"""
-		making sure left hand operand is immutable
-	"""
-	dtype_precedence_dict = '''
-		s += str(dtype_precedence_dict) + '''
-	left_operand_dtype = right_operand_dtype = ""
-	if "Tensor" in str(type(self)):
-		left_operand_dtype = str(type(self)).split(".")[-1].split("Tensor")[0]
-	else:
-		left_operand_dtype = str(type(self)).split("'")[1]
-	if "Tensor" in str(type(other)):
-		right_operand_dtype = str(type(other)).split(".")[-1].split("Tensor")[0]
-	else:
-		right_operand_dtype = str(type(other)).split("'")[1]
-	if (dtype_precedence_dict[left_operand_dtype] < dtype_precedence_dict[right_operand_dtype]):
-		raise TypeError("cannot modify left hand operand datatype.")
-	return <operator>(self, other)
-'''
-	elif flag == "comparison":
-		s = '''
-def __<operand>__(self, other):
-	return <operator>(self, other)
-'''
-	s = s.replace("<operator>",dc_operator).replace("<operand>",operator_python)
-	return s
-
-
 def get_scalar(dc_operator, i):
 	s = ""
 	if i == 1:
@@ -137,7 +98,6 @@ def get_scalar(dc_operator, i):
 	return dc_operator(a, tensor_b);
 }
 '''
-
 	if i == 2:
 		s = '''tensor<output> dc_operator(input1 a, tensor<input2> &b) {
 	tensor<input1> tensor_a(std::vector<size_t>(1,1));
@@ -145,7 +105,6 @@ def get_scalar(dc_operator, i):
 	return dc_operator(tensor_a, b);
 }
 '''
-
 	if i == 3:
 		s = '''output dc_operator(input1 a, input2 b) {
 	tensor<input1> tensor_a(std::vector<size_t>(1,1));
@@ -160,7 +119,7 @@ def get_scalar(dc_operator, i):
 
 
 def binary_operators(s, dtype_precedence_dict):
-	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
+	cpp_file = swig_extern_file = py_file = ""
 
 	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
 
@@ -180,9 +139,6 @@ def binary_operators(s, dtype_precedence_dict):
 				if "dtype" in content:
 					raise Exception("dtype block could not be removed, try again!")
 
-				# tensor interface for true_div and floor_div are written manually
-				if (dc_operator != "true_div") and (dc_operator != "floor_div"):
-					tensor_swig_helper_file += tensor_swig_helper_binary(dc_operator, operator_header, operator_python)
 				py_file += overload_python_operator(dc_operator, operator_python, dtype_precedence_dict, "binary")
 
 				for output, input_2d in dtype.items():
@@ -241,11 +197,11 @@ def binary_operators(s, dtype_precedence_dict):
 						temp = get_swig_extern(dc_operator, temp)
 						swig_extern_file += temp
 
-	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
+	return cpp_file, swig_extern_file, py_file
 
 
 def logical_operators(s, dtype_precedence_dict):
-	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
+	cpp_file = swig_extern_file = py_file = ""
 
 	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
 
@@ -265,7 +221,6 @@ def logical_operators(s, dtype_precedence_dict):
 				if "dtype" in content:
 					raise Exception("dtype block could not be removed, try again!")
 
-				tensor_swig_helper_file += tensor_swig_helper_logical(dc_operator, operator_header, operator_python)
 				# py_file += overload_python_operator(dc_operator, operator_python, dtype_precedence_dict, "logical")
 
 				for output, input_2d in dtype.items():
@@ -299,12 +254,11 @@ def logical_operators(s, dtype_precedence_dict):
 						temp = get_swig_extern(dc_operator, temp)
 						swig_extern_file += temp
 
-	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
-
+	return cpp_file, swig_extern_file, py_file
 
 
 def comparison_operators(s, dtype_precedence_dict):
-	cpp_file = swig_extern_file = tensor_swig_helper_file = py_file = ""
+	cpp_file = swig_extern_file = py_file = ""
 
 	operator_list = ast.literal_eval(s.split("\n\n")[0].split("operator_list = ")[1])
 	dtype = ast.literal_eval(s.split("\n\n")[1].split("dtype = ")[1])
@@ -323,7 +277,6 @@ def comparison_operators(s, dtype_precedence_dict):
 				if "dtype" in content:
 					raise Exception("dtype block could not be removed, try again!")
 
-				tensor_swig_helper_file += tensor_swig_helper_comparison(dc_operator, operator_header, operator_python)
 				py_file += overload_python_operator(dc_operator, operator_python, dtype_precedence_dict, "comparison")
 
 				for output, input_2d in dtype.items():
@@ -365,7 +318,7 @@ def comparison_operators(s, dtype_precedence_dict):
 						temp = get_swig_extern(dc_operator, temp)
 						swig_extern_file += temp
 
-	return cpp_file, swig_extern_file, tensor_swig_helper_file, py_file
+	return cpp_file, swig_extern_file, py_file
 
 
 def normal_operators(s):
@@ -422,15 +375,6 @@ def normal_operators(s):
 	return cpp_file, swig_extern_file
 
 
-# def generate_py_file(s):
-#	 s += '''
-# import dnnc as dc
-
-# class mydnnc(dc):
-# '''
-#	 return s
-
-
 def main():
 	try:
 		with open ( "dnnc.api" , "r") as f:
@@ -446,8 +390,7 @@ def main():
 		split_position = contents.find(split_string,1)
 		cpp_file = contents[:split_position] + "\nnamespace dnnc {\n\n\t"
 		swig_extern_file = contents.split("#include")[0] + "namespace dnnc {\n"
-		py_file = "\n%pythoncode %{\n"
-		tensor_swig_helper_file = ""
+		py_file = build_python_file()
 
 		contents = remove_comments(contents)
 		if check_comments(contents):
@@ -461,25 +404,20 @@ def main():
 
 			dtype_precedence_dict = ast.literal_eval(contents[split_position:].split(split_string)[1].split("dtype_precedence_dict = ")[1])
 
-			temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = binary_operators(contents[split_position:].split(split_string)[2][:-1], dtype_precedence_dict)
+			temp_cpp_file, temp_swig_extern_file, temp_py_file = binary_operators(contents[split_position:].split(split_string)[2][:-1], dtype_precedence_dict)
 			cpp_file += temp_cpp_file
 			swig_extern_file += temp_swig_extern_file
-			tensor_swig_helper_file += temp_tensor_swig_helper_file + tensor_swig_helper_div()
 			py_file += temp_py_file
 
-			temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = logical_operators(contents[split_position:].split(split_string)[3][:-1], dtype_precedence_dict)
+			temp_cpp_file, temp_swig_extern_file, temp_py_file = logical_operators(contents[split_position:].split(split_string)[3][:-1], dtype_precedence_dict)
 			cpp_file += temp_cpp_file
 			swig_extern_file += temp_swig_extern_file
-			tensor_swig_helper_file += temp_tensor_swig_helper_file
 			py_file += temp_py_file
 
-			temp_cpp_file, temp_swig_extern_file, temp_tensor_swig_helper_file, temp_py_file = comparison_operators(contents[split_position:].split(split_string)[3][:-1], dtype_precedence_dict)
+			temp_cpp_file, temp_swig_extern_file, temp_py_file = comparison_operators(contents[split_position:].split(split_string)[3][:-1], dtype_precedence_dict)
 			cpp_file += temp_cpp_file
 			swig_extern_file += temp_swig_extern_file
-			tensor_swig_helper_file += temp_tensor_swig_helper_file
 			py_file += temp_py_file
-
-		tensor_swig_helper_file = py_file + "\n%}"
 
 		temp_cpp_file, temp_swig_extern_file = normal_operators(contents[split_position:].split(split_string)[4])
 		cpp_file += temp_cpp_file
@@ -487,7 +425,7 @@ def main():
 
 		cpp_file += "\n}\n"
 		swig_extern_file += "}\n"
-		py_file = "# " + py_file.replace("\n//", "\n#")[3:]
+		py_file += "\n%}"
 
 		with open ("dnnc_api.cpp" ,"w") as f:
 			print("Saving 'dnnc_api.cpp'")
@@ -496,10 +434,6 @@ def main():
 		with open ("dnnc_swig_externs.h" ,"w") as f:
 			print("Saving 'dnnc_swig_externs.h'")
 			f.write(swig_extern_file)
-
-		# with open ("mydnnc.py" ,"w") as f:
-		#	 print("Saving 'mydnnc.py'")
-		#	 f.write(py_file)
 
 		try:
 			with open ("tensor.i", "r") as f:
@@ -510,11 +444,8 @@ def main():
 		else:
 			comment = "// <\\/>"
 
-			# Uncomment the below line to stop adding these operators in 'tensor.i'
-			# tensor_swig_helper_file = "\n\n\n"
-
 			try:
-				s = s.split(comment)[0] + comment + tensor_swig_helper_file + comment + s.split(comment)[2]
+				s = s.split(comment)[0] + comment + py_file + comment + s.split(comment)[2]
 			except:
 				print("'"+comment+"' not found 'tensor.i'!")
 				return 1

@@ -2,12 +2,13 @@ import os, argparse
 import common
 
 import deepC.dnnc as dc
+import numpy as np
 
 def test_multiply(a,b):
     c = dc.matmul(a, b)
     #print(c)
 
-def test_non_binary():
+def test_non_detailed():
 
 	t1=dc.array(2,3)
 	t2=dc.array(3,2)
@@ -24,8 +25,9 @@ def test_non_binary():
 	t3.reshape([4,6])
 	#print("new shape", t1.shape())
 
-	py_list = list(t3);   # convert tensor to python list
-	py_tuple = tuple(t3); # convert tensor to python tuple
+	# bug ref: #98
+	# py_list = list(t3);   # convert tensor to python list
+	# py_tuple = tuple(t3); # convert tensor to python tuple
 	np_ary = t3.numpy();  # convert to numpy array
 
 	#t4 = dc.thresholded_relu(t1);
@@ -71,14 +73,30 @@ def test_non_binary():
 	b.load(bdata)
 	test_multiply(a,b)
 
-def test_binary():
+
+def test_detailed():
 
 	t1 = dc.array(2,3).asTypeFloat()
 	t2 = dc.array(2,3).asTypeInt()
 
 	add = dc.add(t1,t1)
 	add = t1 + t1
+
 	#print ("addition : " , add.to_string())
+
+	t_dc = dc.array([[0,1,2],[3,4,5],[6,7,8],[9,10,11]])
+
+	t_dc[2]
+	t_dc[2,1]
+	int(t_dc[2,1])
+	t_dc[2:3,:]
+	t_dc[2]
+	t_dc[2,:]
+	t_dc[2:3,1:2]
+	t_dc[1,::2]
+	t_dc[1:2:1,1:2]
+	t_dc[1:2:1,...]
+	t_dc[...,1]
 
 
 def main():
@@ -87,10 +105,10 @@ def main():
 	parser.add_argument("-dev", "--developer", action="store_true", help="skip testing binary operators only for faster development purposes")
 	args = parser.parse_args()
 
-	test_non_binary()
+	test_non_detailed()
 	
 	if not args.developer:
-		test_binary()
+		test_detailed()
 
 if __name__ == "__main__":
 	main()

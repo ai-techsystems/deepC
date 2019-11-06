@@ -121,7 +121,9 @@ public:
     for (size_t i = 0; i < num_axes; i++) {
 
       // start
-      if (start(i) >= a.shape()[i]) {
+      // Changed by Gunjan, marked to find it later if doesn't work
+      // if (start(i) >= a.shape()[i]) {
+      if (start(i) > a.shape()[i]) {
         errMsg << "start value (" << start(i) << ") along axis " << i
                << " is beyond the size (" << a.shape()[i]
                << ") of input tensor along the axis" << std::endl;
@@ -129,7 +131,7 @@ public:
       }
 
       // end
-      if (end(i) > (a.shape()[i] - 1)) {
+      if (end(i) > (a.shape()[i])) {
         errMsg << "end value (" << end(i) << ") along axis " << i
                << " is beyond the size (" << a.shape()[i]
                << ") of input tensor along the axis" << std::endl;

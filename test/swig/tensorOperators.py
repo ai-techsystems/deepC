@@ -45,8 +45,10 @@ class tensorOperatorsTest(unittest.TestCase):
     # assignment operators
     def test_assignments(self):
         assert not self.nullT
-        assert self.zeros
-        assert self.ones
+        
+        # The truth value of an array with more than one element is ambiguous. Use dc.any() or dc.all()
+        # assert self.zeros
+        # assert self.ones
 
         # Add
         temp_zeros = self.zeros.copy()
