@@ -120,6 +120,14 @@ public:
 
     for (size_t i = 0; i < num_axes; i++) {
 
+      // change values from negative to positive
+      if (start(i) < 0) {
+        start(i) += a.shape()[i];
+      }
+      if (end(i) < 0) {
+        end(i) += a.shape()[i];
+      }
+
       // start
       // Changed by Gunjan, marked to find it later if doesn't work
       // if (start(i) >= a.shape()[i]) {
@@ -137,10 +145,26 @@ public:
                << ") of input tensor along the axis" << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
       }
-      if ((end(i) - 1) < start(i)) {
+
+      // step cannot be zero
+      if (steps(i) == 0) {
+        errMsg << "slice step cannot be zero" << std::endl;
+        throw std::invalid_argument(errMsg.str().c_str());
+      }
+
+      // comparing start and end when step is positive
+      else if ((steps(i) > 0) && (end(i) - 1 < start(i))) {
         errMsg << "end value (" << end(i) - 1 << ") along axis" << i
                << " is smaller than the start value (" << start(i)
-               << ") along the axis" << std::endl;
+               << ") along the axis while step is positive" << std::endl;
+        throw std::invalid_argument(errMsg.str().c_str());
+      }
+
+      // comparing start and end when step is negative
+      else if ((steps(i) < 0) && (start(i) - 1 < end(i))) {
+        errMsg << "start value (" << start(i) - 1 << ") along axis" << i
+               << " is smaller than the end value (" << end(i)
+               << ") along the axis while step is negative" << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
       }
 

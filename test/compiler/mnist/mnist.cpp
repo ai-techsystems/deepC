@@ -20,7 +20,7 @@ int main() {
   dnnc_fc2_dot_bias.read("./compiler/mnist/fc2.bias");
 
   Constant<int64_t> dnnc___1("dnnc___1");
-  std::vector<long int> dnnc___1_value_vec = {-1,784};
+  std::vector<long int> dnnc___1_value_vec = {-1};
   tensor<long int> dnnc___1_value({1}); dnnc___1_value.load(dnnc___1_value_vec);
   dnnc___1.setAttribute ( attr_value, dnnc___1_value );
   tensor<int64_t> dnnc_dnnc___1_5 = dnnc___1.compute ();

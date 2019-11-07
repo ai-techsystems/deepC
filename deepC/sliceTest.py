@@ -65,6 +65,15 @@ def main():
 	run("print(t_np[...,1])")
 	run("print(t_dc[...,1])")
 	
+	# run("print(t_np[-1:,-2:])")
+	# run("print(t_dc[-1:,-2:])")
+	# for i in t_dc:
+	# 	for j in i:
+	# 		print(j)
+	# print(list(t_dc))
+	# print(tuple(t_dc))
+	
+
 	# run("print(dc.slice(t_dc, start, stop, axis, step))")
 
 
