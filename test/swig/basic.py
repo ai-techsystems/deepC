@@ -25,9 +25,8 @@ def test_non_detailed():
 	t3.reshape([4,6])
 	#print("new shape", t1.shape())
 
-	# bug ref: #98
-	# py_list = list(t3);   # convert tensor to python list
-	# py_tuple = tuple(t3); # convert tensor to python tuple
+	py_list = list(t3);   # convert tensor to python list
+	py_tuple = tuple(t3); # convert tensor to python tuple
 	np_ary = t3.numpy();  # convert to numpy array
 
 	#t4 = dc.thresholded_relu(t1);

@@ -303,7 +303,7 @@ public:
     size_t pos;
     inline void next(const tensor<T> *ref) { ++pos; }
     inline void begin(const tensor<T> *ref) { pos = 0; }
-    inline void end(const tensor<T> *ref) { pos = ref->length(); }
+    inline void end(const tensor<T> *ref) { pos = ref->length() - 1; }
     inline T &get(tensor<T> *ref) { return ref->_mem_layout[pos]; }
     inline const float &get(const tensor<T> *ref) {
       return ref->_mem_layout[pos];
