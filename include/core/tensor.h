@@ -499,6 +499,20 @@ public:
     std::string tensor_proto = "";
     return tensor_proto;
   }
+  T min() const {
+    assert(_mem_layout);
+    T result = _mem_layout[0];
+    for (size_t i = 1; i < this->length(); i++)
+      result = result > _mem_layout[i] ? _mem_layout[i] : result ;
+    return result;
+  }
+  T max() const {
+    assert(_mem_layout);
+    T result = _mem_layout[0];
+    for (size_t i = 1; i < this->length(); i++)
+      result = result < _mem_layout[i] ? _mem_layout[i] : result ;
+    return result;
+  }
   T sum() const {
     T result = 0;
     for (size_t i = 0; i < this->length(); i++)

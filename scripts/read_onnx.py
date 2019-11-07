@@ -71,141 +71,158 @@ class pbReader :
       param_shape = dnnc.vectorSizeT(param.dims)
       param_vec  = None
       param_vals = None
+      param_len=1
+      for d in param.dims:
+        param_len *= d
       if param.data_type == param.INT8 :
+        pack_format = 'b'
         param_type = dnnc.IR_DataType_INT8;
         param_vals = [int(n) for n in param.int32_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [int(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT16 :
+        pack_format = 'h'
         param_type = dnnc.IR_DataType_INT16;
         param_vals = [int(n) for n in param.int32_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [int(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT32:
+        pack_format = 'i'
         param_type = dnnc.IR_DataType_INT32;
         param_vals = [int(n) for n in param.int32_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [int(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.INT64:
+        pack_format = 'q'
         param_type = dnnc.IR_DataType_INT64;
         param_vals = [int(n) for n in param.int64_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [int(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT8 :
+        pack_format = 'B'
         param_type = dnnc.IR_DataType_UINT8;
         param_vals = [int(n) for n in param.uint64_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [int(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT16 :
+        pack_format = 'H'
         param_type = dnnc.IR_DataType_UINT16;
         param_vals = [int(n) for n in param.uint64_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [int(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT32:
+        pack_format = 'I'
         param_type = dnnc.IR_DataType_UINT32;
         param_vals = [int(n) for n in param.uint64_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [int(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.UINT64:
+        pack_format = 'L'
         param_type = dnnc.IR_DataType_UINT64;
         param_vals = [int(n) for n in param.uint64_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [int(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorInt(param_vals)
       elif param.data_type == param.FLOAT16 :
+        pack_format = 'e'
         param_type = dnnc.IR_DataType_FLOAT16;
         param_vals = [float(n) for n in param.float_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [float(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorInt()
         else:
           param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.BFLOAT16 :
+        pack_format = 'e'
         param_type = dnnc.IR_DataType_BFLOAT16;
         param_vals = [float(n) for n in param.float_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [float(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorFloat()
         else:
           param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.FLOAT:
+        pack_format = 'f'
         param_type = dnnc.IR_DataType_FLOAT;
         param_vals = [float(n) for n in param.float_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [float(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorFloat()
         else:
           param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.DOUBLE:
+        pack_format = 'd'
         param_type = dnnc.IR_DataType_DOUBLE;
         param_vals = [float(n) for n in param.double_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [float(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorFloat()
         else:
           param_vec = dnnc.vectorFloat(param_vals)
       elif param.data_type == param.STRING:
+        pack_format = 's'
         param_type = dnnc.IR_DataType_STRING;
         param_vals = [str(s) for s in param.string_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [str(n) for n in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorStr()
         else:
           param_vec = dnnc.vectorStr(param_vals)
       elif param.data_type == param.BOOL:
+        pack_format = '?'
         param_type = dnnc.IR_DataType_BOOL;
         param_vals = [bool(b) for b in param.raw_data]
         if ( len(param_vals) == 0 ):
-            param_vals = [bool(b) for b in param.raw_data]
+          param_vals = struct.unpack(pack_format*param_len, param.raw_data) ;
         if ( self._writeParamToDisk ) :
           self.writeParamsToFile(param.name, param_vals);
           param_vec = dnnc.vectorBool()
