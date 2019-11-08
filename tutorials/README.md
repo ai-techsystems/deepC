@@ -6,6 +6,6 @@
 
 ## Examples
 
-1. [Intermediate codegen and generate binary/bundle for your model](test/compiler/mnist/README.md)
+1. [Intermediate codegen and generate binary/bundle for your model](../../master/test/compiler/mnist/README.md)
 1. Profiling your deep learning model
 1. Debugging deep learning model with intermediate code generation
