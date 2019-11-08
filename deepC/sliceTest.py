@@ -26,52 +26,53 @@ def main():
 	run("print(t_np)")
 	# run("print(t_dc)")
 	
-	run("print(t_np[2])")
-	run("print(t_dc[2])")
+	# run("print(t_np[2])")
+	# run("print(t_dc[2])")
 
-	run("print(t_np[2,1])")
-	run("print(t_dc[2,1])")
+	# run("print(t_np[2,1])")
+	# run("print(t_dc[2,1])")
 	
-	run("print(t_np[2:3,:])")
-	run("print(t_dc[2:3,:])")
+	# run("print(t_np[2:3,:])")
+	# run("print(t_dc[2:3,:])")
 	
-	run("print(t_np[2])")
-	run("print(t_dc[2])")
+	# run("print(t_np[2])")
+	# run("print(t_dc[2])")
 	
-	run("print(t_np[2,:])")
-	run("print(t_dc[2,:])")
+	# run("print(t_np[2,:])")
+	# run("print(t_dc[2,:])")
 	
-	run("print(t_np[2:3,1:2])")
-	run("print(t_dc[2:3,1:2])")
+	# run("print(t_np[2:3,1:2])")
+	# run("print(t_dc[2:3,1:2])")
 	
-	run("print(t_np[1,::2])")
-	run("print(t_dc[1,::2])")
+	# run("print(t_np[1,::2])")
+	# run("print(t_dc[1,::2])")
 	
-	run("print(t_np[1:2:1,1:2])")
-	run("print(t_dc[1:2:1,1:2])")
+	# run("print(t_np[1:2:1,1:2])")
+	# run("print(t_dc[1:2:1,1:2])")
 	
-	run("print(t_np[...])")
-	run("print(t_dc[...])")
+	# run("print(t_np[...])")
+	# run("print(t_dc[...])")
 	
-	run("print(t_np[2:3,...])")
-	run("print(t_dc[2:3,...])")
+	# run("print(t_np[2:3,...])")
+	# run("print(t_dc[2:3,...])")
 	
-	run("print(t_np[...,2:3:3])")
-	run("print(t_dc[...,2:3:3])")
+	# run("print(t_np[...,2:3:3])")
+	# run("print(t_dc[...,2:3:3])")
 
-	run("print(t_np[:,1])")
-	run("print(t_dc[:,1])")
+	# run("print(t_np[:,1])")
+	# run("print(t_dc[:,1])")
 	
-	run("print(t_np[...,1])")
-	run("print(t_dc[...,1])")
+	# run("print(t_np[...,1])")
+	# run("print(t_dc[...,1])")
 	
-	# run("print(t_np[-1:,-2:])")
-	# run("print(t_dc[-1:,-2:])")
-	# for i in t_dc:
-	# 	for j in i:
-	# 		print(j)
-	# print(list(t_dc))
-	# print(tuple(t_dc))
+	run("print(t_np[-2])")
+	run("print(t_dc[-2])")
+	
+	run("print(t_np[-1:,-2:])")
+	run("print(t_dc[-1:,-2:])")
+
+	run("print(t_np[::-2,::-1])")
+	run("print(t_dc[::-2,::-1])")
 	
 
 	# run("print(dc.slice(t_dc, start, stop, axis, step))")
