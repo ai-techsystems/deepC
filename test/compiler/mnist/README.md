@@ -1,5 +1,5 @@
 
-D E M O
+Demo
 =======
 Checkout [mnist.ir](mnist.ir)
 
@@ -11,7 +11,7 @@ Generate intermediate code
 ## Step 2: 
 Optimize and compile
 
-```% /usr/bin/clang++-8 -O3 mnist.cpp -I /home/amd/dnnc/master/dnnCompiler/include/ -isystem /home/amd/dnnc/master/dnnCompiler/packages/eigen-eigen-323c052e1731/ -o mnist.exe```
+```% /usr/bin/clang++-8 -O3 mnist.cpp -I ../../../include/ -isystem ../../../packages/eigen-eigen-323c052e1731/ -o mnist.exe```
 
 ## Step 3: 
 Test run
@@ -24,7 +24,7 @@ Run it in the loop
 ```% python demo.mnist.py```
 
 
-I N F O
+More Info
 =======
 
 1. batch size 1
