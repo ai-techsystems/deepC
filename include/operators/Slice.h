@@ -134,16 +134,16 @@ public:
       // Changed by Gunjan, marked to find it later if doesn't work
       // if (start(i) >= a.shape()[i]) {
       if (start(i) > a.shape()[i]) {
-        errMsg << "start value (" << start(i) << ") along axis " << i
-               << " is beyond the size (" << a.shape()[i]
+        errMsg << "start value (" << start(i) << ") along axis (" << i
+               << ") is beyond the size (" << a.shape()[i]
                << ") of input tensor along the axis" << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
       }
 
       // end
       if (end(i) > (a.shape()[i])) {
-        errMsg << "end value (" << end(i) << ") along axis " << i
-               << " is beyond the size (" << a.shape()[i]
+        errMsg << "end value (" << end(i) << ") along axis (" << i
+               << ") is beyond the size (" << a.shape()[i]
                << ") of input tensor along the axis" << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
       }
@@ -156,16 +156,16 @@ public:
 
       // comparing start and end when step is positive
       else if ((steps(i) > 0) && (end(i) - 1 < start(i))) {
-        errMsg << "end value (" << end(i) - 1 << ") along axis" << i
-               << " is smaller than the start value (" << start(i)
+        errMsg << "end value (" << end(i) - 1 << ") along axis (" << i
+               << ") is smaller than the start value (" << start(i)
                << ") along the axis while step is positive" << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
       }
 
       // comparing start and end when step is negative
       else if ((steps(i) < 0) && (start(i) - 1 < end(i))) {
-        errMsg << "start value (" << start(i) - 1 << ") along axis" << i
-               << " is smaller than the end value (" << end(i)
+        errMsg << "start value (" << start(i) - 1 << ") along axis (" << i
+               << ") is smaller than the end value (" << end(i)
                << ") along the axis while step is negative" << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
       }
@@ -173,15 +173,15 @@ public:
       // axes
       if (axes(i) < 0) {
         if ((axes(i) + rank) < 0) {
-          errMsg << "axes value (" << axes(i) << ") along axis " << i
-                 << " is beyond the input tensor dimension" << std::endl;
+          errMsg << "axes value (" << axes(i) << ") along axis (" << i
+                 << ") is beyond the input tensor dimension" << std::endl;
           throw std::invalid_argument(errMsg.str().c_str());
         }
         axes(i) = rank + axes(i);
       }
       if (axes(i) > rank - 1) {
-        errMsg << "axes value (" << axes(i) << ") along axis " << i
-               << " is large than the number of dimensions of input tensor"
+        errMsg << "axes value (" << axes(i) << ") along axis (" << i
+               << ") is large than the number of dimensions of input tensor"
                << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
       }
@@ -209,6 +209,13 @@ public:
       // determine slicing along the axis-th dimension
       for (size_t i = 0; i < num_axes; i++) {
         if (axes(i) == axis) {
+          /* // This iss a snippet to invert start and end index if step is
+          negative if (step[axis] > 0) { start_index[axis] = start(i);
+            end_index[axis] = end(i) - 1;
+          } else if (step[axis] < 0) {
+            start_index[axis] = end(i);
+            end_index[axis] = start(i) - 1;
+          } */
           start_index[axis] = start(i);
           end_index[axis] = end(i) - 1;
           step[axis] = steps[i];
