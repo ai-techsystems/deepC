@@ -6,6 +6,6 @@
 
 ## Examples
 
+1. [Generating binary/bundle for your model](test/compiler/mnist/README.md)
 1. Profiling your deep learning model
-1. Generating binary (a.out) bundle for your model.
 1. Debugging deep learning model with intermediate code generation
