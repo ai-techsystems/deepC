@@ -39,17 +39,17 @@ class sliceAndIndexTest(unittest.TestCase):
 		np.testing.assert_array_equal(self.np_2D[2], (self.dc_2D[2]).numpy())
 		# special case as dnnc prints python datatype, but numpy prints numpy datatype
 		np.testing.assert_array_equal(int(self.np_2D[2,1]), int(self.dc_2D[2,1]))
-		
+
 		# Slicing
 		np.testing.assert_array_equal(self.np_2D[2:3,:], (self.dc_2D[2:3,:]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2:,1:], (self.dc_2D[2:,1:]).numpy())
 		np.testing.assert_array_equal(self.np_2D[:,::3], (self.dc_2D[:,::3]).numpy())
 		np.testing.assert_array_equal(self.np_2D[:,::3], (self.dc_2D[:,::3]).numpy())
-		
+
 		# Slicing with Indexing
 		np.testing.assert_array_equal(self.np_2D[2:,1], (self.dc_2D[2:,1]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2,::3], (self.dc_2D[2,::3]).numpy())
-		
+
 		# Ellipsis with Slicing
 		np.testing.assert_array_equal(self.np_2D[...,::3], (self.dc_2D[...,::3]).numpy())
 		np.testing.assert_array_equal(self.np_2D[1:,...], (self.dc_2D[1:,...]).numpy())
@@ -65,6 +65,6 @@ class sliceAndIndexTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-	
+
 	unittest.main()
-	
+

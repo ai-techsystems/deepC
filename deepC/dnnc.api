@@ -860,18 +860,18 @@ tensor<output> cosh(tensor<input> &a){
   }
 }
 
-tensor<output> slice(tensor<input> &a, 
-	             tensor<size_t> &start, 
-		     tensor<size_t> &end, 
-		     tensor<int> axes = NULL_TENSOR<int>, 
-		     tensor<size_t> steps = NULL_TENSOR<size_t>) {
-	Slice<input> op;
+tensor<output> slice(tensor<output> &a, 
+	                 tensor<input> &start, 
+		             tensor<input> &end, 
+		             tensor<input> axes = NULL_TENSOR<input>, 
+		             tensor<input> steps = NULL_TENSOR<input>) {
+	Slice<output, output, input> op;
 	return op.compute(a, start, end, axes, steps);
 	dtype = {
-		"double" : "double",
-		"float" : "float",
-		"int" : "int",
-		"bool" : "bool"
+		"double" : "int",
+		"float"  : "int",
+		"int"    : "int",
+		"bool"   : "int"
 	}
 } 
 

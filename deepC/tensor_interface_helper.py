@@ -86,10 +86,10 @@ def __getitem__(self, index):
     start, stop, step, flag = get_item_helper_int(index, axis)
     if flag:
       return
-    start = array([start]).asTypeULong()
-    stop = array([stop]).asTypeULong()
+    start = array([start]).asTypeInt()
+    stop = array([stop]).asTypeInt()
     axis = array([axis]).asTypeInt()
-    step = array([step]).asTypeULong()
+    step = array([step]).asTypeInt()
     if (self.rank() == 1):
       return self.data()[index]
     return slice(self, start, stop, axis, step).reshape(self.shape()[1:])
@@ -101,15 +101,15 @@ def __getitem__(self, index):
     start, stop, step, flag = get_item_helper_slice(index, axis)
     if flag:
       return
-    start = array([start]).asTypeULong()
-    stop = array([stop]).asTypeULong()
+    start = array([start]).asTypeInt()
+    stop = array([stop]).asTypeInt()
     axis = array([axis]).asTypeInt()
-    step = array([step]).asTypeULong()
+    step = array([step]).asTypeInt()
     return slice(self, start, stop, axis, step)
 
   elif str(type(index)).split("'")[1] == "ellipsis":
     return self.copy()
-    
+
   elif str(type(index)).split("'")[1] == "tuple":
     if (len(index) > self.rank()):
       errorMsg = "Takes maximum " + str(self.rank()) + "arguments, " + str(len(index)) + " were given!"
@@ -120,12 +120,12 @@ def __getitem__(self, index):
       raise IndexError(errorMsg)
       return
 
-    # checks if any float or bool or complex is not present 
+    # checks if any float or bool or complex is not present
     if any(isinstance(x,(bool,float,complex)) for x in index):
       errorMsg = "Restrict to only integers as a slicing argument!"
       raise ValueError(errorMsg)
       return
-    
+
     start_list = []
     stop_list = []
     step_list = []
@@ -143,7 +143,7 @@ def __getitem__(self, index):
         non_ellipsis_count = 0
         for item in index:
           if str(type(item)).split("'")[1] == "int" or str(type(item)).split("'")[1] == "slice":
-            non_ellipsis_count += 1 
+            non_ellipsis_count += 1
         # replace holds start and stop index which will be replaced by slice method in place of ellipsis
         replace_start = index.index(Ellipsis)
         replace_stop = replace_start + self.rank() - non_ellipsis_count
@@ -188,7 +188,7 @@ def __getitem__(self, index):
         errorMsg = "Doesn't support " + str(item) + " of " + str(type(item)) + " as a slicing argument!"
         raise TypeError(errorMsg)
         return
-    
+
     while (axis < self.rank()-1):
       axis += 1
       start = 0
@@ -200,17 +200,17 @@ def __getitem__(self, index):
       axis_list.append(axis)
       reshape_list.append(1)  # This shape will be taken
 
-    start_list = array(start_list).asTypeULong()
-    stop_list = array(stop_list).asTypeULong()
+    start_list = array(start_list).asTypeInt()
+    stop_list = array(stop_list).asTypeInt()
     axis_list = array(axis_list).asTypeInt()
-    step_list = array(step_list).asTypeULong()
+    step_list = array(step_list).asTypeInt()
     result = slice(self, start_list, stop_list, axis_list, step_list)
 
     if 0 in reshape_list:
       if not 1 in reshape_list:
         return result.data()[0]
       return (result.reshape([x for x, y in zip(result.shape(), reshape_list) if y == 1]))
-    
+
     return result
 
   else :

@@ -28,32 +28,34 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class Slice : public baseOperator<T, T, T> {
+template <typename To, typename Ti, typename Tind>
+class Slice : public baseOperator<To, Ti, Tind> {
   //  Slice attributes
 public:
-  Slice(std::string name = "opSlice") : baseOperator<T, T, T>(opSlice, name) {}
+  Slice(std::string name = "opSlice")
+      : baseOperator<To, Ti, Tind>(opSlice, name) {}
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  tensor<T> compute(
-      tensor<T> a,             // N-D Tensor of data to extract slices from
-      tensor<DIMENSION> start, // 1-D tensor of starting indices of
-                               // corresponding axis in `axes`
-      tensor<DIMENSION> end,   // 1-D tensor of ending indices (exclusive) of
-                               // corresponding axis in `axes`
-      tensor<int> axes = NULL_TENSOR<
-          int>, // 1-D tensor of axes that `starts` and `ends` apply to.
-                // Negative value means counting dimensions from the back.
-      tensor<DIMENSION> steps =
-          NULL_TENSOR<DIMENSION>) // 1-D tensor of slice step of corresponding
-                                  // axis in `axes`. Default to 1.
+  tensor<To>
+  compute(tensor<Ti> a,       // N-D Tensor of data to extract slices from
+          tensor<Tind> start, // 1-D tensor of starting indices of
+                              // corresponding axis in `axes`
+          tensor<Tind> end,   // 1-D tensor of ending indices (exclusive) of
+                              // corresponding axis in `axes`
+          tensor<Tind> axes = NULL_TENSOR<Tind>,
+          // 1-D tensor of axes that `starts` and `ends` apply to.
+          // Negative value means counting dimensions from the back.
+          tensor<Tind> steps = NULL_TENSOR<Tind>)
+  // 1-D tensor of slice step of corresponding
+  // axis in `axes`. Default to 1.
   {
     // Process and check the arguments
 
     std::stringstream errMsg;
 
     DIMENSION num_axes = start.shape()[0];
-    int rank = a.rank();
+    DIMENSION rank = a.rank();
 
     if (start.rank() != 1) {
       errMsg << "start tensor is " << start.rank()
@@ -85,7 +87,7 @@ public:
 
     if (steps == NULL_TENSOR<DIMENSION>) {
       std::vector<DIMENSION> shape{num_axes};
-      tensor<DIMENSION> default_steps(shape);
+      tensor<Tind> default_steps(shape);
       steps = default_steps;
       for (size_t i = 0; i < num_axes; i++) {
         steps(i) = 1;
@@ -223,7 +225,7 @@ public:
     }
 
     // Slice now
-    tensor<T> result(resultShape);
+    tensor<To> result(resultShape);
 
     if (rank == 1) {
       size_t i0 = 0;
@@ -274,7 +276,7 @@ public:
       }
     } else {
       std::cout << "Not supported";
-      return NULL_TENSOR<T>;
+      return NULL_TENSOR<To>;
     }
 
     return result;

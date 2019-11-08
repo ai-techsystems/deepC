@@ -29,6 +29,20 @@ using namespace Eigen;
 #ifdef DNNC_SLICE_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+
+  float f1[] = {1., 2., 3., 4., 5., 6, 7, 8, 9};
+  tensor<float> tf1({3, 3});
+  tf1.load(f1);
+
+  tensor<int> start({1});
+  start.load({1});
+
+  tensor<int> end({1});
+  end.load({2});
+
+  Slice<float, float, int> sl("sliceOp");
+  std::cout << sl.compute(tf1, start, end);
+
+  return 0;
 }
 #endif
