@@ -39,8 +39,9 @@ bool dnnc::cppCodeGen::write() {
   for (dnnParameters param : _graph.parameters()) {
     code += write(param);
   }
+  size_t argv_index = 1;
   for (ioNode *term : _graph.inputs()) {
-    code += write(*term);
+    code += write(*term, argv_index);
   }
 
   for (node *n : _graph) {
@@ -59,6 +60,7 @@ bool dnnc::cppCodeGen::write() {
     return false;
   }
   out << writeIncludes() << "\n";
+  out << writeUsageFunction() << "\n";
   out << writeMainFunction(code) << "\n";
   out.close();
   return code.length();
@@ -69,6 +71,14 @@ bool dnnc::cppCodeGen::write() {
 std::string dnnc::cppCodeGen::cppName(std::string str) {
   std::string new_str = std::regex_replace(str, std::regex("\\."), "_dot_");
   return new_str;
+}
+
+std::vector<dnnc::ioNode *> dnnc::cppCodeGen::modelInputs() {
+  std::vector<ioNode *> ins;
+  for (ioNode *term : _graph.inputs())
+    if (paramFile(term->name()).empty())
+      ins.push_back(term);
+  return ins;
 }
 
 // \brief get parametre file, given term/param name
@@ -94,16 +104,70 @@ std::string dnnc::cppCodeGen::nodeName(node *n) {
   return _prefix + cppName(n->name());
 }
 
+std::string dnnc::cppCodeGen::shapeStr(std::vector<DIMENSION> shapeVec) {
+  std::string shapeStr;
+  for (size_t i = 0; i < shapeVec.size(); i++) {
+    shapeStr +=
+        std::to_string(shapeVec[i]) + (i == shapeVec.size() - 1 ? "" : ", ");
+  }
+  return shapeStr;
+}
+
 std::string dnnc::cppCodeGen::writeIncludes() {
   std::string code;
   for (auto &s : _includes)
     code += std::string("#include \"") + s + "\"\n";
+  code += "\n\nusing namespace dnnc;\n\n";
+  return code;
+}
+
+// Use Model:
+//    _bundleDir : dirname("generated exe, i.e. a.out");
+//    parameter file(s) : in _bundleDir
+//    input     file(s) : with a path relative to current dir.
+//    output    file(s) : in current dir
+std::string dnnc::cppCodeGen::writeUsageFunction() {
+
+  std::string code = "void usage(char** args) {\n";
+  code += _tab + "std::cout << \"\\nUsage: \" << args[0] <<\n";
+  std::vector<dnnc::ioNode *> modelIns = modelInputs();
+  for (ioNode *term : modelIns)
+    if (paramFile(term->name()).empty())
+      code += _tab + _tab + "\" <datafile for input \\\"" + term->name() +
+              "\\\">\" <<";
+  code += "\n" + _tab + _tab + "\"\\n\\n\";\n\n";
+
+  code += _tab + "std::cout << \"This model has \" << " +
+          std::to_string(modelIns.size()) + " << \" input(s):\\n\";\n";
+  size_t inIndex = 1;
+  for (ioNode *term : modelIns)
+    if (paramFile(term->name()).empty())
+      code += _tab + "std::cout << \"\\t " + std::to_string(inIndex++) +
+              ". \\\"" + term->name() + "\\\" (shape " +
+              shapeStr(term->shape()) + "):\\n\";\n\n";
+
+  code += _tab + "std::cout << \"Output(s) will be written in file(s):\\n\";\n";
+  size_t outIndex = 1;
+  for (ioNode *term : _graph.outputs())
+    code += _tab + "std::cout << \"\\t " + std::to_string(outIndex++) +
+            ". \\\"" + term->name() + ".out\\\" (shape " +
+            shapeStr(term->shape()) + "):\\n\";\n";
+
+  code += "}\n";
   return code;
 }
 
 std::string dnnc::cppCodeGen::writeMainFunction(std::string body) {
-  std::string code = "using namespace dnnc;\n\n";
-  code += "int main() {\n\n";
+
+  std::string code = "int main(int argc, char** argv) {\n\n";
+
+  size_t nInputs = modelInputs().size();
+  code += _tab + "if ( argc < " + std::to_string(nInputs + 1) +
+          " || std::string(argv[1]).substr(0,2) == \"-h\" ) {\n";
+  code += _tab + _tab + "usage(argv);\n";
+  code += _tab + _tab + "return 1;\n";
+  code += _tab + "}\n\n";
+
   code += body + "\n";
   code += _tab + "return 0;\n";
   code += "}\n";
@@ -186,15 +250,17 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype, std::string name,
     tensor<int> values = std::vector<tensor<int>>(dtype)[0];
     if (values.length() == 0)
       return code;
+    std::string initShape;
     for (auto el : values) {
-      initData += (initData.size() ? "," : "{") + std::to_string(el);
+      initShape += (initShape.size() ? "," : "{") + std::to_string(el);
     }
-    initData += values.length() ? "}" : "";
+    initShape += values.length() ? "}" : "";
     std::string initVec = name + "_vec";
-    initData = "std::vector<long int> " + initVec + " = " + initData + ";\n";
+    initData = "std::vector<long int> " + initVec + " = " + initShape + ";\n";
     varType = getDNNC_IRTypeStr(dtype.type());
     code = _tab + initData;
-    code += _tab + varType + " " + name + "({1}); " + name + ".load(" +
+    code += _tab + varType + " " + name + "({" +
+            std::to_string(values.length()) + "}); " + name + ".load(" +
             initVec + ");\n";
     if (fname.size()) {
       code += _tab + name + ".read(\"" + fname + "\");\n";
@@ -205,15 +271,17 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype, std::string name,
     tensor<double> values = std::vector<tensor<double>>(dtype)[0];
     if (values.length() == 0)
       return code;
+    std::string initShape;
     for (auto el : values) {
-      initData += (initData.size() ? "," : "{") + std::to_string(el);
+      initShape += (initShape.size() ? "," : "{") + std::to_string(el);
     }
-    initData += values.length() ? "}" : "";
+    initShape += values.length() ? "}" : "";
     std::string initVec = name + "_vec";
-    initData = "std::vector<double> " + initVec + " = " + initData + ";\n";
+    initData = "std::vector<double> " + initVec + " = " + initShape + ";\n";
     varType = getDNNC_IRTypeStr(dtype.type());
     code = _tab + initData;
-    code += _tab + varType + " " + name + "({1}); " + name + ".load(" +
+    code += _tab + varType + " " + name + "({" +
+            std::to_string(values.length()) + "}); " + name + ".load(" +
             initVec + ");\n";
     if (fname.size()) {
       code += _tab + name + ".read(\"" + fname + "\");\n";
@@ -233,25 +301,19 @@ std::string dnnc::cppCodeGen::write(dnnParameters param) {
                         paramFile(param.name()));
 }
 
-std::string dnnc::cppCodeGen::write(ioNode &term) {
+std::string dnnc::cppCodeGen::write(ioNode &term, size_t &index) {
   // TODO: don't write this ioNode, if graph has initialier
   //       with the same name.
   std::string dtype = getDNNC_DataTypeStr(term.dtype());
-  std::string shapeStr;
-  std::vector<DIMENSION> shapeVec = term.shape();
-
-  for (size_t i = 0; i < shapeVec.size(); i++) {
-    shapeStr +=
-        std::to_string(shapeVec[i]) + (i == shapeVec.size() - 1 ? "" : ", ");
-  }
 
   std::string code = _tab + "tensor<" + dtype + "> " + nodeName(&term) + "({" +
-                     shapeStr + "})" + ";\n";
+                     shapeStr(term.shape()) + "})" + ";\n";
 
   std::string param_file = paramFile(term.name());
-  if (param_file.size()) {
-    code += _tab + nodeName(&term) + ".read(\"" + param_file + "\");\n";
-  }
+  code += _tab + nodeName(&term) + ".read(" +
+          (param_file.size() ? "\"" + param_file + "\""
+                             : "argv[" + std::to_string(index++) + "]") +
+          ");\n";
   return code;
 }
 
@@ -324,8 +386,15 @@ std::string dnnc::cppCodeGen::writeConstantOperator(opNode &computeNode,
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + nodeName(&computeNode) + " = " +
-          opName + ".compute ();\n";
+  std::string outTensor = nodeName(&computeNode);
+  code += _tab + "tensor<" + outType + "> " + outTensor + " = " + opName +
+          ".compute ();\n";
+
+  if (_graph.isOutput(computeNode.outputs()[0])) {
+    code += "\n" + _tab + "// Write the output tensor in a file.\n";
+    code += _tab + outTensor + ".write(\"" + computeNode.outputs()[0] +
+            ".out\");\n";
+  }
 
   return code;
 }
@@ -361,8 +430,15 @@ std::string dnnc::cppCodeGen::writeUnaryOperator(opNode &computeNode,
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + nodeName(&computeNode) + " = " +
-          opName + ".compute ( " + nodeName(ins[0]) + ");\n";
+  std::string outTensor = nodeName(&computeNode);
+  code += _tab + "tensor<" + outType + "> " + outTensor + " = " + opName +
+          ".compute ( " + nodeName(ins[0]) + ");\n";
+
+  if (_graph.isOutput(computeNode.outputs()[0])) {
+    code += "\n" + _tab + "// Write the output tensor in a file.\n";
+    code += _tab + outTensor + ".write(\"" + computeNode.outputs()[0] +
+            ".out\");\n";
+  }
 
   return code;
 }
@@ -399,9 +475,15 @@ std::string dnnc::cppCodeGen::writeBinaryOperator(opNode &computeNode,
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + nodeName(&computeNode) + " = " +
-          opName + ".compute ( " + nodeName(ins[0]) + ", " + nodeName(ins[1]) +
-          ");\n";
+  std::string outTensor = nodeName(&computeNode);
+  code += _tab + "tensor<" + outType + "> " + outTensor + " = " + opName +
+          ".compute ( " + nodeName(ins[0]) + ", " + nodeName(ins[1]) + ");\n";
+
+  if (_graph.isOutput(computeNode.outputs()[0])) {
+    code += "\n" + _tab + "// Write the output tensor in a file.\n";
+    code += _tab + outTensor + ".write(\"" + computeNode.outputs()[0] +
+            ".out\");\n";
+  }
 
   return code;
 }
@@ -438,9 +520,16 @@ std::string dnnc::cppCodeGen::writeTernaryOperator(opNode &computeNode,
   }
 
   // Step 3: Add compute function.
-  code += _tab + "tensor<" + outType + "> " + nodeName(&computeNode) + " = " +
-          opName + ".compute ( " + nodeName(ins[0]) + ", " + nodeName(ins[1]) +
-          ", " + nodeName(ins[2]) + ");\n";
+  std::string outTensor = nodeName(&computeNode);
+  code += _tab + "tensor<" + outType + "> " + outTensor + " = " + opName +
+          ".compute ( " + nodeName(ins[0]) + ", " + nodeName(ins[1]) + ", " +
+          nodeName(ins[2]) + ");\n";
+
+  if (_graph.isOutput(computeNode.outputs()[0])) {
+    code += "\n" + _tab + "// Write the output tensor in a file.\n";
+    code += _tab + outTensor + ".write(\"" + computeNode.outputs()[0] +
+            ".out\");\n";
+  }
 
   return code;
 }

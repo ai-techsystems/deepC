@@ -503,14 +503,14 @@ public:
     assert(_mem_layout);
     T result = _mem_layout[0];
     for (size_t i = 1; i < this->length(); i++)
-      result = result > _mem_layout[i] ? _mem_layout[i] : result ;
+      result = result > _mem_layout[i] ? _mem_layout[i] : result;
     return result;
   }
   T max() const {
     assert(_mem_layout);
     T result = _mem_layout[0];
     for (size_t i = 1; i < this->length(); i++)
-      result = result < _mem_layout[i] ? _mem_layout[i] : result ;
+      result = result < _mem_layout[i] ? _mem_layout[i] : result;
     return result;
   }
   T sum() const {
@@ -523,17 +523,22 @@ public:
 #ifndef SWIGPYTHON
   // \brief load tensor data from file.
   //        returns true on success, false for failure.
-  //        numbers equal to the number of tensor-length
+  //        tokens equal to the number of tensor-length
   //        are read, rest are discarded.
   //        if numbers are less, it returns false.
+  //        if tokes aren't numbers, it will fail.
   bool read(std::string fileName) {
 
     std::fstream fs;
     fs.open(fileName, std::ios::in);
     // parameter file could not be opened.
     if (!fs.is_open() || fs.fail()) {
+      throw std::runtime_error("Could not open file " + fileName + ".");
       return false;
     }
+    std::cout << "reading file " << fileName
+              << (this->name().size() ? " for tensor " + this->name() : "")
+              << ".\n";
     size_t len = this->length();
 
     std::string typedStr;
@@ -558,6 +563,24 @@ public:
       return false;
     }
 
+    return true;
+  }
+  bool write(std::string fileName) {
+
+    std::fstream fs;
+    fs.open(fileName, std::ios::out);
+    // parameter file could not be opened.
+    if (!fs.is_open() || fs.fail()) {
+      throw std::runtime_error("Could not open file " + fileName +
+                               " to write.");
+      return false;
+    }
+    std::cout << "writing file " << fileName
+              << (this->name().size() ? " for tensor " + this->name() : "")
+              << ".\n";
+    for (size_t i = 0; i < this->length(); i++) {
+      fs << (i ? " " : "") << _mem_layout[i];
+    }
     return true;
   }
 #endif

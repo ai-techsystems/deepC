@@ -66,7 +66,7 @@ public:
     return false;
   }
 
-  tensor<To> compute(tensor<Ti> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
+  tensor<To> compute(tensor<Ti> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) override {
     if (!(this->template type_check<float, double>(typeid(Ti))))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");

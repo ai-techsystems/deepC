@@ -1,0 +1,16 @@
+graph torch-jit-export (
+  %0[FLOAT, 784]
+) initializers (
+  %fc.weight[FLOAT, 100x784]
+  %fc.bias[FLOAT, 100]
+  %fc2.weight[FLOAT, 10x100]
+  %fc2.bias[FLOAT, 10]
+) {
+  %5 = Constant[value = <Tensor>]()
+  %6 = Reshape(%0, %5)
+  %7 = Gemm[alpha = 1, beta = 1, transB = 1](%6, %fc.weight, %fc.bias)
+  %8 = Relu(%7)
+  %9 = Gemm[alpha = 1, beta = 1, transB = 1](%8, %fc2.weight, %fc2.bias)
+  %10 = LogSoftmax[axis = 1](%9)
+  return %10
+}

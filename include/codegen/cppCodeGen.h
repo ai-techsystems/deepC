@@ -41,14 +41,17 @@ protected:
 
   std::string initializeData(irTypeData, std::string, std::string fname = "");
   std::string writeIncludes();
+  std::string writeUsageFunction();
   std::string writeMainFunction(std::string);
 
+  std::vector<ioNode *> modelInputs();
   std::string paramFile(std::string str);
   std::string cppName(std::string str);
   std::string nodeName(node *n);
+  std::string shapeStr(std::vector<DIMENSION>);
 
   std::string write(opNode &);
-  std::string write(ioNode &);
+  std::string write(ioNode &, size_t &);
   std::string writeConstantOperator(opNode &computeNode,
                                     std::vector<node *> &outs);
   std::string writeUnaryOperator(opNode &computeNode, std::vector<node *> &ins,

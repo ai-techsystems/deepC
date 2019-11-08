@@ -160,6 +160,12 @@ public:
       vouts.push_back(dynamic_cast<ioNode *>(_nodes[i]));
     return vouts;
   }
+  bool isOutput(std::string name) {
+    for (size_t &i : _outputs)
+      if (_nodes[i]->name() == name)
+        return true;
+    return false;
+  }
 
   void addParameters(dnnParameters param) { _initializers.push_back(param); }
   std::vector<dnnParameters> parameters() { return _initializers; }
