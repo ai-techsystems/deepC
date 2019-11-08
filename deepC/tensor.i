@@ -379,7 +379,7 @@ def __getitem__(self, index):
     errorMsg = "Doesn't support " + str(index) + " of " + str(type(index)) + " as a slicing argument!"
     raise TypeError(errorMsg)
 
-  return empty(0)
+  return intTensor()
 
 
 
