@@ -1,5 +1,5 @@
 
-Demo
+Compile onnx model for your target machine
 =======
 Checkout [mnist.ir](mnist.ir)
 
