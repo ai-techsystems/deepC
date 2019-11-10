@@ -194,9 +194,11 @@ def __getitem__(self, index):
   def get_item_helper_int(item, axis):
     flag = 0
     start = item
+    if (start < 0):
+      start += self.shape()[axis]
     stop = item+1
     step = 1
-    if(start >= self.shape()[axis] or start < - self.shape()[axis]):
+    if(start >= self.shape()[axis]):
       errorMsg = "index value " + str(start) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
       raise ValueError(errorMsg)
       flag = 1
@@ -207,8 +209,25 @@ def __getitem__(self, index):
     start = 0
     stop = self.shape()[axis]
     step = 1
+    if type(item.step) == int:
+      step = item.step
+      if step == 0:
+        errorMsg = "slice step cannot be zero"
+        raise TypeError(errorMsg)
+        flag = 1
+      elif step < 0:
+        start = self.shape()[axis]
+        stop = 0
+    elif str(type(item.step)).split("'")[1] == "NoneType":
+      pass
+    else:
+      errorMsg = "step of " + str(type(item.step)) + " not supported!"
+      raise TypeError(errorMsg)
+      flag = 1
     if type(item.start) == int:
       start = item.start
+      if (start < 0):
+        start += self.shape()[axis]
     elif str(type(item.start)).split("'")[1] == "NoneType":
       pass
     else:
@@ -217,28 +236,31 @@ def __getitem__(self, index):
       flag = 1
     if type(item.stop) == int:
       stop = item.stop
+      if (stop < 0):
+        stop += self.shape()[axis]
     elif str(type(item.stop)).split("'")[1] == "NoneType":
       pass
     else:
       errorMsg = "stop of " + str(type(item.stop)) + " not supported!"
       raise TypeError(errorMsg)
       flag = 1
-    if type(item.step) == int:
-      step = item.step
-    elif str(type(item.step)).split("'")[1] == "NoneType":
-      pass
-    else:
-      errorMsg = "step of " + str(type(item.step)) + " not supported!"
-      raise TypeError(errorMsg)
-      flag = 1
-    if(start >= self.shape()[axis] or start < - self.shape()[axis]):
+    if(start > self.shape()[axis]):
       errorMsg = "index value " + str(start) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
-      raise ValueError(errorMsg)
+      raise IndexError(errorMsg)
       flag = 1
-    if(stop >= self.shape()[axis]+1 or stop < - (self.shape()[axis]+1)):
+    if(stop > self.shape()[axis]):
       errorMsg = "index value " + str(stop) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
-      raise ValueError(errorMsg)
+      raise IndexError(errorMsg)
       flag = 1
+    if (step < 0) and not (start > stop):
+      errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is greater than start index " + str(start) + " while step is negative"
+      raise IndexError(errorMsg)
+      flag = 1
+    elif (step > 0) and not (start < stop):
+      errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is smaller than start index " + str(start) + " while step is positive"
+      raise IndexError(errorMsg)
+      flag = 1
+
     return start, stop, step, flag
 
   if str(type(index)).split("'")[1] == "int":
@@ -366,6 +388,12 @@ def __getitem__(self, index):
     stop_list = array(stop_list).asTypeInt()
     axis_list = array(axis_list).asTypeInt()
     step_list = array(step_list).asTypeInt()
+
+    print("test start list :  ", start_list)
+    print("test stop list :  ", stop_list)
+    print("test axis list :  ", axis_list)
+    print("test step list :  ", step_list)
+    
     result = slice(self, start_list, stop_list, axis_list, step_list)
 
     if 0 in reshape_list:
@@ -379,7 +407,7 @@ def __getitem__(self, index):
     errorMsg = "Doesn't support " + str(index) + " of " + str(type(index)) + " as a slicing argument!"
     raise TypeError(errorMsg)
 
-  return empty(0)
+  return intTensor()
 
 
 
