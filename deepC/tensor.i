@@ -114,7 +114,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     /*  Binary Left Shift  */
   %pyinplaceoper(__lshift__, dnnc::tensor::__lshift__, binaryfunc, nb_lshift);
   dnnc::tensor<int> __lshift__(dnnc::tensor<int>& other) {
-    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
+    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
     std::string direction = "LEFT";
     dnnc::BitShift<int> op("pythonOp", direction);
     return op.compute(other_int, other);
@@ -132,7 +132,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     /*  Assignment Left Shift  */
   %pyinplaceoper(__ilshift__, dnnc::tensor::__ilshift__, binaryfunc, nb_inplace_lshift);
   dnnc::tensor<int> __ilshift__(dnnc::tensor<int>& other) {
-    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
+    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
     std::string direction = "LEFT";
     dnnc::BitShift<int> op("pythonOp", direction);
     return op.compute(other_int, other);
@@ -151,13 +151,13 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     /*  Binary Right Shift  */
   %pyinplaceoper(__rshift__, dnnc::tensor::__rshift__, binaryfunc, nb_rshift);
   dnnc::tensor<int> __rshift__(dnnc::tensor<int>& other) {
-    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
+    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
     std::string direction = "RIGHT";
     dnnc::BitShift<int> op("pythonOp", direction);
     return op.compute(other_int, other);
   }
   dnnc::tensor<int> __rshift__(int scalar) {
-    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
+    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
     dnnc::tensor<int> other(std::vector<size_t>(1,1));
     other.load(&scalar);
     std::string direction = "RIGHT";
@@ -169,7 +169,7 @@ extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
     /*  Assignment Right Shift  */
   %pyinplaceoper(__irshift__, dnnc::tensor::__irshift__, binaryfunc, nb_inplace_rshift);
   dnnc::tensor<int> __irshift__(dnnc::tensor<int>& other) {
-    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt(); 
+    dnnc::tensor<int> other_int = (*$self).copy().asTypeInt();
     std::string direction = "RIGHT";
     dnnc::BitShift<int> op("pythonOp", direction);
     return op.compute(other_int, other);
@@ -196,7 +196,7 @@ def __getitem__(self, index):
     start = item
     if (start < 0):
       start += self.shape()[axis]
-    stop = item+1
+    stop = start+1
     step = 1
     if(start >= self.shape()[axis]):
       errorMsg = "index value " + str(start) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
@@ -216,8 +216,8 @@ def __getitem__(self, index):
         raise TypeError(errorMsg)
         flag = 1
       elif step < 0:
-        start = self.shape()[axis]
-        stop = 0
+        start = self.shape()[axis] -1
+        stop = -1
     elif str(type(item.step)).split("'")[1] == "NoneType":
       pass
     else:
@@ -244,22 +244,22 @@ def __getitem__(self, index):
       errorMsg = "stop of " + str(type(item.stop)) + " not supported!"
       raise TypeError(errorMsg)
       flag = 1
-    if(start > self.shape()[axis]):
-      errorMsg = "index value " + str(start) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
-      raise IndexError(errorMsg)
-      flag = 1
-    if(stop > self.shape()[axis]):
-      errorMsg = "index value " + str(stop) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
-      raise IndexError(errorMsg)
-      flag = 1
-    if (step < 0) and not (start > stop):
-      errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is greater than start index " + str(start) + " while step is negative"
-      raise IndexError(errorMsg)
-      flag = 1
-    elif (step > 0) and not (start < stop):
-      errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is smaller than start index " + str(start) + " while step is positive"
-      raise IndexError(errorMsg)
-      flag = 1
+    # if(start > self.shape()[axis]):
+    #   errorMsg = "index value " + str(start) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
+    #   raise IndexError(errorMsg)
+    #   flag = 1
+    # if(stop > self.shape()[axis]):
+    #   errorMsg = "index value " + str(stop) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
+    #   raise IndexError(errorMsg)
+    #   flag = 1
+    # if (step < 0) and not (start > stop):
+    #   errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is greater than start index " + str(start) + " while step is negative"
+    #   raise IndexError(errorMsg)
+    #   flag = 1
+    # elif (step > 0) and not (start < stop):
+    #   errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is smaller than start index " + str(start) + " while step is positive"
+    #   raise IndexError(errorMsg)
+    #   flag = 1
 
     return start, stop, step, flag
 
@@ -393,7 +393,7 @@ def __getitem__(self, index):
     # print("test stop list :  ", stop_list)
     # print("test axis list :  ", axis_list)
     # print("test step list :  ", step_list)
-    
+
     result = slice(self, start_list, stop_list, axis_list, step_list)
 
     if 0 in reshape_list:
@@ -408,14 +408,6 @@ def __getitem__(self, index):
     raise TypeError(errorMsg)
 
   return intTensor()
-
-
-
-def __iter__(self):
-  axis = 0
-  while (axis < self.shape()[0]):
-    yield self[axis]
-    axis += 1
 
 
 def __add__(self, other):
@@ -694,12 +686,27 @@ def numpy(self) :
      convert tensor to numpy array.
   """
   import numpy as np
-  return np.array(self.data()).reshape(self.shape())  
+  return np.array(self.data()).reshape(self.shape())
 
 def len(self):
+  """
+     return length of tensor.
+  """
   return self.length()
 
+def __iter__(self):
+  """
+     iterates over the tensor.
+  """
+  axis = 0
+  while (axis < self.shape()[0]):
+    yield self[axis]
+    axis += 1
+
 def __int__(self):
+  """
+     convert tensor to int tensor.
+  """
   if (self.len() > 1):
     raise TypeError("only length-1 tensor can be converted to Python scalars")
   elif(self.len() == 0):
@@ -707,6 +714,9 @@ def __int__(self):
   return self.asTypeInt()
 
 def __float__(self):
+  """
+     convert tensor to float tensor.
+  """
   if (self.len() > 1):
     raise TypeError("only length-1 tensor can be converted to Python scalars")
   elif(self.len() == 0):
@@ -714,6 +724,9 @@ def __float__(self):
   return self.asTypeFloat()
 
 def __bool__(self):
+  """
+     convert tensor to bool tensor.
+  """
   if (self.len() > 1):
     raise ValueError("The truth value of an array with more than one element is ambiguous. Use dc.any() or dc.all()")
   elif(self.len() == 0):
@@ -733,7 +746,7 @@ def reshape(self, *args):
       new_shape.append(arg)
     else:
       return $action (self, vectorSizeT(arg))
- 
+
   if len(new_shape):
     return $action (self, vectorSizeT(new_shape))
 
