@@ -389,10 +389,10 @@ def __getitem__(self, index):
     axis_list = array(axis_list).asTypeInt()
     step_list = array(step_list).asTypeInt()
 
-    print("test start list :  ", start_list)
-    print("test stop list :  ", stop_list)
-    print("test axis list :  ", axis_list)
-    print("test step list :  ", step_list)
+    # print("test start list :  ", start_list)
+    # print("test stop list :  ", stop_list)
+    # print("test axis list :  ", axis_list)
+    # print("test step list :  ", step_list)
     
     result = slice(self, start_list, stop_list, axis_list, step_list)
 

@@ -200,25 +200,27 @@ public:
     // Determine the shape of the result tensor
 
     std::vector<size_t> resultShape(rank);
-    std::vector<size_t> start_index(rank);
-    std::vector<size_t> end_index(rank);
-    std::vector<size_t> step(rank);
+    std::vector<Tind> start_index(rank);
+    std::vector<Tind> end_index(rank);
+    std::vector<Tind> step(rank);
 
     for (int axis = 0; axis < rank; axis++) {
-
       // determine slicing along the axis-th dimension
       for (size_t i = 0; i < num_axes; i++) {
         if (axes(i) == axis) {
-          /* // This iss a snippet to invert start and end index if step is
-          negative if (step[axis] > 0) { start_index[axis] = start(i);
+          if (steps[i] > 0) {
             end_index[axis] = end(i) - 1;
-          } else if (step[axis] < 0) {
-            start_index[axis] = end(i);
-            end_index[axis] = start(i) - 1;
-          } */
-          start_index[axis] = start(i);
-          end_index[axis] = end(i) - 1;
-          step[axis] = steps[i];
+            start_index[axis] = start(i);
+            step[axis] = steps[i];
+          } else {
+            int tmp_start = start(i);
+            end_index[axis] = start(i);
+            while (tmp_start > end(i)) {
+              start_index[axis] = start;
+              tmp_start = tmp_start + steps[i];
+            }
+            step[axis] = -steps[i];
+          }
           break;
         } else {
           start_index[axis] = 0;
