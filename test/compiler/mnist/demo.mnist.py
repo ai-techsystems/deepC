@@ -8,10 +8,9 @@ mndata = MNIST('/home/amd/yann.lecun.mnist')
 
 images, labels = mndata.load_testing()
 
-index=random.randint(0,len(images))
-
 # Write image tensor
-with open("image.data", "w") as fp:
+def write_image(index):
+  with open("image.data", "w") as fp:
     int_ary = [int(num) for num in images[index]]
     np_flt_ary  = np.array(int_ary, dtype=np.float)/255.0
     img = Image.fromarray(np_flt_ary.reshape(28,28), mode='L')
@@ -26,14 +25,20 @@ def run_model(command):
           return f.read()
     return ""
 
-# Run model
-model_result = run_model("./mnist.exe ./image.data").strip("[]")
-
-# Convert log softmax output to probability
+# Run model in the loop
 import deepC.dnnc as dc
-log_probs = dc.array([float(f) for f in model_result.strip("[]").split()])
-probabilities = dc.exp(log_probs)
+for i in range (5):
+  index = random.randint(0,len(images)-1)
+  write_image(index);
 
-print(mndata.display(images[index]))
-print("True label = ", labels[index])
-print("Model Prediction: ", dc.argmax(probabilities))
+  model_result = run_model("./mnist.exe ./image.data").strip("[]")
+
+  # Convert log softmax output to probability
+  log_probs = dc.array([float(f) for f in model_result.strip("[]").split()])
+  probabilities = dc.exp(log_probs)
+
+  trueLabel  = labels[index]
+  prediction = dc.argmax(probabilities)[0]
+  print(mndata.display(images[index]))
+  print("True label = ", labels[index])
+  print("Model Prediction: ", dc.argmax(probabilities))
