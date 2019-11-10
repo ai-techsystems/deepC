@@ -15,7 +15,7 @@ def test_non_detailed():
 
 	mul = dc.matmul(t1,t2)
 	#print ("multiplication : " , mul.to_string())
-	
+
 	t3 = dc.array(2,3,4)
 	#print("old shape", t1.shape())
 	new_shape = dc.vectorSizeT([2,12])
@@ -72,17 +72,6 @@ def test_non_detailed():
 	b.load(bdata)
 	test_multiply(a,b)
 
-
-def test_detailed():
-
-	t1 = dc.array(2,3).asTypeFloat()
-	t2 = dc.array(2,3).asTypeInt()
-
-	add = dc.add(t1,t1)
-	add = t1 + t1
-
-	#print ("addition : " , add.to_string())
-
 	t_dc = dc.array([[0,1,2],[3,4,5],[6,7,8],[9,10,11]])
 
 	t_dc[2]
@@ -96,6 +85,19 @@ def test_detailed():
 	t_dc[1:2:1,1:2]
 	t_dc[1:2:1,...]
 	t_dc[...,1]
+	t_dc[...,::-2]
+	t_dc[1:2:-1,::-2]
+
+
+def test_detailed():
+
+	t1 = dc.array(2,3).asTypeFloat()
+	t2 = dc.array(2,3).asTypeInt()
+
+	add = dc.add(t1,t1)
+	add = t1 + t1
+
+	#print ("addition : " , add.to_string())
 
 
 def main():
@@ -105,7 +107,7 @@ def main():
 	args = parser.parse_args()
 
 	test_non_detailed()
-	
+
 	if not args.developer:
 		test_detailed()
 

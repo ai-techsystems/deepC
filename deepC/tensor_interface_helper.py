@@ -34,7 +34,7 @@ def __getitem__(self, index):
     start = item
     if (start < 0):
       start += self.shape()[axis]
-    stop = item+1
+    stop = start+1
     step = 1
     if(start >= self.shape()[axis]):
       errorMsg = "index value " + str(start) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
@@ -54,8 +54,8 @@ def __getitem__(self, index):
         raise TypeError(errorMsg)
         flag = 1
       elif step < 0:
-        start = self.shape()[axis]
-        stop = 0
+        start = self.shape()[axis] -1
+        stop = -1
     elif str(type(item.step)).split("'")[1] == "NoneType":
       pass
     else:
@@ -82,22 +82,22 @@ def __getitem__(self, index):
       errorMsg = "stop of " + str(type(item.stop)) + " not supported!"
       raise TypeError(errorMsg)
       flag = 1
-    if(start > self.shape()[axis]):
-      errorMsg = "index value " + str(start) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
-      raise IndexError(errorMsg)
-      flag = 1
-    if(stop > self.shape()[axis]):
-      errorMsg = "index value " + str(stop) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
-      raise IndexError(errorMsg)
-      flag = 1
-    if (step < 0) and not (start > stop):
-      errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is greater than start index " + str(start) + " while step is negative"
-      raise IndexError(errorMsg)
-      flag = 1
-    elif (step > 0) and not (start < stop):
-      errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is smaller than start index " + str(start) + " while step is positive"
-      raise IndexError(errorMsg)
-      flag = 1
+    # if(start > self.shape()[axis]):
+    #   errorMsg = "index value " + str(start) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
+    #   raise IndexError(errorMsg)
+    #   flag = 1
+    # if(stop > self.shape()[axis]):
+    #   errorMsg = "index value " + str(stop) + " along axis " + str(axis) + " is beyond the size " + str(self.shape()[axis]) + " of input tensor along that axis"
+    #   raise IndexError(errorMsg)
+    #   flag = 1
+    # if (step < 0) and not (start > stop):
+    #   errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is greater than start index " + str(start) + " while step is negative"
+    #   raise IndexError(errorMsg)
+    #   flag = 1
+    # elif (step > 0) and not (start < stop):
+    #   errorMsg = "stop index " + str(stop) + " along axis " + str(axis) + " is smaller than start index " + str(start) + " while step is positive"
+    #   raise IndexError(errorMsg)
+    #   flag = 1
 
     return start, stop, step, flag
 
@@ -231,7 +231,7 @@ def __getitem__(self, index):
     # print("test stop list :  ", stop_list)
     # print("test axis list :  ", axis_list)
     # print("test step list :  ", step_list)
-    
+
     result = slice(self, start_list, stop_list, axis_list, step_list)
 
     if 0 in reshape_list:
@@ -246,14 +246,6 @@ def __getitem__(self, index):
     raise TypeError(errorMsg)
 
   return intTensor()
-
-
-
-def __iter__(self):
-  axis = 0
-  while (axis < self.shape()[0]):
-    yield self[axis]
-    axis += 1
 
 """
   return s
