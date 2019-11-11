@@ -514,4 +514,4 @@ def main():
   parser.main(onnx_file, bundle_dir, checker=False, optimize=False)
 
 if __name__ == "__main__":
-  main()
+  sys.exit(main())

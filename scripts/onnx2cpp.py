@@ -65,9 +65,11 @@ def main():
   dcGraph = parser.main(onnx_file, bundle_dir, optimize=False, checker=False)
 
   cppCodeGen = dnncCpp();
-  cppFile = cppCodeGen.main(dcGraph, bundle_dir, cpp_file);
+  cppCodeGen.main(dcGraph, bundle_dir, cpp_file);
 
   print("INFO (ONNX): model files are ready in dir " + bundle_dir);
 
+  return cpp_file;
+
 if __name__ == "__main__":
-  main()
+  sys.exit(main())

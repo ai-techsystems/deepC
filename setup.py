@@ -2,12 +2,12 @@
 # hot to test install: python -m pip install ~/dnnc/master/dnnCompiler/dist/dnnc-0.1-py3-none-any.whl --root pip_install_test
 # reference: https://dzone.com/articles/executable-package-pip-install
 
-import os
+import os, sys, glob
 import shutil, errno
 import setuptools
 
 NAME='deepC'
-VERSION=0.11
+VERSION=0.12
 
 long_description = ""
 with open("README.md", "r") as fh:
@@ -16,11 +16,25 @@ with open("README.md", "r") as fh:
 #create the link to scripts dir inside deepC for proper installation.
 try:
   os.symlink(os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                         'scripts')),
-             NAME)
+             'scripts')),
+             os.path.join(NAME, 'scripts'))
+  os.symlink(os.path.abspath(os.path.join(os.path.dirname(__file__),
+             'include')),
+             os.path.join(NAME, 'include'))
+  os.symlink(os.path.abspath(os.path.join(os.path.dirname(__file__),
+             'packages')),
+             os.path.join(NAME, 'packages'))
 except OSError as e:
   if e.errno != errno.EEXIST:
      raise e
+
+# add source files for model compiler
+def source_files(directory):
+    paths = []
+    for (path, directories, filenames) in os.walk(directory):
+        for filename in filenames:
+            paths.append(os.path.join(path, filename))
+    return paths
 
 packages = setuptools.find_packages()
 
@@ -28,8 +42,8 @@ tests_require = []
 tests_require.append('unittest')
 install_requires = []
 install_requires.extend([
-    'numpy',
-    'onnx',
+    'numpy>=1.16.1',
+    'onnx==1.5.0',
 ])
 
 setuptools.setup(
@@ -40,10 +54,11 @@ setuptools.setup(
     long_description=long_description,
     packages=packages,
     include_package_data=True,
-    package_data={'':['_dnnc.so',
-        'scripts/read_onnx.py',
-        'scripts/onnx2cpp.py',
-        'scripts/onnx2exe.py']},
+    package_data={'':['_dnnc.so'] +
+        glob.glob(os.path.join('scripts','*py')) +
+        source_files('include') +
+        source_files('packages')
+        },
     install_requires=install_requires,
     tests_require=tests_require,
     author='Rohit Sharma et. al.',

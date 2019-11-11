@@ -326,7 +326,11 @@ std::string dnnc::cppCodeGen::write(opNode &computeNode) {
   assert(computeNode.symbol() != opInvalid);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
-  _includes.push_back("operators/" + opCode + ".h");
+
+  std::string include_file = "operators/" + opCode + ".h";
+  if (std::find(_includes.begin(), _includes.end(), include_file) ==
+      _includes.end())
+    _includes.push_back(include_file);
 
   std::string opName = computeNode.name();
 
