@@ -51,7 +51,7 @@ class sliceAndIndexTest(unittest.TestCase):
 		np.testing.assert_array_equal(self.np_2D[2,::3], (self.dc_2D[2,::3]).numpy())
 
 		# Ellipsis with Slicing
-		np.testing.assert_array_equal(self.np_2D[...,::3], (self.dc_2D[...,::3]).numpy())
+		np.testing.assert_array_equal(self.np_2D[...,::-1], (self.dc_2D[...,::-1]).numpy())
 		np.testing.assert_array_equal(self.np_2D[1:,...], (self.dc_2D[1:,...]).numpy())
 
 		# Ellipsis with Indexing

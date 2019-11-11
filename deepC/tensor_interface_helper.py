@@ -263,6 +263,11 @@ def __setitem__(self, index, input_tensor):
       return
   else:
     value_tensor = input_tensor.copy()
+  if str(type(value_tensor)).split("'")[1] != str(type(self)).split("'")[1]:
+    errorMsg = "cannot set values from tensor of " + str(type(value_tensor)) + " to tensor of " + str(type(self))
+    raise TypeError(errorMsg)
+    return
+
   input_tensor_shape = value_tensor.shape()  # storing input tensor shape
   def set_item_helper_int(item, axis):
     flag = 0

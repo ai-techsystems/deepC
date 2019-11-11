@@ -97,14 +97,14 @@ def tested():
 	t_dc[2,1] = 1
 	run("print(t_dc)")
 
-	run("print(t_dc2)")
-	run("print(t_dc2[2])")
-	t_dc2[2] = 20
-	run("print(t_dc2)")
 	return
 
 
 def testing():
+	run("print(t_dc2)")
+	run("print(t_dc2[2])")
+	t_dc2[2] = True
+	run("print(t_dc2)")
 
 	return
 
