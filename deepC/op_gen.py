@@ -390,7 +390,7 @@ def main():
 		split_position = contents.find(split_string,1)
 		cpp_file = contents[:split_position] + "\nnamespace dnnc {\n\n\t"
 		swig_extern_file = contents.split("#include")[0] + "namespace dnnc {\n"
-		py_file = build_python_file()
+		py_file = "\n%pythoncode %{\n"
 
 		contents = remove_comments(contents)
 		if check_comments(contents):
@@ -401,6 +401,7 @@ def main():
 		args = parser.parse_args()
 
 		if not args.developer:
+			py_file += slicing_indexing()
 
 			dtype_precedence_dict = ast.literal_eval(contents[split_position:].split(split_string)[1].split("dtype_precedence_dict = ")[1])
 

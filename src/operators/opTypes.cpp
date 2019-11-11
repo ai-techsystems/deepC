@@ -716,6 +716,8 @@ OPCODE getOpCode(std::string opCodeStr) {
     return opSize;
   if (opCodeStr == "Slice")
     return opSlice;
+  if (opCodeStr == "SetSlice")
+    return opSetSlice;
   if (opCodeStr == "Softmax")
     return opSoftmax;
   if (opCodeStr == "Softplus")

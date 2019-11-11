@@ -33,6 +33,10 @@
 #include "operators/BitwiseAnd.h"
 #include "operators/BitwiseOr.h"
 #include "operators/BitwiseXor.h"
+#include "operators/Ceil.h"
+#include "operators/Clip.h"
+#include "operators/Cos.h"
+#include "operators/Cosh.h"
 #include "operators/DequantizeLinear.h"
 #include "operators/Div.h"
 #include "operators/Dropout.h"
@@ -75,7 +79,18 @@
 #include "operators/Not.h"
 #include "operators/NotEqual.h"
 #include "operators/Or.h"
+#include "operators/PRelu.h"
 #include "operators/Pow.h"
+#include "operators/Sigmoid.h"
+#include "operators/Sign.h"
+#include "operators/Sin.h"
+#include "operators/Sinh.h"
+#include "operators/SetSlice.h"
+#include "operators/Slice.h"
+#include "operators/Softplus.h"
+#include "operators/Softmax.h"
+#include "operators/Softsign.h"
+#include "operators/Sqrt.h"
 #include "operators/Reciprocal.h"
 #include "operators/Remainder.h"
 #include "operators/Sub.h"
@@ -85,20 +100,6 @@
 #include "operators/Transpose.h"
 #include "operators/TrueDiv.h"
 #include "operators/Xor.h"
-#include "operators/Sigmoid.h"
-#include "operators/Sign.h"
-#include "operators/Sin.h"
-#include "operators/Sinh.h"
-#include "operators/Softplus.h"
-#include "operators/Softmax.h"
-#include "operators/Softsign.h"
-#include "operators/Sqrt.h"
-#include "operators/Clip.h"
-#include "operators/Ceil.h"
-#include "operators/Cos.h"
-#include "operators/Cosh.h"
-#include "operators/Slice.h"
-#include "operators/PRelu.h"
 
 extern std::vector<float> listTupleToVector_Float(PyObject *);
 extern std::vector<size_t> listTupleToVector_SizeT(PyObject *);
@@ -397,7 +398,7 @@ tensor<output> bitshift(tensor<input> &a, tensor<input> &b, std::string directio
 tensor<output> conv(tensor<input> X, tensor<input> W, tensor<input> B,
                     std::string auto_pad = "NOTSET",
                     std::vector<int> dilations = std::vector<int>(),
-                    int group = 1, 
+                    int group = 1,
                     std::vector<int> kernal_shape = std::vector<int>(),
                     std::vector<int> pads = std::vector<int>(),
                     std::vector<int> strides = std::vector<int>()) {
@@ -695,7 +696,7 @@ tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod_flag = 0) {
 		"float" : "float",
 		"int" : "int"
 	}
-} 
+}
 
 tensor<output> thresholded_relu(tensor<input> &a) {
   ThresholdedRelu<output, input> op;
@@ -860,20 +861,36 @@ tensor<output> cosh(tensor<input> &a){
   }
 }
 
-tensor<output> slice(tensor<output> &a, 
-	                 tensor<input> &start, 
-		             tensor<input> &end, 
-		             tensor<input> axes = NULL_TENSOR<input>, 
-		             tensor<input> steps = NULL_TENSOR<input>) {
-	Slice<output, output, input> op;
+tensor<output> slice(tensor<input> &a,
+	                 tensor<int> &start,
+		             tensor<int> &end,
+		             tensor<int> axes = NULL_TENSOR<int>,
+		             tensor<int> steps = NULL_TENSOR<int>) {
+	Slice<output, input, int> op;
 	return op.compute(a, start, end, axes, steps);
 	dtype = {
-		"double" : "int",
-		"float"  : "int",
+		"double" : "double",
+		"float"  : "float",
 		"int"    : "int",
-		"bool"   : "int"
+		"bool"   : "bool"
 	}
-} 
+}
+
+void set_slice(tensor<output> &a,
+					 tensor<input> &b,
+	                 tensor<int> &start,
+		             tensor<int> &end,
+		             tensor<int> axes = NULL_TENSOR<int>,
+		             tensor<int> steps = NULL_TENSOR<int>) {
+	SetSlice<output, input, int> op;
+	return op.compute(a, b, start, end, axes, steps);
+	dtype = {
+		"double" : "double",
+		"float"  : "float",
+		"int"    : "int",
+		"bool"   : "bool",
+	}
+}
 
 tensor<output> prelu(tensor<input> &x, tensor<input> &slope) {
   PRelu<input> op("localOpName");

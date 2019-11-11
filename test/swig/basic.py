@@ -72,8 +72,10 @@ def test_non_detailed():
 	b.load(bdata)
 	test_multiply(a,b)
 
-	t_dc = dc.array([[0,1,2],[3,4,5],[6,7,8],[9,10,11]])
 
+def test_detailed():
+	t_dc = dc.array([[0,1,2],[3,4,5],[6,7,8],[9,10,11]])
+	t_dc1 = dc.array([[21,22],[23,24],[26,27]])
 	t_dc[2]
 	t_dc[2,1]
 	int(t_dc[2,1])
@@ -87,10 +89,9 @@ def test_non_detailed():
 	t_dc[...,1]
 	t_dc[...,::-2]
 	t_dc[1:2:-1,::-2]
-
-
-def test_detailed():
-
+	t_dc[2:3,1:2] = 30
+	t_dc[2,1] = 1
+	t_dc[0:3,0:2] = t_dc1
 	t1 = dc.array(2,3).asTypeFloat()
 	t2 = dc.array(2,3).asTypeInt()
 

@@ -152,6 +152,7 @@ enum OPCODE {
   opSinh,
   opSize,
   opSlice,
+  opSetSlice,
   opSoftmax,
   opSoftplus,
   opSoftsign,
