@@ -14,19 +14,18 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 #create the link to scripts dir inside deepC for proper installation.
-try:
-  os.symlink(os.path.abspath(os.path.join(os.path.dirname(__file__),
-             'scripts')),
-             os.path.join(NAME, 'scripts'))
-  os.symlink(os.path.abspath(os.path.join(os.path.dirname(__file__),
-             'include')),
-             os.path.join(NAME, 'include'))
-  os.symlink(os.path.abspath(os.path.join(os.path.dirname(__file__),
-             'packages')),
-             os.path.join(NAME, 'packages'))
-except OSError as e:
-  if e.errno != errno.EEXIST:
-     raise e
+def link_dir(dir_name):
+  try:
+    os.symlink(os.path.abspath(os.path.join(os.path.dirname(__file__),
+               dir_name)),
+               os.path.join(NAME, dir_name))
+  except OSError as e:
+    if e.errno != errno.EEXIST:
+       raise e
+
+link_dir('scripts')
+link_dir('include')
+link_dir('packages')
 
 # add source files for model compiler
 def source_files(directory):
@@ -55,7 +54,7 @@ setuptools.setup(
     packages=packages,
     include_package_data=True,
     package_data={'':['_dnnc.so'] +
-        glob.glob(os.path.join('scripts','*py')) +
+        source_files('scripts') +
         source_files('include') +
         source_files('packages')
         },

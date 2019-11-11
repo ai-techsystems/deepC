@@ -28,16 +28,16 @@
 
 import os, sys
 import deepC.dnnc as dnnc
-import scripts.onnx2cpp as onnx2cpp
+import deepC.scripts.onnx2cpp as onnx2cpp
 
 class compilerWrapper:
 
   """Compiler class for models in ONNX binary/protobuf format."""
 
   def __init__ (self):
-    dnnc_path = os.path.abspath(os.path.dirname(os.path.dirname(dnnc.__file__)))
-    self.inc_path = "-I " + dnnc_path + "/include"
-    self.isys_path = "-isystem " +  dnnc_path + "/packages/eigen-eigen-323c052e1731"
+    dnnc_path = os.path.abspath(os.path.dirname(dnnc.__file__))
+    self.inc_path = "-I " + os.path.join(dnnc_path, "include")
+    self.isys_path = "-isystem " +  os.path.join(dnnc_path, "packages", "eigen-eigen-323c052e1731")
     self.compiler = "g++"
     self.cpp_flags = "-O3"
 
@@ -84,8 +84,7 @@ def main():
     print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx [bundle_dir] [compile_flags] \n")
     exit(0)
 
-  #cppFile = onnx2cpp.main();
-  cppFile = "Model.cpp"
+  cppFile = onnx2cpp.main();
 
   onnxCC = compilerWrapper();
   exe = onnxCC.compile(cppFile);
