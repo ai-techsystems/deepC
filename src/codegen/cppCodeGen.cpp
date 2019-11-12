@@ -117,6 +117,7 @@ std::string dnnc::cppCodeGen::writeIncludes() {
   std::string code;
   for (auto &s : _includes)
     code += std::string("#include \"") + s + "\"\n";
+
   code += "\n\nusing namespace dnnc;\n\n";
   return code;
 }
@@ -160,6 +161,10 @@ std::string dnnc::cppCodeGen::writeUsageFunction() {
 std::string dnnc::cppCodeGen::writeMainFunction(std::string body) {
 
   std::string code = "int main(int argc, char** argv) {\n\n";
+  code += "#define BUNDLE_DIR std::string(argv[0]).substr(0,\\\n";
+  code += "                      std::string(argv[0]).find_last_of(\"" +
+          std::string(FS_PATH_SEPARATOR) + "\")) + \"" +
+          std::string(FS_PATH_SEPARATOR) + "\"\n\n";
 
   size_t nInputs = modelInputs().size();
   code += _tab + "if ( argc < " + std::to_string(nInputs + 1) +
@@ -263,7 +268,7 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype, std::string name,
             std::to_string(values.length()) + "}); " + name + ".load(" +
             initVec + ");\n";
     if (fname.size()) {
-      code += _tab + name + ".read(\"" + fname + "\");\n";
+      code += _tab + name + ".read(\"BUNDLE_DIR +" + fname + "\");\n";
     }
     break;
   }
@@ -284,7 +289,7 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype, std::string name,
             std::to_string(values.length()) + "}); " + name + ".load(" +
             initVec + ");\n";
     if (fname.size()) {
-      code += _tab + name + ".read(\"" + fname + "\");\n";
+      code += _tab + name + ".read(\"BUNDLE_DIR +" + fname + "\");\n";
     }
     break;
   }
@@ -298,7 +303,7 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype, std::string name,
 std::string dnnc::cppCodeGen::write(dnnParameters param) {
 
   return initializeData(param.data(), _prefix + cppName(param.name()),
-                        paramFile(param.name()));
+                        paramFile(param.name()).empty() ? "" : param.name());
 }
 
 std::string dnnc::cppCodeGen::write(ioNode &term, size_t &index) {
@@ -311,7 +316,7 @@ std::string dnnc::cppCodeGen::write(ioNode &term, size_t &index) {
 
   std::string param_file = paramFile(term.name());
   code += _tab + nodeName(&term) + ".read(" +
-          (param_file.size() ? "\"" + param_file + "\""
+          (param_file.size() ? "BUNDLE_DIR + \"" + term.name() + "\""
                              : "argv[" + std::to_string(index++) + "]") +
           ");\n";
   return code;

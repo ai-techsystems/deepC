@@ -1,8 +1,8 @@
 import os, sys, fnmatch
 
 import unittest
-import scripts.read_onnx as read_onnx
-import dnnc
+import deepC.scripts.read_onnx as read_onnx
+import deepC.dnnc as dnnc
 
 class unitOperatorsTest(unittest.TestCase):
 
@@ -29,6 +29,10 @@ class unitOperatorsTest(unittest.TestCase):
             cppCode = dnnc.cppCodeGen(dc_graph, bundle_dir, cpp_file);
             cppCode.write();
             dc_graph.destroy();
+
+        # remove generated cpp files.
+        for cpp_file in self.find('*.cpp', 'parser'):
+            os.remove(cpp_file)
 
         # unmute stdout
         sys.stdout = sys_stdout

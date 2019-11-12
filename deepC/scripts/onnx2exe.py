@@ -84,10 +84,10 @@ def main():
     print("\nUsage: "+sys.argv[0]+ " <onnx_model_file>.onnx [bundle_dir] [compile_flags] \n")
     exit(0)
 
-  cppFile = onnx2cpp.main();
+  (bundleDir, cppFile) = onnx2cpp.main();
 
   onnxCC = compilerWrapper();
-  exe = onnxCC.compile(cppFile);
+  exe = onnxCC.compile(os.path.join(bundleDir, cppFile));
 
   if ( exe is not None and exe ):
     print("model executable ", exe);

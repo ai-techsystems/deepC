@@ -4,7 +4,7 @@ import unittest
 import importlib
 
 if __name__ == '__main__':
-    for folder in ['swig', 'parser'] :
+    for folder in ['swig', 'parser', 'compiler'] :
 
         print("\nRunning tests in ===|" + folder + "|===")
         loader = unittest.TestLoader()

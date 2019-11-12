@@ -4,7 +4,7 @@ import common
 import importlib
 
 if __name__ == '__main__':
-    for folder in ['swig', 'parser'] :
+    for folder in ['swig', 'parser', 'compiler'] :
 
         # add the test name here
         if ( len(sys.argv) > 1 ):

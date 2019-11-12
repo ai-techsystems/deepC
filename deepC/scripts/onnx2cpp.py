@@ -57,7 +57,7 @@ def main():
   else:
     bundle_dir = os.path.dirname(onnx_file);
   if not bundle_dir:
-    bundle_dir = "."
+    bundle_dir = os.getcwd()
 
   cpp_file = os.path.splitext(os.path.basename(onnx_file))[0]+'.cpp'
 
@@ -69,7 +69,7 @@ def main():
 
   print("INFO (ONNX): model files are ready in dir " + bundle_dir);
 
-  return cpp_file;
+  return (bundle_dir, cpp_file);
 
 if __name__ == "__main__":
   sys.exit(main())

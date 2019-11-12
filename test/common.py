@@ -2,5 +2,12 @@
 
 import os,sys
 DNNC_ROOT=os.path.abspath(os.path.dirname(__file__) + os.path.sep + '..')
-# sys.path.append(os.path.abspath(DNNC_ROOT+os.path.sep+'deepC'));
-sys.path.append(os.path.abspath(DNNC_ROOT));
+
+# 1. os.environ is needed to launch compiler commands.
+if ( "PYTHONPATH" in os.environ ) :
+    os.environ["PYTHONPATH"] += os.pathsep + DNNC_ROOT
+else:
+    os.environ["PYTHONPATH"] = DNNC_ROOT
+
+# 2. sys.path is needed to import deepC
+sys.path.append(DNNC_ROOT);

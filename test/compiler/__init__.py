@@ -1,14 +1,13 @@
 import os, sys, importlib
 import unittest
 
-
 # def load_tests(loader, tests, pattern):
 def load_tests(loader, tests):
     # suite = unittest.TestSuite();
 
-    test_file = "parser/passingTests.txt";
+    test_file = "compiler/passingTests.txt";
     if ( os.path.isfile(test_file) == False ):
-        print("no test file in ", os.getcwd()+"/parser");
+        print("no test file in ", os.getcwd()+"/compiler");
         # return suite;
         return
 
@@ -19,7 +18,7 @@ def load_tests(loader, tests):
 
         module_name = test.strip().split(".")[0]
         class_name = module_name + "Test"
-        module = importlib.import_module("."+module_name, package="parser")
+        module = importlib.import_module("."+module_name, package="compiler")
         class_ = getattr(module, class_name)
 
         tests.append(loader.loadTestsFromTestCase(class_))
@@ -31,16 +30,16 @@ def load_tests(loader, tests):
 
 def load_test(loader, test, tests):
 
-    test_file = "parser/"+test
+    test_file = "compiler/"+test
     if ( os.path.isfile(test_file) == False ):
-        print("no test file in ", os.getcwd()+"/parser");
+        print("no test file in ", os.getcwd()+"/compiler");
         # return suite;
         return
 
     print("running test", test.strip())
     module_name = test.strip().split(".")[0]
     class_name = module_name + "Test"
-    module = importlib.import_module("."+module_name, package="parser")
+    module = importlib.import_module("."+module_name, package="compiler")
     class_ = getattr(module, class_name)
 
     tests.append(loader.loadTestsFromTestCase(class_))
