@@ -18,3 +18,4 @@ if __name__ == '__main__':
         suite = unittest.TestSuite(tests)
         runner = unittest.TextTestRunner(verbosity=0)
         runner.run(suite)
+    exit(0)

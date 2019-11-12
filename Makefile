@@ -31,7 +31,10 @@ FORMAT:
 
 TEST:
 	@echo "running unit tests ..."
-	cd test &&  $(PYTHON) ./run_all.py
+	$(shell $(LN_S) -f $(abspath ./include) $(abspath ./deepC))
+	$(shell $(LN_S) -f $(abspath ./packages) $(abspath ./deepC))
+	(cd test &&  $(PYTHON) ./run_all.py) || (echo "TEST failed."; exit 1)
+
 
 DEEPC: SRC
 	$(MAKE) -C deepC
