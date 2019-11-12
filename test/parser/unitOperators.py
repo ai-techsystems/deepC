@@ -1,7 +1,7 @@
 import os, sys, fnmatch
 
 import unittest
-import read_onnx
+import scripts.read_onnx as read_onnx
 import dnnc
 
 class unitOperatorsTest(unittest.TestCase):

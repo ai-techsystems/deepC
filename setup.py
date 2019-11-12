@@ -13,7 +13,7 @@ long_description = ""
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-#create the link to scripts dir inside deepC for proper installation.
+#create the links to src dir inside deepC for proper installation.
 def link_dir(dir_name):
   try:
     os.symlink(os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -23,7 +23,6 @@ def link_dir(dir_name):
     if e.errno != errno.EEXIST:
        raise e
 
-link_dir('scripts')
 link_dir('include')
 link_dir('packages')
 
@@ -54,7 +53,6 @@ setuptools.setup(
     packages=packages,
     include_package_data=True,
     package_data={'':['_dnnc.so'] +
-        source_files('scripts') +
         source_files('include') +
         source_files('packages')
         },
