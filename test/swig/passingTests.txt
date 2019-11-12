@@ -46,8 +46,8 @@ Softplus.py
 Softsign.py
 Sign.py
 Softmax.py
-Slice.py
 sliceAndIndex.py
 tensorOperators.py
 tensorOperatorsGenerated.py
 PRelu.py
+tensorSanity.py

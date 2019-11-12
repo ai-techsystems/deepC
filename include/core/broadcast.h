@@ -98,9 +98,6 @@ std::vector<DIMENSION> getTargetShape(const tensor<T> a, const tensor<T> b) {
 template <typename T>
 tensor<T> broadcast(const tensor<T> a,
                     const std::vector<DIMENSION> targetShape) {
-  // TODO:
-  // 1. uni-directional broadcasting
-  // 2. multi-directional broadcasting
 
   DIMENSION aNumDims = a.shape().size();
   DIMENSION targetNumDims = targetShape.size();

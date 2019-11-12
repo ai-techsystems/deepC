@@ -92,6 +92,8 @@ class tensorSanityTest(unittest.TestCase):
         a=dc.arange(5, 10, 3).asTypeInt()
         assert a.data() == (5, 8)
 
+    # this test is now in SliceAndIndex.py
+    '''
     # test data loading and index
     def test_data(self):
 
@@ -123,7 +125,7 @@ class tensorSanityTest(unittest.TestCase):
             print(a[0,0,9,9,9])
         except ValueError as e:
             assert e
-
+    '''
 
     # test data types
     def test_dtypes(self):
