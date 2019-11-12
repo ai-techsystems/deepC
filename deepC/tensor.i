@@ -417,27 +417,19 @@ def __setitem__(self, index, input_tensor):
   """
      setitem method for tensor.
   """
+
   value_tensor = ""
   if "Tensor" not in str(type(input_tensor)).split("'")[1]:
     if str(type(input_tensor)).split("'")[1] in ("int", "float", "bool"):
-      # print(str(input_tensor))
       value_tensor = array([input_tensor])  # passing single number as tensor of length 1
-      # print(str(value_tensor))
     elif str(type(input_tensor)).split("'")[1] in ("list", "tuple"):
-      # print(str(input_tensor))
-      value_tensor = array(input_tensor)  # passing python lists as tensor
-      # print(str(value_tensor))
+      value_tensor = array(input_tensor)  # passing python lists or tuples as tensor
     else:
       errorMsg = "could not convert " + str(input_tensor) + " of type " + str(type(input_tensor)) + " to dnnc tensor"
       raise ValueError(errorMsg)
       return
   else:
       value_tensor = input_tensor
-
-  # if str(type(value_tensor)).split("'")[1] != str(type(self)).split("'")[1]:
-  #   errorMsg = "cannot set values from tensor of " + str(type(value_tensor)) + " to tensor of " + str(type(self))
-  #   raise TypeError(errorMsg)
-  #   return
 
   def set_item_helper_int(item, axis):
     flag = 0
@@ -575,7 +567,6 @@ def __setitem__(self, index, input_tensor):
     step_list = []
     axis_list = []
     axis = -1   # -1 for starting axis as 0 in the next loops
-    reshape_list = []   # reshape list to reshape
     replace_start = replace_stop = 0   # replace ellipsis with slice methods by index
 
     if Ellipsis in index:
@@ -607,7 +598,6 @@ def __setitem__(self, index, input_tensor):
           stop_list.append(stop)
           step_list.append(step)
           axis_list.append(axis)
-          reshape_list.append(1)  # This shape will be taken
           axis += 1
         axis -= 1   # recovering from last axis increment
       elif str(type(item)).split("'")[1] == "int":
@@ -618,7 +608,6 @@ def __setitem__(self, index, input_tensor):
         stop_list.append(stop)
         step_list.append(step)
         axis_list.append(axis)
-        reshape_list.append(0)  # This shape will not be taken
       elif str(type(item)).split("'")[1] == "slice":
         start, stop, step, flag = set_item_helper_slice(item, axis)
         if flag:
@@ -627,7 +616,6 @@ def __setitem__(self, index, input_tensor):
         stop_list.append(stop)
         step_list.append(step)
         axis_list.append(axis)
-        reshape_list.append(1)  # This shape will be taken
       else:
         errorMsg = "Doesn't support " + str(item) + " of " + str(type(item)) + " as a slicing argument!"
         raise TypeError(errorMsg)
@@ -642,7 +630,6 @@ def __setitem__(self, index, input_tensor):
       stop_list.append(stop)
       step_list.append(step)
       axis_list.append(axis)
-      reshape_list.append(1)  # This shape will be taken
 
     start_list = array(start_list).asTypeInt()
     stop_list = array(stop_list).asTypeInt()

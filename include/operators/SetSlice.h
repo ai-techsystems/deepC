@@ -38,17 +38,16 @@ public:
 
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
-  void
-  compute(tensor<To> output,       // N-D Tensor of data to set data to
-          tensor<Ti> input,       // N-D Tensor of data to extract from
-          tensor<Tind> start, // 1-D tensor of starting indices of
-                              // corresponding axis in `axes`
-          tensor<Tind> end,   // 1-D tensor of ending indices (exclusive) of
-                              // corresponding axis in `axes`
-          tensor<Tind> axes = NULL_TENSOR<Tind>,
-          // 1-D tensor of axes that `starts` and `ends` apply to.
-          // Negative value means counting dimensions from the back.
-          tensor<Tind> steps = NULL_TENSOR<Tind>)
+  void compute(tensor<To> output,  // N-D Tensor of data to set data to
+               tensor<Ti> input,   // N-D Tensor of data to extract from
+               tensor<Tind> start, // 1-D tensor of starting indices of
+                                   // corresponding axis in `axes`
+               tensor<Tind> end, // 1-D tensor of ending indices (exclusive) of
+                                 // corresponding axis in `axes`
+               tensor<Tind> axes = NULL_TENSOR<Tind>,
+               // 1-D tensor of axes that `starts` and `ends` apply to.
+               // Negative value means counting dimensions from the back.
+               tensor<Tind> steps = NULL_TENSOR<Tind>)
 
   // 1-D tensor of slice step of corresponding
   // axis in `axes`. Default to 1.
@@ -132,7 +131,7 @@ public:
       if (end(i) < 0) {
         // when step is negative and end is -1, store -1
         // this is required by python_slice for negative steps
-        if ((steps(i) < 0) && (end(i) == -1)){
+        if ((steps(i) < 0) && (end(i) == -1)) {
           end(i) = -1;
         } else {
           end(i) += output.shape()[i];
@@ -149,7 +148,8 @@ public:
       else if (steps(i) > 0) {
         // return NULL tensor if start is greater equal to
         // shape[axis] or start is greater equal to end
-        if ((Tind)start(i) >= (Tind)output.shape()[i] || (end(i) - 1 < start(i))) {
+        if ((Tind)start(i) >= (Tind)output.shape()[i] ||
+            (end(i) - 1 < start(i))) {
           return;
         }
         // if end is greater than shape[axis], limit end to shape[axis]
@@ -159,13 +159,15 @@ public:
       }
       // if step is negative
       else if (steps(i) < 0) {
-        // if start is greater equal to shape[axis], limit start to shape[axis]-1
+        // if start is greater equal to shape[axis], limit start to
+        // shape[axis]-1
         if ((Tind)start(i) >= (Tind)output.shape()[i]) {
-          start(i) = output.shape()[i]-1;
+          start(i) = output.shape()[i] - 1;
         }
         // return NULL tensor if end is greater equal to
         // shape[axis] or end is greater equal to start
-        if ((Tind)end(i) >= (Tind)(output.shape()[i]) || (start(i) - 1 < end(i))) {
+        if ((Tind)end(i) >= (Tind)(output.shape()[i]) ||
+            (start(i) - 1 < end(i))) {
           return;
         }
       }
@@ -199,10 +201,10 @@ public:
 
       // comparing start and end when step is negative
       // else if ((steps(i) < 0) && (start(i) - 1 < end(i))) {
-        // errMsg << "start value (" << start(i) - 1 << ") along axis (" << i
-        //        << ") is smaller than the end value (" << end(i)
-        //        << ") along the axis while step is negative" << std::endl;
-        // throw std::invalid_argument(errMsg.str().c_str());
+      // errMsg << "start value (" << start(i) - 1 << ") along axis (" << i
+      //        << ") is smaller than the end value (" << end(i)
+      //        << ") along the axis while step is negative" << std::endl;
+      // throw std::invalid_argument(errMsg.str().c_str());
       // }
 
       // axes
@@ -233,7 +235,6 @@ public:
     }
 
     // Determine the shape of the result tensor
-
 
     std::vector<size_t> resultShape(rank);
     std::vector<Tind> start_index(rank);
@@ -279,8 +280,7 @@ public:
     if (resultShape != input.shape()) {
       input = broadcast(input, resultShape);
       if (input.isnull()) {
-        errMsg << "could not broadcast input array"
-               << std::endl;
+        errMsg << "could not broadcast input array" << std::endl;
         throw std::invalid_argument(errMsg.str().c_str());
       }
     }
@@ -289,26 +289,39 @@ public:
 
     if (rank == 1) {
       Tind i0 = 0;
-      for (Tind _i0 = start_index[0]; (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]); _i0 += step[0]) {
+      for (Tind _i0 = start_index[0];
+           (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]);
+           _i0 += step[0]) {
         output(_i0) = static_cast<To>(input(i0++));
       }
     } else if (rank == 2) {
       Tind i0 = 0;
-      for (Tind _i0 = start_index[0]; (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]); _i0 += step[0]) {
+      for (Tind _i0 = start_index[0];
+           (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]);
+           _i0 += step[0]) {
         Tind i1 = 0;
-        for (Tind _i1 = start_index[1]; (step[1] > 0) ? (_i1 <= end_index[1]) : (_i1 >= end_index[1]); _i1 += step[1]) {
-          // std::cout << _i0 << " , " << _i1 << " : " << output(_i0,_i1) << std::endl;  // for testing purposes
+        for (Tind _i1 = start_index[1];
+             (step[1] > 0) ? (_i1 <= end_index[1]) : (_i1 >= end_index[1]);
+             _i1 += step[1]) {
+          // std::cout << _i0 << " , " << _i1 << " : " << output(_i0,_i1) <<
+          // std::endl;  // for testing purposes
           output(_i0, _i1) = static_cast<To>(input(i0, i1++));
         }
         i0++;
       }
     } else if (rank == 3) {
       Tind i0 = 0;
-      for (Tind _i0 = start_index[0]; (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]); _i0 += step[0]) {
+      for (Tind _i0 = start_index[0];
+           (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]);
+           _i0 += step[0]) {
         Tind i1 = 0;
-        for (Tind _i1 = start_index[1]; (step[1] > 0) ? (_i1 <= end_index[1]) : (_i1 >= end_index[1]); _i1 += step[1]) {
+        for (Tind _i1 = start_index[1];
+             (step[1] > 0) ? (_i1 <= end_index[1]) : (_i1 >= end_index[1]);
+             _i1 += step[1]) {
           Tind i2 = 0;
-          for (Tind _i2 = start_index[2]; (step[2] > 0) ? (_i2 <= end_index[2]) : (_i2 >= end_index[2]); _i2 += step[2]) {
+          for (Tind _i2 = start_index[2];
+               (step[2] > 0) ? (_i2 <= end_index[2]) : (_i2 >= end_index[2]);
+               _i2 += step[2]) {
             output(_i0, _i1, _i2) = static_cast<To>(input(i0, i1, i2++));
           }
           i1++;
@@ -317,14 +330,23 @@ public:
       }
     } else if (rank == 4) {
       Tind i0 = 0;
-      for (Tind _i0 = start_index[0]; (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]); _i0 += step[0]) {
+      for (Tind _i0 = start_index[0];
+           (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]);
+           _i0 += step[0]) {
         Tind i1 = 0;
-        for (Tind _i1 = start_index[1]; (step[1] > 0) ? (_i1 <= end_index[1]) : (_i1 >= end_index[1]); _i1 += step[1]) {
+        for (Tind _i1 = start_index[1];
+             (step[1] > 0) ? (_i1 <= end_index[1]) : (_i1 >= end_index[1]);
+             _i1 += step[1]) {
           Tind i2 = 0;
-          for (Tind _i2 = start_index[2]; (step[2] > 0) ? (_i2 <= end_index[2]) : (_i2 >= end_index[2]); _i2 += step[2]) {
+          for (Tind _i2 = start_index[2];
+               (step[2] > 0) ? (_i2 <= end_index[2]) : (_i2 >= end_index[2]);
+               _i2 += step[2]) {
             Tind i3 = 0;
-            for (Tind _i3 = start_index[3]; (step[3] > 0) ? (_i3 <= end_index[3]) : (_i3 >= end_index[3]); _i3 += step[3]) {
-              output(_i0, _i1, _i2, _i3) = static_cast<To>(input(i0, i1, i2, i3++));
+            for (Tind _i3 = start_index[3];
+                 (step[3] > 0) ? (_i3 <= end_index[3]) : (_i3 >= end_index[3]);
+                 _i3 += step[3]) {
+              output(_i0, _i1, _i2, _i3) =
+                  static_cast<To>(input(i0, i1, i2, i3++));
             }
             i2++;
           }

@@ -1,5 +1,10 @@
-import os, argparse
-import common
+import os, sys
+DNNC_ROOT=os.path.abspath(os.path.dirname(__file__) +
+        os.path.sep + '..' +
+        os.path.sep + '..')
+sys.path.append(DNNC_ROOT);
+
+import argparse
 
 import deepC.dnnc as dc
 import numpy as np
