@@ -83,6 +83,9 @@ def tested():
 	run("print(t_np[...,3:-1:-1])")
 	run("print(t_dc[...,3:-1:-1])")
 
+	return
+
+def testing():
 	run("print(t_np)")
 	run("print(t_dc)")
 	t_np[0:3,0:2] = t_np1
@@ -96,11 +99,6 @@ def tested():
 	run("print(t_dc)")
 	t_dc[2,1] = 1
 	run("print(t_dc)")
-
-	return
-
-
-def testing():
 	run("print(t_dc2)")
 	run("print(t_dc2[2])")
 	t_dc2[2] = True
@@ -108,14 +106,11 @@ def testing():
 
 	return
 
-
 def main():
 	run("print(t_np)")
 
 	tested()
-
 	testing()
-
 
 
 if __name__ == "__main__":

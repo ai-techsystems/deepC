@@ -22,6 +22,7 @@
 //
 
 #pragma once
+#include "core/broadcast.h"
 #include "operators/baseOperator.h"
 #include <string>
 
@@ -38,8 +39,8 @@ public:
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   void
-  compute(tensor<To> a,       // N-D Tensor of data to set data to
-          tensor<Ti> value_tensor, // N-D Tensor of data to extract from
+  compute(tensor<To> output,       // N-D Tensor of data to set data to
+          tensor<Ti> input,       // N-D Tensor of data to extract from
           tensor<Tind> start, // 1-D tensor of starting indices of
                               // corresponding axis in `axes`
           tensor<Tind> end,   // 1-D tensor of ending indices (exclusive) of
@@ -54,13 +55,10 @@ public:
   {
     // Process and check the arguments
 
-    // tensor<To> b = static_cast<To>(value_tensor);
-    tensor<To> b = value_tensor;
-
     std::stringstream errMsg;
 
     DIMENSION num_axes = start.shape()[0];
-    DIMENSION rank = a.rank();
+    DIMENSION rank = output.rank();
 
     if (start.rank() != 1) {
       errMsg << "start tensor is " << start.rank()
@@ -129,7 +127,7 @@ public:
 
       // change values from negative to positive
       if (start(i) < 0) {
-        start(i) += a.shape()[i];
+        start(i) += output.shape()[i];
       }
       if (end(i) < 0) {
         // when step is negative and end is -1, store -1
@@ -137,7 +135,7 @@ public:
         if ((steps(i) < 0) && (end(i) == -1)){
           end(i) = -1;
         } else {
-          end(i) += a.shape()[i];
+          end(i) += output.shape()[i];
         }
       }
 
@@ -151,23 +149,23 @@ public:
       else if (steps(i) > 0) {
         // return NULL tensor if start is greater equal to
         // shape[axis] or start is greater equal to end
-        if ((Tind)start(i) >= (Tind)a.shape()[i] || (end(i) - 1 < start(i))) {
+        if ((Tind)start(i) >= (Tind)output.shape()[i] || (end(i) - 1 < start(i))) {
           return;
         }
         // if end is greater than shape[axis], limit end to shape[axis]
-        if ((Tind)end(i) > (Tind)(a.shape()[i])) {
-          end(i) = a.shape()[i];
+        if ((Tind)end(i) > (Tind)(output.shape()[i])) {
+          end(i) = output.shape()[i];
         }
       }
       // if step is negative
       else if (steps(i) < 0) {
         // if start is greater equal to shape[axis], limit start to shape[axis]-1
-        if ((Tind)start(i) >= (Tind)a.shape()[i]) {
-          start(i) = a.shape()[i]-1;
+        if ((Tind)start(i) >= (Tind)output.shape()[i]) {
+          start(i) = output.shape()[i]-1;
         }
         // return NULL tensor if end is greater equal to
         // shape[axis] or end is greater equal to start
-        if ((Tind)end(i) >= (Tind)(a.shape()[i]) || (start(i) - 1 < end(i))) {
+        if ((Tind)end(i) >= (Tind)(output.shape()[i]) || (start(i) - 1 < end(i))) {
           return;
         }
       }
@@ -176,17 +174,17 @@ public:
       // it smartly avoids them
 
       // start
-      // if (start(i) > a.shape()[i]) {
+      // if (start(i) > output.shape()[i]) {
       //   errMsg << "start value (" << start(i) << ") along axis (" << i
-      //          << ") is beyond the size (" << a.shape()[i]
+      //          << ") is beyond the size (" << output.shape()[i]
       //          << ") of input tensor along the axis" << std::endl;
       //   throw std::invalid_argument(errMsg.str().c_str());
       // }
 
       // end
-      // if (end(i) > (a.shape()[i])) {
+      // if (end(i) > (output.shape()[i])) {
       //   errMsg << "end value (" << end(i) << ") along axis (" << i
-      //          << ") is beyond the size (" << a.shape()[i]
+      //          << ") is beyond the size (" << output.shape()[i]
       //          << ") of input tensor along the axis" << std::endl;
       //   throw std::invalid_argument(errMsg.str().c_str());
       // }
@@ -236,6 +234,8 @@ public:
 
     // Determine the shape of the result tensor
 
+
+    std::vector<size_t> resultShape(rank);
     std::vector<Tind> start_index(rank);
     std::vector<Tind> end_index(rank);
     std::vector<Tind> step(rank);
@@ -266,9 +266,22 @@ public:
           break;
         } else {
           start_index[axis] = 0;
-          end_index[axis] = a.shape()[axis] - 1;
+          end_index[axis] = output.shape()[axis] - 1;
           step[axis] = 1;
         }
+      }
+      resultShape[axis] =
+          (end_index[axis] - start_index[axis]) / step[axis] + 1;
+    }
+
+    // Try broadcasting now
+
+    if (resultShape != input.shape()) {
+      input = broadcast(input, resultShape);
+      if (input.isnull()) {
+        errMsg << "could not broadcast input array"
+               << std::endl;
+        throw std::invalid_argument(errMsg.str().c_str());
       }
     }
 
@@ -277,15 +290,15 @@ public:
     if (rank == 1) {
       Tind i0 = 0;
       for (Tind _i0 = start_index[0]; (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]); _i0 += step[0]) {
-        a(_i0) = b(i0++);
+        output(_i0) = static_cast<To>(input(i0++));
       }
     } else if (rank == 2) {
       Tind i0 = 0;
       for (Tind _i0 = start_index[0]; (step[0] > 0) ? (_i0 <= end_index[0]) : (_i0 >= end_index[0]); _i0 += step[0]) {
         Tind i1 = 0;
         for (Tind _i1 = start_index[1]; (step[1] > 0) ? (_i1 <= end_index[1]) : (_i1 >= end_index[1]); _i1 += step[1]) {
-          // std::cout << _i0 << " , " << _i1 << " : " << a(_i0,_i1) << std::endl;  // for testing purposes
-          a(_i0, _i1) = b(i0, i1++);
+          // std::cout << _i0 << " , " << _i1 << " : " << output(_i0,_i1) << std::endl;  // for testing purposes
+          output(_i0, _i1) = static_cast<To>(input(i0, i1++));
         }
         i0++;
       }
@@ -296,7 +309,7 @@ public:
         for (Tind _i1 = start_index[1]; (step[1] > 0) ? (_i1 <= end_index[1]) : (_i1 >= end_index[1]); _i1 += step[1]) {
           Tind i2 = 0;
           for (Tind _i2 = start_index[2]; (step[2] > 0) ? (_i2 <= end_index[2]) : (_i2 >= end_index[2]); _i2 += step[2]) {
-            a(_i0, _i1, _i2) = b(i0, i1, i2++);
+            output(_i0, _i1, _i2) = static_cast<To>(input(i0, i1, i2++));
           }
           i1++;
         }
@@ -311,7 +324,7 @@ public:
           for (Tind _i2 = start_index[2]; (step[2] > 0) ? (_i2 <= end_index[2]) : (_i2 >= end_index[2]); _i2 += step[2]) {
             Tind i3 = 0;
             for (Tind _i3 = start_index[3]; (step[3] > 0) ? (_i3 <= end_index[3]) : (_i3 >= end_index[3]); _i3 += step[3]) {
-              a(_i0, _i1, _i2, _i3) = b(i0, i1, i2, i3++);
+              output(_i0, _i1, _i2, _i3) = static_cast<To>(input(i0, i1, i2, i3++));
             }
             i2++;
           }

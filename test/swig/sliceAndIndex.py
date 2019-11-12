@@ -44,7 +44,6 @@ class sliceAndIndexTest(unittest.TestCase):
 		np.testing.assert_array_equal(self.np_2D[2:3,:], (self.dc_2D[2:3,:]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2:,1:], (self.dc_2D[2:,1:]).numpy())
 		np.testing.assert_array_equal(self.np_2D[:,::3], (self.dc_2D[:,::3]).numpy())
-		np.testing.assert_array_equal(self.np_2D[:,::3], (self.dc_2D[:,::3]).numpy())
 
 		# Slicing with Indexing
 		np.testing.assert_array_equal(self.np_2D[2:,1], (self.dc_2D[2:,1]).numpy())
@@ -58,6 +57,53 @@ class sliceAndIndexTest(unittest.TestCase):
 		np.testing.assert_array_equal(self.np_2D[...,1], (self.dc_2D[...,1]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2,...], (self.dc_2D[2,...]).numpy())
 
+	def test_setitem(self):
+
+		# Indexing
+		self.np_2D[2] = 200
+		self.dc_2D[2] = 200
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_2D[1,2] = 500
+		self.dc_2D[1,2] = 500
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+
+		# Slicing
+		self.np_2D[2:3,:] = [500, 200, 30]
+		self.dc_2D[2:3,:] = [500, 200, 30]
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_2D[2:,1:] = [50, 30]
+		self.dc_2D[2:,1:] = [50, 30]
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_2D[:,::3] = 25
+		self.dc_2D[:,::3] = 25
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_2D[:,::3] = 45
+		self.dc_2D[:,::3] = 45
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+
+		# Slicing with Indexing
+		self.np_2D[2:,1] = 65
+		self.dc_2D[2:,1] = 65
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_2D[2,::3] = 75
+		self.dc_2D[2,::3] = 75
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+
+		# Ellipsis with Slicing
+		self.np_2D[...,::-1] = 62
+		self.dc_2D[...,::-1] = 62
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_2D[1:,...] = 73
+		self.dc_2D[1:,...] = 73
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+
+		# Ellipsis with Indexing
+		self.np_2D[...,1] = 63
+		self.dc_2D[...,1] = 63
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_2D[2,...] = 71
+		self.dc_2D[2,...] = 71
+		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
 
 
 	def tearDown(self):

@@ -861,34 +861,34 @@ tensor<output> cosh(tensor<input> &a){
   }
 }
 
-tensor<output> slice(tensor<input> &a,
-	                 tensor<int> &start,
-		             tensor<int> &end,
-		             tensor<int> axes = NULL_TENSOR<int>,
-		             tensor<int> steps = NULL_TENSOR<int>) {
-	Slice<output, input, int> op;
+tensor<output> slice(tensor<output> &a,
+	                 tensor<input> &start,
+		             tensor<input> &end,
+		             tensor<input> axes = NULL_TENSOR<input>,
+		             tensor<input> steps = NULL_TENSOR<input>) {
+	Slice<output, output, input> op;
 	return op.compute(a, start, end, axes, steps);
 	dtype = {
-		"double" : "double",
-		"float"  : "float",
+		"double" : "int",
+		"float"  : "int",
 		"int"    : "int",
-		"bool"   : "bool"
+		"bool"   : "int"
 	}
 }
 
 void set_slice(tensor<output> &a,
-					 tensor<input> &b,
-	                 tensor<int> &start,
-		             tensor<int> &end,
-		             tensor<int> axes = NULL_TENSOR<int>,
-		             tensor<int> steps = NULL_TENSOR<int>) {
-	SetSlice<output, input, int> op;
+					 tensor<input1> &b,
+	                 tensor<input2> &start,
+		             tensor<input2> &end,
+		             tensor<input2> axes = NULL_TENSOR<input2>,
+		             tensor<input2> steps = NULL_TENSOR<input2>) {
+	SetSlice<output, input1, input2> op;
 	return op.compute(a, b, start, end, axes, steps);
 	dtype = {
-		"double" : "double",
-		"float"  : "float",
-		"int"    : "int",
-		"bool"   : "bool",
+		"double" : (["double","int"],["float","int"],["int","int"],["bool","int"]),
+		"float" : (["double","int"],["float","int"],["int","int"],["bool","int"]),
+		"int" : (["double","int"],["float","int"],["int","int"],["bool","int"]),
+		"bool" : (["double","int"],["float","int"],["int","int"],["bool","int"]),
 	}
 }
 

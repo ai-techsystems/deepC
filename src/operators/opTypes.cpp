@@ -1139,6 +1139,9 @@ std::string getOpCodeStr(OPCODE opCode) {
   case (opSlice):
     return "Slice";
     break;
+  case (opSetSlice):
+    return "SetSlice";
+    break;
   case (opSoftmax):
     return "Softmax";
     break;

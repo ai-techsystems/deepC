@@ -417,22 +417,28 @@ def __setitem__(self, index, input_tensor):
   """
      setitem method for tensor.
   """
-  value_tensor = ""  # declaring value_tensor which will be a deep copy of input_tensor
+  value_tensor = ""
   if "Tensor" not in str(type(input_tensor)).split("'")[1]:
-    try:
+    if str(type(input_tensor)).split("'")[1] in ("int", "float", "bool"):
+      # print(str(input_tensor))
       value_tensor = array([input_tensor])  # passing single number as tensor of length 1
-    except:
-      errorMsg = "could not convert " + str(value_tensor) + " of type " + str(type(value_tensor)) + " to dnnc tensor"
+      # print(str(value_tensor))
+    elif str(type(input_tensor)).split("'")[1] in ("list", "tuple"):
+      # print(str(input_tensor))
+      value_tensor = array(input_tensor)  # passing python lists as tensor
+      # print(str(value_tensor))
+    else:
+      errorMsg = "could not convert " + str(input_tensor) + " of type " + str(type(input_tensor)) + " to dnnc tensor"
       raise ValueError(errorMsg)
       return
   else:
-    value_tensor = input_tensor.copy()
+      value_tensor = input_tensor
+
   # if str(type(value_tensor)).split("'")[1] != str(type(self)).split("'")[1]:
   #   errorMsg = "cannot set values from tensor of " + str(type(value_tensor)) + " to tensor of " + str(type(self))
   #   raise TypeError(errorMsg)
   #   return
 
-  input_tensor_shape = value_tensor.shape()  # storing input tensor shape
   def set_item_helper_int(item, axis):
     flag = 0
     start = item
@@ -518,18 +524,8 @@ def __setitem__(self, index, input_tensor):
     stop = array([stop]).asTypeInt()
     axis = array([axis]).asTypeInt()
     step = array([step]).asTypeInt()
-    result = slice(self, start, stop, axis, step)
 
-    try:
-      if (result.len() == value_tensor.len()):
-        value_tensor = value_tensor.reshape(result.shape())
-    except:
-      pass
-    if result.shape() == value_tensor.shape():
-      set_slice(self, value_tensor, start, stop, axis, step)
-    else:
-      errorMsg = "could not broadcast input array from shape "+str(input_tensor_shape)+" into shape "+str(result.shape())
-      raise ValueError(errorMsg)
+    set_slice(self, value_tensor, start, stop, axis, step)
     return
 
   elif str(type(index)).split("'")[1] == "slice":
@@ -545,23 +541,13 @@ def __setitem__(self, index, input_tensor):
     stop = array([stop]).asTypeInt()
     axis = array([axis]).asTypeInt()
     step = array([step]).asTypeInt()
-    result = slice(self, start, stop, axis, step)
 
-    try:
-      if (result.len() == value_tensor.len()):
-        value_tensor = value_tensor.reshape(result.shape())
-    except:
-      pass
-    if result.shape() == value_tensor.shape():
-      set_slice(self, value_tensor, start, stop, axis, step)
-    else:
-      errorMsg = "could not broadcast input array from shape "+str(input_tensor_shape)+" into shape "+str(result.shape())
-      raise ValueError(errorMsg)
+    set_slice(self, value_tensor, start, stop, axis, step)
     return
 
   elif str(type(index)).split("'")[1] == "ellipsis":
     if self.shape() != value_tensor.shape():
-      errorMsg = "could not broadcast input array from shape "+str(input_tensor_shape)+" into shape "+str(self.shape())
+      errorMsg = "could not broadcast input array from shape "+str(value_tensor.shape())+" into shape "+str(self.shape())
       raise ValueError(errorMsg)
       return
     elif (self.rank() < 1) or (self.shape() == value_tensor.shape()):
@@ -668,23 +654,7 @@ def __setitem__(self, index, input_tensor):
     # print("test axis list :  ", axis_list)
     # print("test step list :  ", step_list)
 
-    result = slice(self, start_list, stop_list, axis_list, step_list)
-
-    if 0 in reshape_list:
-      if not 1 in reshape_list:
-        reshape_list = [1,]
-      result = result.reshape([x for x, y in zip(result.shape(), reshape_list) if y == 1])
-
-    try:
-      if (result.len() == value_tensor.len()):
-        value_tensor = value_tensor.reshape(result.shape())
-    except:
-      pass
-    if result.shape() == value_tensor.shape():
-      set_slice(self, value_tensor, start_list, stop_list, axis_list, step_list)
-    else:
-      errorMsg = "could not broadcast input array from shape "+str(input_tensor_shape)+" into shape "+str(result.shape())
-      raise ValueError(errorMsg)
+    set_slice(self, value_tensor, start_list, stop_list, axis_list, step_list)
     return
   else :
     errorMsg = "Doesn't support " + str(index) + " of " + str(type(index)) + " as a slicing argument!"
