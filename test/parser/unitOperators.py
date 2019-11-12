@@ -20,7 +20,7 @@ class unitOperatorsTest(unittest.TestCase):
         f = open(os.devnull, 'w')
         sys.stdout = f
 
-        onnx_files = self.find('*.onnx', '.')
+        onnx_files = self.find('*.onnx', 'parser')
         for onnx_file in onnx_files:
             cpp_file = os.path.splitext(os.path.basename(onnx_file))[0]+'.cpp'
             bundle_dir = os.path.dirname(onnx_file);
@@ -34,4 +34,4 @@ class unitOperatorsTest(unittest.TestCase):
         sys.stdout = sys_stdout
 
         print("read %d files." %len(onnx_files))
-        assert(len(onnx_files)==132)
+        assert(len(onnx_files)==130)
