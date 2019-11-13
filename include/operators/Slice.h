@@ -55,7 +55,7 @@ public:
     std::stringstream errMsg;
 
     DIMENSION num_axes = start.shape()[0];
-    DIMENSION rank = a.rank();
+    Tind rank = a.rank();
 
     if (start.rank() != 1) {
       errMsg << "start tensor is " << start.rank()
@@ -120,7 +120,7 @@ public:
       throw std::invalid_argument(errMsg.str().c_str());
     }
 
-    for (Tind i = 0; i < num_axes; i++) {
+    for (size_t i = 0; i < num_axes; i++) {
 
       // change values from negative to positive
       if (start(i) < 0) {
@@ -237,9 +237,9 @@ public:
     std::vector<Tind> end_index(rank);
     std::vector<Tind> step(rank);
 
-    for (int axis = 0; axis < rank; axis++) {
+    for (Tind axis = 0; axis < rank; axis++) {
       // determine slicing along the axis-th dimension
-      for (Tind i = 0; i < num_axes; i++) {
+      for (size_t i = 0; i < num_axes; i++) {
         if (axes(i) == axis) {
           if (steps[i] > 0) {
             start_index[axis] = start(i);
