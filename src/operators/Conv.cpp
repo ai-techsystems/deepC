@@ -30,15 +30,22 @@ using namespace Eigen;
 #include <iostream>
 int main() {
   // ADD YOUR TEST CODE HERE
-  tensor<float, float, float> result;
-  conv(tensor<float1> X, tensor<float1> W, tensor<float2> B,
-       std::string auto_pad = "NOTSET",
-       std::vector<int> dilations = std::vector<int>(), int group = 1,
-       std::vector<int> kernal_shape = std::vector<int>(),
-       std::vector<int> pads = std::vector<int>(),
-       std::vector<int> strides = std::vector<int>()) {
-    Conv<float, float1, float2> op("opConv", auto_pad, dilations, group,
-                                   kernal_shape, pads, strides);
-    return op.compute(X, W, B);
-  }
+  tensor<float> X({1,1,3,3});
+  X.load({2,2,2,2,2,2,2,2,2});
+  tensor<float> W({1,1,2,2});
+  W.load({1,1,1,1});
+  tensor<float> B({1});
+  B.load({0});
+  std::string auto_pad = "VALID";
+  std::vector<int> dilations = std::vector<int>(); 
+  int group = 1;
+  std::vector<int> kernal_shape = std::vector<int>();
+  std::vector<int> pads = std::vector<int>();
+  std::vector<int> strides = std::vector<int>();
+
+  Conv<float, float, float> op("opConv", auto_pad, dilations, group,
+                               kernal_shape, pads, strides);
+  tensor<float> result = op.compute(X, W, B);
+  return 0;
+}
 #endif

@@ -29,9 +29,9 @@ using namespace dnnc;
 #include <iostream>
 int main() {
 
-  tensor<float> tf1({3, 3}) ;
+  tensor<float> tf1({3, 3});
   float f2[] = {1., 2., 3., 4., 5., 6, 7, 8, 9};
-  tensor<float>  tf2({3, 3}) ;
+  tensor<float> tf2({3, 3});
   tf2.load(f2);
 
   tensor<int> start({1});
