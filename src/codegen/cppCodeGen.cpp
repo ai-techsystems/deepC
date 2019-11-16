@@ -261,7 +261,7 @@ std::string dnnc::cppCodeGen::initializeData(irTypeData dtype, std::string name,
     }
     initShape += values.length() ? "}" : "";
     std::string initVec = name + "_vec";
-    initData = "std::vector<long int> " + initVec + " = " + initShape + ";\n";
+    initData = "std::vector<int64_t> " + initVec + " = " + initShape + ";\n";
     varType = getDNNC_IRTypeStr(dtype.type());
     code = _tab + initData;
     code += _tab + varType + " " + name + "({" +

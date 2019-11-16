@@ -186,13 +186,13 @@ std::string getDNNC_IRTypeStr(IR_DataType dtype) {
     type = "uint32_t";
     break;
   case IR_DataType::UINT64:
-    type = "int64_t";
+    type = "uint64_t";
     break;
   case IR_DataType::TENSOR_BOOL:
     type = "tensor<bool>";
     break;
   case IR_DataType::TENSOR_INT:
-    type = "tensor<long int>";
+    type = "tensor<int64_t>";
     break;
   case IR_DataType::TENSOR_FLOAT:
     type = "tensor<double>";

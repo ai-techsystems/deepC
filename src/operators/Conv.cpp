@@ -30,14 +30,14 @@ using namespace Eigen;
 #include <iostream>
 int main() {
   // ADD YOUR TEST CODE HERE
-  tensor<float> X({1,1,3,3});
-  X.load({2,2,2,2,2,2,2,2,2});
-  tensor<float> W({1,1,2,2});
-  W.load({1,1,1,1});
+  tensor<float> X({1, 1, 3, 3});
+  X.load({2, 2, 2, 2, 2, 2, 2, 2, 2});
+  tensor<float> W({1, 1, 2, 2});
+  W.load({1, 1, 1, 1});
   tensor<float> B({1});
   B.load({0});
   std::string auto_pad = "VALID";
-  std::vector<int> dilations = std::vector<int>(); 
+  std::vector<int> dilations = std::vector<int>();
   int group = 1;
   std::vector<int> kernal_shape = std::vector<int>();
   std::vector<int> pads = std::vector<int>();

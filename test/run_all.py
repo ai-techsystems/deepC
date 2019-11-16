@@ -4,6 +4,7 @@ import unittest
 import importlib
 
 if __name__ == '__main__':
+    tests_failed = 0
     for folder in ['swig', 'parser', 'compiler'] :
 
         print("\nRunning tests in ===|" + folder + "|===")
@@ -17,5 +18,7 @@ if __name__ == '__main__':
 
         suite = unittest.TestSuite(tests)
         runner = unittest.TextTestRunner(verbosity=0)
-        runner.run(suite)
-    exit(0)
+        result = runner.run(suite)
+        tests_failed = tests_failed +  int(not result.wasSuccessful())
+    exit(tests_failed)
+

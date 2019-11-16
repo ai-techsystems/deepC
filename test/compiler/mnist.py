@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.6
 
 import os, sys
 
@@ -16,7 +16,7 @@ class mnistTest(unittest.TestCase):
             # delete last generated file.
             "rm -f " + os.path.join(test_dir, "mnist.exe"),
             # compile onnx into exe
-            "python " + compile_scr + " " + os.path.join(test_dir, "mnist.onnx"),
+            "python3.6 " + compile_scr + " " + os.path.join(test_dir, "mnist.onnx"),
             # check executable file.
             "ls -l " + os.path.join(test_dir, "mnist.exe"),
             # run it with relative path.
