@@ -61,7 +61,6 @@
 %include <exception.i>
 
 %inline %{
-typedef long unsigned int size_t;
 typedef std::string String;
 %}
 namespace std {

@@ -76,13 +76,13 @@ public:
   virtual bool getAttribute(OPATTR, int &) { return false; }
   virtual bool getAttribute(OPATTR, std::string &) { return false; }
   virtual bool getAttribute(OPATTR, std::vector<int> &) { return false; }
-  virtual bool getAttribute(OPATTR, tensor<long int> &obj) { return false; }
+  virtual bool getAttribute(OPATTR, tensor<int64_t> &obj) { return false; }
   virtual bool getAttribute(OPATTR, tensor<double> &obj) { return false; }
   virtual bool setAttribute(OPATTR, float) { return false; }
   virtual bool setAttribute(OPATTR, int) { return false; }
   virtual bool setAttribute(OPATTR, std::string) { return false; }
   virtual bool setAttribute(OPATTR, std::vector<int>) { return false; }
-  virtual bool setAttribute(OPATTR, tensor<long int>) { return false; }
+  virtual bool setAttribute(OPATTR, tensor<int64_t>) { return false; }
   virtual bool setAttribute(OPATTR, tensor<double>) { return false; }
 
   tensor<To> NOT_SUPPORTED() {

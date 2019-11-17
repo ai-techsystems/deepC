@@ -31,8 +31,8 @@ namespace dnnc {
 template <typename To, typename Ti1, typename Ti2>
 class Reshape : public baseOperator<To, Ti1, Ti2> {
 protected:
-  long int shape_length(tensor<long int> &shape) {
-    long int new_length = 1;
+  int64_t shape_length(tensor<int64_t> &shape) {
+    int64_t new_length = 1;
     for (size_t i = 0; i < shape.length(); i++)
       new_length = new_length * shape[i];
     return new_length;
@@ -42,7 +42,7 @@ public:
   Reshape(std::string name = "opReshape")
       : baseOperator<To, Ti1, Ti2>(opReshape, name) {}
 
-  tensor<To> compute(tensor<Ti1> input, tensor<long int> shape) {
+  tensor<To> compute(tensor<Ti1> input, tensor<int64_t> shape) {
 
     // A dimension could also be 0, in which case
     // the actual dimension value is unchanged,
@@ -58,7 +58,7 @@ public:
     for (size_t i = 0; i < shape.shape().size(); i++) {
       if (shape[i] == -1) {
         shape[i] = 1;
-        shape[i] = static_cast<long int>(input.length() / shape_length(shape));
+        shape[i] = static_cast<int64_t>(input.length() / shape_length(shape));
       }
     }
 
