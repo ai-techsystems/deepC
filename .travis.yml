@@ -1,10 +1,12 @@
 arch:
   - amd64
   - ppc64le
-  - s390x
   - arm64
-# os: linux
+  - armv7
+  - arm
+
 dist: bionic
+
 addons:
   apt:
     update: true
@@ -12,6 +14,7 @@ addons:
     - build-essential
     - python3.6-dev
     - python3-pip
+    - python3-setuptools
     - swig
     - doxygen
     - clang-format
@@ -21,6 +24,7 @@ addons:
     - llvm-8-dev
 
 language: bash
+
 script:
   - pip3 install numpy onnx
   - make
