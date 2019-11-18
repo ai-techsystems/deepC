@@ -14,7 +14,17 @@
 #     - os: osx
 #       env: BADGE=linux
 
-dist: bionic
+# dist: bionic
+jobs:
+  include:
+   - os: linux
+     arch: amd64
+   - os: linux
+     arch: arm64
+    - os: linux
+     arch: ppc64le
+   - os: linux
+     arch: s390x
 
 addons:
   apt:
@@ -32,6 +42,6 @@ addons:
     - llvm-8-dev
 
 language: bash
-script: 
+script:
   - pip3 install numpy onnx
   - make
