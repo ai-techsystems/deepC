@@ -1,5 +1,5 @@
 # Copyright 2018 The DNNC Authors. All Rights Reserved.
-# 
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -18,7 +18,7 @@
 # under the License.
 # pylint: disable=invalid-name, unused-argument
 #
-# This file is part of DNN compiler maintained at 
+# This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
@@ -36,10 +36,10 @@ SWIG=/usr/bin/swig
 
 ROOT_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 EIGEN_INCLUDES=-isystem $(ROOT_DIR)/packages/eigen-eigen-323c052e1731
-DNNC_INCLUDES= -I$(ROOT_DIR)/include 
+DNNC_INCLUDES= -I$(ROOT_DIR)/include
 PY_INCLUDES= -I/usr/include/python$(PYVER)
 
-LD_FLAGS=-shared 
+LD_FLAGS=-shared
 CPP_FLAGS=-O3 -Wall -std=c++17 -fPIC -march=native
 ifeq ($(UNAME_M), x86_64)
 	CPP_FLAGS+=-msse2
@@ -47,9 +47,9 @@ endif
 ifeq ($(filter arm%,$(UNAME_M)),)
 	CPP_FLAGS+=-D ARM
 endif
-	
 
-SWIG_FLAGS=-python -c++ -Wall 
+
+SWIG_FLAGS=-python -c++ -Wall
 API_GENERATOR=./op_gen.py
 BASIC_TEST=../test/swig/basic.py
 
@@ -82,6 +82,6 @@ CPP_FLAGS=-Wall -std=c++17 -fPIC -D_DEBUG -g -lmcheck
 endif
 
 ifneq (,$(findstring $(PROF),yY))
-CPP_FLAGS=-pg -Wall -std=c++17 -fPIC 
+CPP_FLAGS=-pg -Wall -std=c++17 -fPIC
 endif
 
