@@ -27,7 +27,7 @@ all:FORMAT SRC DEEPC TEST
 
 FORMAT:
 	@echo "formatting code ..."
-	find include src -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
+	-find include src -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
 
 TEST:
 	@echo "running unit tests ..."
