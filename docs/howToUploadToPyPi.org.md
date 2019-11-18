@@ -1,4 +1,4 @@
-# Steps to upload deepC on PyPi.org
+# Generic Steps to build Python Dist Wheel
 
 ## Compile and Test
 
@@ -37,4 +37,25 @@ This will install
 ```
 % cd <dnnCompiler-repo>
 % python -m twine upload dist/*
+```
+
+
+Steps to build Python Dist Wheel on CentOS with manylinux
+===================================================
+```
+docker pull quay.io/pypa/manylinux2014_x86_64
+sudo docker run -it quay.io/pypa/manylinux2014_x86_64 /bin/bash
+
+cd /
+
+yum group install "Development Tools"
+yum remove swig
+yum install python36 python36-devel swig3
+pip3 install numpy onnx==1.5.0 wheel twine
+
+
+git clone https://github.com/ai-techsystems/dnnCompiler.git
+cd dnnCompiler
+make CC=g++
+python3 setup.py bdist_wheel
 ```
