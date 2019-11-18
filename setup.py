@@ -7,11 +7,18 @@ import shutil, errno
 import setuptools
 
 NAME='deepC'
-VERSION=0.12
+VERSION=0.11
 
 long_description = ""
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+# to tag the whl file with platform
+class binaryDist(setuptools.dist.Distribution):
+    def is_pure(self):
+        return False;
+    def has_ext_modules(self):
+        return True;
 
 #create the links to src dir inside deepC for proper installation.
 def link_dir(dir_name):
@@ -70,6 +77,7 @@ setuptools.setup(
         'Operating System :: Unix',
     ],
     python_requires='>=3.5',
+    distclass=binaryDist,
     entry_points={
         'console_scripts': [
             'onnx-cpp = deepC.scripts.onnx2cpp:main',
