@@ -37,7 +37,7 @@ SWIG=/usr/bin/swig
 ROOT_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 EIGEN_INCLUDES=-isystem $(ROOT_DIR)/packages/eigen-eigen-323c052e1731
 DNNC_INCLUDES= -I$(ROOT_DIR)/include 
-PY_INCLUDES= -I/usr/include/python$(PYVER)
+PY_INCLUDES= -I$(wildcard /usr/include/python$(PYVER)*)
 
 LD_FLAGS=-shared 
 CPP_FLAGS=-O3 -Wall -std=c++17 -fPIC -march=native
