@@ -30,32 +30,63 @@ class sliceAndIndexTest(unittest.TestCase):
 
 	def setUp(self):
 
-		self.np_2D = np.array([[0,1,2],[3,4,5],[6,7,8],[9,10,11]]).astype(np.float)
-		self.dc_2D = dc.array([[0,1,2],[3,4,5],[6,7,8],[9,10,11]]).asTypeFloat()
+		self.np_1D = np.arange(12).astype(np.int)
+		self.dc_1D = dc.arange(12).asTypeInt()
+		self.np_2D = np.arange(12).reshape(4,3).astype(np.int)
+		self.dc_2D = dc.arange(12).reshape(4,3).asTypeInt()
+		self.np_3D = np.arange(48).reshape((4,3,4)).astype(np.int)
+		self.dc_3D = dc.arange(48).reshape((4,3,4)).asTypeInt()
+		self.np_4D = np.arange(96).reshape((4,3,2,4)).astype(np.int)
+		self.dc_4D = dc.arange(96).reshape((4,3,2,4)).asTypeInt()
 
 	def test_getitem(self):
 
 		# Indexing
+		np.testing.assert_array_equal(self.np_1D[2], self.dc_1D[2])
 		np.testing.assert_array_equal(self.np_2D[2], (self.dc_2D[2]).numpy())
+		np.testing.assert_array_equal(self.np_3D[2,1], (self.dc_3D[2,1]).numpy())
+		np.testing.assert_array_equal(self.np_4D[1,2], (self.dc_4D[1,2]).numpy())
 		# special case as dnnc prints python datatype, but numpy prints numpy datatype
 		np.testing.assert_array_equal(int(self.np_2D[2,1]), int(self.dc_2D[2,1]))
 
 		# Slicing
+		np.testing.assert_array_equal(self.np_1D[2:3], (self.dc_1D[2:3]).numpy())
+		np.testing.assert_array_equal(self.np_1D[2:], (self.dc_1D[2:]).numpy())
+		np.testing.assert_array_equal(self.np_1D[::3], (self.dc_1D[::3]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2:3,:], (self.dc_2D[2:3,:]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2:,1:], (self.dc_2D[2:,1:]).numpy())
 		np.testing.assert_array_equal(self.np_2D[:,::3], (self.dc_2D[:,::3]).numpy())
+		np.testing.assert_array_equal(self.np_3D[2:3,:,1:2], (self.dc_3D[2:3,:,1:2]).numpy())
+		np.testing.assert_array_equal(self.np_3D[2:,1:,1:2], (self.dc_3D[2:,1:,1:2]).numpy())
+		np.testing.assert_array_equal(self.np_3D[:,::3,1:2], (self.dc_3D[:,::3,1:2]).numpy())
+		np.testing.assert_array_equal(self.np_4D[2:3,:,:1:2,::2], (self.dc_4D[2:3,:,:1:2,::2]).numpy())
+		np.testing.assert_array_equal(self.np_4D[2:,1:,:1:2,::2], (self.dc_4D[2:,1:,:1:2,::2]).numpy())
+		np.testing.assert_array_equal(self.np_4D[:,::3,:1:2], (self.dc_4D[:,::3,:1:2]).numpy())
 
 		# Slicing with Indexing
 		np.testing.assert_array_equal(self.np_2D[2:,1], (self.dc_2D[2:,1]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2,::3], (self.dc_2D[2,::3]).numpy())
+		np.testing.assert_array_equal(self.np_3D[2:,1,::2], (self.dc_3D[2:,1,::2]).numpy())
+		## B U G     numpy has shape with null tensors
+		# np.testing.assert_array_equal(self.np_3D[2,::3,3:1], (self.dc_3D[2,::3,3:1]).numpy())
+		# np.testing.assert_array_equal(self.np_4D[2:,1,0,2:1:3], (self.dc_4D[2:,1,0,2:1:3]).numpy())
+		np.testing.assert_array_equal(self.np_4D[2,::3,0:-1:3], (self.dc_4D[2,::3,0:-1:3]).numpy())
 
 		# Ellipsis with Slicing
 		np.testing.assert_array_equal(self.np_2D[...,::-1], (self.dc_2D[...,::-1]).numpy())
 		np.testing.assert_array_equal(self.np_2D[1:,...], (self.dc_2D[1:,...]).numpy())
+		np.testing.assert_array_equal(self.np_3D[...,::-1], (self.dc_3D[...,::-1]).numpy())
+		np.testing.assert_array_equal(self.np_3D[1:,...], (self.dc_3D[1:,...]).numpy())
+		np.testing.assert_array_equal(self.np_4D[...,::-1], (self.dc_4D[...,::-1]).numpy())
+		np.testing.assert_array_equal(self.np_4D[1:,...], (self.dc_4D[1:,...]).numpy())
 
 		# Ellipsis with Indexing
 		np.testing.assert_array_equal(self.np_2D[...,1], (self.dc_2D[...,1]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2,...], (self.dc_2D[2,...]).numpy())
+		np.testing.assert_array_equal(self.np_3D[...,1], (self.dc_3D[...,1]).numpy())
+		np.testing.assert_array_equal(self.np_3D[2,...], (self.dc_3D[2,...]).numpy())
+		np.testing.assert_array_equal(self.np_4D[...,1], (self.dc_4D[...,1]).numpy())
+		np.testing.assert_array_equal(self.np_4D[2,...], (self.dc_4D[2,...]).numpy())
 
 	def test_setitem(self):
 

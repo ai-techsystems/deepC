@@ -12,7 +12,7 @@ jobs:
     - os: linux
       dist: bionic
       arch: armv7
-    - os: linux       # TODO: ref. #107
+    - os: linux
       dist: bionic
       arch: arm64
     # - os: osx
