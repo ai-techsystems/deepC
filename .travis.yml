@@ -37,17 +37,17 @@ addons:
     - protobuf-compiler
     - libprotoc-dev
   homebrew:
-    update: true
+    # update: true
     packages:
     - python
     - swig
     - doxygen
     - clang-format
-    - llvm
-    - protobuf-compiler
-    - libprotoc-dev
 
 language: bash
+
+before_script:
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install --with-clang llvm; fi
 
 script:
   - pip3 install numpy onnx
