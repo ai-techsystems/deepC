@@ -39,7 +39,7 @@ addons:
   homebrew:
     update: true
     packages:
-    - python3
+    - python
     - swig
     - doxygen
     - clang-format
@@ -51,4 +51,4 @@ language: bash
 
 script:
   - pip3 install numpy onnx
-  - make
+  - make all

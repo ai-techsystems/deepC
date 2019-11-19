@@ -68,7 +68,7 @@ class sliceAndIndexTest(unittest.TestCase):
 		np.testing.assert_array_equal(self.np_2D[2,::3], (self.dc_2D[2,::3]).numpy())
 		np.testing.assert_array_equal(self.np_3D[2:,1,::2], (self.dc_3D[2:,1,::2]).numpy())
 
-		## B U G     numpy has shape with null tensors
+		## BUG     numpy has shape with even null tensors
 		# np.testing.assert_array_equal(self.np_3D[2,::3,3:1], (self.dc_3D[2,::3,3:1]).numpy())
 		# np.testing.assert_array_equal(self.np_4D[2:,1,0,2:1:3], (self.dc_4D[2:,1,0,2:1:3]).numpy())
 		np.testing.assert_array_equal(self.np_4D[2,::3,0:-1:3], (self.dc_4D[2,::3,0:-1:3]).numpy())
