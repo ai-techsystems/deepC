@@ -36,16 +36,16 @@ addons:
     - llvm-8
     - protobuf-compiler
     - libprotoc-dev
-  # homebrew:
-  #   update: true
-  #   packages:
-  #   - python3
-  #   - swig
-  #   - doxygen
-  #   - clang-format
-  #   - llvm
-  #   - protobuf-compiler
-  #   - libprotoc-dev
+  homebrew:
+    update: true
+    packages:
+    - python3
+    - swig
+    - doxygen
+    - clang-format
+    - llvm
+    - protobuf-compiler
+    - libprotoc-dev
 
 language: bash
 
