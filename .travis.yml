@@ -43,11 +43,9 @@ addons:
     - swig
     - doxygen
     - clang-format
+    - llvm
 
 language: bash
-
-before_script:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install --with-clang llvm; fi
 
 script:
   - pip3 install numpy onnx

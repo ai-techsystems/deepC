@@ -32,10 +32,10 @@ endif
 MIN_CLANG_VERSION = "8"
 CLANG_VERSION := "`clang -dumpversion`"
 IS_CLANG_ABOVE_MIN_VERSION := $(shell expr "$(CLANG_VERSION)" ">=" "$(MIN_CLANG_VERSION)")
-ifeq "$(IS_CLANG_ABOVE_MIN_VERSION)" "1"
-	CC=/usr/bin/clang++
-else
+ifeq "$(IS_CLANG_ABOVE_MIN_VERSION)" "0"
 	CC=/usr/bin/clang++-8
+else
+	CC=/usr/bin/clang++
 endif
 
 LD=/usr/bin/ld
