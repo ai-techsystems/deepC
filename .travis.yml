@@ -37,7 +37,7 @@ addons:
     - protobuf-compiler
     - libprotoc-dev
   homebrew:
-    # update: true
+    update: true
     packages:
     - python
     - swig
