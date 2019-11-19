@@ -9,11 +9,13 @@ t_dc1 = dc.array([[21,22],[23,24],[26,27]])
 t_dc2 = dc.arange(10)
 t_np3D = np.arange(48).reshape((4,3,4)).astype(np.int)
 t_dc3D = dc.arange(48).reshape((4,3,4)).asTypeInt()
+t_np4D = np.arange(96).reshape((4,3,2,4)).astype(np.int)
+t_dc4D = dc.arange(96).reshape((4,3,2,4)).asTypeInt()
 
-start = dc.array([0,0,0]).asTypeInt()
-stop = dc.array([2,0,0]).asTypeInt()
-axis = dc.array([0,1,2]).asTypeInt()
-step = dc.array([1,1,1]).asTypeInt()
+start = dc.array([0,0]).asTypeInt()
+stop = dc.array([2,0]).asTypeInt()
+axis = dc.array([0,1]).asTypeInt()
+step = dc.array([1,1]).asTypeInt()
 
 
 def run(function):
@@ -102,11 +104,7 @@ def tested():
 	t_dc2[2] = True
 	run("print(t_dc2)")
 
-	return
-
-def testing():
 	run("print(t_np3D)")
-	# run("print(dc.slice(t_dc3D, start, stop, axis, step))")
 	run("print(t_np3D[3])")
 	run("print(t_dc3D[3])")
 	run("print(t_np3D[2,1,2])")
@@ -115,11 +113,23 @@ def testing():
 	run("print(t_dc3D[2,...])")
 	run("print(t_np3D[2,...,1])")
 	run("print(t_dc3D[2,...,1])")
+	return
+
+def testing():
+	run("print(t_np4D)")
+	run("print(t_np4D[3])")
+	run("print(t_dc4D[3])")
+	run("print(t_np4D[2,1,1,2])")
+	run("print(t_dc4D[2,1,1,2])")
+	run("print(t_np4D[2,...])")
+	run("print(t_dc4D[2,...])")
+	run("print(t_np4D[2,...,1])")
+	run("print(t_dc4D[2,...,1])")
 
 	return
 
 def main():
-	# tested()
+	tested()
 	testing()
 
 
