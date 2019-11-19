@@ -400,8 +400,8 @@ def main():
 		parser.add_argument("-dev", "--developer", action="store_true", help="skip generating cpps for binary operators for faster development purposes")
 		args = parser.parse_args()
 
+		py_file += slicing_indexing()
 		if not args.developer:
-			py_file += slicing_indexing()
 
 			dtype_precedence_dict = ast.literal_eval(contents[split_position:].split(split_string)[1].split("dtype_precedence_dict = ")[1])
 

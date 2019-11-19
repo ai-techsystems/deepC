@@ -2,19 +2,22 @@ jobs:
   include:
     - os: linux
       dist: bionic
+      arch: x86
+    - os: linux
+      dist: bionic
       arch: amd64
     - os: linux
       dist: bionic
       arch: ppc64le
-    # - os: linux       # TODO: ref. #107
-    #   dist: bionic
-    #   arch: arm64
-    - os: linux
-      dist: bionic
-      arch: armv7
     - os: linux
       dist: bionic
       arch: arm
+    - os: linux
+      dist: bionic
+      arch: armv7
+    - os: linux       # TODO: ref. #107
+      dist: bionic
+      arch: arm64
     # - os: osx
 
 # "pip3 install onnx" builds locally, which needs "protobuf-compiler" and "libprotoc-dev" to compile

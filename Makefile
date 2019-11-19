@@ -1,5 +1,5 @@
 # Copyright 2018 The DNNC Authors. All Rights Reserved.
-# 
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -18,7 +18,7 @@
 # under the License.
 # pylint: disable=invalid-name, unused-argument
 #
-# This file is part of DNN compiler maintained at 
+# This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 #
 include Makefile.common
@@ -26,6 +26,7 @@ include Makefile.common
 all:FORMAT SRC DEEPC TEST
 
 FORMAT:
+	@echo $(UNAME_M)
 	@echo "formatting code ..."
 	-find include src -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
 
@@ -50,4 +51,4 @@ clean:
 .PHONY: print_vars
 
 print_vars:
-	@echo 
+	@echo
