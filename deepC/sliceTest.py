@@ -113,25 +113,25 @@ def tested():
 	run("print(t_dc4D[2,...])")
 	run("print(t_np4D[2,...,1])")
 	run("print(t_dc4D[2,...,1])")
-	return
-
-def testing():
 	run("print(t_np3D)")
 	run("print(t_np3D[1:3,1:])")
 	run("print(t_dc3D[1:3,1:])")
 	run("print(t_np3D[3,1])")
 	run("print(t_dc3D[3,1])")
-	# run("print(t_np3D[2,1,2])")
-	# run("print(t_dc3D[2,1,2])")
-	# run("print(t_np3D[2,...])")
-	# run("print(t_dc3D[2,...])")
-	# run("print(t_np3D[2,...,1])")
-	# run("print(t_dc3D[2,...,1])")
+	run("print(t_np3D[2,1,2])")
+	run("print(t_dc3D[2,1,2])")
+	run("print(t_np3D[2,...])")
+	run("print(t_dc3D[2,...])")
+	run("print(t_np3D[2,...,1])")
+	run("print(t_dc3D[2,...,1])")
+	return
+
+def testing():
 
 	return
 
 def main():
-	tested()
+	# tested()
 	testing()
 
 

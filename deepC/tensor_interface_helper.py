@@ -117,7 +117,7 @@ def __getitem__(self, index):
     return slice(self, start, stop, axis, step).reshape(self.shape()[1:])
 
   elif str(type(index)).split("'")[1] == "slice":
-    if self.rank() > 1 or self.rank() < 1:
+    if self.rank() < 1:
       return self.copy()
     axis = 0
     start, stop, step, flag = get_item_helper_slice(index, axis)
@@ -360,7 +360,6 @@ def __setitem__(self, index, input_tensor):
     if self.rank() < 1:
       self = value_tensor
       return
-
     axis = 0
     start, stop, step, flag = set_item_helper_slice(index, axis)
     if flag:

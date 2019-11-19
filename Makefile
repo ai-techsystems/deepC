@@ -26,7 +26,6 @@ include Makefile.common
 all:FORMAT SRC DEEPC TEST
 
 FORMAT:
-	@echo $(UNAME_M)
 	@echo "formatting code ..."
 	-find include src -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
 

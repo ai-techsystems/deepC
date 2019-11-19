@@ -34,10 +34,10 @@ class sliceAndIndexTest(unittest.TestCase):
 		self.dc_1D = dc.arange(12).asTypeInt()
 		self.np_2D = np.arange(12).reshape(4,3).astype(np.int)
 		self.dc_2D = dc.arange(12).reshape(4,3).asTypeInt()
-		self.np_3D = np.arange(48).reshape((4,3,4)).astype(np.int)
-		self.dc_3D = dc.arange(48).reshape((4,3,4)).asTypeInt()
-		self.np_4D = np.arange(96).reshape((4,3,2,4)).astype(np.int)
-		self.dc_4D = dc.arange(96).reshape((4,3,2,4)).asTypeInt()
+		self.np_3D = np.arange(48).reshape(4,3,4).astype(np.int)
+		self.dc_3D = dc.arange(48).reshape(4,3,4).asTypeInt()
+		self.np_4D = np.arange(96).reshape(4,3,2,4).astype(np.int)
+		self.dc_4D = dc.arange(96).reshape(4,3,2,4).asTypeInt()
 
 	def test_getitem(self):
 
@@ -67,6 +67,7 @@ class sliceAndIndexTest(unittest.TestCase):
 		np.testing.assert_array_equal(self.np_2D[2:,1], (self.dc_2D[2:,1]).numpy())
 		np.testing.assert_array_equal(self.np_2D[2,::3], (self.dc_2D[2,::3]).numpy())
 		np.testing.assert_array_equal(self.np_3D[2:,1,::2], (self.dc_3D[2:,1,::2]).numpy())
+
 		## B U G     numpy has shape with null tensors
 		# np.testing.assert_array_equal(self.np_3D[2,::3,3:1], (self.dc_3D[2,::3,3:1]).numpy())
 		# np.testing.assert_array_equal(self.np_4D[2:,1,0,2:1:3], (self.dc_4D[2:,1,0,2:1:3]).numpy())
@@ -97,6 +98,18 @@ class sliceAndIndexTest(unittest.TestCase):
 		self.np_2D[1,2] = 500
 		self.dc_2D[1,2] = 500
 		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_3D[2,1] = 200
+		self.dc_3D[2,1] = 200
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_3D[1,2] = 500
+		self.dc_3D[1,2] = 500
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_4D[2,1] = 200
+		self.dc_4D[2,1] = 200
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
+		self.np_4D[1,2] = 500
+		self.dc_4D[1,2] = 500
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
 
 		# Slicing
 		self.np_2D[2:3,:] = [500, 200, 30]
@@ -108,9 +121,33 @@ class sliceAndIndexTest(unittest.TestCase):
 		self.np_2D[:,::3] = 25
 		self.dc_2D[:,::3] = 25
 		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
-		self.np_2D[:,::3] = 45
-		self.dc_2D[:,::3] = 45
+		self.np_2D[:,::-2] = 45
+		self.dc_2D[:,::-2] = 45
 		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_3D[2:3,:,1] = 500
+		self.dc_3D[2:3,:,1] = 500
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_3D[2:,1:] = 30
+		self.dc_3D[2:,1:] = 30
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_3D[:,::3] = 25
+		self.dc_3D[:,::3] = 25
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_3D[:,::3] = 45
+		self.dc_3D[:,::3] = 45
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_4D[2:3,:,1] = 500
+		self.dc_4D[2:3,:,1] = 500
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
+		self.np_4D[2:,1:] = 30
+		self.dc_4D[2:,1:] = 30
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
+		self.np_4D[:,::3] = 25
+		self.dc_4D[:,::3] = 25
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
+		self.np_4D[:,0:1:-1] = 45
+		self.dc_4D[:,0:1:-1] = 45
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
 
 		# Slicing with Indexing
 		self.np_2D[2:,1] = 65
@@ -119,6 +156,18 @@ class sliceAndIndexTest(unittest.TestCase):
 		self.np_2D[2,::3] = 75
 		self.dc_2D[2,::3] = 75
 		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_3D[2:,1] = 65
+		self.dc_3D[2:,1] = 65
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_3D[2,::3] = 75
+		self.dc_3D[2,::3] = 75
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_4D[2:,1] = 65
+		self.dc_4D[2:,1] = 65
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
+		self.np_4D[2,::3] = 75
+		self.dc_4D[2,::3] = 75
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
 
 		# Ellipsis with Slicing
 		self.np_2D[...,::-1] = 62
@@ -127,6 +176,18 @@ class sliceAndIndexTest(unittest.TestCase):
 		self.np_2D[1:,...] = 73
 		self.dc_2D[1:,...] = 73
 		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_3D[...,::-1] = 62
+		self.dc_3D[...,::-1] = 62
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_3D[1:,...] = 73
+		self.dc_3D[1:,...] = 73
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_4D[...,::-1] = 62
+		self.dc_4D[...,::-1] = 62
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
+		self.np_4D[1:,...] = 73
+		self.dc_4D[1:,...] = 73
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
 
 		# Ellipsis with Indexing
 		self.np_2D[...,1] = 63
@@ -135,6 +196,18 @@ class sliceAndIndexTest(unittest.TestCase):
 		self.np_2D[2,...] = 71
 		self.dc_2D[2,...] = 71
 		np.testing.assert_array_equal(self.np_2D, (self.dc_2D).numpy())
+		self.np_3D[...,1] = 63
+		self.dc_3D[...,1] = 63
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_3D[2,...] = 71
+		self.dc_3D[2,...] = 71
+		np.testing.assert_array_equal(self.np_3D, (self.dc_3D).numpy())
+		self.np_4D[...,1] = 63
+		self.dc_4D[...,1] = 63
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
+		self.np_4D[2,...] = 71
+		self.dc_4D[2,...] = 71
+		np.testing.assert_array_equal(self.np_4D, (self.dc_4D).numpy())
 
 
 	def tearDown(self):
@@ -144,4 +217,3 @@ class sliceAndIndexTest(unittest.TestCase):
 if __name__ == '__main__':
 
 	unittest.main()
-
