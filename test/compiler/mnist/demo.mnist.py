@@ -1,20 +1,25 @@
-from mnist import MNIST
+import mnist 
 from subprocess import PIPE, run
-import random, decimal
-from PIL import Image
+import random 
 import numpy as np
 
-mndata = MNIST('/home/amd/yann.lecun.mnist')
+# download images and labels.
+images = mnist.test_images()
+labels = mnist.test_labels()
 
-images, labels = mndata.load_testing()
+# display text image
+def display(image):
+  for i in range(image.shape[0]):
+    for j in range(image.shape[1]):
+      print(('*' if (image[i,j]) else ' '), end='')
+    print('');
+  print('');
 
 # Write image tensor
 def write_image(index):
   with open("image.data", "w") as fp:
-    int_ary = [int(num) for num in images[index]]
-    np_flt_ary  = np.array(int_ary, dtype=np.float)/255.0
-    img = Image.fromarray(np_flt_ary.reshape(28,28), mode='L')
-    fp.write(np.array_str(np_flt_ary).strip("[]"))
+    img_str = np.array_str(images[index].flatten()/255.0)
+    fp.write(img_str.strip("[]"))
 
 def run_model(command):
     result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
@@ -39,6 +44,6 @@ for i in range (5):
 
   trueLabel  = labels[index]
   prediction = dc.argmax(probabilities)[0]
-  print(mndata.display(images[index]))
+  display(images[index])
   print("True label = ", labels[index])
   print("Model Prediction: ", dc.argmax(probabilities))
