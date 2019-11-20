@@ -1,14 +1,8 @@
 # removed osx support as osx has clang 4.0 and can't run docker inside travis
+# removed windows support as windows cannot run docker inside travis
+
 jobs:
   include:
-    - os: windows
-      language: sh
-      python: "3.7"
-      services:
-        - docker
-      before_script:
-        - choco install python3
-        - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
     - os: linux
       dist: bionic
       arch: arm64
@@ -48,5 +42,5 @@ addons:
 language: bash
 
 script:
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then python buildDocker.py; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip3 install numpy onnx ; make all; fi
+  - pip3 install numpy onnx
+  - make all

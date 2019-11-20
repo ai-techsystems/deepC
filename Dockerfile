@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
   clang-8 \
   llvm-8 \
   llvm-8-dev \
+  protobuf-compiler \
+  libprotoc-dev \
   vim
 
 # install numpy onnx with pip
