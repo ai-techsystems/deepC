@@ -48,5 +48,5 @@ addons:
 language: bash
 
 script:
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then python3 buildDocker.py; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then python buildDocker.py; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip3 install numpy onnx ; make all; fi
