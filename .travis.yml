@@ -1,19 +1,14 @@
+# removed osx support as osx has clang 4.0 and can't run docker inside travis
 jobs:
   include:
-    - os: osx
-      osx_image: xcode11.2
-    - os: osx
-      osx_image: xcode11.1
-    - os: osx
-      osx_image: xcode11
-    - os: osx
-      osx_image: xcode10.3
-    - os: osx
-      osx_image: xcode10.2
-    - os: osx
-      osx_image: xcode10.1
-    - os: osx
-      osx_image: xcode10
+    - os: windows
+      language: sh
+      python: "3.7"
+      services:
+        - docker
+      before_script:
+        - choco install python3
+        - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
     - os: linux
       dist: bionic
       arch: arm64
@@ -49,17 +44,9 @@ addons:
     - llvm-8
     - protobuf-compiler
     - libprotoc-dev
-  homebrew:
-    update: true
-    packages:
-    - python
-    - swig
-    - doxygen
-    - clang-format
-    - llvm
 
 language: bash
 
 script:
-  - pip3 install numpy onnx
-  - make all
+  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then python3 buildDocker.py; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip3 install numpy onnx ; make all; fi
