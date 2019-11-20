@@ -1,6 +1,19 @@
 jobs:
   include:
     - os: osx
+      osx_image: xcode11.2
+    - os: osx
+      osx_image: xcode11.1
+    - os: osx
+      osx_image: xcode11
+    - os: osx
+      osx_image: xcode10.3
+    - os: osx
+      osx_image: xcode10.2
+    - os: osx
+      osx_image: xcode10.1
+    - os: osx
+      osx_image: xcode10
     - os: linux
       dist: bionic
       arch: arm64
