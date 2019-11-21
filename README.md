@@ -1,5 +1,6 @@
-# deepC - deep learning compiler and inference framework
----
+# deepC
+**deep learning compiler and inference framework**
+
 
 [![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
