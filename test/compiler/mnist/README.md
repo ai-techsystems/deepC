@@ -31,3 +31,6 @@ More Info
 1. pytorch version 1.2
 1. ONNX IR version 1.4
 1. [Training colab notebook](https://colab.research.google.com/drive/1JTcR5A0dQ8y_TKy_DbqpMv1caWjaO_jL)
+1. Watch this video
+
+[![Watch Video](https://img.youtube.com/vi/BpFs83MU3HM/0.jpg)](https://youtu.be/BpFs83MU3HM)
