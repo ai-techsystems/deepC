@@ -41,8 +41,9 @@ Read more at [high level design document](docs/highLevelDesign.md)
 * [Python 3.6](https://www.python.org/downloads/release/python-360/)
 * [SWIG 3.0](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/)
 
-## ⚙ Installation
-build and install dnn Compiler locally from source code with following steps
+## 💻 Development
+
+Build and start modifying dnnCompiler locally from source code with following steps
 
 ### ⭕ Ubuntu 18.04
 You can install ubuntu18.04 on windows [Watch HowTo video here](https://www.youtube.com/watch?v=QbmRXJJKsvs) or [Google it](https://www.google.com/search?q=how+to+setup+ubuntu+on+virtualbox&oq=how+to+setup+ubuntu+on+virtual+box)
