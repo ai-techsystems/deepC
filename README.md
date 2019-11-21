@@ -1,4 +1,4 @@
-# deepC
+# deepC - deep learning compiler and inference framework
 ---
 
 [![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
