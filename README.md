@@ -6,6 +6,7 @@
 [![txt](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
 [![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
 
+<img width="600" alt="Architecture" src="https://github.com/ai-techsystems/dnnCompiler/blob/master/misc/edgeDevices.png">
 
 ## 🏃‍♂️ Using deepC
 
@@ -28,7 +29,7 @@ deepC also offers ahead of time compiler producing optimized executable based on
 
 Main components of **deepC** have been designed to represent and optimize the common deep learning networks in high level graph IR and to transform the computation graph to minimize memory utilization, optimize data layout and fuse computation patterns for different hardware backends.
 
-<img width="800" alt="Architecture" src="https://github.com/ai-techsystems/dnnCompiler/blob/master/misc/dnnCompilerArch.jpg">
+<img width="600" alt="Architecture" src="https://github.com/ai-techsystems/dnnCompiler/blob/master/misc/dnnCompilerArch.jpg">
 
 Read more at [high level design document](docs/highLevelDesign.md) 
 
