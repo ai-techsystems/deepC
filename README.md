@@ -98,22 +98,23 @@ ln -s -f lib/libdnnc.so _dnnc.so
 ```
 
 ##    Current Support
-| Supported Architectures 	| Status             	|
-|-------------------------	|--------------------	|
-| Arm                     	| :heavy_check_mark: 	|
-| Armv7                   	| :heavy_check_mark: 	|
-| Arm64                   	| :heavy_check_mark: 	|
-| AMD64                   	| :heavy_check_mark: 	|
-| ppc64le                 	| :heavy_check_mark: 	|
 
-| Supported OS 	| Distributions  	| Status             	|
-|--------------	|----------------	|--------------------	|
-| Linux        	| Ubuntu 18.04   	| :heavy_check_mark: 	|
-| Linux        	| CentOS 6   		| :heavy_check_mark: 	|
-| Linux        	| Arch Linux     	| :heavy_check_mark: 	|
-| Linux        	| Manjaro        	| :heavy_check_mark: 	|
-| Windows      	| 1803 and above 	| :heavy_check_mark: 	|
-| Mac OS       	| Sierra and above	| :heavy_check_mark: 	|
+| Supported Architectures 	|  Status  |
+|-------------------------	|----------|
+| Arm                     	|    ✔️   |
+| Armv7                   	|    ✔️   |
+| Arm64                   	|    ✔️   |
+| AMD64                   	|    ✔️   |
+| ppc64le                 	|    ✔️   |
+
+| Supported OS 	| Distributions  	|   Status  |
+|--------------	|----------------	|-----------|
+| Linux        	| Ubuntu 18.04   	|    ✔️    |
+| Linux        	| CentOS 6   		|    ✔️    |
+| Linux        	| Arch Linux     	|    ✔️    |
+| Linux        	| Manjaro        	|    ✔️    |
+| Windows      	| 1803 and above 	|    ✔️    |
+| Mac OS       	| Sierra and above	|    ✔️    |
 
 ## ➕ Contribute
 
