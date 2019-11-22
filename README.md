@@ -18,7 +18,7 @@ Here are few of many ways.
 
 See more examples in [tutorial](tutorials/README.md) dir.
 
-## 📛 what is deepC? 
+## 📛 what is deepC?
 
 deepC Compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ), mobile phones, x86 and arm laptops among others.
 
@@ -32,7 +32,7 @@ Main components of **deepC** have been designed to represent and optimize the co
 
 <img width="600" alt="Architecture" src="https://github.com/ai-techsystems/dnnCompiler/blob/master/misc/dnnCompilerArch.jpg">
 
-Read more at [high level design document](docs/highLevelDesign.md) 
+Read more at [high level design document](docs/highLevelDesign.md)
 
 ## 💧 PreRequisites
 
@@ -46,24 +46,40 @@ Read more at [high level design document](docs/highLevelDesign.md)
 Build and start modifying dnnCompiler locally from source code with following steps
 
 ### ⭕ Ubuntu 18.04
-You can install ubuntu18.04 on windows [Watch HowTo video here](https://www.youtube.com/watch?v=QbmRXJJKsvs) or [Google it](https://www.google.com/search?q=how+to+setup+ubuntu+on+virtualbox&oq=how+to+setup+ubuntu+on+virtual+box)
 
 Follow the steps to install pre-requisites
-```
+```bash
 sudo apt-get update
-sudo apt-get install build-essential python3.6-dev python3-pip swig doxygen clang-format clang clang-8 llvm-8 llvm-8-dev
+sudo apt-get install build-essential python3.6-dev python3-pip swig doxygen clang-format clang clang-8 llvm-8 llvm-8-dev protobuf-compiler libprotoc-dev
 sudo pip3 install numpy onnx
 ```
 
 Once you are done, build dnnCompiler
-```
-git clone https://github.com/ai-techsystems/dnnCompiler.git 
+```bash
+git clone https://github.com/ai-techsystems/dnnCompiler.git
 cd dnnCompiler
 make
 ```
+### ⭕ Mac OS / Windows 10
+
+Make sure you have the below pre-requisites
+#### Mac OS:
+- [Python for Mac](https://www.python.org/downloads/mac-osx/)
+- [Docker for Mac](https://docs.docker.com/v17.09/docker-for-mac/install/#download-docker-for-mac)
+
+#### Windows 10:
+- [Python for Windows](https://www.python.org/downloads/windows/)
+- [Docker for Windows](https://docs.docker.com/v17.09/docker-for-windows/install/#download-docker-for-windows)
+
+Once you are done, build dnnCompiler inside docker container
+```bash
+git clone https://github.com/ai-techsystems/dnnCompiler.git
+cd dnnCompiler
+python buildDocker.py
+```
 
 #### 📜 Output
-```
+```bash
 find include src swig -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
 make -C src
 make[1]: Entering directory 'dnnCompiler/src'
@@ -81,17 +97,35 @@ ln -s -f lib/libdnnc.so _dnnc.so
 /usr/bin/python3 ../test/swig/basic.py
 ```
 
+##    Current Support
+| Supported Architectures 	| Status             	|
+|-------------------------	|--------------------	|
+| Arm                     	| :heavy_check_mark: 	|
+| Armv7                   	| :heavy_check_mark: 	|
+| Arm64                   	| :heavy_check_mark: 	|
+| AMD64                   	| :heavy_check_mark: 	|
+| ppc64le                 	| :heavy_check_mark: 	|
+
+| Supported OS 	| Distributions  	| Status             	|
+|--------------	|----------------	|--------------------	|
+| Linux        	| Ubuntu 18.04   	| :heavy_check_mark: 	|
+| Linux        	| CentOS 6   		| :heavy_check_mark: 	|
+| Linux        	| Arch Linux     	| :heavy_check_mark: 	|
+| Linux        	| Manjaro        	| :heavy_check_mark: 	|
+| Windows      	| 1803 and above 	| :heavy_check_mark: 	|
+| Mac OS       	| Sierra and above	| :heavy_check_mark: 	|
+
 ## ➕ Contribute
 
 dnn Compiler adopts apache committer model, we aim to create an open source project that is maintained and owned by the community. Checkout the Contributor Guide.
 
-## 🙏 Acknowledgement 
+## 🙏 Acknowledgement
 We acknowledge the efforts predecessor projects like [LLVM](https://llvm.org/), [ONNX](https://onnx.ai/) etc. to make this project a reality.
 
 ---
 
 ## 🕵️‍♂️ Why compiler❔
-dnnCompiler is targeted towards devices with small formfactor like microcontrollers, which are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable. 
+dnnCompiler is targeted towards devices with small formfactor like microcontrollers, which are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable.
 
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
 
@@ -100,7 +134,7 @@ By bringing deep learning models to tiny microcontrollers, we can boost the inte
 
 ## Contributors
 
-### Code Contributors 
+### Code Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/ai-techsystems/dnnCompiler/graphs/contributors"><img src="https://opencollective.com/dnnc/contributors.svg?width=890&button=false" /></a>

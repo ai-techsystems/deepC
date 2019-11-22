@@ -29,7 +29,15 @@ ifeq (, $(PYTHON) )
   $(error "python3 not found in $(PATH)")
 endif
 
-CC=/usr/bin/clang++-8
+MIN_CLANG_VERSION = "8"
+CLANG_VERSION := "`clang -dumpversion`"
+IS_CLANG_ABOVE_MIN_VERSION := $(shell expr "$(CLANG_VERSION)" ">=" "$(MIN_CLANG_VERSION)")
+ifeq "$(IS_CLANG_ABOVE_MIN_VERSION)" "0"
+	CC=/usr/bin/clang++-8
+else
+	CC=/usr/bin/clang++
+endif
+
 LD=/usr/bin/ld
 SWIG=/usr/bin/swig
 
@@ -43,10 +51,12 @@ CPP_FLAGS=-O3 -Wall -std=c++17 -fPIC -march=native
 ifeq ($(UNAME_M), x86_64)
 	CPP_FLAGS+=-msse2
 endif
+ifeq ($(UNAME_M), aarch64)
+	CPP_FLAGS=-O3 -Wall -std=c++17 -fPIC -msse2
+endif
 ifeq ($(filter arm%,$(UNAME_M)),)
 	CPP_FLAGS+=-D ARM
 endif
-
 
 SWIG_FLAGS=-python -c++ -Wall
 API_GENERATOR=./op_gen.py

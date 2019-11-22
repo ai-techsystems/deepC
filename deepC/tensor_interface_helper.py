@@ -117,7 +117,7 @@ def __getitem__(self, index):
     return slice(self, start, stop, axis, step).reshape(self.shape()[1:])
 
   elif str(type(index)).split("'")[1] == "slice":
-    if self.rank() > 1 or self.rank() < 1:
+    if self.rank() < 1:
       return self.copy()
     axis = 0
     start, stop, step, flag = get_item_helper_slice(index, axis)
@@ -134,13 +134,13 @@ def __getitem__(self, index):
 
   elif str(type(index)).split("'")[1] == "tuple":
     if (len(index) > self.rank()):
-      errorMsg = "Takes maximum " + str(self.rank()) + "arguments, " + str(len(index)) + " were given!"
+      errorMsg = "Takes maximum " + str(self.rank()) + " arguments, " + str(len(index)) + " were given!"
       raise IndexError(errorMsg)
       return
-    elif Ellipsis not in index and (len(index) < self.rank()):
-      errorMsg = "Takes minimum " + str(self.rank()) + "arguments, " + str(len(index)) + " were given!"
-      raise IndexError(errorMsg)
-      return
+    # elif Ellipsis not in index and (len(index) < self.rank()):
+    #   errorMsg = "Takes minimum " + str(self.rank()) + " arguments, " + str(len(index)) + " were given!"
+    #   raise IndexError(errorMsg)
+    #   return
 
     # checks if any float or bool or complex is not present
     if any(isinstance(x,(bool,float,complex)) for x in index):
@@ -234,7 +234,7 @@ def __getitem__(self, index):
 
     result = slice(self, start_list, stop_list, axis_list, step_list)
 
-    if 0 in reshape_list:
+    if (result.len() != 0) and (0 in reshape_list):
       if not 1 in reshape_list:
         return result.data()[0]
       return (result.reshape([x for x, y in zip(result.shape(), reshape_list) if y == 1]))
@@ -360,7 +360,6 @@ def __setitem__(self, index, input_tensor):
     if self.rank() < 1:
       self = value_tensor
       return
-
     axis = 0
     start, stop, step, flag = set_item_helper_slice(index, axis)
     if flag:
@@ -384,13 +383,13 @@ def __setitem__(self, index, input_tensor):
 
   elif str(type(index)).split("'")[1] == "tuple":
     if (len(index) > self.rank()):
-      errorMsg = "Takes maximum " + str(self.rank()) + "arguments, " + str(len(index)) + " were given!"
+      errorMsg = "Takes maximum " + str(self.rank()) + " arguments, " + str(len(index)) + " were given!"
       raise IndexError(errorMsg)
       return
-    elif Ellipsis not in index and (len(index) < self.rank()):
-      errorMsg = "Takes minimum " + str(self.rank()) + "arguments, " + str(len(index)) + " were given!"
-      raise IndexError(errorMsg)
-      return
+    # elif Ellipsis not in index and (len(index) < self.rank()):
+    #   errorMsg = "Takes minimum " + str(self.rank()) + " arguments, " + str(len(index)) + " were given!"
+    #   raise IndexError(errorMsg)
+    #   return
 
     # checks if any float or bool or complex is not present
     if any(isinstance(x,(bool,float,complex)) for x in index):

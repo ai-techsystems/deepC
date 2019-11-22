@@ -1,21 +1,23 @@
+# removed osx support as osx has clang 4.0 and can't run docker inside travis
+# removed windows support as windows cannot run docker inside travis
+
 jobs:
   include:
+    - os: linux
+      dist: bionic
+      arch: arm64
     - os: linux
       dist: bionic
       arch: amd64
     - os: linux
       dist: bionic
       arch: ppc64le
-    # - os: linux       # TODO: ref. #107
-    #   dist: bionic
-    #   arch: arm64
-    - os: linux
-      dist: bionic
-      arch: armv7
     - os: linux
       dist: bionic
       arch: arm
-    # - os: osx
+    - os: linux
+      dist: bionic
+      arch: armv7
 
 # "pip3 install onnx" builds locally, which needs "protobuf-compiler" and "libprotoc-dev" to compile
 # ref: https://github.com/onnx/onnx/issues/133#issuecomment-339457553
@@ -36,19 +38,9 @@ addons:
     - llvm-8
     - protobuf-compiler
     - libprotoc-dev
-  # homebrew:
-  #   update: true
-  #   packages:
-  #   - python3
-  #   - swig
-  #   - doxygen
-  #   - clang-format
-  #   - llvm
-  #   - protobuf-compiler
-  #   - libprotoc-dev
 
 language: bash
 
 script:
   - pip3 install numpy onnx
-  - make
+  - make all
