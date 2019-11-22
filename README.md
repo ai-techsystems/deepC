@@ -1,26 +1,28 @@
 # deepC
----
+**deep learning compiler and inference framework**
+
 
 [![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
 [![txt](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
 [![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
 
-
 ## 🏃‍♂️ Using deepC
 
 Here are few of many ways.
 
-1. Try deepC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK)
-1. Install it on Ubuntu (or other debian derivatives) using ```pip install deepC```
-1. [Compile onnx model](test/compiler/mnist/README.md)
-1. Use deepC with a [Docker File](Dockerfile)
+1. Try deepC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
+1. Install it on Ubuntu, raspbian (or any other debian derivatives) using ```pip install deepC```
+1. Compile onnx model- [read this article](test/compiler/mnist/README.md) or [watch this video](https://youtu.be/BpFs83MU3HM)
+1. Use deepC with a [Docker File](Dockerfile) 
 
 See more examples in [tutorial](tutorials/README.md) dir.
 
 ## 📛 what is deepC?
 
-deepC Compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ) and others.
+deepC Compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ), mobile phones, x86 and arm laptops among others.
+
+![edge Devices](misc/edgeDevices.png "supported edge devices")
 
 deepC also offers ahead of time compiler producing optimized executable based on [LLVM compiler tool chain](https://llvm.org/) specialized for deep neural networks with [ONNX](https://onnx.ai/) as front end.
 
@@ -28,7 +30,7 @@ deepC also offers ahead of time compiler producing optimized executable based on
 
 Main components of **deepC** have been designed to represent and optimize the common deep learning networks in high level graph IR and to transform the computation graph to minimize memory utilization, optimize data layout and fuse computation patterns for different hardware backends.
 
-<img width="800" alt="Architecture" src="https://github.com/ai-techsystems/dnnCompiler/blob/master/misc/dnnCompilerArch.jpg">
+<img width="600" alt="Architecture" src="https://github.com/ai-techsystems/dnnCompiler/blob/master/misc/dnnCompilerArch.jpg">
 
 Read more at [high level design document](docs/highLevelDesign.md)
 
@@ -39,8 +41,9 @@ Read more at [high level design document](docs/highLevelDesign.md)
 * [Python 3.6](https://www.python.org/downloads/release/python-360/)
 * [SWIG 3.0](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/)
 
-## ⚙ Installation
-build and install dnn Compiler locally from source code with following steps
+## 💻 Development
+
+Build and start modifying dnnCompiler locally from source code with following steps
 
 ### ⭕ Ubuntu 18.04
 
