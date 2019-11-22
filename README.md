@@ -12,7 +12,7 @@
 Here are few of many ways.
 
 1. Try deepC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
-1. Install it on Ubuntu (or other debian derivatives) using ```pip install deepC```
+1. Install it on Ubuntu, raspbian (or any other debian derivatives) using ```pip install deepC```
 1. Compile onnx model- [read this article](test/compiler/mnist/README.md) or [watch this video](https://youtu.be/BpFs83MU3HM)
 1. Use deepC with a [Docker File](Dockerfile) 
 
