@@ -6,10 +6,17 @@
 1. Getting started guide
 1. How to contribute guide
 
-# Visit Again Projects
-1. Enhance Python Interface for tensor and operators 
-   1. Use ONNX model with parser to load graph, weight and run inference on a simple 3-layer model.
+# Tutorials
+1. Speech for microcontrollers.
+1. Vision for microcontrollers.
+1. [Inference framework for micropython](https://micropython.org/)
+
+# Microcontroller
+1. Support 
+    1. [MBED OS](https://www.mbed.com/en/platform/mbed-os/)
+    1. [Arduino IDE](https://www.arduino.cc/en/main/software)
+    1. [SparkFun Edge](https://www.sparkfun.com/categories/419)
+    1. [Other STM32F7 Series microcontollers based on ARM® Cortex®-M7 core](https://www.st.com/en/evaluation-tools/32f746gdiscovery.html)
 
 # How to use projects
-1. [Simplify Google Colab](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK)
 1. [Deploy Docker](https://help.github.com/en/articles/configuring-docker-for-use-with-github-package-registry)
