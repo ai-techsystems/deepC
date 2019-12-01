@@ -29,6 +29,25 @@ using namespace Eigen;
 #ifdef DNNC_REDUCESUM_TEST
 #include <iostream>
 int main() {
-  // ADD YOUR TEST CODE HERE
+  float f1[6] = {1., 2., 3., 4., 5., 6};
+  float f2[9] = {6., 1., 0., 5., 7., 4., 2., 3., 8};
+
+  tensor<float> tf1({2, 3});
+  tf1.load(f1);
+  tensor<float> tf2({3, 3, 1});
+  tf2.load(f2);
+
+  std::vector<int> axes1 ({1});
+  std::vector<int> axes2 ({0,2});
+
+  ReduceSum<int, float> ReduceSum("floatReduceSum");
+  ReduceSum.setAttribute(attr_keepdims, 0);
+  ReduceSum.setAttribute(attr_axis, axes1);
+
+  std::cout << ReduceSum.compute(tf1) << std::endl;
+
+  ReduceSum.setAttribute(attr_axis, axes2);
+
+  std::cout << ReduceSum.compute(tf2) << std::endl;
 }
 #endif
