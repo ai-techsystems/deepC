@@ -34,20 +34,17 @@ int main() {
 
   tensor<float> tf1({2, 3});
   tf1.load(f1);
-  tensor<float> tf2({3, 3, 1});
+  tensor<float> tf2({9});
   tf2.load(f2);
 
-  std::vector<int> axes1 ({1});
-  std::vector<int> axes2 ({0,2});
+  std::vector<int> axes({0});
 
-  ReduceSum<int, float> ReduceSum("floatReduceSum");
-  ReduceSum.setAttribute(attr_keepdims, 0);
-  ReduceSum.setAttribute(attr_axis, axes1);
+  ReduceSum<int, float> sum("floatsum");
 
-  std::cout << ReduceSum.compute(tf1) << std::endl;
+  sum.setAttribute(attr_axis, axes);
+  sum.setAttribute(attr_keepdims, 0);
 
-  ReduceSum.setAttribute(attr_axis, axes2);
-
-  std::cout << ReduceSum.compute(tf2) << std::endl;
+  std::cout << sum.compute(tf1) << std::endl;
+  std::cout << sum.compute(tf2) << std::endl;
 }
 #endif

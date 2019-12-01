@@ -3,19 +3,13 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/include",
-                "${workspaceFolder}/packages/eigen-eigen-323c052e1731"
+                "${workspaceFolder}/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang++-8",
+            "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64",
-            "configurationProvider": "go2sh.cmake-integration",
-            "compilerArgs": [
-                "-Wall -std=c++17 -fPIC -g"
-            ]
+            "intelliSenseMode": "clang-x64"
         }
     ],
     "version": 4
