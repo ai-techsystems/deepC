@@ -32,8 +32,8 @@ class MaxTest(unittest.TestCase):
         self.len = 24
         self.np_a = np.random.randn(self.len).astype(np.float32)
         self.np_b = np.random.randn(self.len).astype(np.float32)
-        self.dc_a = dc.array(list(self.np_a));
-        self.dc_b = dc.array(list(self.np_b));
+        self.dc_a = dc.array(list(self.np_a))
+        self.dc_b = dc.array(list(self.np_b))
 
     def test_Max1D (self):
         npr = np.maximum(self.np_a, self.np_b)

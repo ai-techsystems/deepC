@@ -8,9 +8,6 @@ jobs:
       arch: arm64
     - os: linux
       dist: bionic
-      arch: amd64
-    - os: linux
-      dist: bionic
       arch: ppc64le
     - os: linux
       dist: bionic
@@ -18,6 +15,9 @@ jobs:
     - os: linux
       dist: bionic
       arch: armv7
+    - os: linux
+      dist: bionic
+      arch: amd64
 
 # "pip3 install onnx" builds locally, which needs "protobuf-compiler" and "libprotoc-dev" to compile
 # ref: https://github.com/onnx/onnx/issues/133#issuecomment-339457553
