@@ -21,9 +21,16 @@
 // https://github.com/ai-techsystems/dnnCompiler
 
 #include <Python.h>
+#include <algorithm>
 
 #include "core/tensor.h"
 #include "operators/Add.h"
+#include "operators/Acos.h"
+#include "operators/Acosh.h"
+#include "operators/Asin.h"
+#include "operators/Asinh.h"
+#include "operators/Atan.h"
+#include "operators/Atanh.h"
 #include "operators/Abs.h"
 #include "operators/ArgMax.h"
 #include "operators/ArgMin.h"
@@ -116,7 +123,19 @@ Every operator function is seperated by a blank line.
 So don't leave empty line anywhere else other than in between 2 operators.
 The code below will be modified according to the dtype.
 DO NOT NAME TENSOR VARIABLES AS 'INPUT' go for 'a', 'b' etc
-Note: Not all of them are modified to input output format */
+Note: Not all of them are modified to input output format
+
+## The NN operators which requires scalar support are listed below:
+
+unary
+Acos, Acosh, Asin, Asinh, Atan, Atanh, Cos, Cosh, Erf, Exp, Log,
+logical_not, Sign, Sin, Sinh, Softsign, Tan, Tanh
+
+binary
+Div
+
+n-nary
+Max, Mean, Min, Sum  */
 
 dtype_precedence_dict = {
 	"double" : 16,
@@ -368,6 +387,166 @@ tensor<output> abs(tensor<input> &a) {
 	}
 }
 
+tensor<output> acos(tensor<input> &a) {
+	Acos<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output acos(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Acos<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> acosh(tensor<input> &a) {
+	Acosh<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output acosh(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Acosh<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> asin(tensor<input> &a) {
+	Asin<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output asin(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Asin<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> asinh(tensor<input> &a) {
+	Asinh<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output asinh(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Asinh<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> atan(tensor<input> &a) {
+	Atan<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output atan(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Atan<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> atanh(tensor<input> &a) {
+	Atanh<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output atanh(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Atanh<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> cos(tensor<input> &a) {
+	Cos<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output cos(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Cos<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+tensor<output> cosh(tensor<input> &a) {
+	Cosh<input> op;
+	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output cosh(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Cosh<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
 tensor<output> argmax(tensor<input> &a, int axis=0, int keepdims=0) {
 	ArgMax<output, input> op;
 	op.setAttribute(attr_keepdims, keepdims);
@@ -441,6 +620,20 @@ tensor<output> div(tensor<input> &a, tensor<input> &b) {
 	}
 }
 
+output div(input a, input b) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor<input> tensor_b(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	tensor_b.load(&b);
+	Div<input> op;
+	return (output)op.compute(tensor_a, tensor_b)[0];
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int",
+	}
+}
+
 tensor<output> elu(tensor<input> &a, float alpha = 1.0) {
 	Elu<input> op("localOpName", alpha);
 	return op.compute(a);
@@ -459,12 +652,34 @@ tensor<output> erf(tensor<input> &a) {
 	}
 }
 
+output erf(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Erf<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
 tensor<output> exp(tensor<input> &a) {
 	Exp<input> op;
 	return op.compute(a);
 	dtype = {
 		"double" : "double",
 		"float" : "float"
+	}
+}
+
+output exp(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Exp<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
 	}
 }
 
@@ -625,8 +840,6 @@ tensor<output> reciprocal(tensor<input> &a) {
   }
 }
 
-/* The below operators need to change accroding to above operators */
-
 tensor<output> log(tensor<input> &a) {
   Log<input> op;
   return op.compute(a);
@@ -634,6 +847,17 @@ tensor<output> log(tensor<input> &a) {
     "float" : "float",
     "double" : "double"
   }
+}
+
+output log(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Log<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
 }
 
 tensor<output> logsoftmax(tensor<input> &a, int axis = 1) {
@@ -671,6 +895,14 @@ tensor<output> min(std::vector<tensor<input>> a) {
   }
 }
 
+output min(std::vector<input> a) {
+  return (output)*(std::min_element(a.begin(), a.end()));
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
 tensor<output> mean(std::vector<tensor<input>> a) {
   Mean<input> op;
   return op.compute(a);
@@ -680,9 +912,25 @@ tensor<output> mean(std::vector<tensor<input>> a) {
   }
 }
 
+output mean(std::vector<input> a) {
+  return (output)(std::accumulate(a.begin(), a.end(), 0) / a.size());
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
 tensor<output> max(std::vector<tensor<input>> a) {
   Max<input> op;
   return op.compute(a);
+  dtype = {
+    "float" : "float",
+    "double" : "double"
+  }
+}
+
+output max(std::vector<input> a) {
+  return (output)*(std::max_element(a.begin(), a.end()));
   dtype = {
     "float" : "float",
     "double" : "double"
@@ -699,7 +947,7 @@ tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod_flag = 0) {
 	}
 }
 
-tensor<output> reduce_sum(tensor<input> &a, 
+tensor<output> reduce_sum(tensor<input> &a,
         std::vector<int> axis=std::vector<int>(), int keepdims=0) {
 	ReduceSum<output, input> op;
 	op.setAttribute(attr_keepdims, keepdims);
@@ -739,6 +987,16 @@ tensor<output> logical_not(tensor<input> &a) {
   }
 }
 
+output logical_not(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Not<output, input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"bool" : ("bool", "int", "float", "double"),
+	}
+}
+
 tensor<output> tan(tensor<input> &a) {
   Tan<input> op;
   return op.compute(a);
@@ -748,6 +1006,17 @@ tensor<output> tan(tensor<input> &a) {
   }
 }
 
+output tan(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Tan<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
 tensor<output> tanh(tensor<input> &a) {
   Tanh<input> op;
   return op.compute(a);
@@ -755,6 +1024,17 @@ tensor<output> tanh(tensor<input> &a) {
     "float" : "float",
     "double" : "double"
   }
+}
+
+output tanh(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Tanh<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
 }
 
 tensor<output> transpose(tensor<input> &a) {
@@ -785,6 +1065,17 @@ tensor<output> sign(tensor<input> &a) {
 	}
 }
 
+output sign(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Sign<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
 tensor<output> sin(tensor<input> &a) {
 	Sin<input> op;
 	return op.compute(a);
@@ -794,9 +1085,31 @@ tensor<output> sin(tensor<input> &a) {
 	}
 }
 
+output sin(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Sin<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
 tensor<output> sinh(tensor<input> &a) {
 	Sinh<input> op;
 	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output sinh(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Sinh<input> op;
+	return (output)op.compute(tensor_a)[0];
 	dtype = {
 		"float" : "float",
 		"double" : "double"
@@ -830,9 +1143,31 @@ tensor<output> softsign(tensor<input> &a) {
 	}
 }
 
+output softsign(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Softsign<input> op;
+	return (output)op.compute(tensor_a)[0];
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
 tensor<output> sqrt(tensor<input> &a) {
 	Sqrt<input> op;
 	return op.compute(a);
+	dtype = {
+		"float" : "float",
+		"double" : "double"
+	}
+}
+
+output sqrt(input a) {
+	tensor<input> tensor_a(std::vector<size_t>(1,1));
+	tensor_a.load(&a);
+	Sqrt<input> op;
+	return (output)op.compute(tensor_a)[0];
 	dtype = {
 		"float" : "float",
 		"double" : "double"
@@ -851,24 +1186,6 @@ tensor<output> ceil(tensor<input> &a){
 tensor<output> clip(tensor<input> &a, input min, input max){
   Clip<input> op;
   return op.compute(a, min, max);
-  dtype = {
-    "float" : "float",
-    "double" : "double"
-  }
-}
-
-tensor<output> cos(tensor<input> &a){
-  Cos<input> op;
-  return op.compute(a);
-  dtype = {
-    "float" : "float",
-    "double" : "double"
-  }
-}
-
-tensor<output> cosh(tensor<input> &a){
-  Cosh<input> op;
-  return op.compute(a);
   dtype = {
     "float" : "float",
     "double" : "double"
