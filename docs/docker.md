@@ -4,7 +4,7 @@
 
 Read the official documentation **[here](https://docs.docker.com/)**
 
-## Downloads 
+## Downloads
 #### Windows 10
 * **[Docker for Windows 10](https://docs.docker.com/v17.09/docker-for-windows/install/#download-docker-for-windows)**
 
@@ -13,7 +13,7 @@ Read the official documentation **[here](https://docs.docker.com/)**
 
 #### Ubuntu
 ```bash
-sudo apt-get update && apt-get install docker 
+sudo apt-get update && apt-get install docker
 ```
 
 #### Arch Linux/ Manjaro
@@ -47,13 +47,17 @@ python buildDocker.py
 	cd dnnCompiler
 	```
 * You should be able to see the **[Dockerfile](../Dockerfile)**. That has the instruction to create a Ubuntu 18.04 image and download required depedencies on top of that.
+* Next you have to start docker service if not running already.
+	```bash
+	systemctl start docker
+	```
 * Now to create the image from the **[Dockerfile](../Dockerfile)** run
-	
+
 	```bash
 	sudo docker build -t dnnc .
 	```
 * Now the image is created. But need to run the image as container that will execute your code. For that
-	
+
 	```bash
 	sudo docker run -it dnnc /bin/bash -c "cd /dnnCompiler && make clean && make"
 	```

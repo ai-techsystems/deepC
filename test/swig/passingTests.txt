@@ -33,6 +33,7 @@ MatMulInteger.py
 Max.py
 Mean.py
 Min.py
+nnScalarOperators
 Or.py
 Sub.py
 Tan.py
