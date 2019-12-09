@@ -39,6 +39,8 @@ Sub.py
 Tan.py
 Tanh.py
 Xor.py
+ReduceSum.py
+ReduceSumSquare.py
 Sigmoid.py
 Sin.py
 Sinh.py
