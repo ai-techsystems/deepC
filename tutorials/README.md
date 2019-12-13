@@ -15,4 +15,4 @@ k means color quantization with deepC | [Read in repo](KMeansImageColorQuantizat
 
 # deepC on MicroControllers
 
-1. [running onnx models on Arduino](deepC_on_Arduino.md)
+1. [running your ml model on Arduino](deepC_on_Arduino.md)
