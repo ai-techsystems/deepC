@@ -24,5 +24,8 @@ Consult [Arduino Reference](https://www.arduino.cc/reference/en/) to complete yo
 
 ![Run on Arduino](https://cdn.sparkfun.com/assets/d/4/e/3/c/51df245ece395f0728000001.png)
 
+### KPNS
+1. [Replace Eigen lib of deepC with Arduino port](https://github.com/bolderflight/Eigen), in case you run into Eigen errors.
+
 ### Reference
 1. [Getting Started with Arduino products](https://www.arduino.cc/en/Guide/HomePage)
