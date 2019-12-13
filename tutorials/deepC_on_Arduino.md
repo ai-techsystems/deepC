@@ -1,10 +1,13 @@
 # deepC on ![Arduino](https://www.arduino.cc/en/uploads/Trademark/ARDUINO_logo.jpg)
 
-## Traini your model
-
-## Convert to ONNX model
+## Bring your own Model (BYOM)
+1. Train your machine learnig model.
+1. [Convert it to onnx](https://github.com/onnx/tutorials#converting-to-onnx-format)
 
 ## deepC Compile to C++
+Download and install deepC and run ```onnx2cpp``` command
+
+```% onnx2cpp <model>.onnx```
 
 ## Embed deepC model
 
