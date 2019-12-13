@@ -14,6 +14,7 @@ Download and install deepC and run ```onnx2cpp``` command
 Use setup and loop to include C++ file compiled by deepC
 1. [setup()](https://www.arduino.cc/reference/en/language/structure/sketch/setup/)
 1. [loop()](https://www.arduino.cc/reference/en/language/structure/sketch/loop/)
+1. [Build on Arduino](https://github.com/arduino/Arduino/wiki/Build-Process)
 
 Consult [Arduino Reference](https://www.arduino.cc/reference/en/) to complete your [application/sketch](https://www.arduino.cc/en/tutorial/sketch).
 
