@@ -12,3 +12,7 @@ k means color quantization with deepC | [Read in repo](KMeansImageColorQuantizat
 1. [Intermediate codegen and generate binary/bundle for your model](../../master/test/compiler/mnist/README.md)
 1. Profiling your deep learning model
 1. Debugging deep learning model with intermediate code generation
+
+# deepC on MicroControllers
+
+1. [Arduino](deepC_on_Arduino.md)
