@@ -51,7 +51,7 @@ Follow the steps to install pre-requisites
 ```bash
 sudo apt-get update
 sudo apt-get install build-essential python3.6-dev python3-pip swig doxygen clang-format clang clang-8 llvm-8 llvm-8-dev protobuf-compiler libprotoc-dev
-sudo pip3 install numpy onnx
+sudo pip3 install numpy==1.15.0 onnx==1.5.0
 ```
 
 Once you are done, build dnnCompiler
