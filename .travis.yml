@@ -6,9 +6,9 @@ jobs:
     - os: linux
       dist: bionic
       arch: arm64
-    - os: linux
-      dist: bionic
-      arch: ppc64le
+#    - os: linux
+#      dist: bionic
+#      arch: ppc64le
     - os: linux
       dist: bionic
       arch: arm
