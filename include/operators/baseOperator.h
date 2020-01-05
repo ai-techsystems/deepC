@@ -21,8 +21,8 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
-#include "logger/loguru.hpp"
 #include "core/broadcast.h"
+#include "logger/loguru.hpp"
 #include "operators/macros.h"
 #include "operators/opTypes.h"
 #include <memory>

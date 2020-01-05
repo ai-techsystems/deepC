@@ -63,7 +63,7 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
 
-    if (a.shape() != b.shape()){
+    if (a.shape() != b.shape()) {
       LOG_F(ERROR, "tensor dimenions not appropriate for Add operator.");
       return a;
     }
