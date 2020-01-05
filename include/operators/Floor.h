@@ -39,9 +39,10 @@ public:
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
 
-    if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<float, double>(typeid(T)))){
+      LOG_F(ERROR, "Constrain input and output types to float or double tensors.");
+      return a;
+    }
 
     tensor<T> result(a.shape(), a.name());
 

@@ -812,6 +812,15 @@ std::string getOpCodeStr(OPCODE opCode) {
   case (opBitShift):
     return "BitShift";
     break;
+  case (opBitwiseXor):
+    return "BitwiseXor";
+    break;
+  case (opBitwiseOr):
+    return "BitwiseOr";
+    break;
+  case (opBitwiseAnd):
+    return "BitwiseAnd";
+    break;
   case (opCast):
     return "Cast";
     break;

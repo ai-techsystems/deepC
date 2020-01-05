@@ -63,9 +63,10 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Add operator.");
+    if (a.shape() != b.shape()){
+      LOG_F(ERROR, "tensor dimenions not appropriate for Add operator.");
+      return a;
+    }
     // Written for arbitrary Dimension.
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
