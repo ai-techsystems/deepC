@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
+[![Downloads](https://pepy.tech/badge/deepc)](https://pepy.tech/project/deepc)
 [![txt](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
 [![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
 [![chat](https://img.shields.io/badge/chat-Gitter-green.svg)](https://gitter.im/ai-techsystems/community)
@@ -12,10 +13,10 @@
 
 Here are few of many ways.
 
-1. Try deepC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
+1. Try deepC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK)
 1. Install it on Ubuntu, raspbian (or any other debian derivatives) using ```pip install deepC```
 1. Compile onnx model- [read this article](test/compiler/mnist/README.md) or [watch this video](https://youtu.be/BpFs83MU3HM)
-1. Use deepC with a [Docker File](Dockerfile) 
+1. Use deepC with a [Docker File](Dockerfile)
 
 See more examples in [tutorial](tutorials/README.md) dir.
 

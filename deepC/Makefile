@@ -1,5 +1,5 @@
 # Copyright 2018 The DNNC Authors. All Rights Reserved.
-# 
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -18,7 +18,7 @@
 # under the License.
 # pylint: disable=invalid-name, unused-argument
 #
-# This file is part of DNN compiler maintained at 
+# This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 #
 
@@ -43,27 +43,28 @@ dnnc_swig.cpp: dnnc.i
 
 SWIG_MODULES=dnnc.i
 SWIG_CPPS=$(SWIG_MODULES:%.i=%_swig.cpp)
-$(SWIG_CPPS):$(SWIG_MODULES) 
+$(SWIG_CPPS):$(SWIG_MODULES)
 	@echo "running swig with $<"
 	$(SWIG) $(SWIG_FLAGS) $(DNNC_INCLUDES) -o $@ $<
 
 CPP_SRCS=$(DNNC_API_CPPS) $(SWIG_CPPS) dnnc_pyutils.cpp
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
-	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
+	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR)
 	@echo "compiling $<"
 	$(CC) $(CPP_FLAGS) $(PY_INCLUDES) $(DNNC_INCLUDES) $(EIGEN_INCLUDES) -c $< -o $@
 
 OTHER_OBJECTS = $(CORE_OBJ)/datatypes.o   \
 				$(OPER_OBJ)/opTypes.o     \
 				$(GRPH_OBJ)/node.o        \
-				$(GRPH_OBJ)/graph.o        \
+				$(GRPH_OBJ)/graph.o       \
+				$(LOG_OBJ)/loguru.o       \
 				$(CODE_OBJ)/cppCodeGen.o
 $(OTHER_OBJECTS):
 	make -C ../src
 
 $(LIB):$(OTHER_OBJECTS) $(OBJECTS)
-	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
+	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR)
 	$(CC) $(LD_FLAGS) $(OTHER_OBJECTS) $(OBJECTS) -o $@
 	$(LN_S) -f $@ $(PYMOD)
 

@@ -22,6 +22,7 @@
 //
 
 #include "operators/Floor.h"
+// #include "logger/loguru.cpp"
 
 using namespace dnnc;
 using namespace Eigen;
@@ -29,11 +30,18 @@ using namespace Eigen;
 #ifdef DNNC_FLOOR_TEST
 #include <iostream>
 int main() {
-  float d1[6] = {1.2, 2.5, 3.7, 4., 5.1, 6.9};
-  tensor<float> a({2, 3});
+  // float d1[6] = {1.2, 2.5, 3.7, 4., 5.1, 6.9};
+  // tensor<float> a({2, 3});
+  // a.load(d1);
+
+  // Floor<float> m("localOpName");
+  // auto result = m.compute(a);
+
+  int d1[6] = {12, 25, 37, 4, 51, 69};
+  tensor<int> a({2, 3});
   a.load(d1);
 
-  Floor<float> m("localOpName");
+  Floor<int> m("localOpName");
   auto result = m.compute(a);
 
   std::cout << result;
