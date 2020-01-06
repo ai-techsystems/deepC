@@ -141,7 +141,7 @@ public:
       throw std::invalid_argument(
           "tensor dimenions not appropriate for Gemm operator.");
 
-    if (!(this->template type_check<float, double, int>(typeid(Ti1))))
+    if (!(this->template type_check<Ti1, float, double, int>()))
       throw std::invalid_argument(
           "Constrain input and output types to float and int tensors.");
 
@@ -176,7 +176,7 @@ public:
     result.load(eResult.data());
 
     // perform type conversion
-    if (typeid(To) != typeid(Ti1))
+    if (!(this->template type_check<To, Ti1>()))
       return result.template asType<To>();
 
     return result;

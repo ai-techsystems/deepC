@@ -37,7 +37,7 @@ public:
 
   tensor<T> compute(tensor<T> &a /*!< ND tensor*/) {
 
-    if ((this->template type_check<bool>(typeid(T))))
+    if ((this->template type_check<T, bool>()))
       throw std::invalid_argument(
           "Constrain input and output types to numeric tensors.");
 

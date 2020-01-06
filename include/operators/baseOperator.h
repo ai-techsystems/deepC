@@ -26,8 +26,7 @@
 #include "operators/macros.h"
 #include "operators/opTypes.h"
 #include <memory>
-#include <typeindex>
-#include <typeinfo>
+#include <type_traits>
 #include <vector>
 
 // we're forced to include tensor.h here, because of limitation on
@@ -58,21 +57,28 @@ public:
   /*!< return OPCODE of the operator */
   virtual inline OPCODE symbol() { return _op; }
 
-  template <typename... Types> bool type_check(const std::type_info &typi) {
-    std::vector<std::type_index> allowed_types;
-    allowed_types.insert(allowed_types.end(), {typeid(Types)...});
-    bool checker = false;
-    for (size_t i = 0; i < allowed_types.size(); i++) {
-      checker = (allowed_types[i] == std::type_index(typi));
-      if (checker)
-        break;
-    }
-    return checker;
-  }
-  /*!< Constrain input and output types.*/
+  // SWIG does not understand, throws error and stops.
+  //    Warning 325: Nested class not currently supported (is_one_of ignored)
+#ifndef SWIG
+  /*!< Constrain data types.*/
+  template <typename...> struct is_one_of {
+    static constexpr bool value = false;
+  };
+
+  template <typename F, typename S, typename... T>
+  struct is_one_of<F, S, T...> {
+    static constexpr bool value =
+        std::is_same<F, S>::value || is_one_of<F, T...>::value;
+  };
+
   /*!<
    \return True if T is one of the types specified else False
    */
+  template <typename Kind, typename... Kinds> bool type_check() {
+    return is_one_of<Kind, Kinds...>::value;
+  }
+#endif
+
   virtual bool getAttribute(OPATTR, float &) { return false; }
   virtual bool getAttribute(OPATTR, int &) { return false; }
   virtual bool getAttribute(OPATTR, std::string &) { return false; }

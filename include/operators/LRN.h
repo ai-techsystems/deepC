@@ -102,7 +102,7 @@ public:
     C is the number of channels, and H and W are the height and the width of the data.
     For non image case, the dimensions are in the form of  \f$(N * C * D1 * D2* ...* Dn)\f$,
      where N is the batch size.*/) {
-    if (!(this->template type_check<float, double>(typeid(T))))
+    if (!(this->template type_check<T, float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

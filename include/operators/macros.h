@@ -23,8 +23,12 @@
 
 #pragma once
 
+#if defined(ARDUINO)
+#include "Eigen.h"
+#else
 #include "Eigen/Core"
 #include "unsupported/Eigen/CXX11/Tensor"
+#endif
 
 using namespace Eigen;
 

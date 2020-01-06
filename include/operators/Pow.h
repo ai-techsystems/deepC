@@ -64,7 +64,7 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
 
-    if (!(this->template type_check<float, double, int>(typeid(Ti))))
+    if (!(this->template type_check<Ti, float, double, int>()))
       throw std::invalid_argument(
           "Constrain input and output types to numeric tensors.");
 

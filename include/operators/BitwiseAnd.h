@@ -51,7 +51,7 @@ public:
     tensor<To> result(resultShape);
 
     // This check is for NUMPY standard
-    // if (!(this->template type_check<bool,int>(typeid(Ti))))
+    // if (!(this->template type_check<Ti, bool,int>() ))
     //   throw std::invalid_argument(
     //       "Constrain input tensors to int or bool tensors.");
 

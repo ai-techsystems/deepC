@@ -41,7 +41,7 @@ public:
     this->fmod = fmod;
 
     // Check for fmod or not
-    if ((fmod == 0) && ((this->template type_check<float, double>(typeid(T)))))
+    if ((fmod == 0) && ((this->template type_check<T, float, double>())))
       throw std::invalid_argument("Set fmod to 1 to pass float values.");
   }
 

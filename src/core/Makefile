@@ -25,6 +25,7 @@ include ../../Makefile.common
 
 #MODULE=$(shell ${CURDIR})
 MODULE=core
+CPP_FLAGS+=-fno-rtti
 LIB=$(LIB_DIR)/lib$(MODULE).so
 
 

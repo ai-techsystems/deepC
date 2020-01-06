@@ -37,7 +37,7 @@ public:
 
   tensor<To> compute(tensor<To> a, tensor<Ti> b) {
 
-    if (!(this->template type_check<int>(typeid(Ti))))
+    if (!(this->template type_check<Ti, int>()))
       throw std::invalid_argument("Constrain shape tensor to integer type.");
 
     tensor<To> result(b.asTypeULong().data(), b.name());

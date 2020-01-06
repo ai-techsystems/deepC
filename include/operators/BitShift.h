@@ -96,7 +96,7 @@ public:
     if ((direction != "LEFT") && (direction != "RIGHT"))
       throw std::invalid_argument("Specify direction to 'LEFT' or 'RIGHT'");
 
-    if (!(this->template type_check<int>(typeid(T))))
+    if (!(this->template type_check<T, int>()))
       throw std::invalid_argument(
           "Constrain input and output types to int tensors.");
 

@@ -82,7 +82,7 @@ public:
   }
   // NOT GOOD to return by value
   tensor<To> compute(tensor<Ti> &a) {
-    if (!(this->template type_check<float, double>(typeid(Ti))))
+    if (!(this->template type_check<Ti, float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     tensor<bool> result(a.shape(), a.name());

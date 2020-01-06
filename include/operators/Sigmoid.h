@@ -41,7 +41,7 @@ public:
 
   // NOT GOOD to return by value
   tensor<T> compute(tensor<T> a /*!< : Input operand([float,double]: ND tensor) for the Sigmoid operator.*/) {
-    if (!(this->template type_check<float, double>(typeid(T))))
+    if (!(this->template type_check<T, float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

@@ -46,7 +46,7 @@ public:
     tensor<To> result(resultShape);
 
     // This check is for ONNX standard
-    if (!(this->template type_check<bool>(typeid(Ti))))
+    if (!(this->template type_check<Ti, bool>()))
       throw std::invalid_argument("Constrain input tensors to bool types.");
 
     if (a.shape() != b.shape())

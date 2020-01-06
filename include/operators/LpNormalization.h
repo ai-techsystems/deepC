@@ -74,7 +74,7 @@ public:
   }
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: 2D tensor*/) {
-    if (!(this->template type_check<float, double>(typeid(T))))
+    if (!(this->template type_check<T, float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
     if (a.rank() != 2) {

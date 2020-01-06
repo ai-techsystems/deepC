@@ -40,7 +40,7 @@ public:
   Relu(std::string name = "opRelu") : baseOperator<To, Ti, Ti>(opRelu, name) {}
 
   tensor<To> compute(tensor<Ti> &input) {
-    if (!(this->template type_check<float, double>(typeid(Ti))))
+    if (!(this->template type_check<Ti, float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

@@ -68,7 +68,7 @@ public:
 
   tensor<To> compute(tensor<Ti> input) override {
 
-    if (!(this->template type_check<short int, int, long int>(typeid(To))))
+    if (!(this->template type_check<To, short int, int, long int>()))
       throw std::invalid_argument("Constrain output tensor type to int type.");
 
     int rank = input.rank();

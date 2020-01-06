@@ -24,6 +24,7 @@
 include ../../Makefile.common
 
 MODULE=operators
+CPP_FLAGS+=-fno-rtti
 LIB=$(LIB_DIR)/lib$(MODULE).so
 
 

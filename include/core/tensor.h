@@ -493,7 +493,10 @@ public:
     return this->operator()(indices);
   }
   bool empty() { return this->length() == 0; }
-  std::string dtype() { return dtype_str[typeid(T).name()[0] - 'a']; }
+  std::string dtype() {
+    T dummy = 0;
+    return dTypeName(dummy);
+  }
   std::string to_proto() // return proto string
   {
     std::string tensor_proto = "";

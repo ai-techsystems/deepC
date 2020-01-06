@@ -44,7 +44,7 @@ public:
   }
 
   tensor<T> compute(tensor<T> a, T &min, T &max) {
-    if (!(this->template type_check<float, double>(typeid(T))))
+    if (!(this->template type_check<T, float, double>()))
       throw std::invalid_argument(
           "Constrain input and output types to float tensors.");
 

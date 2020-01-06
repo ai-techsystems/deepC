@@ -59,11 +59,11 @@ public:
     To off_value = values[0];
     To on_value = values[1];
 
-    if (!(this->template type_check<int, float, double>(typeid(Ti1))))
+    if (!(this->template type_check<Ti1, int, float, double>()))
       throw std::invalid_argument(
           "Constrain input tensor indices to numeric tensors.");
 
-    if (!(this->template type_check<int, float, double>(typeid(Ti2))))
+    if (!(this->template type_check<Ti2, int, float, double>()))
       throw std::invalid_argument("Constrain scalar depth to numeric values.");
 
     size_t axis = _axis < 0 || static_cast<size_t>(_axis) > indices.rank()

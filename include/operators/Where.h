@@ -36,9 +36,7 @@ public:
   // bool getAttribute<int>(OPATTR attrName, int& obj) ;
 
   tensor<T> compute(tensor<bool> &B, tensor<T> &X, tensor<T> &Y) {
-    if (typeid(B) != typeid(tensor<bool>))
-      throw std::invalid_argument(
-          "tensor types not appropriate for Where operator.");
+
     if (X.shape() != Y.shape() || X.shape() != B.shape() ||
         Y.shape() != B.shape())
       throw std::invalid_argument(

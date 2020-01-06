@@ -62,7 +62,7 @@ public:
   tensor<To> compute(tensor<To> &a /*!<[float,double]: ND tensor*/,
                      tensor<Ti> &indices /*!<[int]: ND tensor*/) {
 
-    if (!(this->template type_check<int>(typeid(Ti))))
+    if (!(this->template type_check<Ti, int>()))
       throw std::invalid_argument("Constrain axis tensor to integer type.");
 
     if (a.rank() < 1)
