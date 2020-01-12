@@ -35,8 +35,8 @@ public:
   tensor<T> compute(tensor<T> &a) {
 
     if (!(this->template type_check<T, float, double>())) {
-      LOG_F(ERROR, "Constrain input tensors to numeric tensors.");
-      return a;
+      spdlog::error("Constrain input tensors to numeric tensors.");
+      return NULL_TENSOR<T>;
     }
 
     tensor<T> result(a.shape());
@@ -44,8 +44,9 @@ public:
     for (size_t i = 0; i < a.length(); i++) {
       float x = a[i];
       if (x < -1 && x > 1) {
-        LOG_F(ERROR, "The tensor elements are not in the domain of arc cosine");
-        return a;
+        spdlog::error(
+            "The tensor elements are not in the domain of arc cosine");
+        return NULL_TENSOR<T>;
       }
       result[i] = acos(x);
     }

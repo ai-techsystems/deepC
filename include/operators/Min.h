@@ -38,9 +38,10 @@ template <typename T> class Min : public baseOperator<T, T, T> {
 
   T minEl(std::vector<T> &v) {
     T min = 0;
-    if (v.size() == 0)
-      throw std::invalid_argument(
-          "Min operator requires non-zero size vector.");
+    if (v.size() == 0) {
+      spdlog::error("Min operator requires non-zero size vector.");
+      return NULL_TENSOR<T>;
+    }
 
     for (size_t i = 0; i < v.size(); i++)
       min = i == 0 ? v[0] : (v[i] < min ? v[i] : min);
@@ -52,14 +53,14 @@ public:
 
   tensor<T>
   compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
-    if (!(this->template type_check<T, float, double>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      spdlog::error("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     if (inputs.size() == 0) {
-      throw std::invalid_argument(
-          "Min operator requires non-zero size input vector.");
-      return tensor<T>();
+      spdlog::error("Min operator requires non-zero size input vector.");
+      return NULL_TENSOR<T>;
     }
 
     try {
@@ -76,10 +77,9 @@ public:
       return result;
 
     } catch (const std::exception &e) {
-      std::cout
-          << "operands could not be broadcast together with given shapes!!!"
-          << "\n";
-      return tensor<T>();
+      spdlog::error(
+          "operands could not be broadcast together with given shapes!!!");
+      return NULL_TENSOR<T>;
     }
   }
 };

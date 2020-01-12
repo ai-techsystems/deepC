@@ -53,18 +53,23 @@ public:
   }
 
   tensor<To> compute(tensor<Ti1> indices, Ti2 depth, tensor<To> values) {
-    if (values.rank() != 1 || values.length() != 2)
-      throw std::invalid_argument("invalid values rank or length.");
+    if (values.rank() != 1 || values.length() != 2) {
+      spdlog::error("invalid values rank or length.");
+      return NULL_TENSOR<To>;
+    }
 
     To off_value = values[0];
     To on_value = values[1];
 
-    if (!(this->template type_check<Ti1, int, float, double>()))
-      throw std::invalid_argument(
-          "Constrain input tensor indices to numeric tensors.");
+    if (!(this->template type_check<Ti1, int, float, double>())) {
+      spdlog::error("Constrain input tensor indices to numeric tensors.");
+      return NULL_TENSOR<To>;
+    }
 
-    if (!(this->template type_check<Ti2, int, float, double>()))
-      throw std::invalid_argument("Constrain scalar depth to numeric values.");
+    if (!(this->template type_check<Ti2, int, float, double>())) {
+      spdlog::error("Constrain scalar depth to numeric values.");
+      return NULL_TENSOR<To>;
+    }
 
     size_t axis = _axis < 0 || static_cast<size_t>(_axis) > indices.rank()
                       ? indices.rank()

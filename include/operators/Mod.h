@@ -41,8 +41,10 @@ public:
     this->fmod = fmod;
 
     // Check for fmod or not
-    if ((fmod == 0) && ((this->template type_check<T, float, double>())))
-      throw std::invalid_argument("Set fmod to 1 to pass float values.");
+    if ((fmod == 0) && ((this->template type_check<T, float, double>()))) {
+      spdlog::error("Set fmod to 1 to pass float values.");
+      return;
+    }
   }
 
   bool getAttribute(OPATTR attrName, int &obj) override {
@@ -70,9 +72,10 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Mod operator.");
+    if (a.shape() != b.shape()) {
+      spdlog::error("tensor dimenions not appropriate for Mod operator.");
+      return NULL_TENSOR<T>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);

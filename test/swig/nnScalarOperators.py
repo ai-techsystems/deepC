@@ -38,20 +38,24 @@ class nnScalarOperatorsTest(unittest.TestCase):
         self.random_number1 = random.randrange(20, 50, 3)
         self.random_number2 = random.randrange(200, 500, 1)
         self.random_number3 = random.randrange(10, 500, 2)
-        self.np_a = np.array(self.random_number1).astype(np.float32)
-        self.np_b = np.array(self.random_number2).astype(np.float32)
-        self.dc_a = dc.array(self.random_number1)
-        self.dc_b = dc.array(self.random_number2)
+        # self.np_a = np.array(self.random_number1).astype(np.float32)
+        # self.np_b = np.array(self.random_number2).astype(np.float32)
+        # self.dc_a = dc.array([self.random_number1])
+        # self.dc_b = dc.array([self.random_number2])
+        self.np_a = self.random_number1
+        self.np_b = self.random_number2
+        self.dc_a = self.random_number1
+        self.dc_b = self.random_number2
 
     def test_nnScalar_asin (self):
-        np.testing.assert_allclose(np.arcsin(self.random_number1), dc.asin(self.random_number1), rtol=1e-3, atol=1e-3)
-        np.testing.assert_allclose(np.arcsin(self.random_number2), dc.asin(self.random_number2), rtol=1e-3, atol=1e-3)
-        np.testing.assert_allclose(np.arcsin(self.random_number3), dc.asin(self.random_number3), rtol=1e-3, atol=1e-3)
+        np.testing.assert_allclose(np.arcsin(1), dc.asin(1), rtol=1e-3, atol=1e-3)
+        np.testing.assert_allclose(np.arcsin(0), dc.asin(0), rtol=1e-3, atol=1e-3)
+        np.testing.assert_allclose(np.arcsin(-1), dc.asin(-1), rtol=1e-3, atol=1e-3)
 
     def test_nnScalar_acos (self):
-        np.testing.assert_allclose(np.arccos(self.random_number1), dc.acos(self.random_number1), rtol=1e-3, atol=1e-3)
-        np.testing.assert_allclose(np.arccos(self.random_number2), dc.acos(self.random_number2), rtol=1e-3, atol=1e-3)
-        np.testing.assert_allclose(np.arccos(self.random_number3), dc.acos(self.random_number3), rtol=1e-3, atol=1e-3)
+        np.testing.assert_allclose(np.arccos(1), dc.acos(1), rtol=1e-3, atol=1e-3)
+        np.testing.assert_allclose(np.arccos(0), dc.acos(0), rtol=1e-3, atol=1e-3)
+        np.testing.assert_allclose(np.arccos(-1), dc.acos(-1), rtol=1e-3, atol=1e-3)
 
     def test_nnScalar_atan (self):
         np.testing.assert_allclose(np.arctan(self.random_number1), dc.atan(self.random_number1), rtol=1e-3, atol=1e-3)
@@ -135,13 +139,13 @@ class nnScalarOperatorsTest(unittest.TestCase):
 
     def test_nnScalar_max (self):
         npr = np.maximum(self.np_a, self.np_b)
-        dcr = dc.max(dc.vectorTensorFloat([self.dc_a,self.dc_b]))
-        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
+        dcr = dc.max([self.dc_a,self.dc_b])
+        np.testing.assert_allclose(npr, np.array(dcr).astype(np.float32),rtol=1e-3, atol=1e-3)
 
     def test_nnScalar_min (self):
         npr = np.minimum(self.np_a, self.np_b)
-        dcr = dc.min(dc.vectorTensorFloat([self.dc_a,self.dc_b]))
-        np.testing.assert_allclose(npr, np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
+        dcr = dc.min([self.dc_a,self.dc_b])
+        np.testing.assert_allclose(npr, np.array(dcr).astype(np.float32),rtol=1e-3, atol=1e-3)
 
     def tearDown(self):
         return "test finished"

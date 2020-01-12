@@ -22,9 +22,9 @@
 //
 #pragma once
 #include "core/broadcast.h"
-#include "logger/loguru.hpp"
 #include "operators/macros.h"
 #include "operators/opTypes.h"
+#include "spdlog/spdlog.h"
 #include <memory>
 #include <type_traits>
 #include <vector>
@@ -93,8 +93,8 @@ public:
   virtual bool setAttribute(OPATTR, tensor<double>) { return false; }
 
   tensor<To> NOT_SUPPORTED() {
-    throw std::invalid_argument("operator not supported.");
-    return tensor<To>();
+    spdlog::error("operator not supported.");
+    return NULL_TENSOR<To>;
   }
   virtual tensor<To> compute(tensor<Ti1> in1) { return NOT_SUPPORTED(); }
   virtual tensor<To> compute(tensor<Ti1> &in1) { return NOT_SUPPORTED(); }

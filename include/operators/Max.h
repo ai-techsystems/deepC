@@ -38,9 +38,10 @@ template <typename T> class Max : public baseOperator<T, T, T> {
   //  Max attributes
   T maxEl(std::vector<T> &v) {
     T max = 0;
-    if (v.size() == 0)
-      throw std::invalid_argument(
-          "Max operator requires non-zero size vector.");
+    if (v.size() == 0) {
+      spdlog::error("Max operator requires non-zero size vector.");
+      return NULL_TENSOR<T>;
+    }
 
     for (size_t i = 0; i < v.size(); i++)
       max = i == 0 ? v[0] : (v[i] > max ? v[i] : max);
@@ -53,14 +54,14 @@ public:
   tensor<T>
   compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
 
-    if (!(this->template type_check<T, float, double>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      spdlog::error("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     if (inputs.size() == 0) {
-      throw std::invalid_argument(
-          "Max operator requires non-zero size input vector.");
-      return tensor<T>();
+      spdlog::error("Max operator requires non-zero size input vector.");
+      return NULL_TENSOR<T>;
     }
 
     try {
@@ -77,10 +78,9 @@ public:
       return result;
 
     } catch (const std::exception &e) {
-      std::cout
-          << "operands could not be broadcast together with given shapes!!!"
-          << "\n";
-      return tensor<T>();
+      spdlog::error(
+          "operands could not be broadcast together with given shapes!!!");
+      return NULL_TENSOR<T>;
     }
 
     // std::vector<DIMENSION> resultShape = vecBroadcastReShape(inputs);

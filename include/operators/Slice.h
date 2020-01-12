@@ -60,20 +60,23 @@ public:
     if (start.rank() != 1) {
       errMsg << "start tensor is " << start.rank()
              << "dimensional (should be 1 dimensional)" << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      spdlog::error(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
 
     if (end.rank() != 1) {
       errMsg << "end tensor is " << end.rank()
              << "dimensional (should be 1 dimensional)" << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      spdlog::error(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
 
     if (start.shape() != end.shape()) {
       errMsg << "start and end tensor sizes don't match (";
       errMsg << "start tensor size = " << start.shape()[0] << ", ";
       errMsg << "end tensor size = " << end.shape()[0] << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      spdlog::error(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
 
     if (axes == NULL_TENSOR<int>) {
@@ -97,27 +100,31 @@ public:
     if (axes.rank() != 1) {
       errMsg << "axes tensor is " << axes.rank()
              << "dimensional (should be 1 dimensional)" << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      spdlog::error(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
 
     if (steps.rank() != 1) {
       errMsg << "steps tensor is " << steps.rank()
              << "dimensional (should be 1 dimensional)" << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      spdlog::error(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
 
     if (start.shape() != axes.shape()) {
       errMsg << "start and axes tensor sizes don't match (";
       errMsg << "start tensor size = " << start.shape()[0] << ", ";
       errMsg << "axes tensor size = " << axes.shape()[0] << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      spdlog::error(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
 
     if (start.shape() != steps.shape()) {
       errMsg << "start and axes tensor sizes don't match (";
       errMsg << "start tensor size = " << start.shape()[0] << ", ";
       errMsg << "steps tensor size = " << steps.shape()[0] << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      spdlog::error(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
 
     for (size_t i = 0; i < num_axes; i++) {
@@ -140,7 +147,8 @@ public:
       // step cannot be zero
       if (steps(i) == 0) {
         errMsg << "slice step cannot be zero" << std::endl;
-        throw std::invalid_argument(errMsg.str().c_str());
+        spdlog::error(errMsg.str().c_str());
+        return NULL_TENSOR<To>;
       }
       // if step is positive
       else if (steps(i) > 0) {
@@ -176,7 +184,7 @@ public:
       //   errMsg << "start value (" << start(i) << ") along axis (" << i
       //          << ") is beyond the size (" << a.shape()[i]
       //          << ") of input tensor along the axis" << std::endl;
-      //   throw std::invalid_argument(errMsg.str().c_str());
+      //   spdlog::error(errMsg.str().c_str());
       // }
 
       // end
@@ -184,7 +192,7 @@ public:
       //   errMsg << "end value (" << end(i) << ") along axis (" << i
       //          << ") is beyond the size (" << a.shape()[i]
       //          << ") of input tensor along the axis" << std::endl;
-      //   throw std::invalid_argument(errMsg.str().c_str());
+      //   spdlog::error(errMsg.str().c_str());
       // }
 
       // comparing start and end when step is positive
@@ -192,7 +200,7 @@ public:
       //   errMsg << "end value (" << end(i) - 1 << ") along axis (" << i
       //          << ") is smaller than the start value (" << start(i)
       //          << ") along the axis while step is positive" << std::endl;
-      //   throw std::invalid_argument(errMsg.str().c_str());
+      //   spdlog::error(errMsg.str().c_str());
       // }
 
       // comparing start and end when step is negative
@@ -200,7 +208,7 @@ public:
       // errMsg << "start value (" << start(i) - 1 << ") along axis (" << i
       //        << ") is smaller than the end value (" << end(i)
       //        << ") along the axis while step is negative" << std::endl;
-      // throw std::invalid_argument(errMsg.str().c_str());
+      // spdlog::error(errMsg.str().c_str());
       // }
 
       // axes
@@ -208,7 +216,8 @@ public:
         if ((axes(i) + rank) < 0) {
           errMsg << "axes value (" << axes(i) << ") along axis (" << i
                  << ") is beyond the input tensor dimension" << std::endl;
-          throw std::invalid_argument(errMsg.str().c_str());
+          spdlog::error(errMsg.str().c_str());
+          return NULL_TENSOR<To>;
         }
         axes(i) = rank + axes(i);
       }
@@ -216,14 +225,16 @@ public:
         errMsg << "axes value (" << axes(i) << ") along axis (" << i
                << ") is large than the number of dimensions of input tensor"
                << std::endl;
-        throw std::invalid_argument(errMsg.str().c_str());
+        spdlog::error(errMsg.str().c_str());
+        return NULL_TENSOR<To>;
       }
 
       for (size_t j = i + 1; j < num_axes; j++) {
         if (axes(i) == axes(j)) {
           errMsg << "repeated axis value (" << axes(i) << ") at indices " << i
                  << " and " << j << " of axes input" << std::endl;
-          throw std::invalid_argument(errMsg.str().c_str());
+          spdlog::error(errMsg.str().c_str());
+          return NULL_TENSOR<To>;
         }
       }
 
@@ -341,7 +352,7 @@ public:
         i0++;
       }
     } else {
-      std::cout << "Not supported";
+      spdlog::error("Not supported");
       return NULL_TENSOR<To>;
     }
 

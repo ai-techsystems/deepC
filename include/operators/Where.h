@@ -38,9 +38,10 @@ public:
   tensor<T> compute(tensor<bool> &B, tensor<T> &X, tensor<T> &Y) {
 
     if (X.shape() != Y.shape() || X.shape() != B.shape() ||
-        Y.shape() != B.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Where operator.");
+        Y.shape() != B.shape()) {
+      spdlog::error("tensor dimenions not appropriate for Where operator.");
+      return NULL_TENSOR<T>;
+    }
 
     tensor<T> result(X.shape(), X.name());
     for (size_t i = 0; i < X.length(); i++)

@@ -63,9 +63,10 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Mul operator.");
+    if (a.shape() != b.shape()) {
+      spdlog::error("tensor dimenions not appropriate for Mul operator.");
+      return NULL_TENSOR<To>;
+    }
     // Written for arbitrary Dimension.
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);

@@ -65,9 +65,11 @@ public:
 
   tensor<T> compute(tensor<T> a /*!< : N D tensor input of rank >= axis.*/) {
 
-    if (a.rank() < (size_t)axis)
-      throw std::invalid_argument(
+    if (a.rank() < (size_t)axis) {
+      spdlog::error(
           "tensor rank or axis not appropriate for Flatten operator.");
+      return NULL_TENSOR<T>;
+    }
 
     size_t row = 1;
     size_t col = 1;

@@ -81,16 +81,19 @@ public:
               input /*!< [float,double]: ND tensor of shape ( NxCxD1xD2…Dk ).*/,
           tensor<T> &scale /*!<  1D vector of dimension C.*/,
           tensor<T> &B /*!< : 1D vector of dimension C.*/) {
-    if (!(this->template type_check<T, float, double>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      spdlog::error("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     tensor<T> result(input.shape(), input.name());
     std::vector<size_t> original_shape = input.shape();
 
     if ((input.shape()[1] != scale.shape()[0]) ||
-        (input.shape()[1] != B.shape()[0]))
-      throw std::invalid_argument("Inappropriate tensor dimenions");
+        (input.shape()[1] != B.shape()[0])) {
+      spdlog::error("Inappropriate tensor dimenions");
+      return NULL_TENSOR<T>;
+    }
 
     size_t size = 1;
     for (size_t i = 2; i < input.rank(); i++) {

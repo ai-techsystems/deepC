@@ -60,9 +60,10 @@ public:
     return false;
   }
   tensor<T> compute(tensor<T> a/*< The input tensor that will be coerced into a 2D matrix of size (NxD) as described in operator definition*/) {
-    if (!(this->template type_check<T, float, double>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      spdlog::error("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
     if (axis >= int(a.rank()))
       std::invalid_argument("Reshaping failed");
     std::vector<size_t> original_shape = a.shape();

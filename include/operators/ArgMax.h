@@ -68,14 +68,18 @@ public:
 
   tensor<To> compute(tensor<Ti> input) override {
 
-    if (!(this->template type_check<To, short int, int, long int>()))
-      throw std::invalid_argument("Constrain output tensor type to int type.");
+    if (!(this->template type_check<To, short int, int, long int>())) {
+      spdlog::error("Constrain output tensor type to int type.");
+      return NULL_TENSOR<To>;
+    }
 
     int rank = input.rank();
 
-    if (_axis < -rank || _axis > rank - 1)
-      throw std::invalid_argument("axis " + std::to_string(_axis) +
-                                  " is out of bounds for tensor.");
+    if (_axis < -rank || _axis > rank - 1) {
+      spdlog::error("axis " + std::to_string(_axis) +
+                    " is out of bounds for tensor.");
+      return NULL_TENSOR<To>;
+    }
 
     size_t axis = _axis + (_axis < 0 ? rank : 0); // ascertain positive number.
 
@@ -248,8 +252,8 @@ public:
       }
       return result;
     } else {
-      throw std::invalid_argument("axis " + std::to_string(_axis) +
-                                  " more than 5 for ArgMax is not supported.");
+      spdlog::error("axis " + std::to_string(_axis) +
+                    " more than 5 for ArgMax is not supported.");
     }
 
     return NULL_TENSOR<To>;

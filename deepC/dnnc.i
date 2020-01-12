@@ -32,7 +32,7 @@
  }
  catch (const std::runtime_error& e) {
    SWIG_exception(SWIG_RuntimeError, e.what());
- } 
+ }
  catch (const std::invalid_argument& e) {
    SWIG_exception(SWIG_ValueError, e.what());
  }
@@ -46,7 +46,7 @@
    PyErr_NoMemory();
    SWIG_exception(SWIG_MemoryError, e.what());
  }
- catch (...) { 
+ catch (...) {
    SWIG_exception(SWIG_RuntimeError, "unknown exception");
  }
 }

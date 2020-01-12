@@ -89,16 +89,20 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for BitShift operator.");
+    if (a.shape() != b.shape()) {
+      spdlog::error("tensor dimenions not appropriate for BitShift operator.");
+      return NULL_TENSOR<T>;
+    }
 
-    if ((direction != "LEFT") && (direction != "RIGHT"))
-      throw std::invalid_argument("Specify direction to 'LEFT' or 'RIGHT'");
+    if ((direction != "LEFT") && (direction != "RIGHT")) {
+      spdlog::error("Specify direction to 'LEFT' or 'RIGHT'");
+      return NULL_TENSOR<T>;
+    }
 
-    if (!(this->template type_check<T, int>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to int tensors.");
+    if (!(this->template type_check<T, int>())) {
+      spdlog::error("Constrain input and output types to int tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);

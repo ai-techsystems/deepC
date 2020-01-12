@@ -1,5 +1,5 @@
 # Copyright 2018 The DNNC Authors. All Rights Reserved.
-# 
+#
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -18,7 +18,7 @@
 # under the License.
 # pylint: disable=invalid-name, unused-argument
 #
-# This file is part of DNN compiler maintained at 
+# This file is part of DNN compiler maintained at
 # https://github.com/ai-techsystems/dnnCompiler
 #
 include ../../Makefile.common
@@ -34,16 +34,16 @@ all:$(LIB)
 CPP_SRCS=$(wildcard *.cpp)
 OBJECTS=$(CPP_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 $(OBJ_DIR)/%.o:%.cpp
-	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR) 
+	test -d $(OBJ_DIR) || $(MKDIR_P) $(OBJ_DIR)
 	@echo "compiling $<"
 	$(CC) $(CPP_FLAGS) $(EIGEN_INCLUDES) $(DNNC_INCLUDES) -c $< -o $@
 
 $(LIB):$(OBJECTS)
-	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
+	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR)
 	$(CC) $(LD_FLAGS) $(OBJECTS) -o $@
 
 clean:
-	$(RM_F) $(OBJ_DIR) $(LIB_DIR) 
+	$(RM_F) $(OBJ_DIR) $(LIB_DIR)
 
 .DEFAULT: all
 .PHONY: print_vars

@@ -46,12 +46,15 @@ public:
     tensor<To> result(resultShape);
 
     // This check is for ONNX standard
-    if (!(this->template type_check<Ti, bool>()))
-      throw std::invalid_argument("Constrain input tensors to bool types.");
+    if (!(this->template type_check<Ti, bool>())) {
+      spdlog::error("Constrain input tensors to bool types.");
+      return NULL_TENSOR<To>;
+    }
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Or operator.");
+    if (a.shape() != b.shape()) {
+      spdlog::error("tensor dimenions not appropriate for Or operator.");
+      return NULL_TENSOR<To>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);

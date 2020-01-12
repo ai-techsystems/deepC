@@ -108,11 +108,11 @@ public:
     return false;
   }
 
-  tensor<To> compute(tensor<Ti1> a/*!<Input tensor A. The shape of A should be (M, K) 
-                                  if \f$ A_{trans} \f$ is 0, or (K, M) if \f$ A_{trans} \f$ 
+  tensor<To> compute(tensor<Ti1> a/*!<Input tensor A. The shape of A should be (M, K)
+                                  if \f$ A_{trans} \f$ is 0, or (K, M) if \f$ A_{trans} \f$
                                   is non-zero.*/,
-                   tensor<Ti1> b/*!<Input tensor B. The shape of B should be (K, N) 
-                                  if \f$ B_{trans} \f$ is 0, or (N, K) if \f$ B_{trans} \f$ 
+                   tensor<Ti1> b/*!<Input tensor B. The shape of B should be (K, N)
+                                  if \f$ B_{trans} \f$ is 0, or (N, K) if \f$ B_{trans} \f$
                                   is non-zero.*/,
                    tensor<Ti1> c/*!<Input tensor C. The shape of C should be
                                    unidirectional broadcastable to (M, N)*/) override {
@@ -137,13 +137,16 @@ public:
       b.reshape(bShape);
     }
 
-    if (a.rank() != 2 || b.rank() != 2)
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Gemm operator.");
+    if (a.rank() != 2 || b.rank() != 2) {
+      spdlog::error("tensor dimenions not appropriate for Gemm operator.");
+      return NULL_TENSOR<To>;
+    }
 
-    if (!(this->template type_check<Ti1, float, double, int>()))
-      throw std::invalid_argument(
+    if (!(this->template type_check<Ti1, float, double, int>())) {
+      spdlog::error(
           "Constrain input and output types to float and int tensors.");
+      return NULL_TENSOR<To>;
+    }
 
     std::vector<size_t> targetShape = {aShape[0], bShape[1]};
     tensor<Ti1> broadcastedC = broadcast(c, targetShape);
@@ -170,8 +173,8 @@ public:
             beta * eigenMatrixC;
       }
     } catch (...) {
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Gemm operator.");
+      spdlog::error("tensor dimenions not appropriate for Gemm operator.");
+      return NULL_TENSOR<To>;
     }
     result.load(eResult.data());
 

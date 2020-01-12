@@ -45,9 +45,10 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<bool> result(resultShape);
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Less operator.");
+    if (a.shape() != b.shape()) {
+      spdlog::error("tensor dimenions not appropriate for Less operator.");
+      return NULL_TENSOR<To>;
+    }
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;

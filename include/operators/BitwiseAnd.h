@@ -52,12 +52,14 @@ public:
 
     // This check is for NUMPY standard
     // if (!(this->template type_check<Ti, bool,int>() ))
-    //   throw std::invalid_argument(
+    //   spdlog::error(
     //       "Constrain input tensors to int or bool tensors.");
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
+    if (a.shape() != b.shape()) {
+      spdlog::error(
           "tensor dimenions not appropriate for BitwiseAnd operator.");
+      return NULL_TENSOR<To>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);

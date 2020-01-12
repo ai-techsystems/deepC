@@ -64,8 +64,8 @@ public:
     tensor<To> result(resultShape);
 
     if (a.shape() != b.shape()) {
-      LOG_F(ERROR, "tensor dimenions not appropriate for Add operator.");
-      return a;
+      spdlog::error("tensor dimenions not appropriate for Add operator.");
+      return NULL_TENSOR<To>;
     }
     // Written for arbitrary Dimension.
 

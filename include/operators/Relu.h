@@ -40,9 +40,10 @@ public:
   Relu(std::string name = "opRelu") : baseOperator<To, Ti, Ti>(opRelu, name) {}
 
   tensor<To> compute(tensor<Ti> &input) {
-    if (!(this->template type_check<Ti, float, double>()))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<Ti, float, double>())) {
+      spdlog::error("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<To>;
+    }
 
     tensor<Ti> result(input.shape(), input.name());
     DNNC_EIGEN_ARRAY_MAP(eigenVector, Ti, input);
