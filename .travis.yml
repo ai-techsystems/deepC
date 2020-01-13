@@ -43,6 +43,6 @@ language: bash
 
 script:
   # bug: numpy 1.18 fails
-  - pip3 install numpy onnx
-  # - pip3 install numpy==1.15.0 onnx==1.5.0
+  # - pip3 install numpy onnx
+  - pip3 install numpy==1.15.0 onnx==1.5.0
   - make all
