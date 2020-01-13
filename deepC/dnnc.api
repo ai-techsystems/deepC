@@ -720,8 +720,7 @@ tensor<output> floor(tensor<input> &a) {
 	return op.compute(a);
 	dtype = {
 		"double" : "double",
-		"float" : "float",
-		"int" : "int",
+		"float" : "float"
 	}
 }
 

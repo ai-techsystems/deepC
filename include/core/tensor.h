@@ -23,7 +23,6 @@
 
 #pragma once
 
-#include "core/NanoLogCpp17.h"
 #include "core/datatypes.h"
 #include "core/iterator.h"
 #include "core/macros.h"
