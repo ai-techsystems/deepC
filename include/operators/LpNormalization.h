@@ -75,15 +75,15 @@ public:
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: 2D tensor*/) {
     if (!(this->template type_check<T, float, double>())) {
-      spdlog::error("Constrain input and output types to float tensors.");
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
       return NULL_TENSOR<T>;
     }
     if (a.rank() != 2) {
-      spdlog::error("Constrain input and output types should be matrix.");
+      SPDLOG_ERROR("Constrain input and output types should be matrix.");
       return NULL_TENSOR<T>;
     }
     if (p != 2 && p != 1) {
-      spdlog::error("Constrain input(norm) not supported.");
+      SPDLOG_ERROR("Constrain input(norm) not supported.");
       return NULL_TENSOR<T>;
     }
 

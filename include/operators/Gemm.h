@@ -138,12 +138,12 @@ public:
     }
 
     if (a.rank() != 2 || b.rank() != 2) {
-      spdlog::error("tensor dimenions not appropriate for Gemm operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for Gemm operator.");
       return NULL_TENSOR<To>;
     }
 
     if (!(this->template type_check<Ti1, float, double, int>())) {
-      spdlog::error(
+      SPDLOG_ERROR(
           "Constrain input and output types to float and int tensors.");
       return NULL_TENSOR<To>;
     }
@@ -173,7 +173,7 @@ public:
             beta * eigenMatrixC;
       }
     } catch (...) {
-      spdlog::error("tensor dimenions not appropriate for Gemm operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for Gemm operator.");
       return NULL_TENSOR<To>;
     }
     result.load(eResult.data());

@@ -40,6 +40,8 @@ class BroadcastTest(unittest.TestCase):
         self.dc_d = dc.array(list(self.np_d));
         self.err  = "operands could not be broadcast together with shapes (2,5,2) (4,5,2)   ";
 
+    # deepC now uses logger instead of exceptions, so this test is not necessary
+    '''
     def test_error_message (self):
         dc_a = dc.reshape(self.dc_a, (2,5,2));
         dc_b = dc.reshape(self.dc_b, (4,5,2));
@@ -52,12 +54,13 @@ class BroadcastTest(unittest.TestCase):
             np_err = val.__str__()
             assert (np_err[0:65]==self.err[0:65]), "ASSERT FAILED for numpy error message"
         try:
-            dc_sum = dc.add(dc_a,dc_b)
+          dc_sum = dc.add(dc_a,dc_b)
         except:
-            type, val, tb = sys.exc_info()
-            dc_err = val.__str__()
-            assert (dc_err[0:65]==self.err[0:65]), "ASSERT FAILED for dc error message"
-            assert (dc_err[0:65]==np_err[0:65]),   "ASSERT FAILED for matching numpy and dc error message"
+          type, val, tb = sys.exc_info()
+          dc_err = val.__str__()
+          assert (dc_err[0:65]==self.err[0:65]), "ASSERT FAILED for dc error message"
+          assert (dc_err[0:65]==np_err[0:65]),   "ASSERT FAILED for matching numpy and dc error message"
+    '''
 
     def test_Add(self):
         dc_a = dc.reshape(self.dc_a, (5,4));

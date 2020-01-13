@@ -36,7 +36,7 @@ public:
   tensor<T> compute(tensor<T> &a) {
 
     if (!(this->template type_check<T, float, double>())) {
-      spdlog::error("Constrain input tensors to numeric tensors.");
+      SPDLOG_ERROR("Constrain input tensors to numeric tensors.");
       return NULL_TENSOR<T>;
     }
 

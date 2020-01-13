@@ -93,7 +93,7 @@ public:
   virtual bool setAttribute(OPATTR, tensor<double>) { return false; }
 
   tensor<To> NOT_SUPPORTED() {
-    spdlog::error("operator not supported.");
+    SPDLOG_ERROR("operator not supported.");
     return NULL_TENSOR<To>;
   }
   virtual tensor<To> compute(tensor<Ti1> in1) { return NOT_SUPPORTED(); }

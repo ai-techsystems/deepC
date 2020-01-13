@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
   vim
 
 # install numpy onnx with pip
-RUN pip3 install numpy==1.15.0 onnx==1.5.0
+RUN pip3 install numpy onnx
+# RUN pip3 install numpy==1.15.0 onnx==1.5.0
 
 # copy everything from current directory to container directory
 COPY . /dnnCompiler

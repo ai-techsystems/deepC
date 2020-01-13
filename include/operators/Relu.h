@@ -41,7 +41,7 @@ public:
 
   tensor<To> compute(tensor<Ti> &input) {
     if (!(this->template type_check<Ti, float, double>())) {
-      spdlog::error("Constrain input and output types to float tensors.");
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
       return NULL_TENSOR<To>;
     }
 

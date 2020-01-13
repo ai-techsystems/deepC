@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include "core/NanoLogCpp17.h"
 #include "core/datatypes.h"
 #include "core/iterator.h"
 #include "core/macros.h"
@@ -403,12 +404,12 @@ public:
 
     // ensure new_shape is same length as original length
     if (newLength == 0)
-      spdlog::error("new reshape length can't be zero.");
+      SPDLOG_ERROR("new reshape length can't be zero.");
     if (newLength != this->length()) {
       std::string msg = "new reshape length " + std::to_string(newLength) +
                         " does not match tensor\'s original length " +
                         std::to_string(this->length()) + ".\n";
-      spdlog::error(msg);
+      SPDLOG_ERROR(msg);
     } else {
       this->_shape = new_shape;
     }
@@ -467,7 +468,7 @@ public:
                           std::to_string(indices.size()) +
                           " is more than rank of the tensor " +
                           std::to_string(this->rank()) + ".\n";
-        spdlog::error(msg);
+        SPDLOG_ERROR(msg);
       }
       for (size_t i = 0; i < indices.size() && i < this->rank(); i++) {
         DIMENSION dsz = 1;

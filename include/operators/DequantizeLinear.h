@@ -57,11 +57,11 @@ public:
           tensor<float> &x_scale /*!<Scalar tensor*/,
           tensor<Ti> &x_zero_point /*!<Scalar tensor*/) {
     if (x_scale.shape() != x_zero_point.shape())
-      spdlog::error(
+      SPDLOG_ERROR(
           "tensor dimenions not appropriate for DequantizeLinear operator.");
     /*
     if (!compare(a,a_zero_point))
-     spdlog::error(
+     SPDLOG_ERROR(
          "Constrain input and output types to float tensors.");
    */
 

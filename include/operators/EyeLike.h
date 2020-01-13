@@ -72,7 +72,7 @@ public:
   tensor<T> compute(tensor<T> &a /*!< D input tensor to copy shape, and
                                  optionally, type information from*/) {
     if (a.rank() != 2) {
-      spdlog::error("tensor dimenions not appropriate for EyeLike operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for EyeLike operator.");
       return NULL_TENSOR<T>;
     }
 

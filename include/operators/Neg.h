@@ -38,7 +38,7 @@ public:
   tensor<T> compute(tensor<T> &a /*!< ND tensor*/) {
 
     if ((this->template type_check<T, bool>())) {
-      spdlog::error("Constrain input and output types to numeric tensors.");
+      SPDLOG_ERROR("Constrain input and output types to numeric tensors.");
       return NULL_TENSOR<T>;
     }
 

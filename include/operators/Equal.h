@@ -47,7 +47,7 @@ public:
     tensor<To> result(resultShape);
 
     if (a.shape() != b.shape()) {
-      spdlog::error("tensor dimenions not appropriate for Equal operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for Equal operator.");
       return NULL_TENSOR<To>;
     }
 

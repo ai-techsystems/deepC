@@ -90,17 +90,17 @@ public:
     tensor<T> result(resultShape);
 
     if (a.shape() != b.shape()) {
-      spdlog::error("tensor dimenions not appropriate for BitShift operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for BitShift operator.");
       return NULL_TENSOR<T>;
     }
 
     if ((direction != "LEFT") && (direction != "RIGHT")) {
-      spdlog::error("Specify direction to 'LEFT' or 'RIGHT'");
+      SPDLOG_ERROR("Specify direction to 'LEFT' or 'RIGHT'");
       return NULL_TENSOR<T>;
     }
 
     if (!(this->template type_check<T, int>())) {
-      spdlog::error("Constrain input and output types to int tensors.");
+      SPDLOG_ERROR("Constrain input and output types to int tensors.");
       return NULL_TENSOR<T>;
     }
 

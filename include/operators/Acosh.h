@@ -35,7 +35,7 @@ public:
   tensor<T> compute(tensor<T> &a) {
 
     if (!(this->template type_check<T, float, double>())) {
-      spdlog::error("Constrain input tensors to numeric tensors.");
+      SPDLOG_ERROR("Constrain input tensors to numeric tensors.");
       return NULL_TENSOR<T>;
     }
 
@@ -44,7 +44,7 @@ public:
     for (size_t i = 0; i < a.length(); i++) {
       float x = a[i];
       if (0 >= x) {
-        spdlog::error("Tensor value is negative cannot calculate ACOSH");
+        SPDLOG_ERROR("Tensor value is negative cannot calculate ACOSH");
         return NULL_TENSOR<T>;
       }
       result[i] = log(x + sqrt(x * x - 1));

@@ -48,12 +48,12 @@ public:
 
     // This check is for ONNX standard
     if (!(this->template type_check<Ti, bool>())) {
-      spdlog::error("Constrain input tensors to bool types.");
+      SPDLOG_ERROR("Constrain input tensors to bool types.");
       return dnnc::NULL_TENSOR<To>;
     }
 
     if (a.shape() != b.shape()) {
-      spdlog::error("tensor dimenions not appropriate for And operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for And operator.");
       return dnnc::NULL_TENSOR<To>;
     }
 

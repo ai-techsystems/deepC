@@ -71,7 +71,7 @@ public:
     tensor<To> result(resultShape);
 
     if (a.shape() != b.shape()) {
-      spdlog::error("tensor dimenions not appropriate for Remainder operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for Remainder operator.");
       return NULL_TENSOR<To>;
     }
     // Written for arbitrary Dimension.

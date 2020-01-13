@@ -48,13 +48,13 @@ public:
           tensor<T> b_zero_point /*!<Scale tensor for input 'B'.*/) {
 
     if (!(this->template type_check<T, int>())) {
-      spdlog::error("Constrain input and output types to int tensors.");
+      SPDLOG_ERROR("Constrain input and output types to int tensors.");
       return NULL_TENSOR<T>;
     }
 
     if ((a.rank() == 1 && b.rank() == 1)) {
       if (a.length() != b.length()) {
-        spdlog::error(
+        SPDLOG_ERROR(
             "vector dimensions not appropriate for multiplication operator.");
         return NULL_TENSOR<T>;
       }
@@ -67,8 +67,8 @@ public:
       return result;
     } else if (a.rank() == 2 && b.rank() == 2) {
       if (a.shape()[1] != b.shape()[0]) {
-        spdlog::error("matrix dimensions not appropriate for 2D "
-                      "multiplication operator.");
+        SPDLOG_ERROR("matrix dimensions not appropriate for 2D "
+                     "multiplication operator.");
         return NULL_TENSOR<T>;
       }
 
@@ -84,8 +84,8 @@ public:
       return result;
     } else if ((a.rank() == 3)) {
       if ((a.shape()[2] != b.shape()[1]) || (a.shape()[0] != b.shape()[0])) {
-        spdlog::error("tensor dimensions not appropriate for 3D "
-                      "multiplication operator.");
+        SPDLOG_ERROR("tensor dimensions not appropriate for 3D "
+                     "multiplication operator.");
         return NULL_TENSOR<T>;
       }
 
@@ -118,7 +118,7 @@ public:
     } else if ((a.rank() == 4)) {
       if ((a.shape()[1] != b.shape()[0]) || (a.shape()[2] != b.shape()[1]) ||
           (a.shape()[3] != b.shape()[2])) {
-        spdlog::error(
+        SPDLOG_ERROR(
             "tensor dimenions not appropriate for multiplication operator.");
         return NULL_TENSOR<T>;
       }
@@ -140,7 +140,7 @@ public:
 #endif
 
     } else {
-      spdlog::error("invalid tensor rank.");
+      SPDLOG_ERROR("invalid tensor rank.");
       return NULL_TENSOR<T>;
     }
 

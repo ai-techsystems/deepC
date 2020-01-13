@@ -48,7 +48,7 @@ class TrueDiv : public baseOperator<To, Ti, Ti> {
   inline DNNC_EIGEN_VECTOR_CTOR(To)
       eigenArrayDiv(Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &a,
                     Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &b) {
-    spdlog::error("Division not valid for bool tensor(s)");
+    SPDLOG_ERROR("Division not valid for bool tensor(s)");
     return a.template cast<To>().array() / b.template cast<To>().array();
   }
 
@@ -63,12 +63,12 @@ public:
     tensor<To> result(resultShape);
 
     if (!(this->template type_check<Ti, float, double, int>())) {
-      spdlog::error("Constrain input and output types to numeric tensors.");
+      SPDLOG_ERROR("Constrain input and output types to numeric tensors.");
       return NULL_TENSOR<To>;
     }
 
     if (a.shape() != b.shape()) {
-      spdlog::error("tensor dimenions not appropriate for TrueDiv operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for TrueDiv operator.");
       return NULL_TENSOR<To>;
     }
 

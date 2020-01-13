@@ -184,7 +184,7 @@ public:
       errMsg << "Bias length (" << B.length()
              << "is different than number of feature maps (" << numFeatureMaps
              << ")" << std::endl;
-      spdlog::error(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
       return NULL_TENSOR<To>;
     }
 
@@ -193,7 +193,7 @@ public:
       errMsg << "Weight tensor shape along second axis " << W.shape()[1]
              << "doesn't match " << numChannels / group
              << "(input channels/group)" << std::endl;
-      spdlog::error(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
       return NULL_TENSOR<To>;
     }
 
@@ -205,7 +205,7 @@ public:
     } else if (strides.size() != 2) {
       errMsg << "stride expected along 2 spatial axes, specified along"
              << strides.size() << "spatial axes" << std::endl;
-      spdlog::error(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
       return NULL_TENSOR<To>;
     }
 
@@ -219,7 +219,7 @@ public:
     } else if (dilations.size() != 2) {
       errMsg << "stride expected along 2 spatial axes, specified along"
              << dilations.size() << "spatial axes" << std::endl;
-      spdlog::error(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
       return NULL_TENSOR<To>;
     }
 
@@ -265,7 +265,7 @@ public:
         if (X.shape()[axis] <= kernelShape[axis]) {
           errMsg << "Kernel is too big for the given input and paddings"
                  << std::endl;
-          spdlog::error(errMsg.str().c_str());
+          SPDLOG_ERROR(errMsg.str().c_str());
           return NULL_TENSOR<To>;
         }
         resultShape.push_back(
@@ -274,7 +274,7 @@ public:
       if (!pads.empty()) {
         errMsg << "auto_pad and pads attribute can't be used simultaneously"
                << std::endl;
-        spdlog::error(errMsg.str().c_str());
+        SPDLOG_ERROR(errMsg.str().c_str());
         return NULL_TENSOR<To>;
       }
     } else if (auto_pad == "SAME_UPPER") {
@@ -286,7 +286,7 @@ public:
       if (!pads.empty()) {
         errMsg << "auto_pad and pads attribute can't be used simultaneously"
                << std::endl;
-        spdlog::error(errMsg.str().c_str());
+        SPDLOG_ERROR(errMsg.str().c_str());
         return NULL_TENSOR<To>;
       }
     } else if (auto_pad == "SAME_LOWER") {
@@ -298,7 +298,7 @@ public:
       if (!pads.empty()) {
         errMsg << "auto_pad and pads attribute can't be used simultaneously"
                << std::endl;
-        spdlog::error(errMsg.str().c_str());
+        SPDLOG_ERROR(errMsg.str().c_str());
         return NULL_TENSOR<To>;
       }
     } else if (auto_pad == "NOTSET") {
@@ -306,7 +306,7 @@ public:
       if (pads.empty()) {
         errMsg << "explicit pads expected when auto_pad is \"NOTSET\""
                << std::endl;
-        spdlog::error(errMsg.str().c_str());
+        SPDLOG_ERROR(errMsg.str().c_str());
         return NULL_TENSOR<To>;
       }
       for (size_t axis = 2; axis < X.rank(); axis++) {
@@ -314,7 +314,7 @@ public:
             kernelShape[axis]) {
           errMsg << "Kernel is too big for the given input and paddings"
                  << std::endl;
-          spdlog::error(errMsg.str().c_str());
+          SPDLOG_ERROR(errMsg.str().c_str());
           return NULL_TENSOR<To>;
         }
         resultShape.push_back(((X.shape()[axis] - kernelShape[axis] +
@@ -326,7 +326,7 @@ public:
       errMsg << "auto_pad must be either \"NOTSET\", \"SAME_UPPER\", "
                 "\"SAME_LOWER\" or \"VALID\""
              << std::endl;
-      spdlog::error(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
       return NULL_TENSOR<To>;
     }
 
@@ -338,7 +338,7 @@ public:
                   "x2_end,...]"
                << "found " << pads.size() << " elements ( expected " << padsSize
                << std::endl;
-        spdlog::error(errMsg.str().c_str());
+        SPDLOG_ERROR(errMsg.str().c_str());
         return NULL_TENSOR<To>;
       }
       // above and below code is changed by Gunjan
@@ -346,7 +346,7 @@ public:
         if (pads[i] < 0) {
           errMsg << "pads value at index " << i << " is less than 0 ("
                  << pads[i] << ")" << std::endl;
-          spdlog::error(errMsg.str().c_str());
+          SPDLOG_ERROR(errMsg.str().c_str());
           return NULL_TENSOR<To>;
         }
       }

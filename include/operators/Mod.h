@@ -42,7 +42,7 @@ public:
 
     // Check for fmod or not
     if ((fmod == 0) && ((this->template type_check<T, float, double>()))) {
-      spdlog::error("Set fmod to 1 to pass float values.");
+      SPDLOG_ERROR("Set fmod to 1 to pass float values.");
       return;
     }
   }
@@ -73,7 +73,7 @@ public:
     tensor<T> result(resultShape);
 
     if (a.shape() != b.shape()) {
-      spdlog::error("tensor dimenions not appropriate for Mod operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for Mod operator.");
       return NULL_TENSOR<T>;
     }
 

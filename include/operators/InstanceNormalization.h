@@ -82,7 +82,7 @@ public:
           tensor<T> &scale /*!<  1D vector of dimension C.*/,
           tensor<T> &B /*!< : 1D vector of dimension C.*/) {
     if (!(this->template type_check<T, float, double>())) {
-      spdlog::error("Constrain input and output types to float tensors.");
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
       return NULL_TENSOR<T>;
     }
 
@@ -91,7 +91,7 @@ public:
 
     if ((input.shape()[1] != scale.shape()[0]) ||
         (input.shape()[1] != B.shape()[0])) {
-      spdlog::error("Inappropriate tensor dimenions");
+      SPDLOG_ERROR("Inappropriate tensor dimenions");
       return NULL_TENSOR<T>;
     }
 

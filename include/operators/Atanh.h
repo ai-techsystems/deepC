@@ -35,7 +35,7 @@ public:
   tensor<T> compute(tensor<T> &a) {
 
     if (!(this->template type_check<T, float, double>())) {
-      spdlog::error("Constrain input tensors to numeric tensors.");
+      SPDLOG_ERROR("Constrain input tensors to numeric tensors.");
       return a;
     }
 
@@ -43,7 +43,7 @@ public:
     for (size_t i = 0; i < a.length(); i++) {
       float x = a[i];
       if (x < -1 && x > 1) {
-        spdlog::error("Error : the value of tensor element is less than 0");
+        SPDLOG_ERROR("Error : the value of tensor element is less than 0");
         return NULL_TENSOR<T>;
       } else
         result[i] = 0.5 * (log((x + 1)) - log((x - 1)));

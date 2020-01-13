@@ -63,17 +63,17 @@ public:
                      tensor<Ti> &indices /*!<[int]: ND tensor*/) {
 
     if (!(this->template type_check<Ti, int>())) {
-      spdlog::error("Constrain axis tensor to integer type.");
+      SPDLOG_ERROR("Constrain axis tensor to integer type.");
       return NULL_TENSOR<To>;
     }
 
     if (a.rank() < 1) {
-      spdlog::error("Constrain input tensor rank greater than 0.");
+      SPDLOG_ERROR("Constrain input tensor rank greater than 0.");
       return NULL_TENSOR<To>;
     }
 
     if (axis < -a.rank() || axis > a.rank() - 1) {
-      spdlog::error("Constrain axis in range [-r,r-1] where r = rank(data)");
+      SPDLOG_ERROR("Constrain axis in range [-r,r-1] where r = rank(data)");
       return NULL_TENSOR<To>;
     }
 

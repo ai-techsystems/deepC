@@ -45,12 +45,12 @@ public:
     tensor<T> result(resultShape);
 
     if (!(this->template type_check<T, float, double, int>())) {
-      spdlog::error("Constrain input and output types to numeric tensors.");
+      SPDLOG_ERROR("Constrain input and output types to numeric tensors.");
       return NULL_TENSOR<T>;
     }
 
     if (a.shape() != b.shape()) {
-      spdlog::error("tensor dimenions not appropriate for Div operator.");
+      SPDLOG_ERROR("tensor dimenions not appropriate for Div operator.");
       return NULL_TENSOR<T>;
     }
 

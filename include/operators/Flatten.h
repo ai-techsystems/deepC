@@ -66,8 +66,7 @@ public:
   tensor<T> compute(tensor<T> a /*!< : N D tensor input of rank >= axis.*/) {
 
     if (a.rank() < (size_t)axis) {
-      spdlog::error(
-          "tensor rank or axis not appropriate for Flatten operator.");
+      SPDLOG_ERROR("tensor rank or axis not appropriate for Flatten operator.");
       return NULL_TENSOR<T>;
     }
 
