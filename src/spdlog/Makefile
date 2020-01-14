@@ -23,7 +23,7 @@
 #
 include ../../Makefile.common
 
-MODULE=logger
+MODULE=spdlog
 LIB=$(LIB_DIR)/lib$(MODULE).so
 
 

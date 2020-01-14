@@ -101,7 +101,8 @@ public:
         errMsg << "bidiretional LSTM";
       }
       errMsg << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
     this->activation_alpha = activation_alpha;
 
@@ -113,7 +114,8 @@ public:
       } else {
         errMsg << "bidiretional LSTM";
       }
-      throw std::invalid_argument(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
     this->activation_beta = activation_beta;
 
@@ -124,7 +126,8 @@ public:
         errMsg << activation << " is not a supported activation funtion"
                << std::endl;
       }
-      throw std::invalid_argument(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
     this->activations = activations;
 
@@ -136,14 +139,16 @@ public:
                   direction) == valid_directions.end()) {
       errMsg << direction << " is not a valid direction" << std::endl;
     }
-    throw std::invalid_argument(errMsg.str().c_str());
+    SPDLOG_ERROR(errMsg.str().c_str());
+    return NULL_TENSOR<To>;
     this->direction = direction;
 
     // hidden_size?
     if (hidden_size < 0) {
       errMsg << hidden_size << "is not a valid value for hidden_size"
              << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
     this->hidden_size = hidden_size;
 
@@ -152,7 +157,8 @@ public:
       errMsg << input_forget
              << "is not a valid value for input_forget ( must be 0 or 1)"
              << std::endl;
-      throw std::invalid_argument(errMsg.str().c_str());
+      SPDLOG_ERROR(errMsg.str().c_str());
+      return NULL_TENSOR<To>;
     }
     this->input_forget = input_forget;
   }

@@ -69,11 +69,12 @@ public:
     return false;
   }
 
-  tensor<T> compute(tensor<T> &a /*!< D input tensor to copy shape, and 
+  tensor<T> compute(tensor<T> &a /*!< D input tensor to copy shape, and
                                  optionally, type information from*/) {
-    if (a.rank() != 2)
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for EyeLike operator.");
+    if (a.rank() != 2) {
+      SPDLOG_ERROR("tensor dimenions not appropriate for EyeLike operator.");
+      return NULL_TENSOR<T>;
+    }
 
     int row = a.shape()[0];
     int col = a.shape()[1];

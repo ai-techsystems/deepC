@@ -62,16 +62,20 @@ public:
   tensor<To> compute(tensor<To> &a /*!<[float,double]: ND tensor*/,
                      tensor<Ti> &indices /*!<[int]: ND tensor*/) {
 
-    if (!(this->template type_check<Ti, int>()))
-      throw std::invalid_argument("Constrain axis tensor to integer type.");
+    if (!(this->template type_check<Ti, int>())) {
+      SPDLOG_ERROR("Constrain axis tensor to integer type.");
+      return NULL_TENSOR<To>;
+    }
 
-    if (a.rank() < 1)
-      throw std::invalid_argument(
-          "Constrain input tensor rank greater than 0.");
+    if (a.rank() < 1) {
+      SPDLOG_ERROR("Constrain input tensor rank greater than 0.");
+      return NULL_TENSOR<To>;
+    }
 
-    if (axis < -a.rank() || axis > a.rank() - 1)
-      throw std::invalid_argument(
-          "Constrain axis in range [-r,r-1] where r = rank(data)");
+    if (axis < -a.rank() || axis > a.rank() - 1) {
+      SPDLOG_ERROR("Constrain axis in range [-r,r-1] where r = rank(data)");
+      return NULL_TENSOR<To>;
+    }
 
     std::vector<size_t> Ni, Nj, Nk;
     tensor<To> result(a);

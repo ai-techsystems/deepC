@@ -89,7 +89,8 @@ std::vector<DIMENSION> getTargetShape(const tensor<T> a, const tensor<T> b) {
       errMsg << b.shape()[i] << ",";
     }
     errMsg << b.shape()[b.rank() - 1] << ")" << std::endl;
-    throw std::invalid_argument(errMsg.str().c_str());
+    SPDLOG_ERROR(errMsg.str().c_str());
+    targetShape.clear();
   }
 
   return targetShape;
@@ -196,7 +197,7 @@ tensor<T> broadcast(const tensor<T> a,
         }
       }
     } else {
-      std::cout << "Unsupported!\n";
+      SPDLOG_ERROR("Unsupported!");
     }
 
     return result;
@@ -221,7 +222,7 @@ tensor<T> broadcast(const tensor<T> a,
     return broadcast<T>(aReShaped, targetShape);
 
   } else {
-    std::cout << "Not supported";
+    SPDLOG_ERROR("Not supported");
   }
 
   return dnnc::NULL_TENSOR<T>;
@@ -230,6 +231,12 @@ tensor<T> broadcast(const tensor<T> a,
 template <typename T>
 std::vector<DIMENSION> binaryBroadcastReShape(tensor<T> &a, tensor<T> &b) {
   std::vector<DIMENSION> targetShape = getTargetShape(a, b);
+
+  // if targetShape is NULL, then broadcast was
+  // not possible, so returning the input tensor
+  if (targetShape.size() == 0)
+    return targetShape;
+
   a = broadcast<T>(a, targetShape);
   b = broadcast<T>(b, targetShape);
   return targetShape;

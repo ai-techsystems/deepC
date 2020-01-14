@@ -22,7 +22,6 @@
 //
 
 #include "operators/Floor.h"
-// #include "logger/loguru.cpp"
 
 using namespace dnnc;
 using namespace Eigen;
