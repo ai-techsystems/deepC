@@ -48,7 +48,7 @@ class FloorDiv : public baseOperator<To, Ti, Ti> {
   inline DNNC_EIGEN_VECTOR_CTOR(To)
       eigenArrayDiv(Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &a,
                     Map<DNNC_EIGEN_VECTOR_CTOR(bool)> &b) {
-    spdlog::warn("Division not valid for bool tensor(s)");
+    LOG_WARN("Division not valid for bool tensor(s)");
     return a.template cast<To>().array() / b.template cast<To>().array();
   }
 
