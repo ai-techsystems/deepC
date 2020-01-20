@@ -103,7 +103,7 @@ public:
     For non image case, the dimensions are in the form of  \f$(N * C * D1 * D2* ...* Dn)\f$,
      where N is the batch size.*/) {
     if (!(this->template type_check<T, float, double>())) {
-      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      LOG_ERROR("Constrain input and output types to float tensors.");
       return NULL_TENSOR<T>;
     }
 

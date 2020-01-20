@@ -46,7 +46,7 @@ public:
     tensor<bool> result(resultShape);
 
     if (a.shape() != b.shape()) {
-      SPDLOG_ERROR(
+      LOG_ERROR(
           "tensor dimenions not appropriate for GreaterEqual operator.");
       return NULL_TENSOR<To>;
     }

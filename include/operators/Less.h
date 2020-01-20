@@ -46,7 +46,7 @@ public:
     tensor<bool> result(resultShape);
 
     if (a.shape() != b.shape()) {
-      SPDLOG_ERROR("tensor dimenions not appropriate for Less operator.");
+      LOG_ERROR("tensor dimenions not appropriate for Less operator.");
       return NULL_TENSOR<To>;
     }
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);

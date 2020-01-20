@@ -52,11 +52,11 @@ public:
 
     // This check is for NUMPY standard
     // if (!(this->template type_check<Ti, bool,int>() ))
-    //   SPDLOG_ERROR(
+    //   LOG_ERROR(
     //       "Constrain input tensors to int or bool tensors.");
 
     if (a.shape() != b.shape()) {
-      SPDLOG_ERROR("tensor dimenions not appropriate for BitwiseAnd operator.");
+      LOG_ERROR("tensor dimenions not appropriate for BitwiseAnd operator.");
       return NULL_TENSOR<To>;
     }
 

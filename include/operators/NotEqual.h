@@ -47,7 +47,7 @@ public:
     tensor<bool> result(resultShape);
 
     if (a.shape() != b.shape()) {
-      SPDLOG_ERROR("tensor dimenions not appropriate for NotEqual operator.");
+      LOG_ERROR("tensor dimenions not appropriate for NotEqual operator.");
       return NULL_TENSOR<To>;
     }
 

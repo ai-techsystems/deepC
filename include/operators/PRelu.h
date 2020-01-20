@@ -47,7 +47,7 @@ public:
                     tensor<T> &slope /*!< : N D tensor input*/) {
 
     if (!(this->template type_check<T, float, double>())) {
-      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      LOG_ERROR("Constrain input and output types to float tensors.");
       return NULL_TENSOR<T>;
     }
 
@@ -55,7 +55,7 @@ public:
     tensor<T> result(resultShape);
 
     if (x.shape() != slope.shape()) {
-      SPDLOG_ERROR("tensor dimenions not appropriate for PRelu operator.");
+      LOG_ERROR("tensor dimenions not appropriate for PRelu operator.");
       return NULL_TENSOR<T>;
     }
 

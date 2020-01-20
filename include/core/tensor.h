@@ -27,7 +27,7 @@
 #include "core/iterator.h"
 #include "core/macros.h"
 #include "core/placeHolder.h"
-#include "spdlog/spdlog.h"
+// #include "spdlog/spdlog.h"
 
 #ifndef SWIGPYTHON
 #include <fstream>
@@ -403,12 +403,12 @@ public:
 
     // ensure new_shape is same length as original length
     if (newLength == 0)
-      SPDLOG_ERROR("new reshape length can't be zero.");
+      LOG_ERROR("new reshape length can't be zero.");
     if (newLength != this->length()) {
       std::string msg = "new reshape length " + std::to_string(newLength) +
                         " does not match tensor\'s original length " +
                         std::to_string(this->length()) + ".\n";
-      SPDLOG_ERROR(msg);
+      LOG_ERROR(msg);
     } else {
       this->_shape = new_shape;
     }
@@ -467,7 +467,7 @@ public:
                           std::to_string(indices.size()) +
                           " is more than rank of the tensor " +
                           std::to_string(this->rank()) + ".\n";
-        SPDLOG_ERROR(msg);
+        LOG_ERROR(msg);
       }
       for (size_t i = 0; i < indices.size() && i < this->rank(); i++) {
         DIMENSION dsz = 1;

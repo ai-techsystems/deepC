@@ -89,7 +89,7 @@ std::vector<DIMENSION> getTargetShape(const tensor<T> a, const tensor<T> b) {
       errMsg << b.shape()[i] << ",";
     }
     errMsg << b.shape()[b.rank() - 1] << ")" << std::endl;
-    SPDLOG_ERROR(errMsg.str().c_str());
+    LOG_ERROR(errMsg.str().c_str());
     targetShape.clear();
   }
 
@@ -197,7 +197,7 @@ tensor<T> broadcast(const tensor<T> a,
         }
       }
     } else {
-      SPDLOG_ERROR("Unsupported!");
+      LOG_ERROR("Unsupported!");
     }
 
     return result;
@@ -222,7 +222,7 @@ tensor<T> broadcast(const tensor<T> a,
     return broadcast<T>(aReShaped, targetShape);
 
   } else {
-    SPDLOG_ERROR("Not supported");
+    LOG_ERROR("Not supported");
   }
 
   return dnnc::NULL_TENSOR<T>;

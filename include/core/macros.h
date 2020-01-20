@@ -21,11 +21,10 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 #pragma once
-
 #define _USE_EIGEN 1
 
 #define TENSOR_DIMENSIONS_EQUAL(t1, t2)                                        \
-  { t1.size() == t2.size() }
+    { t1.size() == t2.size() }
 
 /*<! python interface tensor print limit */
 #define DNNC_TENSOR_MAX_EL 30
@@ -53,3 +52,35 @@ typedef size_t DIMENSION;
 #define RTTI_ENABLED
 #endif
 #endif
+
+// TEMPORARY_LOGGER_IMPLEMENTATION
+/*
+    Logger needs it's own class
+*/
+
+// colour codes to print on terminal
+#define log_red "\033[0;31m"
+#define log_green "\033[1;32m"
+#define log_yellow "\033[1;33m"
+#define log_cyan "\033[0;36m"
+#define log_magenta "\033[0;35m"
+#define log_reset "\033[0m"
+
+// to only get file name instead of full file path
+#define __FILENAME__ (__builtin_strrchr(__FILE__, '/') ?                        \
+        __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)
+
+#define LOG_ERROR(message)              \
+    (std::cout << "[" << log_red << "ERROR"  << log_reset << "] | " << message   \
+        << " | [" << log_red << __FILENAME__ << log_reset << "] | [" <<          \
+        log_red << __LINE__ << log_reset << "]" << std::endl)
+
+#define LOG_WARN(message)              \
+    (std::cout << "[" << log_yellow << "WARNING"  << log_reset << "] | " << message   \
+        << " | [" << log_yellow << __FILENAME__ << log_reset << "] | [" <<          \
+        log_yellow << __LINE__ << log_reset << "]" << std::endl)
+
+#define LOG_INFO(message)              \
+    (std::cout << "[" << log_green << "INFO"  << log_reset << "] | " << message   \
+        << " | [" << log_green << __FILENAME__ << log_reset << "] | [" <<          \
+        log_green << __LINE__ << log_reset << "]" << std::endl)

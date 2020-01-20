@@ -38,7 +38,7 @@ public:
   tensor<To> compute(tensor<To> a, tensor<Ti> b) {
 
     if (!(this->template type_check<Ti, int>())) {
-      SPDLOG_ERROR("Constrain shape tensor to integer type.");
+      LOG_ERROR("Constrain shape tensor to integer type.");
       return NULL_TENSOR<To>;
     }
 

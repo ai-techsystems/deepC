@@ -72,11 +72,11 @@ public:
     // check that values in _axis are less than or equal to the rank
     for (int axis : _axis) {
       if (axis > rank - 1) {
-        SPDLOG_ERROR("Axis is larger than input tensor rank.");
+        LOG_ERROR("Axis is larger than input tensor rank.");
         return NULL_TENSOR<To>;
       }
       if (axis < 0) {
-        SPDLOG_ERROR("Axis value is negative.");
+        LOG_ERROR("Axis value is negative.");
         return NULL_TENSOR<To>;
       }
     }

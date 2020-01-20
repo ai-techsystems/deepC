@@ -39,7 +39,7 @@ public:
   tensor<T> compute(tensor<T> &a /*!< : N D tensor input*/) {
 
     if (!(this->template type_check<T, float, double>())) {
-      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      LOG_ERROR("Constrain input and output types to float tensors.");
       return NULL_TENSOR<T>;
     }
 

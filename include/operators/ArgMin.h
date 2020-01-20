@@ -69,14 +69,14 @@ public:
   tensor<To> compute(tensor<Ti> input) override {
 
     if (!(this->template type_check<To, short int, int, long int>())) {
-      SPDLOG_ERROR("Constrain output tensor type to int type.");
+      LOG_ERROR("Constrain output tensor type to int type.");
       return NULL_TENSOR<To>;
     }
 
     int rank = input.rank();
 
     if (_axis < -rank || _axis > rank - 1) {
-      SPDLOG_ERROR("axis " + std::to_string(_axis) +
+      LOG_ERROR("axis " + std::to_string(_axis) +
                    " is out of bounds for tensor.");
       return NULL_TENSOR<To>;
     }
@@ -252,7 +252,7 @@ public:
       }
       return result;
     } else {
-      SPDLOG_ERROR("axis " + std::to_string(_axis) +
+      LOG_ERROR("axis " + std::to_string(_axis) +
                    " more than 5 for ArgMin is not supported.");
     }
 

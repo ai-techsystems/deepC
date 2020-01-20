@@ -68,12 +68,12 @@ public:
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
 
     if (!(this->template type_check<T, float, double>())) {
-      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      LOG_ERROR("Constrain input and output types to float tensors.");
       return NULL_TENSOR<T>;
     }
 
     if (a.rank() != 1) {
-      SPDLOG_ERROR("tensor dimenions not appropriate for Elu operator.");
+      LOG_ERROR("tensor dimenions not appropriate for Elu operator.");
       return NULL_TENSOR<T>;
     }
 

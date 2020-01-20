@@ -65,12 +65,12 @@ public:
     tensor<To> result(resultShape);
 
     if (!(this->template type_check<Ti, float, double, int>())) {
-      SPDLOG_ERROR("Constrain input and output types to numeric tensors.");
+      LOG_ERROR("Constrain input and output types to numeric tensors.");
       return NULL_TENSOR<To>;
     }
 
     if (a.shape() != b.shape()) {
-      SPDLOG_ERROR("tensor dimenions not appropriate for Pow operator.");
+      LOG_ERROR("tensor dimenions not appropriate for Pow operator.");
       return NULL_TENSOR<To>;
     }
 

@@ -41,7 +41,7 @@ public:
 
     // This check is for ONNX standard
     // if (!(this->template type_check<T, bool>() ))
-    //   SPDLOG_ERROR("Constrain input tensors to bool types.");
+    //   LOG_ERROR("Constrain input tensors to bool types.");
 
     tensor<To> result(a.shape(), a.name());
 

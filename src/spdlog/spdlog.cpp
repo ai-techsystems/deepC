@@ -21,7 +21,7 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "spdlog/spdlog.h"
+// #include "spdlog/spdlog.h"
 
 #ifdef DNNC_SPDLOG_TEST
 int main() {

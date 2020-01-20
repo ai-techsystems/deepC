@@ -54,7 +54,7 @@ public:
 
   tensor<To> compute(tensor<Ti1> indices, Ti2 depth, tensor<To> values) {
     if (values.rank() != 1 || values.length() != 2) {
-      SPDLOG_ERROR("invalid values rank or length.");
+      LOG_ERROR("invalid values rank or length.");
       return NULL_TENSOR<To>;
     }
 
@@ -62,12 +62,12 @@ public:
     To on_value = values[1];
 
     if (!(this->template type_check<Ti1, int, float, double>())) {
-      SPDLOG_ERROR("Constrain input tensor indices to numeric tensors.");
+      LOG_ERROR("Constrain input tensor indices to numeric tensors.");
       return NULL_TENSOR<To>;
     }
 
     if (!(this->template type_check<Ti2, int, float, double>())) {
-      SPDLOG_ERROR("Constrain scalar depth to numeric values.");
+      LOG_ERROR("Constrain scalar depth to numeric values.");
       return NULL_TENSOR<To>;
     }
 

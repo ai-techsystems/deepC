@@ -34,7 +34,7 @@ public:
   tensor<T> compute(tensor<T> &a) {
 
     if (!(this->template type_check<T, float, double, int>())) {
-      SPDLOG_ERROR("Constrain input tensors to numeric tensors.");
+      LOG_ERROR("Constrain input tensors to numeric tensors.");
       return NULL_TENSOR<T>;
     }
     tensor<T> result(a.shape(), a.name());

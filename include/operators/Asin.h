@@ -39,7 +39,7 @@ public:
     for (size_t i = 0; i < a.length(); i++) {
       float x = a[i];
       if (x < -1 && x > 1) {
-        SPDLOG_ERROR("Error : the value of tensor element is not "
+        LOG_ERROR("Error : the value of tensor element is not "
                      "lying in the domain of arc sine ");
         return NULL_TENSOR<T>;
       }

@@ -39,7 +39,7 @@ template <typename T> class Max : public baseOperator<T, T, T> {
   T maxEl(std::vector<T> &v) {
     T max = 0;
     if (v.size() == 0) {
-      SPDLOG_ERROR("Max operator requires non-zero size vector.");
+      LOG_ERROR("Max operator requires non-zero size vector.");
       return NULL_TENSOR<T>;
     }
 
@@ -55,12 +55,12 @@ public:
   compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
 
     if (!(this->template type_check<T, float, double>())) {
-      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      LOG_ERROR("Constrain input and output types to float tensors.");
       return NULL_TENSOR<T>;
     }
 
     if (inputs.size() == 0) {
-      SPDLOG_ERROR("Max operator requires non-zero size input vector.");
+      LOG_ERROR("Max operator requires non-zero size input vector.");
       return NULL_TENSOR<T>;
     }
 
@@ -78,7 +78,7 @@ public:
       return result;
 
     } catch (const std::exception &e) {
-      SPDLOG_ERROR(
+      LOG_ERROR(
           "operands could not be broadcast together with given shapes!!!");
       return NULL_TENSOR<T>;
     }

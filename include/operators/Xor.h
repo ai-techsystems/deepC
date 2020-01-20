@@ -48,12 +48,12 @@ public:
 
     // This check is for ONNX standard
     if (!(this->template type_check<Ti, bool>())) {
-      SPDLOG_ERROR("Constrain input tensors to bool types.");
+      LOG_ERROR("Constrain input tensors to bool types.");
       return NULL_TENSOR<To>;
     }
 
     if (a.shape() != b.shape()) {
-      SPDLOG_ERROR("tensor dimenions not appropriate for Xor operator.");
+      LOG_ERROR("tensor dimenions not appropriate for Xor operator.");
       return NULL_TENSOR<To>;
     }
 

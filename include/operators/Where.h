@@ -39,7 +39,7 @@ public:
 
     if (X.shape() != Y.shape() || X.shape() != B.shape() ||
         Y.shape() != B.shape()) {
-      SPDLOG_ERROR("tensor dimenions not appropriate for Where operator.");
+      LOG_ERROR("tensor dimenions not appropriate for Where operator.");
       return NULL_TENSOR<T>;
     }
 
