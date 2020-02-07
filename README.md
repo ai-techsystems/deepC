@@ -6,7 +6,7 @@
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
 [![Downloads](https://pepy.tech/badge/deepc)](https://pepy.tech/project/deepc)
 [![txt](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
-[![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
+[![Financial Contributors](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
 [![chat](https://img.shields.io/badge/chat-Gitter-green.svg)](https://gitter.im/ai-techsystems/community)
 
 ## 🏃‍♂️ Using deepC
