@@ -5,9 +5,9 @@
 [![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
 [![Downloads](https://pepy.tech/badge/deepc)](https://pepy.tech/project/deepc)
-[![txt](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
-[![Financial Contributors](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
-[![chat](https://img.shields.io/badge/chat-Gitter-green.svg)](https://gitter.im/ai-techsystems/community)
+[![Apache2.0 License](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
+[![Contributors](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
+[![Chat](https://img.shields.io/badge/chat-Gitter-green.svg)](https://gitter.im/ai-techsystems/community)
 
 ## 🏃‍♂️ Using deepC
 
@@ -131,9 +131,6 @@ We acknowledge the efforts predecessor projects like [LLVM](https://llvm.org/), 
 dnnCompiler is targeted towards devices with small formfactor like microcontrollers, which are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable.
 
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
-
-
-**🚧 Project Under Development.** *Stay tuned. We plan to release the first version in Nov. 2019.*
 
 ## Contributors
 
