@@ -5,9 +5,9 @@
 [![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
 [![Downloads](https://pepy.tech/badge/deepc)](https://pepy.tech/project/deepc)
-[![txt](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
-[![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
-[![chat](https://img.shields.io/badge/chat-Gitter-green.svg)](https://gitter.im/ai-techsystems/community)
+[![Apache2.0 License](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
+[![Contributors](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
+[![Chat](https://img.shields.io/badge/chat-Gitter-green.svg)](https://gitter.im/ai-techsystems/community)
 
 ## 🏃‍♂️ Using deepC
 
@@ -22,7 +22,7 @@ See more examples in [tutorial](tutorials/README.md) dir.
 
 ## 📛 what is deepC?
 
-deepC Compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ), mobile phones, x86 and arm laptops among others.
+deepC Compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of small form-factor devices like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ), mobile phones, x86 and arm laptops among others.
 
 ![edge Devices](misc/edgeDevices.png "supported edge devices")
 
@@ -132,14 +132,11 @@ dnnCompiler is targeted towards devices with small formfactor like microcontroll
 
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
 
-
-**🚧 Project Under Development.** *Stay tuned. We plan to release the first version in Nov. 2019.*
-
 ## Contributors
 
 ### Code Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+This project exists because of the people who [[Contribute](CONTRIBUTING.md)]. Thanks! 🙏
 <a href="https://github.com/ai-techsystems/dnnCompiler/graphs/contributors"><img src="https://opencollective.com/dnnc/contributors.svg?width=890&button=false" /></a>
 
 ### Financial Contributors
