@@ -46,16 +46,18 @@ public:
   tensor<T> compute(tensor<T> &x /*!< : N D tensor input*/,
                     tensor<T> &slope /*!< : N D tensor input*/) {
 
-    if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(x, slope);
     tensor<T> result(resultShape);
 
-    if (x.shape() != slope.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for PRelu operator.");
+    if (x.shape() != slope.shape()) {
+      SPDLOG_ERROR("tensor dimenions not appropriate for PRelu operator.");
+      return NULL_TENSOR<T>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigen_x, T, x);
     DNNC_EIGEN_ARRAY_MAP(eigen_slope, T, slope);

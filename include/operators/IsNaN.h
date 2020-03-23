@@ -36,9 +36,10 @@ public:
       : baseOperator<To, Ti, Ti>(opIsNaN, name) {}
 
   tensor<To> compute(tensor<Ti> &a) {
-    if (!(this->template type_check<float, double>(typeid(Ti))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<Ti, float, double>())) {
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<To>;
+    }
     tensor<bool> result(a.shape(), a.name());
     DNNC_EIGEN_ARRAY_MAP(eigenVector, Ti, a);
     DNNC_EIGEN_VECTOR_CTOR(bool) eResult;

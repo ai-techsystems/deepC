@@ -74,16 +74,17 @@ public:
   }
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: 2D tensor*/) {
-    if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
     if (a.rank() != 2) {
-      throw std::invalid_argument(
-          "Constrain input and output types should be matrix.");
+      SPDLOG_ERROR("Constrain input and output types should be matrix.");
+      return NULL_TENSOR<T>;
     }
     if (p != 2 && p != 1) {
-      throw std::invalid_argument("Constrain input(norm) not supported.");
-      return a;
+      SPDLOG_ERROR("Constrain input(norm) not supported.");
+      return NULL_TENSOR<T>;
     }
 
     tensor<T> result(a.shape(), a.name());

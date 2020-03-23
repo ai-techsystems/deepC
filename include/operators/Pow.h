@@ -64,13 +64,15 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
 
-    if (!(this->template type_check<float, double, int>(typeid(Ti))))
-      throw std::invalid_argument(
-          "Constrain input and output types to numeric tensors.");
+    if (!(this->template type_check<Ti, float, double, int>())) {
+      SPDLOG_ERROR("Constrain input and output types to numeric tensors.");
+      return NULL_TENSOR<To>;
+    }
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Pow operator.");
+    if (a.shape() != b.shape()) {
+      SPDLOG_ERROR("tensor dimenions not appropriate for Pow operator.");
+      return NULL_TENSOR<To>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);

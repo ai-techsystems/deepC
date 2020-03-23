@@ -38,9 +38,10 @@ public:
   tensor<T> compute(tensor<T> &a /*!< : N D tensor input*/) {
     tensor<T> result(a.shape(), a.name());
 
-    if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);
     DNNC_EIGEN_VECTOR_CTOR(T) eResult;

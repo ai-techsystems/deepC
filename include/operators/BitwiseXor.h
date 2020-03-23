@@ -51,13 +51,16 @@ public:
     tensor<To> result(resultShape);
 
     // This check is for NUMPY standard
-    // if (!(this->template type_check<bool,int>(typeid(Ti))))
-    //   throw std::invalid_argument(
+    // if (!(this->template type_check<Ti, bool,int>())) {
+    //   SPDLOG_ERROR(
     //       "Constrain input tensors to int or bool tensors.");
+    //   return NULL_TENSOR<To>;
+    // }
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for BitwiseXor operator.");
+    if (a.shape() != b.shape()) {
+      SPDLOG_ERROR("tensor dimenions not appropriate for BitwiseXor operator.");
+      return NULL_TENSOR<To>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);

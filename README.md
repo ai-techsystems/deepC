@@ -4,23 +4,25 @@
 
 [![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
-[![txt](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
-[![Financial Contributors on Open Collective](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
+[![Downloads](https://pepy.tech/badge/deepc)](https://pepy.tech/project/deepc)
+[![Apache2.0 License](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
+[![Contributors](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
+[![Chat](https://img.shields.io/badge/chat-Gitter-green.svg)](https://gitter.im/ai-techsystems/community)
 
 ## 🏃‍♂️ Using deepC
 
 Here are few of many ways.
 
-1. Try deepC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK) 
+1. Try deepC with [Colab Noteboook](https://colab.research.google.com/drive/1EKgQcMCHr-0OsG9qJ4wXv7J4JFlPY7CK)
 1. Install it on Ubuntu, raspbian (or any other debian derivatives) using ```pip install deepC```
 1. Compile onnx model- [read this article](test/compiler/mnist/README.md) or [watch this video](https://youtu.be/BpFs83MU3HM)
-1. Use deepC with a [Docker File](Dockerfile) 
+1. Use deepC with a [Docker File](Dockerfile)
 
 See more examples in [tutorial](tutorials/README.md) dir.
 
 ## 📛 what is deepC?
 
-deepC Compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of custom ai-accelerators like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ), mobile phones, x86 and arm laptops among others.
+deepC Compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of small form-factor devices like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ), mobile phones, x86 and arm laptops among others.
 
 ![edge Devices](misc/edgeDevices.png "supported edge devices")
 
@@ -51,7 +53,7 @@ Follow the steps to install pre-requisites
 ```bash
 sudo apt-get update
 sudo apt-get install build-essential python3.6-dev python3-pip swig doxygen clang-format clang clang-8 llvm-8 llvm-8-dev protobuf-compiler libprotoc-dev
-sudo pip3 install numpy onnx
+sudo pip3 install numpy==1.15.0 onnx==1.5.0
 ```
 
 Once you are done, build dnnCompiler
@@ -130,14 +132,11 @@ dnnCompiler is targeted towards devices with small formfactor like microcontroll
 
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
 
-
-**🚧 Project Under Development.** *Stay tuned. We plan to release the first version in Nov. 2019.*
-
 ## Contributors
 
 ### Code Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+This project exists because of the people who [[Contribute](CONTRIBUTING.md)]. Thanks! 🙏
 <a href="https://github.com/ai-techsystems/dnnCompiler/graphs/contributors"><img src="https://opencollective.com/dnnc/contributors.svg?width=890&button=false" /></a>
 
 ### Financial Contributors

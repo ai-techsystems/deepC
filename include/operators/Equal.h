@@ -46,9 +46,10 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<To> result(resultShape);
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Equal operator.");
+    if (a.shape() != b.shape()) {
+      SPDLOG_ERROR("tensor dimenions not appropriate for Equal operator.");
+      return NULL_TENSOR<To>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, Ti, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, Ti, b);

@@ -44,13 +44,15 @@ public:
     std::vector<DIMENSION> resultShape = binaryBroadcastReShape(a, b);
     tensor<T> result(resultShape);
 
-    if (!(this->template type_check<float, double, int>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to numeric tensors.");
+    if (!(this->template type_check<T, float, double, int>())) {
+      SPDLOG_ERROR("Constrain input and output types to numeric tensors.");
+      return NULL_TENSOR<T>;
+    }
 
-    if (a.shape() != b.shape())
-      throw std::invalid_argument(
-          "tensor dimenions not appropriate for Div operator.");
+    if (a.shape() != b.shape()) {
+      SPDLOG_ERROR("tensor dimenions not appropriate for Div operator.");
+      return NULL_TENSOR<T>;
+    }
 
     DNNC_EIGEN_ARRAY_MAP(eigenVectorA, T, a);
     DNNC_EIGEN_ARRAY_MAP(eigenVectorB, T, b);

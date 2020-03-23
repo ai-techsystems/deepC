@@ -35,6 +35,11 @@ public:
 
   tensor<T> compute(tensor<T> &a) {
 
+    if (!(this->template type_check<T, float, double>())) {
+      SPDLOG_ERROR("Constrain input tensors to numeric tensors.");
+      return NULL_TENSOR<T>;
+    }
+
     tensor<T> result(a.shape());
 
     for (size_t i = 0; i < a.length(); i++) {

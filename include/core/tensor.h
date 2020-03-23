@@ -27,6 +27,7 @@
 #include "core/iterator.h"
 #include "core/macros.h"
 #include "core/placeHolder.h"
+#include "spdlog/spdlog.h"
 
 #ifndef SWIGPYTHON
 #include <fstream>
@@ -402,12 +403,12 @@ public:
 
     // ensure new_shape is same length as original length
     if (newLength == 0)
-      throw std::invalid_argument("new reshape length can't be zero.");
+      SPDLOG_ERROR("new reshape length can't be zero.");
     if (newLength != this->length()) {
       std::string msg = "new reshape length " + std::to_string(newLength) +
                         " does not match tensor\'s original length " +
                         std::to_string(this->length()) + ".\n";
-      throw std::invalid_argument(msg);
+      SPDLOG_ERROR(msg);
     } else {
       this->_shape = new_shape;
     }
@@ -466,7 +467,7 @@ public:
                           std::to_string(indices.size()) +
                           " is more than rank of the tensor " +
                           std::to_string(this->rank()) + ".\n";
-        throw std::invalid_argument(msg);
+        SPDLOG_ERROR(msg);
       }
       for (size_t i = 0; i < indices.size() && i < this->rank(); i++) {
         DIMENSION dsz = 1;
@@ -493,7 +494,10 @@ public:
     return this->operator()(indices);
   }
   bool empty() { return this->length() == 0; }
-  std::string dtype() { return dtype_str[typeid(T).name()[0] - 'a']; }
+  std::string dtype() {
+    T dummy = 0;
+    return dTypeName(dummy);
+  }
   std::string to_proto() // return proto string
   {
     std::string tensor_proto = "";

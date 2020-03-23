@@ -35,9 +35,10 @@ public:
   Ceil(std::string name = "opCeil") : baseOperator<T, T, T>(opCeil, name) {}
 
   tensor<T> compute(tensor<T> a) {
-    if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     tensor<T> result(a.shape(), a.name());
     DNNC_EIGEN_ARRAY_MAP(eigenVector, T, a);

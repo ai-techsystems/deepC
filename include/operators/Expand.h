@@ -37,8 +37,10 @@ public:
 
   tensor<To> compute(tensor<To> a, tensor<Ti> b) {
 
-    if (!(this->template type_check<int>(typeid(Ti))))
-      throw std::invalid_argument("Constrain shape tensor to integer type.");
+    if (!(this->template type_check<Ti, int>())) {
+      SPDLOG_ERROR("Constrain shape tensor to integer type.");
+      return NULL_TENSOR<To>;
+    }
 
     tensor<To> result(b.asTypeULong().data(), b.name());
     tensor<To> temp_b(b.asTypeULong().data(), b.name(), dnnc::INIT_ONE);

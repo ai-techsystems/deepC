@@ -6,9 +6,9 @@ jobs:
     - os: linux
       dist: bionic
       arch: arm64
-    - os: linux
-      dist: bionic
-      arch: ppc64le
+#    - os: linux
+#      dist: bionic
+#      arch: ppc64le
     - os: linux
       dist: bionic
       arch: arm
@@ -42,5 +42,7 @@ addons:
 language: bash
 
 script:
-  - pip3 install numpy onnx
+  # bug: numpy 1.18 fails
+  # - pip3 install numpy onnx
+  - pip3 install numpy==1.15.0 onnx==1.5.0
   - make all

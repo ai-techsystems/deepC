@@ -133,11 +133,8 @@ class ConvTest(unittest.TestCase):
         np.testing.assert_allclose(self.onnx_npr_ap_s2.astype(np.float32), np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
 
 # negative, kernel too big
-    def test_onnx_conv_same_upper (self):
-        try:
-            dcr            = dc.conv(self.onnx_dc_X, self.onnx_dc_BIGW,  self.dc_B, "VALID")
-        except ValueError as e:
-            assert e
+    # def test_onnx_conv_same_upper (self):
+    #     dcr = dc.conv(self.onnx_dc_X, self.onnx_dc_BIGW,  self.dc_B, "VALID")
 
     def tearDown(self):
         return "test finished"

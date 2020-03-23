@@ -63,9 +63,10 @@ public:
 
   tensor<T> compute(tensor<T> &a /*!<[float,double]: ND tensor*/) {
 
-    if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     // Dropout is a NOOP for compiler. During training, it zeros
     // a fraction (attribute ratio) of the tensor a.

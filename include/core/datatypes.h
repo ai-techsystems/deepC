@@ -100,8 +100,22 @@ static const char *dtype_str[] = {
     ""             /* z */
 };
 
+inline const char *dTypeName(int8_t v) { return dtype_str[0]; }
+inline const char *dTypeName(bool v) { return dtype_str[1]; }
+inline const char *dTypeName(char v) { return dtype_str[2]; }
+inline const char *dTypeName(double v) { return dtype_str[3]; }
+inline const char *dTypeName(long double v) { return dtype_str[4]; }
+inline const char *dTypeName(float v) { return dtype_str[5]; }
+inline const char *dTypeName(uint8_t v) { return dtype_str[7]; }
+inline const char *dTypeName(int32_t v) { return dtype_str[8]; }
+inline const char *dTypeName(uint32_t v) { return dtype_str[9]; }
+inline const char *dTypeName(int64_t v) { return dtype_str[11]; }
+inline const char *dTypeName(uint64_t v) { return dtype_str[12]; }
+inline const char *dTypeName(int16_t v) { return dtype_str[18]; }
+inline const char *dTypeName(uint16_t v) { return dtype_str[19]; }
+
 template <typename T> DNNC_DataType getDNNC_DataType(T var) {
-  std::string type_str = dtype_str[typeid(T).name()[0] - 'a'];
+  std::string type_str = dTypeName(var);
   return getDNNC_DataType(type_str);
 }
 

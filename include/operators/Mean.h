@@ -38,9 +38,10 @@ template <typename T> class Mean : public baseOperator<T, T, T> {
 
   T meanEl(std::vector<T> &v) {
     T sum = 0;
-    if (v.size() == 0)
-      throw std::invalid_argument(
-          "Mean operator requires non-zero size vector.");
+    if (v.size() == 0) {
+      SPDLOG_ERROR("Mean operator requires non-zero size vector.");
+      return NULL_TENSOR<T>;
+    }
 
     for (size_t i = 0; i < v.size(); i++)
       sum += v[i];
@@ -52,14 +53,14 @@ public:
 
   tensor<T>
   compute(std::vector<tensor<T>> inputs /*!<[float,double]: ND tensors */) {
-    if (!(this->template type_check<float, double>(typeid(T))))
-      throw std::invalid_argument(
-          "Constrain input and output types to float tensors.");
+    if (!(this->template type_check<T, float, double>())) {
+      SPDLOG_ERROR("Constrain input and output types to float tensors.");
+      return NULL_TENSOR<T>;
+    }
 
     if (inputs.size() == 0) {
-      throw std::invalid_argument(
-          "Mean operator requires non-zero size input vector.");
-      return tensor<T>();
+      SPDLOG_ERROR("Mean operator requires non-zero size input vector.");
+      return NULL_TENSOR<T>;
     }
 
     try {
@@ -76,10 +77,9 @@ public:
       return result;
 
     } catch (const std::exception &e) {
-      std::cout
-          << "operands could not be broadcast together with given shapes!!!"
-          << "\n";
-      return tensor<T>();
+      SPDLOG_ERROR(
+          "operands could not be broadcast together with given shapes!!!");
+      return NULL_TENSOR<T>;
     }
   }
 };

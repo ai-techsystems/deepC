@@ -61,7 +61,7 @@ class AddTest(unittest.TestCase):
         npr = np.add(self.np_float_a, self.np_bool_b)
         dcr = dc.add(self.dc_float_a, self.dc_bool_b)
         np.testing.assert_allclose(npr, np.array(dcr.data()),
-                rtol=1e-3, atol=1e-3)    
+                rtol=1e-3, atol=1e-3)
 
     def test_Add1D_bool_double (self):
         npr = np.add(self.np_bool_a, self.np_double_b)
@@ -80,7 +80,7 @@ class AddTest(unittest.TestCase):
         dcr = dc.add(self.dc_int_a, self.dc_int_b)
         np.testing.assert_allclose(npr, np.array(dcr.data()),
                 rtol=1e-3, atol=1e-3)
-    
+
     def test_Add1D_int_float (self):
         npr = np.add(self.np_int_a, self.np_float_b)
         dcr = dc.add(self.dc_int_a, self.dc_float_b)
@@ -91,7 +91,7 @@ class AddTest(unittest.TestCase):
         npr = np.add(self.np_float_a, self.np_int_b)
         dcr = dc.add(self.dc_float_a, self.dc_int_b)
         np.testing.assert_allclose(npr, np.array(dcr.data()),
-                rtol=1e-3, atol=1e-3)    
+                rtol=1e-3, atol=1e-3)
 
     def test_Add1D_int_double (self):
         npr = np.add(self.np_int_a, self.np_double_b)
@@ -224,4 +224,3 @@ class AddTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
