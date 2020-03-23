@@ -24,7 +24,6 @@
 #include "core/broadcast.h"
 #include "operators/macros.h"
 #include "operators/opTypes.h"
-#include "spdlog/spdlog.h"
 #include <memory>
 #include <type_traits>
 #include <vector>

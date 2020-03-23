@@ -27,7 +27,6 @@
 #include "core/iterator.h"
 #include "core/macros.h"
 #include "core/placeHolder.h"
-#include "spdlog/spdlog.h"
 
 #ifndef SWIGPYTHON
 #include <fstream>
@@ -61,15 +60,17 @@ protected:
   T *getMemory(size_t sz) {
     _mem_layout = sz ? static_cast<T *>(malloc(sizeof(T) * sz)) : 0x0;
     if ((sz && !_mem_layout))
-      throw std::bad_alloc();
+      SPDLOG_ERROR("Could not allocate memory for tensor.");
     return _mem_layout;
   }
   /// \brief initialize reference count of the tensor to 1
   void init_ref() {
     _ref = static_cast<size_t *>(malloc(sizeof(size_t)));
-    if (!_ref)
-      throw std::bad_alloc();
-    *_ref = 1; // init reference count.
+    if (!_ref) {
+      SPDLOG_ERROR("Could not allocate memory for tensor ref.");
+    } else {
+      *_ref = 1; // init reference count.
+    }
   }
 
   /// \brief only constructors call init method. Argument type
@@ -258,7 +259,7 @@ public:
   ///  UNSAFE because data size MUST be at least as large as tensor length,
   ///  otherwise, it'll lead to crash.
   /// USE WITH CAUTION.
-  void load(T *data) {
+  void load(const T *data) {
     if (!data || isnull())
       return;
     for (size_t i = 0; i < this->length(); i++)
@@ -408,7 +409,7 @@ public:
       std::string msg = "new reshape length " + std::to_string(newLength) +
                         " does not match tensor\'s original length " +
                         std::to_string(this->length()) + ".\n";
-      SPDLOG_ERROR(msg);
+      SPDLOG_ERROR(msg.c_str());
     } else {
       this->_shape = new_shape;
     }
@@ -467,7 +468,7 @@ public:
                           std::to_string(indices.size()) +
                           " is more than rank of the tensor " +
                           std::to_string(this->rank()) + ".\n";
-        SPDLOG_ERROR(msg);
+        SPDLOG_ERROR(msg.c_str());
       }
       for (size_t i = 0; i < indices.size() && i < this->rank(); i++) {
         DIMENSION dsz = 1;

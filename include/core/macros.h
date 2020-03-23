@@ -53,3 +53,29 @@ typedef size_t DIMENSION;
 #define RTTI_ENABLED
 #endif
 #endif
+
+#if defined(ARDUINO)
+#define SPDLOG_ERROR(msg)                                                      \
+  {                                                                            \
+    Serial.print("Warning: ");                                                 \
+    Serial.print(__FILE__);                                                    \
+    Serial.print(":");                                                         \
+    Serial.print(__LINE__);                                                    \
+    Serial.print(msg);                                                         \
+    Serial.println();                                                          \
+    Serial.flush();                                                            \
+  }
+#define SPDLOG_WARN(msg)                                                       \
+  {                                                                            \
+    Serial.print("Error: ");                                                   \
+    Serial.print(__FILE__);                                                    \
+    Serial.print(":");                                                         \
+    Serial.print(__LINE__);                                                    \
+    Serial.print(msg);                                                         \
+    Serial.println();                                                          \
+    Serial.flush();                                                            \
+  }
+#else
+#define SPDLOG_WARN(msg) std::cout << "Warn: " << msg << std::endl;
+#define SPDLOG_ERROR(msg) std::cout << "Error: " << msg << std::endl;
+#endif
