@@ -25,14 +25,11 @@
 # CORE must be first, all others depend on CORE
 MAKEFLAGS += -j8
 
-all: SPDLOG CORE OPERATORS GRAPH CODEGEN
+all: CORE OPERATORS GRAPH CODEGEN
 
 FORCE:
 
-SPDLOG: FORCE
-	$(MAKE) -C spdlog
-
-CORE: SPDLOG
+CORE: FORCE
 	$(MAKE) -C core
 
 OPERATORS: CORE
@@ -45,7 +42,6 @@ CODEGEN: GRAPH
 	$(MAKE) -C codegen
 
 clean:
-	$(MAKE) -C spdlog clean
 	$(MAKE) -C core clean
 	$(MAKE) -C operators clean
 	$(MAKE) -C graph clean

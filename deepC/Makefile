@@ -58,8 +58,7 @@ OTHER_OBJECTS = $(CORE_OBJ)/datatypes.o     \
 				$(OPER_OBJ)/opTypes.o       \
 				$(GRPH_OBJ)/node.o          \
 				$(GRPH_OBJ)/graph.o         \
-				$(CODE_OBJ)/cppCodeGen.o    \
-				$(LOG_OBJ)/spdlog.o
+				$(CODE_OBJ)/cppCodeGen.o    
 $(OTHER_OBJECTS):
 	make -C ../src
 
