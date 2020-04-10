@@ -32,7 +32,7 @@ deepC also offers ahead of time compiler producing optimized executable based on
 
 Main components of **deepC** have been designed to represent and optimize the common deep learning networks in high level graph IR and to transform the computation graph to minimize memory utilization, optimize data layout and fuse computation patterns for different hardware backends.
 
-<img width="600" alt="Architecture" src="https://github.com/ai-techsystems/dnnCompiler/blob/master/misc/dnnCompilerArch.jpg">
+<img width="600" alt="Architecture" src="https://github.com/ai-techsystems/deepC/blob/master/misc/dnnCompilerArch.jpg">
 
 Read more at [high level design document](docs/highLevelDesign.md)
 
@@ -45,7 +45,7 @@ Read more at [high level design document](docs/highLevelDesign.md)
 
 ## 💻 Development
 
-Build and start modifying dnnCompiler locally from source code with following steps
+Build and start modifying deepC locally from source code with following steps
 
 ### ⭕ Ubuntu 18.04
 
@@ -56,10 +56,10 @@ sudo apt-get install build-essential python3.6-dev python3-pip swig doxygen clan
 sudo pip3 install numpy==1.15.0 onnx==1.5.0
 ```
 
-Once you are done, build dnnCompiler
+Once you are done, build deepC
 ```bash
-git clone https://github.com/ai-techsystems/dnnCompiler.git
-cd dnnCompiler
+git clone https://github.com/ai-techsystems/deepC.git
+cd deepC
 make
 ```
 ### ⭕ Mac OS / Windows 10
@@ -73,10 +73,10 @@ Make sure you have the below pre-requisites
 - [Python for Windows](https://www.python.org/downloads/windows/)
 - [Docker for Windows](https://docs.docker.com/v17.09/docker-for-windows/install/#download-docker-for-windows)
 
-Once you are done, build dnnCompiler inside docker container
+Once you are done, build deepC inside docker container
 ```bash
-git clone https://github.com/ai-techsystems/dnnCompiler.git
-cd dnnCompiler
+git clone https://github.com/ai-techsystems/deepC.git
+cd deepC
 python buildDocker.py
 ```
 
@@ -84,9 +84,9 @@ python buildDocker.py
 ```bash
 find include src swig -name \*.h -print0 -o -name \*.cpp -print0 | xargs -0 -P8 -n1 clang-format -i
 make -C src
-make[1]: Entering directory 'dnnCompiler/src'
+make[1]: Entering directory 'deepC/src'
 make -C core
-make[2]: Entering directory 'dnnCompiler/src/core'
+make[2]: Entering directory 'deepC/src/core'
 compiling broadcast.cpp
 /usr/bin/g++ -O3 -Wall -std=c++14 -fPIC -march=native -msse2 \
     -isystem ./packages/eigen-eigen-323c052e1731 -I./include \
@@ -128,7 +128,7 @@ We acknowledge the efforts predecessor projects like [LLVM](https://llvm.org/), 
 ---
 
 ## 🕵️‍♂️ Why compiler❔
-dnnCompiler is targeted towards devices with small formfactor like microcontrollers, which are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable.
+deepC is targeted towards devices with small formfactor like microcontrollers, which are part of all sorts of household devices: think appliances, cars, and toys. In fact, there are around 30 billion microcontroller-powered devices produced each year. They're cheap, require very little energy, and are very reliable.
 
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
 
@@ -137,7 +137,7 @@ By bringing deep learning models to tiny microcontrollers, we can boost the inte
 ### Code Contributors
 
 This project exists because of the people who [[Contribute](CONTRIBUTING.md)]. Thanks! 🙏
-<a href="https://github.com/ai-techsystems/dnnCompiler/graphs/contributors"><img src="https://opencollective.com/dnnc/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/ai-techsystems/deepC/graphs/contributors"><img src="https://opencollective.com/dnnc/contributors.svg?width=890&button=false" /></a>
 
 ### Financial Contributors
 
