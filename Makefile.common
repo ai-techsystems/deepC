@@ -29,13 +29,18 @@ ifeq (, $(PYTHON) )
   $(error "python3 not found in $(PATH)")
 endif
 
-MIN_CLANG_VERSION = "8"
-CLANG_VERSION := "`clang++ -dumpversion`"
-IS_CLANG_ABOVE_MIN_VERSION := $(shell expr "$(CLANG_VERSION)" ">=" "$(MIN_CLANG_VERSION)")
-ifeq "$(IS_CLANG_ABOVE_MIN_VERSION)" "1"
-	CC=/usr/bin/clang++
-else
-	CC=/usr/bin/clang++-8
+CLANG=$(shell which clang++)
+ifeq ($(CLANG), )
+	CC=g++
+else 
+	MIN_CLANG_VERSION = "8"
+	CLANG_VERSION := $(shell clang++ -dumpversion)
+	IS_CLANG_ABOVE_MIN_VERSION := $(shell expr "$(CLANG_VERSION)" ">=" "$(MIN_CLANG_VERSION)")
+	ifeq "$(IS_CLANG_ABOVE_MIN_VERSION)" "1"
+		CC=/usr/bin/clang++
+	else
+		CC=/usr/bin/clang++-8
+	endif
 endif
 
 LD=/usr/bin/ld

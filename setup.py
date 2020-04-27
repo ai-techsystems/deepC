@@ -1,5 +1,5 @@
 # how to run this script: python setup.py bdist_wheel
-# how to test install: python -m pip install ~/dnnc/master/dnnCompiler/dist/dnnc-0.1-py3-none-any.whl --root pip_install_test
+# how to test install: python -m pip install ~/dnnc/master/deepC/dist/dnnc-0.1-py3-none-any.whl --root pip_install_test
 
 import os, sys, glob
 import shutil, errno, subprocess, multiprocessing
@@ -102,7 +102,7 @@ setuptools.setup(
     tests_require=tests_require,
     author='Rohit Sharma et. al.',
     author_email='rohit@find-domain-name-on-github.com',
-    url='https://github.com/ai-techsystems/dnnCompiler',
+    url='https://github.com/ai-techsystems/deepC',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Python :: 3',
