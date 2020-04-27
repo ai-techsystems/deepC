@@ -102,7 +102,6 @@ public:
       }
       errMsg << std::endl;
       SPDLOG_ERROR(errMsg.str().c_str());
-      return NULL_TENSOR<To>;
     }
     this->activation_alpha = activation_alpha;
 
@@ -115,7 +114,6 @@ public:
         errMsg << "bidiretional LSTM";
       }
       SPDLOG_ERROR(errMsg.str().c_str());
-      return NULL_TENSOR<To>;
     }
     this->activation_beta = activation_beta;
 
@@ -127,7 +125,6 @@ public:
                << std::endl;
       }
       SPDLOG_ERROR(errMsg.str().c_str());
-      return NULL_TENSOR<To>;
     }
     this->activations = activations;
 
@@ -140,7 +137,6 @@ public:
       errMsg << direction << " is not a valid direction" << std::endl;
     }
     SPDLOG_ERROR(errMsg.str().c_str());
-    return NULL_TENSOR<To>;
     this->direction = direction;
 
     // hidden_size?
@@ -148,7 +144,6 @@ public:
       errMsg << hidden_size << "is not a valid value for hidden_size"
              << std::endl;
       SPDLOG_ERROR(errMsg.str().c_str());
-      return NULL_TENSOR<To>;
     }
     this->hidden_size = hidden_size;
 
@@ -158,7 +153,6 @@ public:
              << "is not a valid value for input_forget ( must be 0 or 1)"
              << std::endl;
       SPDLOG_ERROR(errMsg.str().c_str());
-      return NULL_TENSOR<To>;
     }
     this->input_forget = input_forget;
   }

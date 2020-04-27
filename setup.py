@@ -7,7 +7,7 @@ import setuptools
 
 
 NAME='deepC'
-VERSION=0.12
+VERSION=0.13
 
 long_description = ""
 with open("README.md", "r") as fh:
