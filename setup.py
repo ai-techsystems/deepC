@@ -79,6 +79,7 @@ packages = setuptools.find_packages()
 
 tests_require = []
 tests_require.append('unittest')
+tests_require.append('mnist')
 install_requires = []
 install_requires.extend([
     'onnx==1.5.0',
