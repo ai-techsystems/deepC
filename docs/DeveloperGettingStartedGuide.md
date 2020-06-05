@@ -25,7 +25,7 @@
 ## Abstract
 #### Our work is divided in 5 parts: 
 
-1. Implementing these **[ONNX operators](https://github.com/onnx/onnx/blob/rel-1.5.0/doCs/operators.md)**.	
+1. Implementing these **[ONNX operators](https://github.com/onnx/onnx/blob/rel-1.5.0/docs/Operators.md)**.	
 
 	* We are working on **[dnnc-operators](https://github.com/ai-techsystems/dnnc-operators)** repo in C++. Our development status is mentioned **[here](https://github.com/ai-techsystems/dnnc-operators/blob/master/README.md)**
 
@@ -37,7 +37,7 @@
 
 	* Also check out **[Eigen documentation](http://eigen.tuxfamily.org/dox/.)**
 
-2. Test the above **[ONNX operators](https://github.com/onnx/onnx/blob/rel-1.5.0/doCs/operators.md)**.
+2. Test the above **[ONNX operators](https://github.com/onnx/onnx/blob/rel-1.5.0/docs/Operators.md)**.
 
 	* Here are the **[test cases](https://github.com/ai-techsystems/dnnc-operators/tree/master/src/operators)**
 
