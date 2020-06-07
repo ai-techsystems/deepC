@@ -1,7 +1,7 @@
 import os, sys, fnmatch
 
 import unittest
-import deepC.scripts.read_onnx as read_onnx
+import deepC.compiler.read_onnx as read_onnx
 import deepC.dnnc as dnnc
 
 class unitOperatorsTest(unittest.TestCase):

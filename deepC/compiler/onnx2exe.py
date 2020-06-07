@@ -28,7 +28,7 @@
 
 import os, sys
 import deepC.dnnc as dnnc
-import deepC.scripts.onnx2cpp as onnx2cpp
+import deepC.compiler.onnx2cpp as onnx2cpp
 
 class compilerWrapper:
 

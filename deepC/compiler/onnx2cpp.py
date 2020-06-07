@@ -29,7 +29,7 @@
 import os, sys
 
 import deepC.dnnc as dnnc
-import deepC.scripts.read_onnx as read_onnx
+import deepC.compiler.read_onnx as read_onnx
 
 class dnncCpp:
   """ write C++ file, given a DNNC graph. """

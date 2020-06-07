@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
 
-import os, sys
+import os, sys, glob
 
-from subprocess import PIPE, run
+import subprocess
 import unittest
 import deepC
 
 # This test runs compiler as a user would run on command line.
 class mnistTest(unittest.TestCase):
+
+
     def setUp(self):
-        compile_scr = os.path.join(os.path.dirname(deepC.__file__), "scripts", "onnx2exe.py")
+        self.debug=True;
+
         test_dir = os.path.join("compiler", "mnist")
+        for wcard in [ '*bias', '*weight', '*out', '*cpp', '*exe']:
+            for filename in glob.glob(os.path.join(test_dir, wcard)):
+                os.remove(filename)
+        compile_scr = os.path.join(os.path.dirname(deepC.__file__), "compiler", "onnx2exe.py")
         image_file = os.path.join(test_dir, "image.txt")
+
         self.commands = [
             # delete last generated file.
             "rm -f " + os.path.join(test_dir, "mnist.exe"),
@@ -28,8 +36,24 @@ class mnistTest(unittest.TestCase):
             ]
 
     def test_runModel(self):
+        test_env = os.environ.copy();
+        if ( "PYTHONPATH" not in test_env ) :
+            test_env["PYTHONPATH"]=os.path.abspath(os.path.join(os.getcwd(),'../../'))
+        else:
+            test_env["PYTHONPATH"]+=":"+os.path.abspath(os.path.join(os.getcwd(),'../../'))
+
         for cmd in self.commands:
-            run(cmd, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True, check=True)
+            test_proc=subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, env=test_env)
+            try:
+                outs, errs = test_proc.communicate(timeout=30)
+            except subprocess.TimeoutExpired:
+                test_proc.kill()
+                outs, errs = test_proc.communicate()
+
+            if ( self.debug ):
+                print(cmd)
+                print(outs.decode())
+
 
     def tearDown(self):
         return "test finished"
