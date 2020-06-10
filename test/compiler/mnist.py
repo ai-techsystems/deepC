@@ -11,7 +11,7 @@ class mnistTest(unittest.TestCase):
 
 
     def setUp(self):
-        self.debug=True;
+        self.debug=False;
 
         test_dir = os.path.join("compiler", "mnist")
         for wcard in [ '*bias', '*weight', '*out', '*cpp', '*exe']:

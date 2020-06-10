@@ -37,7 +37,7 @@ int main() {
   tensor<float> b({2, 3});
   b.load(d2);
 
-  Add<float> m("localOpName", 0x0);
+  Add<float, float> m("localOpName");
   auto result = m.compute(a, b);
 
   std::cout << result;
