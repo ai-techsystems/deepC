@@ -419,7 +419,7 @@ std::string dnnc::cppCodeGen::writeUnaryOperator(opNode &computeNode,
   // outs.size() << "\n";
   std::string code;
 
-  assert(ins.size() == 1 && outs.size() == 1);
+  assert(ins.size() == 1);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
 
@@ -465,7 +465,7 @@ std::string dnnc::cppCodeGen::writeBinaryOperator(opNode &computeNode,
   // outs.size() << "\n";
   std::string code;
 
-  assert(ins.size() == 2 && outs.size() == 1);
+  assert(ins.size() == 2);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
 
@@ -512,7 +512,7 @@ std::string dnnc::cppCodeGen::writeTernaryOperator(opNode &computeNode,
   // outs.size() << "\n";
   std::string code;
 
-  assert(ins.size() == 3 && outs.size() == 1);
+  assert(ins.size() == 3);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
 
