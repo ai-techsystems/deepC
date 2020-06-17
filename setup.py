@@ -116,8 +116,8 @@ setuptools.setup(
     distclass=binaryDist,
     entry_points={
         'console_scripts': [
-            'onnx-cpp = deepC.scripts.onnx2cpp:main',
-            'compile-onnx = deepC.scripts.onnx2exe:main',
+            'onnx-cpp = deepC.compiler.onnx2cpp:main',
+            'compile-onnx = deepC.compiler.onnx2exe:main',
         ]
     },
     dependency_links=[]
