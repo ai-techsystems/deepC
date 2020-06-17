@@ -99,6 +99,6 @@ CPP_FLAGS=-Wall -std=c++17 -fPIC -D_DEBUG -g -lmcheck
 endif
 
 ifneq (,$(findstring $(PROF),yY))
-CPP_FLAGS=-pg -Wall -std=c++17 -fPIC
+CPP_FLAGS=-pg -g -Wall -std=c++17 -fPIC
 endif
 
