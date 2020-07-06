@@ -1,0 +1,110 @@
+test -d ./obj || mkdir -p ./obj
+compiling dnnc_api.cpp
+/usr/bin/clang++ -O3 -Wall -std=c++17 -fPIC -march=native -msse2 -D ARM -I/Library/Frameworks/Python.framework/Versions/3.6/include/python3.6m -I/Users/anialawani/Documents/deepC/include -isystem /Users/anialawani/Documents/deepC/packages/eigen-eigen-323c052e1731 -c dnnc_api.cpp -o obj/dnnc_api.o
+In file included from dnnc_api.cpp:92:
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:123:19: warning: parentheses were disambiguated as redundant parentheses around declaration of variable named 'dimensions' [-Wvexing-parse]
+        tensor<To>(dimensions);
+                  ^~~~~~~~~~~~
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:123:19: note: add a variable name to declare a 'tensor<To>' initialized with 'dimensions'
+        tensor<To>(dimensions);
+                  ^
+                   varname
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:123:9: note: add enclosing parentheses to perform a function-style cast
+        tensor<To>(dimensions);
+        ^
+        (                     )
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:123:19: note: remove parentheses to silence this warning
+        tensor<To>(dimensions);
+                  ^          ~
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:124:9: error: use of undeclared identifier 'T'
+        DNNC_EIGEN_TENSOR4D_MAP(tensor4D, Ti, a);
+        ^
+/Users/anialawani/Documents/deepC/include/operators/macros.h:68:13: note: expanded from macro 'DNNC_EIGEN_TENSOR4D_MAP'
+  TensorMap<DNNC_EIGEN_TENSOR4D> var(this->tensorMem(t), t.shape()[0],         \
+            ^
+/Users/anialawani/Documents/deepC/include/operators/macros.h:65:36: note: expanded from macro 'DNNC_EIGEN_TENSOR4D'
+#define DNNC_EIGEN_TENSOR4D Tensor<T, 4, RowMajor>
+                                   ^
+In file included from dnnc_api.cpp:92:
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:124:9: error: expected a type
+/Users/anialawani/Documents/deepC/include/operators/macros.h:68:32: note: expanded from macro 'DNNC_EIGEN_TENSOR4D_MAP'
+  TensorMap<DNNC_EIGEN_TENSOR4D> var(this->tensorMem(t), t.shape()[0],         \
+                               ^
+In file included from dnnc_api.cpp:92:
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:125:9: error: use of undeclared identifier 'tensor4D'
+        tensor4D = tensor4D.abs();
+        ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:125:20: error: use of undeclared identifier 'tensor4D'
+        tensor4D = tensor4D.abs();
+                   ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:129:39: error: use of undeclared identifier 'tensor4D'
+          Tensor<To, 0, RowMajor> b = tensor4D.sum(dims);
+                                      ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:130:11: error: use of undeclared identifier 'result'
+          result.load(b.data());
+          ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:134:39: error: use of undeclared identifier 'tensor4D'
+          Tensor<To, 3, RowMajor> b = tensor4D.sum(dims);
+                                      ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:135:11: error: use of undeclared identifier 'result'
+          result.load(b.data());
+          ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:139:39: error: use of undeclared identifier 'tensor4D'
+          Tensor<To, 2, RowMajor> b = tensor4D.sum(dims);
+                                      ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:140:11: error: use of undeclared identifier 'result'
+          result.load(b.data());
+          ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:144:39: error: use of undeclared identifier 'tensor4D'
+          Tensor<To, 1, RowMajor> b = tensor4D.sum(dims);
+                                      ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:145:11: error: use of undeclared identifier 'result'
+          result.load(b.data());
+          ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:149:39: error: use of undeclared identifier 'tensor4D'
+          Tensor<To, 0, RowMajor> b = tensor4D.sum(dims);
+                                      ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:150:11: error: use of undeclared identifier 'result'
+          result.load(b.data());
+          ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:153:16: error: use of undeclared identifier 'result'
+        return result;
+               ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:158:9: error: use of undeclared identifier 'T'
+        DNNC_EIGEN_TENSOR_MAP(tensor, Ti, a);
+        ^
+/Users/anialawani/Documents/deepC/include/operators/macros.h:62:13: note: expanded from macro 'DNNC_EIGEN_TENSOR_MAP'
+  TensorMap<DNNC_EIGEN_TENSOR> var(this->tensorMem(t), t.shape()[0],           \
+            ^
+/Users/anialawani/Documents/deepC/include/operators/macros.h:59:34: note: expanded from macro 'DNNC_EIGEN_TENSOR'
+#define DNNC_EIGEN_TENSOR Tensor<T, 3, RowMajor>
+                                 ^
+In file included from dnnc_api.cpp:92:
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:158:9: error: expected a type
+/Users/anialawani/Documents/deepC/include/operators/macros.h:62:30: note: expanded from macro 'DNNC_EIGEN_TENSOR_MAP'
+  TensorMap<DNNC_EIGEN_TENSOR> var(this->tensorMem(t), t.shape()[0],           \
+                             ^
+In file included from dnnc_api.cpp:92:
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:159:16: error: expected unqualified-id
+        tensor = tensor.abs();
+               ^
+/Users/anialawani/Documents/deepC/include/operators/ReduceL1.h:163:39: error: use of class template 'tensor' requires template arguments
+          Tensor<To, 0, RowMajor> b = tensor.sum(dims);
+                                      ^
+/Users/anialawani/Documents/deepC/include/core/tensor.h:49:29: note: template is declared here
+template <typename T> class tensor : public placeHolder<T> {
+~~~~~~~~~~~~~~~~~~~~~       ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+1 warning and 20 errors generated.
+make: *** [obj/dnnc_api.o] Error 1
+running swig with dnnc.i
+/usr/bin/swig -python -c++ -Wall -I/Users/anialawani/Documents/deepC/include -o dnnc_swig.cpp dnnc.i
+make: /usr/bin/swig: No such file or directory
+make: *** [dnnc_swig.cpp] Error 1
+/Library/Frameworks/Python.framework/Versions/3.6/bin/python3 ../test/swig/basic.py
+Traceback (most recent call last):
+  File "../test/swig/basic.py", line 9, in <module>
+    import deepC.dnnc as dc
+ModuleNotFoundError: No module named 'deepC.dnnc'
+make: *** [VERIFY] Error 1
+make: Target `all' not remade because of errors.
