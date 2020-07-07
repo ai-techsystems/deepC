@@ -48,7 +48,7 @@ int main() {
   d.load(d3);
 
   std::vector<int> axes({0});
-  
+
   ReduceL1<float, float> m("localOpName");
 
   m.setAttribute(attr_axis, axes);
