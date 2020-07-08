@@ -89,6 +89,8 @@
 #include "operators/PRelu.h"
 #include "operators/Pow.h"
 #include "operators/ReduceSum.h"
+#include "operators/ReduceL1.h"
+#include "operators/ReduceL2.h"
 #include "operators/ReduceSumSquare.h"
 #include "operators/Sigmoid.h"
 #include "operators/Sign.h"
@@ -941,6 +943,32 @@ output max(std::vector<input> a) {
 tensor<output> mod(tensor<input> &a, tensor<input> &b, int fmod_flag = 0) {
 	Mod<input> op("localOpName", fmod_flag);
 	return op.compute(a, b);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int"
+	}
+}
+
+tensor<output> reduce_L1(tensor<input> &a,
+        std::vector<int> axis=std::vector<int>(), int keepdims=0) {
+	ReduceL1<output, input> op;
+	op.setAttribute(attr_keepdims, keepdims);
+	op.setAttribute(attr_axis, axis);
+	return op.compute(a);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int"
+	}
+}
+
+tensor<output> reduce_L2(tensor<input> &a,
+        std::vector<int> axis=std::vector<int>(), int keepdims=0) {
+	ReduceL2<output, input> op;
+	op.setAttribute(attr_keepdims, keepdims);
+	op.setAttribute(attr_axis, axis);
+	return op.compute(a);
 	dtype = {
 		"double" : "double",
 		"float" : "float",

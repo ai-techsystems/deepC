@@ -28,17 +28,183 @@
 using namespace Eigen;
 
 namespace dnnc {
-template <typename T> class ReduceL1 : public baseOperator<T, T, T> {
+template <typename To, typename Ti>
+class ReduceL1 : public baseOperator<To, Ti, Ti> {
   //  ReduceL1 attributes
+protected:
+  std::vector<int> axes = {};
+  int keepdims = 1;
+
 public:
   ReduceL1(std::string name = "opReduceL1")
-      : baseOperator<T, T, T>(opReduceL1, name) {}
+      : baseOperator<To, Ti, Ti>(opReduceL1, name) {
+    this->axes = axes;
+    this->keepdims = keepdims;
+  }
+  bool getAttribute(OPATTR attrName, int &obj) override {
+    if (attrName == attr_keepdims) {
+      obj = keepdims;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, int obj) override {
+    if (attrName == attr_keepdims) {
+      keepdims = obj;
+      return true;
+    }
+    return false;
+  }
+  bool getAttribute(OPATTR attrName, std::vector<int> &obj) override {
+    if (attrName == attr_axis) {
+      obj = axes;
+      return true;
+    }
+    return false;
+  }
+  bool setAttribute(OPATTR attrName, std::vector<int> obj) override {
+    if (attrName == attr_axis) {
+      axes = obj;
+      return true;
+    }
+    return false;
+  }
 
-  // bool getAttribute<int>(OPATTR attrName, int& obj) ;
+  tensor<To> compute(tensor<Ti> a /*!< : N D tensor input*/) override {
 
-  void compute(void) {
+    int rank = a.rank();
+    int reductions = axes.size();
+
+    std::vector<int> arr(rank, 0);
+    for (int i = 0; i < axes.size(); i++) {
+      if (axes.at(i) >= rank || arr.at(axes.at(i)) >= 1) {
+        SPDLOG_ERROR("Inputted axes not appropriate for Reduce operator.");
+        return NULL_TENSOR<To>;
+      } else {
+        arr.at(axes.at(i))++;
+      }
+    }
+
+    if (reductions == 0) {
+      for (int i = 0; i < arr.size(); i++) {
+        arr.at(i) = 1;
+      }
+    }
+
+    std::vector<unsigned long> dimensions;
+
+    for (int j = 0; j < arr.size(); j++) {
+      if (arr.at(j) == 0) {
+        dimensions.push_back(a.shape()[j]);
+      } else if (keepdims) {
+        dimensions.push_back(1);
+      }
+    }
+
+    if (dimensions.size() == 0) {
+      dimensions.push_back(1);
+    }
+
+    if (rank < reductions) {
+      SPDLOG_ERROR("tensor dimenions not appropriate for Reduce operator.");
+      return NULL_TENSOR<To>;
+    }
+
+    if (rank == 4) {
+
+      tensor<To> result(dimensions);
+      DNNC_EIGEN_TENSOR4D_MAP(tensor4D, Ti, a);
+      // tensor4D = tensor4D.abs();
+
+      if (reductions == 0) {
+        std::array<int, 4> dims = {0, 1, 2, 3};
+        Tensor<To, 0, RowMajor> b = tensor4D.abs().sum(dims);
+        result.load(b.data());
+      } else if (reductions == 1) {
+        std::array<int, 1> dims;
+        std::copy_n(axes.begin(), reductions, dims.begin());
+        Tensor<To, 3, RowMajor> b = tensor4D.abs().sum(dims);
+        result.load(b.data());
+      } else if (reductions == 2) {
+        std::array<int, 2> dims;
+        std::copy_n(axes.begin(), reductions, dims.begin());
+        Tensor<To, 2, RowMajor> b = tensor4D.abs().sum(dims);
+        result.load(b.data());
+      } else if (reductions == 3) {
+        std::array<int, 3> dims;
+        std::copy_n(axes.begin(), reductions, dims.begin());
+        Tensor<To, 1, RowMajor> b = tensor4D.abs().sum(dims);
+        result.load(b.data());
+      } else if (reductions == 4) {
+        std::array<int, 4> dims;
+        std::copy_n(axes.begin(), reductions, dims.begin());
+        Tensor<To, 0, RowMajor> b = tensor4D.abs().sum(dims);
+        result.load(b.data());
+      }
+
+      return result;
+
+    } else if (rank == 3) {
+
+      tensor<To> result(dimensions);
+      DNNC_EIGEN_TENSOR_MAP(tensor, Ti, a);
+      // tensor = tensor.abs();
+
+      if (reductions == 0) {
+        std::array<int, 3> dims = {0, 1, 2};
+        Tensor<To, 0, RowMajor> b = tensor.abs().sum(dims);
+        result.load(b.data());
+      } else if (reductions == 1) {
+        std::array<int, 1> dims;
+        std::copy_n(axes.begin(), reductions, dims.begin());
+        Tensor<To, 2, RowMajor> b = tensor.abs().sum(dims);
+        result.load(b.data());
+      } else if (reductions == 2) {
+        std::array<int, 2> dims;
+        std::copy_n(axes.begin(), reductions, dims.begin());
+        Tensor<To, 1, RowMajor> b = tensor.abs().sum(dims);
+        result.load(b.data());
+      } else if (reductions == 3) {
+        std::array<int, 3> dims;
+        std::copy_n(axes.begin(), reductions, dims.begin());
+        Tensor<To, 0, RowMajor> b = tensor.abs().sum(dims);
+        result.load(b.data());
+      }
+      return result;
+    }
+    if (rank == 2) {
+      DNNC_EIGEN_MATRIX(matrix, Ti, a);
+      tensor<To> result(dimensions);
+
+      if (reductions == 2 || reductions == 0) {
+        Matrix<To, 1, Dynamic, RowMajor> colReduced =
+            matrix.cwiseAbs().colwise().sum();
+        Matrix<To, 1, RowMajor> fullReduced =
+            colReduced.cwiseAbs().rowwise().sum();
+        result.load(fullReduced.data());
+      } else if (axes[0] == 0) {
+        Matrix<To, 1, Dynamic, RowMajor> colReduced =
+            matrix.cwiseAbs().colwise().sum();
+        result.load(colReduced.data());
+      } else if (axes[0] == 1) {
+        Matrix<To, 1, Dynamic, RowMajor> rowReduced =
+            matrix.cwiseAbs().rowwise().sum();
+        result.load(rowReduced.data());
+      }
+      return result;
+    }
+    if (rank == 1) {
+      DNNC_EIGEN_VECTOR(vector, Ti, a);
+      tensor<To> result(dimensions);
+
+      Matrix<To, 1, RowMajor> b = vector.cwiseAbs().rowwise().sum();
+      result.load(b.data());
+
+      return result;
+    }
+
+    return a;
     // CHANGE return-type and args
-    // AND ADD YOUR FUNCTIONAL CODE HERE
   }
 };
 } // namespace dnnc

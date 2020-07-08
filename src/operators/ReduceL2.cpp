@@ -29,6 +29,33 @@ using namespace Eigen;
 #ifdef DNNC_REDUCEL2_TEST
 #include <iostream>
 int main() {
+  float d1[6] = {1, 2, 3, 6, 5, 4};
+  float d2[12] = {1., 4., 3., 9., 5., 6., 1., 5., 3., 6., 7., 4.};
+  float d3[16] = {1., 4., 3., 9., 5., 6., 1., 5.,
+                  3., 6., 7., 4., 3., 8., 4., 5.};
+
+  tensor<float> a({2, 2, 3});
+  a.load(d2);
+
+  tensor<float> b({12});
+  b.load(d2);
+
+  tensor<float> c({2, 6});
+  c.load(d2);
+
+  tensor<float> d({2, 2, 2, 2});
+  d.load(d3);
+
+  std::vector<int> axes{0};
+
+  ReduceL2<float, float> m("localOpName");
+
+  m.setAttribute(attr_axis, axes);
+  m.setAttribute(attr_keepdims, 0);
+
+  auto result = m.compute(c);
+
+  std::cout << result << std::endl;
   // ADD YOUR TEST CODE HERE
 }
 #endif

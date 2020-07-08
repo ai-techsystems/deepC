@@ -43,8 +43,9 @@ else
 	endif
 endif
 
-LD=/usr/bin/ld
-SWIG=/usr/bin/swig
+LD=$(shell which ld)
+SWIG=$(shell which swig)
+
 
 ROOT_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 EIGEN_INCLUDES=-isystem $(ROOT_DIR)/packages/eigen-eigen-323c052e1731

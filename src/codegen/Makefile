@@ -38,7 +38,7 @@ $(OBJ_DIR)/%.o:%.cpp
 
 $(LIB):$(OBJECTS)
 	test -d $(LIB_DIR) || $(MKDIR_P) $(LIB_DIR) 
-	$(CC) $(LD_FLAGS) $(OBJECTS) -o $@
+	$(CC) $(LD_FLAGS) $(OBJECTS) ../operators/obj/opTypes.o ../graph/obj/graph.o ../core/obj/datatypes.o -o $@
 
 clean:
 	$(RM_F) $(OBJ_DIR) $(LIB_DIR) 
