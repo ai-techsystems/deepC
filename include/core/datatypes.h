@@ -111,9 +111,11 @@ inline const char *dTypeName(int32_t v) { return dtype_str[8]; }
 inline const char *dTypeName(uint32_t v) { return dtype_str[9]; }
 inline const char *dTypeName(int64_t v) { return dtype_str[11]; }
 inline const char *dTypeName(uint64_t v) { return dtype_str[12]; }
-inline const char *dTypeName(unsigned long v) { return dtype_str[12]; }
 inline const char *dTypeName(int16_t v) { return dtype_str[18]; }
 inline const char *dTypeName(uint16_t v) { return dtype_str[19]; }
+#ifdef __APPLE__
+inline const char *dTypeName(unsigned long v) { return dtype_str[12]; }
+#endif
 
 template <typename T> DNNC_DataType getDNNC_DataType(T var) {
   std::string type_str = dTypeName(var);
