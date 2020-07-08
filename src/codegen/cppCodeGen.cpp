@@ -30,6 +30,7 @@
 #include <unistd.h>
 
 bool dnnc::cppCodeGen::write() {
+  // std::cout << "DBG: " << _graph.getName() << " \n\t";
 
   inferDataType typeInference(_graph);
   typeInference.main();
@@ -352,13 +353,15 @@ std::string dnnc::cppCodeGen::write(opNode &computeNode) {
     return code;
   }
 
-  if (ins.size() == 0 && outs.size() == 1) {
+  std::vector<std::string> nodeIns = computeNode.inputs();
+  std::vector<std::string> nodeOuts = computeNode.outputs();
+  if (nodeIns.size() == 0) {
     code = writeConstantOperator(computeNode, outs);
-  } else if (ins.size() == 1 && outs.size() == 1) {
+  } else if (nodeIns.size() == 1 && nodeOuts.size() == 1) {
     code = writeUnaryOperator(computeNode, ins, outs);
-  } else if (ins.size() == 2 && outs.size() == 1) {
+  } else if (nodeIns.size() == 2 && nodeOuts.size() == 1) {
     code = writeBinaryOperator(computeNode, ins, outs);
-  } else if (ins.size() == 3 && outs.size() == 1) {
+  } else if (nodeIns.size() == 3 && nodeOuts.size() == 1) {
     code = writeTernaryOperator(computeNode, ins, outs);
   } else {
     code = writeCustomOperator(computeNode, ins, outs);
@@ -368,6 +371,7 @@ std::string dnnc::cppCodeGen::write(opNode &computeNode) {
 
 std::string dnnc::cppCodeGen::writeConstantOperator(opNode &computeNode,
                                                     std::vector<node *> &outs) {
+  // std::cout << "DBG: " << outs.size() << "\n";
   std::string code;
 
   assert(outs.size() == 1);
@@ -411,9 +415,11 @@ std::string dnnc::cppCodeGen::writeConstantOperator(opNode &computeNode,
 std::string dnnc::cppCodeGen::writeUnaryOperator(opNode &computeNode,
                                                  std::vector<node *> &ins,
                                                  std::vector<node *> &outs) {
+  // std::cout << "DBG: " << computeNode.name() << " " << ins.size() << " " <<
+  // outs.size() << "\n";
   std::string code;
 
-  assert(ins.size() == 1 && outs.size() == 1);
+  assert(ins.size() == 1);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
 
@@ -455,9 +461,11 @@ std::string dnnc::cppCodeGen::writeUnaryOperator(opNode &computeNode,
 std::string dnnc::cppCodeGen::writeBinaryOperator(opNode &computeNode,
                                                   std::vector<node *> &ins,
                                                   std::vector<node *> &outs) {
+  // std::cout << "DBG: " << computeNode.name() << " " << ins.size() << " " <<
+  // outs.size() << "\n";
   std::string code;
 
-  assert(ins.size() == 2 && outs.size() == 1);
+  assert(ins.size() == 2);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
 
@@ -500,9 +508,11 @@ std::string dnnc::cppCodeGen::writeBinaryOperator(opNode &computeNode,
 std::string dnnc::cppCodeGen::writeTernaryOperator(opNode &computeNode,
                                                    std::vector<node *> &ins,
                                                    std::vector<node *> &outs) {
+  // std::cout << "DBG: " << computeNode.name() << " " << ins.size() << " " <<
+  // outs.size() << "\n";
   std::string code;
 
-  assert(ins.size() == 3 && outs.size() == 1);
+  assert(ins.size() == 3);
 
   std::string opCode = getOpCodeStr(computeNode.symbol());
 
@@ -552,7 +562,6 @@ std::string dnnc::cppCodeGen::writeCustomOperator(opNode &computeNode,
   std::string code =
       _tab + "// operator " + opCode + " is not supported yet.\n";
   code += _tab + "// Please file a enhancement request at \n";
-  code += _tab +
-          "//        https://github.com/ai-techsystems/dnnCompiler/issues \n";
+  code += _tab + "//        https://github.com/ai-techsystems/deepC/issues \n";
   return code;
 }

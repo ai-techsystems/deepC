@@ -182,12 +182,22 @@ public:
             colReduced.cwiseAbs().rowwise().sum().cwiseSqrt();
         result.load(fullReduced.data());
       } else if (axes[0] == 0) {
-        Matrix<To, 1, Dynamic, RowMajor> colReduced =
-            matrix.array().square().matrix().cwiseAbs().colwise().sum().cwiseSqrt();
+        Matrix<To, 1, Dynamic, RowMajor> colReduced = matrix.array()
+                                                          .square()
+                                                          .matrix()
+                                                          .cwiseAbs()
+                                                          .colwise()
+                                                          .sum()
+                                                          .cwiseSqrt();
         result.load(colReduced.data());
       } else if (axes[0] == 1) {
-        Matrix<To, 1, Dynamic, RowMajor> rowReduced =
-            matrix.array().square().matrix().cwiseAbs().rowwise().sum().cwiseSqrt();
+        Matrix<To, 1, Dynamic, RowMajor> rowReduced = matrix.array()
+                                                          .square()
+                                                          .matrix()
+                                                          .cwiseAbs()
+                                                          .rowwise()
+                                                          .sum()
+                                                          .cwiseSqrt();
         result.load(rowReduced.data());
       }
       return result;
@@ -196,7 +206,13 @@ public:
       DNNC_EIGEN_VECTOR(vector, Ti, a);
       tensor<To> result(dimensions);
 
-      Matrix<To, 1, RowMajor> b = vector.array().square().matrix().cwiseAbs().rowwise().sum().cwiseSqrt();
+      Matrix<To, 1, RowMajor> b = vector.array()
+                                      .square()
+                                      .matrix()
+                                      .cwiseAbs()
+                                      .rowwise()
+                                      .sum()
+                                      .cwiseSqrt();
       result.load(b.data());
 
       return result;

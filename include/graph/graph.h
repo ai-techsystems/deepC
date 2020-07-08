@@ -115,6 +115,7 @@ public:
   }
   ~graph() { destroy(); }
   void setName(std::string name) { _name = name; }
+  std::string getName() { return _name; }
 
   size_t nNodes() { return _nodes.size(); }
   /*<! reset all existing marks on the graph nodes */

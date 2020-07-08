@@ -46,7 +46,7 @@ int main() {
   tensor<float> d({2, 2, 2, 2});
   d.load(d3);
 
-  std::vector<int> axes{};
+  std::vector<int> axes{0};
 
   ReduceL2<float, float> m("localOpName");
 
@@ -54,7 +54,7 @@ int main() {
   m.setAttribute(attr_keepdims, 0);
 
   auto result = m.compute(c);
-  
+
   std::cout << result << std::endl;
   // ADD YOUR TEST CODE HERE
 }
