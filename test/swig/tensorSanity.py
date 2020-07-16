@@ -29,6 +29,16 @@ class tensorSanityTest(unittest.TestCase):
     def setUp(self):
         return;
 
+    # compare two tensors element by element.
+    def isEqual(self, name, brnz, gold):
+        noEuqal = (brnz != gold).sum()
+        if ( noEuqal != False ):
+            print(name)
+            print("\t\tgold :\n", gold)
+            print("\t\tbronz:\n", brnz)
+            assert(name + "Failed,");
+        return noEuqal ;
+
     # how to create tensors in different ways
     def test_create(self):
 
@@ -181,6 +191,18 @@ class tensorSanityTest(unittest.TestCase):
         dc.reshape(a,(120,))
         assert a.shape() == (120,)
 
+    def test_Slices(self):
+        a = dc.arange(12).reshape([3,4]).asTypeInt()
+
+        self.isEqual("0, 0:\n" , a.slice(0, 0), a)
+        self.isEqual("0, 1:\n" , a.slice(0, 1), dc.array([[1, 2, 3], [5, 6, 7], [9, 10, 11]]).asTypeInt())
+        self.isEqual("0, 2:\n" , a.slice(0, 2), dc.array([[2, 3], [6, 7], [10, 11]]).asTypeInt())
+        self.isEqual("0, 3:\n" , a.slice(0, 3), dc.array([[3], [7], [11]]).asTypeInt())
+        self.isEqual("1, 0:\n" , a.slice(1, 0), a)
+        self.isEqual("1, 1:\n" , a.slice(1, 1), dc.array([[4, 5, 6, 7], [8, 9, 10, 11]]).asTypeInt())
+        self.isEqual("1, 1:\n" , a.slice(1, 2), dc.array([[8, 9, 10, 11]]).asTypeInt())
+        self.isEqual("0, 1, -1, 2:\n" , a.slice(0, 1, -1, 2), dc.array([[1,3],[5,7],[9,11]]).asTypeInt())
+        self.isEqual("0, 0, -1, 3:\n" , a.slice(0, 0, -1, 3), dc.array([[0, 3],[4,7],[8,11]]).asTypeInt())
 
     def tearDown(self):
         return "test finished"
