@@ -1,6 +1,7 @@
 # deepC
-## vendor independent deep learning library, compiler and inference framework 
-**targeted for CPUs including μControllers** 
+**vendor independent deep learning library, compiler and inference framework**
+
+*designed for small form-factor devices including μControllers, IoT and Edge devices*
 
 👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
 
@@ -25,7 +26,7 @@ See more examples in [tutorial](tutorials/README.md) dir.
 
 ## 📛 what is deepC?
 
-deepC Compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of small form-factor devices like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ), mobile phones, x86 and arm laptops among others.
+deepC library, compiler and inference framework is designed to **enable and perform** deep learning neural networks by focussing on features of small form-factor devices like micro-controllers, eFPGAs, cpus and other embedded devices like [raspberry-pi](https://www.raspberrypi.org/), [odroid](https://www.hardkernel.com/), [arduino](https://www.arduino.cc/), [SparkFun Edge](https://www.sparkfun.com/products/15170), [risc-V](https://www.amazon.com/Seeed-Studio-Sipeed-Maixduino-RISC-V/dp/B07SW9ZWQQ), mobile phones, x86 and arm laptops among others.
 
 ![edge Devices](misc/edgeDevices.png "supported edge devices")
 
