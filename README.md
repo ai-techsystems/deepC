@@ -1,7 +1,5 @@
 # deepC
-**vendor independent deep learning library, compiler and inference framework**
-
-*designed for small form-factor devices including μControllers, IoT and Edge devices*
+is a **vendor independent deep learning library, compiler and inference framework** designed for small form-factor devices including **μControllers, IoT and Edge devices**
 
 👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
 
