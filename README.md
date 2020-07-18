@@ -1,5 +1,7 @@
 # deepC
-**vendor independent deep learning library, compiler and inference framework** 👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
+**vendor independent deep learning library, compiler and inference framework targeted for CPUs including μControllers** 
+
+👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
 
 
 [![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
