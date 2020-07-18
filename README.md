@@ -1,5 +1,6 @@
 # deepC
-**vendor independent deep learning library, compiler and inference framework targeted for CPUs including μControllers** 
+## vendor independent deep learning library, compiler and inference framework 
+**targeted for CPUs including μControllers** 
 
 👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
 
