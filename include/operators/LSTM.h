@@ -315,6 +315,29 @@ public:
   {
     std::vector<tensor<To>> retVal;
 
+    // tensor<To> result({X.shape()[0], W.shape()[1]});
+
+    if (X.rank() != 3 || W.rank() != 3) {
+      std::cout << "Dimension Error" << std::endl;
+    }
+
+    std::cout << X << std::endl;
+    std::cout << W << std::endl;
+
+    DNNC_EIGEN_TENSOR_MAP(mat_X, Ti1, X);
+    DNNC_EIGEN_TENSOR_MAP(mat_W, Ti1, W);
+
+    DNNC_EIGEN_TENSOR(Ti1) chip = mat_X.chip(0, 0);
+
+    DNNC_EIGEN_TENSOR(To) ret = mat_X * mat_W;
+
+    // result.load(ret.data());
+
+    // retVal.push_back(result);
+
+    std::cout << mat_X << std::endl;
+    std::cout << chip << std::endl;
+
     //
     // Process Attributes and Inputs
     //
