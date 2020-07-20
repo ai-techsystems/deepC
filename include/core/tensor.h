@@ -502,25 +502,42 @@ public:
       return NULL_TENSOR<T>;
 
     std::vector<DIMENSION> new_shape = shape;
-    end = end == -1 ? shape[rank - dimn - 1] - 1 : end;
+    end = end == -1 ? shape[dimn] - 1 : end;
     if (start > end)
       return NULL_TENSOR<T>;
 
-    new_shape[rank - dimn - 1] = std::floor((end - start) / incr) + 1;
+    new_shape[dimn] = std::floor((end - start) / incr) + 1;
     tensor<T> new_tensor(new_shape);
     INDEX ti = 0;
+
     if (rank == 1) {
       for (size_t i = start; i <= end; i = i + incr)
         new_tensor._mem_layout[ti++] = _mem_layout[i];
     } else if (rank == 2) {
-      for (size_t i = (dimn == 1 ? start : 0);
-           i <= (dimn == 1 ? end : shape[0] - 1);
-           i = i + (dimn == 1 ? incr : 1)) {
+      for (size_t i = (dimn == 0 ? start : 0);
+           i <= (dimn == 0 ? end : shape[0] - 1);
+           i = i + (dimn == 0 ? incr : 1)) {
         size_t row_start = i * shape[1];
-        for (size_t j = (dimn == 0 ? start : 0);
-             j <= (dimn == 0 ? end : shape[1] - 1);
-             j = j + (dimn == 0 ? incr : 1)) {
+        for (size_t j = (dimn == 1 ? start : 0);
+             j <= (dimn == 1 ? end : shape[1] - 1);
+             j = j + (dimn == 1 ? incr : 1)) {
           new_tensor._mem_layout[ti++] = _mem_layout[row_start + j];
+        }
+      }
+    } else if (rank == 3) {
+      for (size_t i = (dimn == 0 ? start : 0);
+           i <= (dimn == 0 ? end : shape[0] - 1);
+           i = i + (dimn == 0 ? incr : 1)) {
+        size_t i_start = i * shape[1] * shape[2];
+        for (size_t j = (dimn == 1 ? start : 0);
+             j <= (dimn == 1 ? end : shape[1] - 1);
+             j = j + (dimn == 1 ? incr : 1)) {
+          size_t j_start = j * shape[2];
+          for (size_t k = (dimn == 2 ? start : 0);
+               k <= (dimn == 2 ? end : shape[2] - 1);
+               k = k + (dimn == 2 ? incr : 1)) {
+            new_tensor._mem_layout[ti++] = _mem_layout[i_start + j_start + k];
+          }
         }
       }
     }

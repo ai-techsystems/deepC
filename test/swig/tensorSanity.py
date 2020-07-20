@@ -31,15 +31,15 @@ class tensorSanityTest(unittest.TestCase):
 
     # compare two tensors element by element.
     def isEqual(self, name, brnz, gold):
-        noEuqal = (brnz != gold).sum()
-        if ( noEuqal != False ):
+        noEqual = (brnz != gold).sum()
+        if ( noEqual != False ):
             print(name)
             print("\t\tgold :\n", gold)
             print("\t\tbronz:\n", brnz)
             assert(name + "Failed,");
-        return noEuqal ;
+        return noEqual ;
 
-    # how to create tensors in different ways
+    # # how to create tensors in different ways
     def test_create(self):
 
         # null tensor test
@@ -154,7 +154,7 @@ class tensorSanityTest(unittest.TestCase):
         abool = a.asTypeBool()
         assert abool.dtype() == 'bool'
 
-    # test shapes
+    # # test shapes
     def test_shapes(self):
 
         # test shape tuple
@@ -195,14 +195,33 @@ class tensorSanityTest(unittest.TestCase):
         a = dc.arange(12).reshape([3,4]).asTypeInt()
 
         self.isEqual("0, 0:\n" , a.slice(0, 0), a)
-        self.isEqual("0, 1:\n" , a.slice(0, 1), dc.array([[1, 2, 3], [5, 6, 7], [9, 10, 11]]).asTypeInt())
-        self.isEqual("0, 2:\n" , a.slice(0, 2), dc.array([[2, 3], [6, 7], [10, 11]]).asTypeInt())
-        self.isEqual("0, 3:\n" , a.slice(0, 3), dc.array([[3], [7], [11]]).asTypeInt())
+        self.isEqual("0, 1:\n" , a.slice(0, 1), dc.array([[4, 5, 6, 7], [8, 9, 10, 11]]).asTypeInt())
+        self.isEqual("0, 2:\n" , a.slice(0, 2), dc.array([[8, 9, 10, 11]]).asTypeInt())
         self.isEqual("1, 0:\n" , a.slice(1, 0), a)
-        self.isEqual("1, 1:\n" , a.slice(1, 1), dc.array([[4, 5, 6, 7], [8, 9, 10, 11]]).asTypeInt())
-        self.isEqual("1, 1:\n" , a.slice(1, 2), dc.array([[8, 9, 10, 11]]).asTypeInt())
-        self.isEqual("0, 1, -1, 2:\n" , a.slice(0, 1, -1, 2), dc.array([[1,3],[5,7],[9,11]]).asTypeInt())
-        self.isEqual("0, 0, -1, 3:\n" , a.slice(0, 0, -1, 3), dc.array([[0, 3],[4,7],[8,11]]).asTypeInt())
+        self.isEqual("1, 1:\n" , a.slice(1, 1), dc.array([[1, 2, 3], [5, 6, 7], [9, 10, 11]]).asTypeInt())
+        self.isEqual("1, 2:\n" , a.slice(1, 2), dc.array([[2, 3], [6, 7], [10, 11]]).asTypeInt())
+        self.isEqual("1, 3:\n" , a.slice(1, 3), dc.array([[3], [7], [11]]).asTypeInt())
+        self.isEqual("1, 1, -1, 2:\n" , a.slice(1, 1, -1, 2), dc.array([[1,3],[5,7],[9,11]]).asTypeInt())
+        self.isEqual("1, 0, -1, 3:\n" , a.slice(1, 0, -1, 3), dc.array([[0, 3],[4,7],[8,11]]).asTypeInt())
+
+        b = dc.arange(24).reshape([2,3,4]).asTypeInt()
+
+        self.isEqual("0, 0:\n" , b.slice(0, 0), b)
+        self.isEqual("0, 1:\n" , b.slice(0, 1), dc.array([[12, 13, 14, 15], [16, 17, 18, 19], [20, 21, 22, 23]]).asTypeInt())
+        self.isEqual("1, 0:\n" , b.slice(1, 0), b)
+        self.isEqual("1, 1:\n" , b.slice(1, 1)[0], dc.array([[4, 5, 6, 7], [8, 9, 10, 11]]).asTypeInt())
+        self.isEqual("1, 1:\n" , b.slice(1, 1)[1], dc.array([[16, 17, 18, 19], [20, 21, 22, 23]]).asTypeInt())
+        self.isEqual("2, 0:\n" , b.slice(2, 0), b)
+        self.isEqual("2, 1:\n" , b.slice(2, 1)[0], dc.array([[1, 2, 3], [5, 6, 7], [9, 10, 11]]).asTypeInt())
+        self.isEqual("2, 1:\n" , b.slice(2, 1)[1], dc.array([[13, 14, 15], [17, 18, 19], [21, 22, 23]]).asTypeInt())
+        self.isEqual("2, 2:\n" , b.slice(2, 2)[0], dc.array([[2, 3], [6, 7], [10, 11]]).asTypeInt())
+        self.isEqual("2, 2:\n" , b.slice(2, 2)[1], dc.array([[14, 15], [18, 19], [22, 23]]).asTypeInt())
+        self.isEqual("2, 3:\n" , b.slice(2, 3)[0], dc.array([[3], [7], [11]]).asTypeInt())
+        self.isEqual("2, 3:\n" , b.slice(2, 3)[1], dc.array([[15], [19], [23]]).asTypeInt())
+        self.isEqual("1, 0, -1, 2:\n" , b.slice(1, 0, -1, 2)[0], dc.array([[0, 1, 2, 3], [8, 9, 10, 11]]).asTypeInt())
+        self.isEqual("1, 0, -1, 2:\n" , b.slice(1, 0, -1, 2)[1], dc.array([[12, 13, 14, 15], [20, 21, 22, 23]]).asTypeInt())
+        self.isEqual("1, 0, -1, 3:\n" , b.slice(1, 0, -1, 3)[0], dc.array([[0, 1, 2, 3]]).asTypeInt())
+        self.isEqual("1, 0, -1, 3:\n" , b.slice(1, 0, -1, 3)[1], dc.array([[12, 13, 14, 15]]).asTypeInt())
 
     def tearDown(self):
         return "test finished"

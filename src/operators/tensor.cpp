@@ -21,35 +21,34 @@
 // https://github.com/ai-techsystems/dnnCompiler
 //
 
-#include "operators/LSTM.h"
+#include "operators/baseOperator.h"
 
 using namespace dnnc;
 using namespace Eigen;
 
-#ifdef DNNC_LSTM_TEST
+#ifdef DNNC_SLICE_TEST
 #include <iostream>
 int main() {
 
   float d1[4] = {1, 6, 5, 4};
-  float d2[6] = {1, 2, 3, 6, 5, 4};
+  float d2[6] = {1, 2, 3, 3, 4, 6};
   float d3[12] = {1., 4., 3., 9., 5., 6., 1., 5., 3., 6., 7., 4.};
   float d4[16] = {1., 4., 3., 9., 5., 6., 1., 5.,
                   3., 6., 7., 4., 3., 8., 4., 5.};
+  float d5[24] = {1., 4., 3., 9., 5., 6., 1., 5., 3., 6., 7., 4.,
+                  3., 8., 4., 5., 5., 7., 8., 1., 2., 5., 2., 9.};
 
-  tensor<float> X({1, 2, 3});
-  tensor<float> W({3, 2, 1});
-  tensor<float> R({1, 2, 2});
+  tensor<float> X({2, 3, 4});
 
-  X.load(d2);
-  W.load(d2);
-  R.load(d1);
+  X.load(d5);
+  std::cout << X << std::endl << std::endl;
 
-  LSTM<float, float, int> m("localOpName");
+  std::cout << X.slice(2, 0, 3, 2) << std::endl;
 
   // m.setAttribute(attr_axis, axes);
   // m.setAttribute(attr_keepdims, 0);
 
-  auto result = m.compute(X, W, R);
+  // auto result = m.compute(X, W, R);
 
   // std::cout << result << std::endl;
   // ADD YOUR TEST CODE HERE

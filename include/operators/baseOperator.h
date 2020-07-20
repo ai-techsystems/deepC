@@ -80,12 +80,20 @@ public:
 
   virtual bool getAttribute(OPATTR, float &) { return false; }
   virtual bool getAttribute(OPATTR, int &) { return false; }
+  virtual bool getAttribute(OPATTR, std::vector<float> &obj) { return false; }
+  virtual bool getAttribute(OPATTR, std::vector<std::string> &obj) {
+    return false;
+  }
   virtual bool getAttribute(OPATTR, std::string &) { return false; }
   virtual bool getAttribute(OPATTR, std::vector<int> &) { return false; }
   virtual bool getAttribute(OPATTR, tensor<int64_t> &obj) { return false; }
   virtual bool getAttribute(OPATTR, tensor<double> &obj) { return false; }
   virtual bool setAttribute(OPATTR, float) { return false; }
   virtual bool setAttribute(OPATTR, int) { return false; }
+  virtual bool setAttribute(OPATTR, std::vector<std::string> obj) {
+    return false;
+  }
+  virtual bool setAttribute(OPATTR, std::vector<float> obj) { return false; }
   virtual bool setAttribute(OPATTR, std::string) { return false; }
   virtual bool setAttribute(OPATTR, std::vector<int>) { return false; }
   virtual bool setAttribute(OPATTR, tensor<int64_t>) { return false; }
