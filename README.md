@@ -4,7 +4,7 @@ is a **vendor independent deep learning library, compiler and inference framewor
 👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
 
 
-[![Build Status](https://travis-ci.org/ai-techsystems/dnnCompiler.svg?branch=master)](https://travis-ci.org/ai-techsystems/dnnCompiler)
+[![Build Status](https://api.travis-ci.org/ai-techsystems/deepC.svg?branch=master)](https://travis-ci.org/github/ai-techsystems/deepC)
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
 [![Downloads](https://pepy.tech/badge/deepc)](https://pepy.tech/project/deepc)
 [![Apache2.0 License](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
