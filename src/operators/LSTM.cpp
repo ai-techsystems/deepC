@@ -35,21 +35,31 @@ int main() {
   float d3[12] = {1., 4., 3., 9., 5., 6., 1., 5., 3., 6., 7., 4.};
   float d4[16] = {1., 4., 3., 9., 5., 6., 1., 5.,
                   3., 6., 7., 4., 3., 8., 4., 5.};
+  float d5[24] = {1., 4., 3., 9., 5., 6., 1., 5.,
+                  3., 6., 3., 4., 3., 9., 6., 4.,
+                  1., 2., 3., 9., 8., 5., 6., 1.};
 
   tensor<float> X({1, 2, 3});
-  tensor<float> W({3, 2, 1});
-  tensor<float> R({1, 2, 2});
+  tensor<float> W({1, 8, 3});
+  tensor<float> R({1, 8, 2});
+  tensor<float> B({1, 16});
+  tensor<float> H({1, 2, 2});
+  tensor<float> C({1, 2, 2});
+  tensor<float> P({1, 6});
+
+ 
 
   X.load(d2);
-  W.load(d2);
-  R.load(d1);
+  W.load(d3);
+  R.load(d4);
+  B.load(d4);
+  H.load(d1);
+  C.load(d1);
+  P.load(d2);
 
   LSTM<float, float, int> m("localOpName");
 
-  // m.setAttribute(attr_axis, axes);
-  // m.setAttribute(attr_keepdims, 0);
-
-  auto result = m.compute(X, W, R);
+  auto result = m.compute(X, W, R, B, NULL_TENSOR<int>, H, C, P);
 
   // std::cout << result << std::endl;
   // ADD YOUR TEST CODE HERE

@@ -82,7 +82,7 @@ public:
        std::string direction = "forward", int hidden_size = 0,
        int input_forget = 0)
       : baseOperator<To, Ti1, Ti2>(opLSTM, name) {
-
+        
     std::stringstream errMsg;
     std::vector<std::string> supported_activations = {"Relu", "Tanh",
                                                       "Sigmoid"};
@@ -321,22 +321,177 @@ public:
       std::cout << "Dimension Error" << std::endl;
     }
 
+    if (P == NULL_TENSOR<Ti1>) {
+      std::cout << "THANK YOU" << std::endl;
+    }
+
     std::cout << X << std::endl;
-    std::cout << W << std::endl;
+    for (int i = 0; i < X.shape()[0]; i++) {
+      tensor<Ti1> Y = X.slice(0, i, i);
+      Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_X(
+          this->tensorMem(Y), Y.shape()[1], Y.shape()[2]);
 
-    DNNC_EIGEN_TENSOR_MAP(mat_X, Ti1, X);
-    DNNC_EIGEN_TENSOR_MAP(mat_W, Ti1, W);
+      std::cout << mat_X << std::endl << std::endl;
+    }
 
-    DNNC_EIGEN_TENSOR(Ti1) chip = mat_X.chip(0, 0);
+    tensor<Ti1> Y = X.slice(0, 0, 0);
+    Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_X(this->tensorMem(Y), Y.shape()[1], Y.shape()[2]);
 
-    DNNC_EIGEN_TENSOR(To) ret = mat_X * mat_W;
+    if (num_directions == 2 || direction.compare("bidirectional") == 0) {
+      tensor<Ti1> W1 = W.slice(0, 0, 0);
+      Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_W(
+          this->tensorMem(W1), W.shape()[1], W.shape()[2]);
+      tensor<Ti1> W2 = W.slice(0, 1, 1);
+      Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_Wb(
+          this->tensorMem(W2), W.shape()[1], W.shape()[2]);
 
-    // result.load(ret.data());
+      std::cout << "W" << std::endl;
+      std::cout << mat_W << std::endl << std::endl;
+      std::cout << "Wi" << std::endl;
+      std::cout << mat_W.topRows(W.shape()[1]/4) << std::endl << std::endl;
+      std::cout << "Wo" << std::endl;
+      std::cout << mat_W.middleRows(W.shape()[1]/4, W.shape()[1]/4) << std::endl << std::endl;
+      std::cout << "Wf" << std::endl;
+      std::cout << mat_W.middleRows(2*W.shape()[1]/4, W.shape()[1]/4) << std::endl << std::endl;
+      std::cout << "Wc" << std::endl;
+      std::cout << mat_W.bottomRows(W.shape()[1]/4) << std::endl << std::endl;
 
-    // retVal.push_back(result);
+      
 
-    std::cout << mat_X << std::endl;
-    std::cout << chip << std::endl;
+    } else {
+      if (direction.compare("reverse") == 0) {
+        Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_Wb(
+            this->tensorMem(W), W.shape()[1], W.shape()[2]);
+
+        // tensor<Ti1> Wbi = W.slice(0, 0, W.shape()[0]/4-1);
+        // tensor<Ti1> Wbo = W.slice(0, W.shape()[0]/4, 2*W.shape()[0]/4-1);
+        // tensor<Ti1> Wbf = W.slice(0, 2*W.shape()[0]/4, 3*W.shape()[0]/4-1);
+        // tensor<Ti1> Wbc = W.slice(0, 3*W.shape()[0]/4, 4*W.shape()[0]/4-1);
+      } else {
+        Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_W(
+            this->tensorMem(W), W.shape()[1], W.shape()[2]);
+        
+        DNNC_EIGEN_MATRIX_CTOR(Ti1) mat_Ht;
+        DNNC_EIGEN_MATRIX_CTOR(Ti1) mat_Ct;
+        
+        // std::cout << "W" << std::endl;
+        // std::cout << mat_W << std::endl << std::endl;
+        // std::cout << "Wi" << std::endl;
+        // std::cout << mat_W.topRows(W.shape()[1]/4) << std::endl << std::endl;
+        // std::cout << "Wo" << std::endl;
+        // std::cout << mat_W.middleRows(W.shape()[1]/4, W.shape()[1]/4) << std::endl << std::endl;
+        // std::cout << "Wf" << std::endl;
+        // std::cout << mat_W.middleRows(2*W.shape()[1]/4, W.shape()[1]/4) << std::endl << std::endl;
+        // std::cout << "Wc" << std::endl;
+        // std::cout << mat_W.bottomRows(W.shape()[1]/4) << std::endl << std::endl;
+        // std::cout << "X" << std::endl << std::endl;
+      
+        DNNC_EIGEN_MATRIX_CTOR(Ti1) Xi = mat_X * mat_W.topRows(W.shape()[1]/4).transpose();
+        DNNC_EIGEN_MATRIX_CTOR(Ti1) Xo = mat_X * mat_W.middleRows(W.shape()[1]/4, W.shape()[1]/4).transpose();
+        DNNC_EIGEN_MATRIX_CTOR(Ti1) Xf = mat_X * mat_W.middleRows(2*W.shape()[1]/4, W.shape()[1]/4).transpose();
+        DNNC_EIGEN_MATRIX_CTOR(Ti1) Xc = mat_X * mat_W.bottomRows(W.shape()[1]/4).transpose();
+
+        std::cout << Xi << std::endl << std::endl;
+        std::cout << Xo << std::endl << std::endl;
+        std::cout << Xf << std::endl << std::endl;
+        std::cout << Xc << std::endl << std::endl;
+
+        if (B != NULL_TENSOR<Ti1>) {
+          DNNC_EIGEN_ARRAY_MAP(mat_B, Ti1, B);   
+
+          // std::cout << "B" << std::endl << std::endl;
+          // std::cout << mat_B << std::endl << std::endl;
+          Xi = Xi.rowwise() + mat_B.leftCols(B.shape()[1]/8);
+          Xo = Xo.rowwise() + mat_B.middleCols(2*B.shape()[1]/8, B.shape()[1]/8);
+          Xf = Xf.rowwise() + mat_B.middleCols(4*B.shape()[1]/8, B.shape()[1]/8);
+          Xc = Xc.rowwise() + mat_B.middleCols(6*B.shape()[1]/8, B.shape()[1]/8);
+
+          Xi = Xi.rowwise() + mat_B.middleCols(B.shape()[1]/8, B.shape()[1]/8);
+          Xo = Xo.rowwise() + mat_B.middleCols(3*B.shape()[1]/8, B.shape()[1]/8);
+          Xf = Xf.rowwise() + mat_B.middleCols(5*B.shape()[1]/8, B.shape()[1]/8);
+          Xc = Xc.rowwise() + mat_B.middleCols(7*B.shape()[1]/8, B.shape()[1]/8);
+        }
+
+        if (initial_h != NULL_TENSOR<Ti1>) {
+          Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_H(
+            this->tensorMem(initial_h), initial_h.shape()[1], initial_h.shape()[2]);
+          Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_R(
+            this->tensorMem(R), R.shape()[1], R.shape()[2]);
+
+          mat_Ht = mat_H;
+
+          // std::cout << "R" << std::endl;
+          // std::cout << mat_R << std::endl << std::endl;
+          // std::cout << "Ri" << std::endl;
+          // std::cout << mat_R.topRows(R.shape()[1]/4).transpose() << std::endl << std::endl;
+          // std::cout << "Ro" << std::endl;
+          // std::cout << mat_R.middleRows(R.shape()[1]/4, R.shape()[1]/4).transpose() << std::endl << std::endl;
+          // std::cout << "Rf" << std::endl;
+          // std::cout << mat_R.middleRows(2*R.shape()[1]/4, R.shape()[1]/4).transpose() << std::endl << std::endl;
+          // std::cout << "Rc" << std::endl;
+          // std::cout << mat_R.bottomRows(R.shape()[1]/4).transpose() << std::endl << std::endl;
+
+          // std::cout << "H" << std::endl << std::endl;
+          // std::cout << mat_H << std::endl << std::endl;
+          Xi += mat_H * mat_R.topRows(R.shape()[1]/4).transpose();
+          Xo += mat_H * mat_R.middleRows(2*R.shape()[1]/4, R.shape()[1]/4).transpose();
+          Xf += mat_H * mat_R.middleRows(3*R.shape()[1]/4, R.shape()[1]/4).transpose();
+          Xc += mat_H * mat_R.bottomRows(R.shape()[1]/4).transpose();
+        }
+
+        if (initial_c != NULL_TENSOR<Ti1> && P != NULL_TENSOR<Ti1>) {
+          Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_C(
+            this->tensorMem(initial_c), initial_c.shape()[1], initial_c.shape()[2]);
+          DNNC_EIGEN_ARRAY_MAP(mat_P, Ti1, P);  
+
+          mat_Ct = mat_C; 
+
+          // std::cout << "P" << std::endl;
+          // std::cout << mat_P << std::endl << std::endl;
+          // std::cout << "Pi" << std::endl;
+          // std::cout << mat_P.leftCols(P.shape()[1]/3) << std::endl << std::endl;
+          // std::cout << "Pf" << std::endl;
+          // std::cout << mat_P.middleCols(P.shape()[1]/3, P.shape()[1]/3) << std::endl << std::endl;
+          // std::cout << "Po" << std::endl;
+          // std::cout << mat_P.rightCols(P.shape()[1]/3) << std::endl << std::endl;
+          
+          // std::cout << "C" << std::endl << std::endl;
+          // std::cout << mat_C << std::endl << std::endl;
+          Xi += (mat_C.array().rowwise() * mat_P.leftCols(P.shape()[1]/3).array()).matrix();
+          Xf += (mat_C.array().rowwise() * mat_P.middleCols(P.shape()[1]/3, P.shape()[1]/3).array()).matrix();
+          Xo += (mat_C.array().rowwise() * mat_P.rightCols(P.shape()[1]/3).array()).matrix();
+
+        }
+        //TODO: Activation functions applied to Xi, Xo, Xf, Xc, and C
+        // XI = tanh
+
+        std::cout << Xi << std::endl << std::endl;
+        std::cout << Xo << std::endl << std::endl;
+        std::cout << Xf << std::endl << std::endl;
+        std::cout << Xc << std::endl << std::endl;
+
+        std::cout << "C" << std::endl << std::endl;
+        std::cout << mat_Ct << std::endl << std::endl;
+
+        if (initial_c != NULL_TENSOR<Ti1>) {
+          mat_Ct = (mat_Ct.array() * Xf.array() + Xi.array() * Xc.array()).matrix();
+        }
+
+        std::cout << "C" << std::endl << std::endl;
+        std::cout << mat_Ct << std::endl << std::endl;
+
+        std::cout << "H" << std::endl << std::endl;
+        std::cout << mat_Ht << std::endl << std::endl;
+
+        if (initial_h != NULL_TENSOR<Ti1>) {
+          mat_Ht = (mat_Ht.array() * Xo.array()).matrix();
+        }
+
+        std::cout << "H" << std::endl << std::endl;
+        std::cout << mat_Ht << std::endl << std::endl;
+
+      }
+    }
 
     //
     // Process Attributes and Inputs
@@ -354,6 +509,10 @@ public:
     // Ht = ot (.) h(Ct)
 
     return retVal;
+  }
+
+  void applyBias() {
+
   }
 
 }; // class LSTM
