@@ -39,7 +39,7 @@ int main() {
                   3., 6., 3., 4., 3., 9., 6., 4.,
                   1., 2., 3., 9., 8., 5., 6., 1.};
 
-  tensor<float> X({1, 2, 3});
+  tensor<float> X({2, 2, 3});
   tensor<float> W({1, 8, 3});
   tensor<float> R({1, 8, 2});
   tensor<float> B({1, 16});
@@ -49,7 +49,7 @@ int main() {
 
  
 
-  X.load(d2);
+  X.load(d3);
   W.load(d3);
   R.load(d4);
   B.load(d4);

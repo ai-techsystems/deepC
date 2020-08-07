@@ -1,30 +1,50 @@
-:Ü
-f
-x
-w
-ry"LSTM*%
-activationsJsigmoidJtanhJrelu *
-	direction"reverse *
+:¤
+B
+X
+W
+R
+B
+	initial_h
+	initial_c
+PY"LSTM*
 hidden_size 
 LSTM_graphZ
-x
+X
 
 
 
-Z
-w
+Z
+W
 
 
 
-Z
-r
+Z
+R
 
 
 
-b
-y
+Z
+B
+
+
+Z
+	initial_h
+
+
+
+Z
+	initial_c
+
+
+
+Z
+P
+
+
+	b
+Y
 
 
 
 
-B
+B

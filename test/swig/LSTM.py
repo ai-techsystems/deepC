@@ -25,24 +25,29 @@ import deepC.dnnc as dc
 import numpy as np
 import unittest
 import sys
+import onnx
+import caffe2.python.onnx.backend as backend
 
 class LSTMTest(unittest.TestCase):
 
-    def setUp(self, numdirections, seqlength, inputsize, batchsize, hiddensize):
-        self.num_directions = numdirections
-        self.seq_length = seqlength
-        self.input_size = inputsize
-        self.batch_size = batchsize
-        self.hidden_size = hiddensize
+    def setUp(self):
+        self.num_directions = 1
+        self.seq_length = 1
+        self.input_size = 4
+        self.batch_size = 3
+        self.hidden_size = 5
 
         self.np_x = np.random.randn(self.seq_length * self.batch_size * self.input_size).astype(np.float32)
         self.dc_x = dc.array(list(self.np_x))
 
-        self.np_w = np.random.randn(self.num_directions * 4 * self.hidden_dize * self.input_size).astype(np.float32)
+        self.np_w = np.random.randn(self.num_directions * 4 * self.hidden_size * self.input_size).astype(np.float32)
         self.dc_w = dc.array(list(self.np_w))
 
         self.np_r = np.random.randn(self.num_directions * 4 * self.hidden_size * self.hidden_size).astype(np.float32)
         self.dc_r = dc.array(list(self.np_r))
+
+        self.np_b = np.random.randn(self.num_directions * 8 * self.hidden_size).astype(np.float32)
+        self.dc_b = dc.array(list(self.np_b))
 
         self.np_h = np.random.randn(self.num_directions * self.batch_size * self.hidden_size).astype(np.float32)
         self.dc_h = dc.array(list(self.np_h))
@@ -50,36 +55,67 @@ class LSTMTest(unittest.TestCase):
         self.np_c = np.random.randn(self.num_directions * self.batch_size * self.hidden_size).astype(np.float32)
         self.dc_c = dc.array(list(self.np_c))
 
-        self.np_p = np.random.randn(self.num_directions * 3 * hidden_size).astype(np.float32)
+        self.np_p = np.random.randn(self.num_directions * 3 * self.hidden_size).astype(np.float32)
         self.dc_p = dc.array(list(self.np_p))
+
+
+
+
+
+        self.np_x = np.reshape(self.np_x, (self.seq_length, self.batch_size, self.input_size))
+        self.dc_x = dc.reshape(self.dc_x, (self.seq_length, self.batch_size, self.input_size))
+
+        self.np_w = np.reshape(self.np_w, (self.num_directions, 4 * self.hidden_size, self.input_size))
+        self.dc_w = dc.reshape(self.dc_w, (self.num_directions, 4 * self.hidden_size, self.input_size))
+
+        self.np_r = np.reshape(self.np_r, (self.num_directions, 4 * self.hidden_size, self.hidden_size))
+        self.dc_r = dc.reshape(self.dc_r, (self.num_directions, 4 * self.hidden_size, self.hidden_size))
+
+        self.np_b = np.reshape(self.np_b, (self.num_directions, 8 * self.hidden_size))
+        self.dc_b = dc.reshape(self.dc_b, (self.num_directions, 8 * self.hidden_size))
+        
+        self.np_h = np.reshape(self.np_h, (self.num_directions, self.batch_size, self.hidden_size))
+        self.dc_h = dc.reshape(self.dc_h, (self.num_directions, self.batch_size, self.hidden_size))
+
+        self.np_c = np.reshape(self.np_c, (self.num_directions, self.batch_size, self.hidden_size))
+        self.dc_c = dc.reshape(self.dc_c, (self.num_directions, self.batch_size, self.hidden_size))
+
+        self.np_p = np.reshape(self.np_p, (self.num_directions, 3 * self.hidden_size))
+        self.dc_p = dc.reshape(self.dc_p, (self.num_directions, 3 * self.hidden_size))
 
     def testAll (self):
         
-        setUp(1, 1, 4, 3, 5)
-        dcr = dc.lstm(self.onnx_dc_X, self.onnx_dc_W,  self.dc_B, "SAME_UPPER")
+        dcr = dc.lstm(self.dc_x, self.dc_w, self.dc_r)
+        print(dcr[0])
+        # print(drc)
         # np.testing.assert_allclose(self.onnx_npr_su.astype(np.float32), np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
+        
+        # print(self.dc_h)
 
+        model = onnx.load('./parser/unit_operators/testcases/LSTM/LSTM.onnx')
+        rep = backend.prepare(model, device = 'CPU')
+        # output = rep.run(self.np_x)
 
-        input = np.array([[[1., 2.], [3., 4.], [5., 6.]]]).astype(np.float32)
+        # input = np.array([[[1., 2.], [3., 4.], [5., 6.]]]).astype(np.float32)
 
-        input_size = 2
-        hidden_size = 3
-        weight_scale = 0.1
-        number_of_gates = 4
+        # input_size = 2
+        # hidden_size = 3
+        # weight_scale = 0.1
+        # number_of_gates = 4
 
-        node = onnx.helper.make_node(
-        'LSTM',
-            inputs=['X', 'W', 'R'],
-            outputs=['', 'Y'],
-            hidden_size=hidden_size
-        )
+        # node = onnx.helper.make_node(
+        # 'LSTM',
+        #     inputs=['X', 'W', 'R'],
+        #     outputs=['', 'Y'],
+        #     hidden_size=hidden_size
+        # )
 
-        W = weight_scale * np.ones((1, number_of_gates * hidden_size, input_size)).astype(np.float32)
-        R = weight_scale * np.ones((1, number_of_gates * hidden_size, hidden_size)).astype(np.float32)
+        # W = self.np_w
+        # R = self.np_r
 
-        lstm = LSTM_Helper(X=input, W=W, R=R)
-        _, Y_h = lstm.step()
-        expect(node, inputs=[input, W, R], outputs=[Y_h.astype(np.float32)], name='test_lstm_defaults')
+        # lstm = LSTM_Helper(X=input, W=W, R=R)
+        # _, Y_h = lstm.step()
+        # expect(node, inputs=[input, W, R], outputs=[Y_h.astype(np.float32)], name='test_lstm_defaults')
    
    
     def tearDown(self):
