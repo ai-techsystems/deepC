@@ -1,12 +1,11 @@
-:¤
-B
+:ô
+i
 X
 W
 R
-B
-	initial_h
-	initial_c
-PY"LSTM*
+BY"LSTM*%
+activationsJsigmoidJtanhJrelu *
+	direction"forward *
 hidden_size 
 LSTM_graphZ
 X
@@ -27,24 +26,10 @@ LSTM_graphZ
 B
 
 
-Z
-	initial_h
-
-
-
-Z
-	initial_c
-
-
-
-Z
-P
-
-
-	b
+b
 Y
 
 
 
 
-B
+B
