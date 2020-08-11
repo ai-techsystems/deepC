@@ -75,6 +75,7 @@
 #include "operators/Log.h"
 #include "operators/LogSoftmax.h"
 #include "operators/LpNormalization.h"
+#include "operators/LSTM.h"
 #include "operators/MatMul.h"
 #include "operators/MatMulInteger.h"
 #include "operators/Max.h"
@@ -879,6 +880,19 @@ tensor<output> lpnormalization(tensor<input> &a, int p = 2, int axis = -1) {
     "float" : "float",
     "double" : "double"
   }
+}
+
+std::vector<tensor<output>> lstm(tensor<input> &x, tensor<input> &w, tensor<input> &r, 
+		tensor<input> &b=NULL_TENSOR<input>, tensor<input> &lens=NULL_TENSOR<input>, 
+		tensor<input> &h=NULL_TENSOR<input>, tensor<input> &c=NULL_TENSOR<input>,
+		tensor<input> &p=NULL_TENSOR<input>) {
+	LSTM<output, input, input> op;
+	return op.compute(x, w, r, b, lens, h, c, p);
+	dtype = {
+		"double" : "double",
+		"float" : "float",
+		"int" : "int"
+	}
 }
 
 tensor<output> matmulinteger(tensor<input> &a, tensor<input> &b, tensor<input> &c, tensor<input> &d) {
