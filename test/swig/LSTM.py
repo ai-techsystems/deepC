@@ -26,16 +26,15 @@ import numpy as np
 import unittest
 import sys
 import onnx
-import caffe2.python.onnx.backend as backend
 
 class LSTMTest(unittest.TestCase):
 
     def setUp(self):
         self.num_directions = 1
-        self.seq_length = 1
+        self.seq_length = 3
         self.input_size = 4
         self.batch_size = 3
-        self.hidden_size = 5
+        self.hidden_size = 3
 
         self.np_x = np.random.randn(self.seq_length * self.batch_size * self.input_size).astype(np.float32)
         self.dc_x = dc.array(list(self.np_x))
@@ -57,8 +56,6 @@ class LSTMTest(unittest.TestCase):
 
         self.np_p = np.random.randn(self.num_directions * 3 * self.hidden_size).astype(np.float32)
         self.dc_p = dc.array(list(self.np_p))
-
-
 
 
 
@@ -85,15 +82,47 @@ class LSTMTest(unittest.TestCase):
 
     def testAll (self):
         
-        dcr = dc.lstm(self.dc_x, self.dc_w, self.dc_r)
-        print(dcr[0])
+        
         # print(drc)
         # np.testing.assert_allclose(self.onnx_npr_su.astype(np.float32), np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
         
         # print(self.dc_h)
 
         model = onnx.load('./parser/unit_operators/testcases/LSTM/LSTM.onnx')
-        rep = backend.prepare(model, device = 'CPU')
+        # rep = backend.prepare(model, device = 'CPU')
+
+        xTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/X_0.txt")
+        xTest = dc.array(list(xTest))
+        xTest = dc.reshape(xTest, (self.seq_length, self.batch_size, self.input_size))
+        print(xTest[0])
+        print()
+
+        wTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/W_0.txt")
+        wTest = dc.array(list(wTest))
+        wTest = dc.reshape(wTest, (self.num_directions, 4 * self.hidden_size, self.input_size))
+        # print(wTest[0])
+        # print()
+
+        rTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/R_0.txt")
+        rTest = dc.array(list(rTest))
+        rTest = dc.reshape(rTest, (self.num_directions, 4 * self.hidden_size, self.hidden_size))
+        # print(rTest[0])
+        # print()
+
+        bTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/B_0.txt")
+        bTest = dc.array(list(bTest))
+        bTest = dc.reshape(bTest, (self.num_directions, 8 * self.hidden_size))
+        # print(bTest[0])
+        # print()
+
+        outTest = np.loadtxt(fname = "swig/outputs_XWRB/outputs/Output_0.txt")
+        outTest = dc.array(list(outTest))
+        outTest = dc.reshape(outTest, (self.seq_length, self.num_directions, self.batch_size, self.hidden_size))
+
+        dcr = dc.lstm(xTest, wTest, rTest, bTest)
+        print(dcr[0])
+        # print(outTest)
+
         # output = rep.run(self.np_x)
 
         # input = np.array([[[1., 2.], [3., 4.], [5., 6.]]]).astype(np.float32)

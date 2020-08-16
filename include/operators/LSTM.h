@@ -366,6 +366,8 @@ public:
           // tensor<Ti1> Wbf = W.slice(0, 2*W.shape()[0]/4, 3*W.shape()[0]/4-1);
           // tensor<Ti1> Wbc = W.slice(0, 3*W.shape()[0]/4, 4*W.shape()[0]/4-1);
         } else {
+
+          std::cout << "IN THE RIGHT PLACE" << std::endl;
           Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_W(
               this->tensorMem(W), W.shape()[1], W.shape()[2]);
           
@@ -466,10 +468,7 @@ public:
           Xf = Xf.unaryExpr(&sigmoid_func);
           Xc.array() = tanh(Xc.array());
 
-          // std::cout << Xi << std::endl << std::endl;
-          // std::cout << Xo << std::endl << std::endl;
-          // std::cout << Xf << std::endl << std::endl;
-          // std::cout << Xc << std::endl << std::endl;
+          
 
           // std::cout << "C" << std::endl << std::endl;
           // std::cout << mat_Ct << std::endl << std::endl;
@@ -491,6 +490,14 @@ public:
             mat_Ht.array() = (Xo.array() * tanh(mat_Ct.array()));
           }
 
+          std::cout << "Xi" << std::endl;
+          std::cout << Xi << std::endl << std::endl;
+          std::cout << "Xo" << std::endl;
+          std::cout << Xo << std::endl << std::endl;
+          std::cout << "Xf" << std::endl;
+          std::cout << Xf << std::endl << std::endl;
+          std::cout << "Xc" << std::endl;
+          std::cout << Xc << std::endl << std::endl;
           // std::cout << "H" << std::endl << std::endl;
           // std::cout << mat_Ht << std::endl << std::endl;
 
