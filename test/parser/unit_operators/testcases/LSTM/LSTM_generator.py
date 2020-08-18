@@ -32,7 +32,7 @@ sys.path.append(".."+separator+".."+separator+".."+separator+".."+separator+"pyt
 
 op_name = 'LSTM'
 
-seq_length = 3
+seq_length = 1
 batch_size = 3
 input_size = 4
 hidden_size = 3
@@ -54,7 +54,7 @@ inputs = [helper.make_tensor_value_info('X',TensorProto.FLOAT,[seq_length, batch
 outputs = [helper.make_tensor_value_info('Y',TensorProto.FLOAT,[seq_length, num_directions, batch_size, hidden_size])]
 nodes = []
 # nodes.append(helper.make_node('LSTM',inputs=['X', 'W', 'R', 'B', 'sequence_lens', 'initial_h', 'initial_c', 'P'], outputs=['Y'],hidden_size=3))
-nodes.append(helper.make_node('LSTM',inputs=['X', 'W', 'R', 'B'], outputs=['Y'], activations=["sigmoid","tanh","relu"], direction="forward", hidden_size=3))
+nodes.append(helper.make_node('LSTM',inputs=['X', 'W', 'R', 'B'], outputs=['Y'], activations=["sigmoid","tanh","tanh"], direction="forward", hidden_size=3))
 
 graph = helper.make_graph(nodes, op_name+"_graph", inputs, outputs)
 opset = (OperatorSetIdProto(version=11),)

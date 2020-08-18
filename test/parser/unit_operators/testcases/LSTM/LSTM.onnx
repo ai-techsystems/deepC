@@ -4,13 +4,13 @@ i
 W
 R
 BY"LSTM*%
-activationsJsigmoidJtanhJrelu *
+activationsJsigmoidJtanhJtanh *
 	direction"forward *
 hidden_size 
 LSTM_graphZ
 X
 
-
+
 
 Z
 W
@@ -29,7 +29,7 @@ LSTM_graphZ
 b
 Y
 
-
+
 
 
 B

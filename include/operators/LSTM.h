@@ -323,6 +323,9 @@ public:
       std::cout << "Dimension Error" << std::endl;
     }
 
+    int batch = X.shape()[1];
+    int input = X.shape()[2];
+
     // std::cout << X << std::endl;
     for (int i = 0; i < X.shape()[0]; i++) {
       tensor<Ti1> Y = X.slice(0, i, i);
@@ -343,74 +346,39 @@ public:
         Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_Wb(
             this->tensorMem(W2), W.shape()[1], W.shape()[2]);
 
-        std::cout << "W" << std::endl;
-        std::cout << mat_W << std::endl << std::endl;
-        std::cout << "Wi" << std::endl;
-        std::cout << mat_W.topRows(W.shape()[1]/4) << std::endl << std::endl;
-        std::cout << "Wo" << std::endl;
-        std::cout << mat_W.middleRows(W.shape()[1]/4, W.shape()[1]/4) << std::endl << std::endl;
-        std::cout << "Wf" << std::endl;
-        std::cout << mat_W.middleRows(2*W.shape()[1]/4, W.shape()[1]/4) << std::endl << std::endl;
-        std::cout << "Wc" << std::endl;
-        std::cout << mat_W.bottomRows(W.shape()[1]/4) << std::endl << std::endl;
-
-        
-
       } else {
         if (direction.compare("reverse") == 0) {
           Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_Wb(
               this->tensorMem(W), W.shape()[1], W.shape()[2]);
 
-          // tensor<Ti1> Wbi = W.slice(0, 0, W.shape()[0]/4-1);
-          // tensor<Ti1> Wbo = W.slice(0, W.shape()[0]/4, 2*W.shape()[0]/4-1);
-          // tensor<Ti1> Wbf = W.slice(0, 2*W.shape()[0]/4, 3*W.shape()[0]/4-1);
-          // tensor<Ti1> Wbc = W.slice(0, 3*W.shape()[0]/4, 4*W.shape()[0]/4-1);
         } else {
 
-          std::cout << "IN THE RIGHT PLACE" << std::endl;
+          int hidden = W.shape()[1]/4;
+
           Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_W(
               this->tensorMem(W), W.shape()[1], W.shape()[2]);
           
-          DNNC_EIGEN_MATRIX_CTOR(Ti1) mat_Ht;
-          DNNC_EIGEN_MATRIX_CTOR(Ti1) mat_Ct;
-          DNNC_EIGEN_VECTOR_CTOR(Ti1) mat_Pt;
-          
-          // std::cout << "W" << std::endl;
-          // std::cout << mat_W << std::endl << std::endl;
-          // std::cout << "Wi" << std::endl;
-          // std::cout << mat_W.topRows(W.shape()[1]/4) << std::endl << std::endl;
-          // std::cout << "Wo" << std::endl;
-          // std::cout << mat_W.middleRows(W.shape()[1]/4, W.shape()[1]/4) << std::endl << std::endl;
-          // std::cout << "Wf" << std::endl;
-          // std::cout << mat_W.middleRows(2*W.shape()[1]/4, W.shape()[1]/4) << std::endl << std::endl;
-          // std::cout << "Wc" << std::endl;
-          // std::cout << mat_W.bottomRows(W.shape()[1]/4) << std::endl << std::endl;
-          // std::cout << "X" << std::endl << std::endl;
-        
-          DNNC_EIGEN_MATRIX_CTOR(Ti1) Xi = mat_X * mat_W.topRows(W.shape()[1]/4).transpose();
-          DNNC_EIGEN_MATRIX_CTOR(Ti1) Xo = mat_X * mat_W.middleRows(W.shape()[1]/4, W.shape()[1]/4).transpose();
-          DNNC_EIGEN_MATRIX_CTOR(Ti1) Xf = mat_X * mat_W.middleRows(2*W.shape()[1]/4, W.shape()[1]/4).transpose();
-          DNNC_EIGEN_MATRIX_CTOR(Ti1) Xc = mat_X * mat_W.bottomRows(W.shape()[1]/4).transpose();
+          DNNC_EIGEN_MATRIX_CTOR(Ti1) mat_Ht = DNNC_EIGEN_MATRIX_CTOR(Ti1)::Zero(batch, hidden);
+          DNNC_EIGEN_MATRIX_CTOR(Ti1) mat_Ct = DNNC_EIGEN_MATRIX_CTOR(Ti1)::Zero(batch, hidden);
+          DNNC_EIGEN_VECTOR_CTOR(Ti1) mat_Pt = DNNC_EIGEN_VECTOR_CTOR(Ti1)::Zero(3*hidden);
 
-          // std::cout << Xi << std::endl << std::endl;
-          // std::cout << Xo << std::endl << std::endl;
-          // std::cout << Xf << std::endl << std::endl;
-          // std::cout << Xc << std::endl << std::endl;
+          DNNC_EIGEN_MATRIX_CTOR(Ti1) Xi = mat_X * mat_W.topRows(hidden).transpose();
+          DNNC_EIGEN_MATRIX_CTOR(Ti1) Xo = mat_X * mat_W.middleRows(W.shape()[1]/4, hidden).transpose();
+          DNNC_EIGEN_MATRIX_CTOR(Ti1) Xf = mat_X * mat_W.middleRows(2*W.shape()[1]/4, hidden).transpose();
+          DNNC_EIGEN_MATRIX_CTOR(Ti1) Xc = mat_X * mat_W.bottomRows(hidden).transpose();
 
           if (B != NULL_TENSOR<Ti1>) {
             DNNC_EIGEN_ARRAY_MAP(mat_B, Ti1, B);   
 
-            // std::cout << "B" << std::endl << std::endl;
-            // std::cout << mat_B << std::endl << std::endl;
-            Xi = Xi.rowwise() + mat_B.leftCols(B.shape()[1]/8);
-            Xo = Xo.rowwise() + mat_B.middleCols(2*B.shape()[1]/8, B.shape()[1]/8);
-            Xf = Xf.rowwise() + mat_B.middleCols(4*B.shape()[1]/8, B.shape()[1]/8);
-            Xc = Xc.rowwise() + mat_B.middleCols(6*B.shape()[1]/8, B.shape()[1]/8);
+            Xi = Xi.rowwise() + mat_B.leftCols(hidden);
+            Xo = Xo.rowwise() + mat_B.middleCols(2*B.shape()[1]/8, hidden);
+            Xf = Xf.rowwise() + mat_B.middleCols(4*B.shape()[1]/8, hidden);
+            Xc = Xc.rowwise() + mat_B.middleCols(6*B.shape()[1]/8, hidden);
 
-            Xi = Xi.rowwise() + mat_B.middleCols(B.shape()[1]/8, B.shape()[1]/8);
-            Xo = Xo.rowwise() + mat_B.middleCols(3*B.shape()[1]/8, B.shape()[1]/8);
-            Xf = Xf.rowwise() + mat_B.middleCols(5*B.shape()[1]/8, B.shape()[1]/8);
-            Xc = Xc.rowwise() + mat_B.middleCols(7*B.shape()[1]/8, B.shape()[1]/8);
+            Xi = Xi.rowwise() + mat_B.middleCols(B.shape()[1]/8, hidden);
+            Xo = Xo.rowwise() + mat_B.middleCols(3*B.shape()[1]/8, hidden);
+            Xf = Xf.rowwise() + mat_B.middleCols(5*B.shape()[1]/8, hidden);
+            Xc = Xc.rowwise() + mat_B.rightCols(hidden);
           }
 
           if (initial_h != NULL_TENSOR<Ti1>) {
@@ -421,23 +389,10 @@ public:
 
             mat_Ht = mat_H;
 
-            // std::cout << "R" << std::endl;
-            // std::cout << mat_R << std::endl << std::endl;
-            // std::cout << "Ri" << std::endl;
-            // std::cout << mat_R.topRows(R.shape()[1]/4).transpose() << std::endl << std::endl;
-            // std::cout << "Ro" << std::endl;
-            // std::cout << mat_R.middleRows(R.shape()[1]/4, R.shape()[1]/4).transpose() << std::endl << std::endl;
-            // std::cout << "Rf" << std::endl;
-            // std::cout << mat_R.middleRows(2*R.shape()[1]/4, R.shape()[1]/4).transpose() << std::endl << std::endl;
-            // std::cout << "Rc" << std::endl;
-            // std::cout << mat_R.bottomRows(R.shape()[1]/4).transpose() << std::endl << std::endl;
-
-            // std::cout << "H" << std::endl << std::endl;
-            // std::cout << mat_H << std::endl << std::endl;
-            Xi += mat_H * mat_R.topRows(R.shape()[1]/4).transpose();
-            Xo += mat_H * mat_R.middleRows(2*R.shape()[1]/4, R.shape()[1]/4).transpose();
-            Xf += mat_H * mat_R.middleRows(3*R.shape()[1]/4, R.shape()[1]/4).transpose();
-            Xc += mat_H * mat_R.bottomRows(R.shape()[1]/4).transpose();
+            Xi += mat_H * mat_R.topRows(hidden).transpose();
+            Xo += mat_H * mat_R.middleRows(2*R.shape()[1]/4, hidden).transpose();
+            Xf += mat_H * mat_R.middleRows(3*R.shape()[1]/4, hidden).transpose();
+            Xc += mat_H * mat_R.bottomRows(hidden).transpose();
           }
 
           if (initial_c != NULL_TENSOR<Ti1> && P != NULL_TENSOR<Ti1>) {
@@ -448,47 +403,23 @@ public:
             mat_Ct = mat_C; 
             mat_Pt = mat_P; 
 
-            // std::cout << "P" << std::endl;
-            // std::cout << mat_P << std::endl << std::endl;
-            // std::cout << "Pi" << std::endl;
-            // std::cout << mat_P.leftCols(P.shape()[1]/3) << std::endl << std::endl;
-            // std::cout << "Pf" << std::endl;
-            // std::cout << mat_P.middleCols(P.shape()[1]/3, P.shape()[1]/3) << std::endl << std::endl;
-            // std::cout << "Po" << std::endl;
-            // std::cout << mat_P.rightCols(P.shape()[1]/3) << std::endl << std::endl;
-            
-            // std::cout << "C" << std::endl << std::endl;
-            // std::cout << mat_C << std::endl << std::endl;
-            Xi.array() += (mat_C.array().rowwise() * mat_P.leftCols(P.shape()[1]/3).array());
-            Xf.array() += (mat_C.array().rowwise() * mat_P.middleCols(P.shape()[1]/3, P.shape()[1]/3).array());
+            Xi.array() += (mat_C.array().rowwise() * mat_P.leftCols(hidden).array());
+            Xf.array() += (mat_C.array().rowwise() * mat_P.middleCols(P.shape()[1]/3, hidden).array());
 
           }
 
           Xi = Xi.unaryExpr(&sigmoid_func);
           Xf = Xf.unaryExpr(&sigmoid_func);
           Xc.array() = tanh(Xc.array());
+          mat_Ct.array() = (mat_Ct.array() * Xf.array() + Xi.array() * Xc.array());
 
-          
+          std::cout << mat_Ct << std::endl << std::endl;
+          std::cout << mat_Pt.rightCols(hidden) << std::endl << std::endl;
 
-          // std::cout << "C" << std::endl << std::endl;
-          // std::cout << mat_Ct << std::endl << std::endl;
-
-          if (initial_c != NULL_TENSOR<Ti1>) {
-            mat_Ct.array() = (mat_Ct.array() * Xf.array() + Xi.array() * Xc.array());
-            Xo += (mat_Ct.array().rowwise() * mat_Pt.rightCols(P.shape()[1]/3).array()).matrix();
-          }
+          Xo += (mat_Ct.array().rowwise() * mat_Pt.rightCols(hidden).array()).matrix();
 
           Xo = Xo.unaryExpr(&sigmoid_func);
-
-          // std::cout << "C" << std::endl << std::endl;
-          // std::cout << mat_Ct << std::endl << std::endl;
-
-          // std::cout << "H" << std::endl << std::endl;
-          // std::cout << mat_Ht << std::endl << std::endl;
-
-          if (initial_h != NULL_TENSOR<Ti1>) {
-            mat_Ht.array() = (Xo.array() * tanh(mat_Ct.array()));
-          }
+          mat_Ht.array() = (Xo.array() * tanh(mat_Ct.array()));
 
           std::cout << "Xi" << std::endl;
           std::cout << Xi << std::endl << std::endl;
@@ -498,8 +429,8 @@ public:
           std::cout << Xf << std::endl << std::endl;
           std::cout << "Xc" << std::endl;
           std::cout << Xc << std::endl << std::endl;
-          // std::cout << "H" << std::endl << std::endl;
-          // std::cout << mat_Ht << std::endl << std::endl;
+          std::cout << "H" << std::endl;
+          std::cout << mat_Ht << std::endl << std::endl;
 
           tensor<To> ret({Y.shape()[1], Y.shape()[2]});
           ret.load(mat_X.data());

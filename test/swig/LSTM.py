@@ -94,8 +94,6 @@ class LSTMTest(unittest.TestCase):
         xTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/X_0.txt")
         xTest = dc.array(list(xTest))
         xTest = dc.reshape(xTest, (self.seq_length, self.batch_size, self.input_size))
-        print(xTest[0])
-        print()
 
         wTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/W_0.txt")
         wTest = dc.array(list(wTest))
@@ -120,8 +118,7 @@ class LSTMTest(unittest.TestCase):
         outTest = dc.reshape(outTest, (self.seq_length, self.num_directions, self.batch_size, self.hidden_size))
 
         dcr = dc.lstm(xTest, wTest, rTest, bTest)
-        print(dcr[0])
-        # print(outTest)
+        print(outTest)
 
         # output = rep.run(self.np_x)
 
