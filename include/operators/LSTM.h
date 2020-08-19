@@ -371,14 +371,24 @@ public:
             DNNC_EIGEN_ARRAY_MAP(mat_B, Ti1, B);   
 
             Xi = Xi.rowwise() + mat_B.leftCols(hidden);
-            Xo = Xo.rowwise() + mat_B.middleCols(2*B.shape()[1]/8, hidden);
-            Xf = Xf.rowwise() + mat_B.middleCols(4*B.shape()[1]/8, hidden);
-            Xc = Xc.rowwise() + mat_B.middleCols(6*B.shape()[1]/8, hidden);
+            Xo = Xo.rowwise() + mat_B.middleCols(B.shape()[1]/8, hidden);
+            Xf = Xf.rowwise() + mat_B.middleCols(2*B.shape()[1]/8, hidden);
+            Xc = Xc.rowwise() + mat_B.middleCols(3*B.shape()[1]/8, hidden);
 
-            Xi = Xi.rowwise() + mat_B.middleCols(B.shape()[1]/8, hidden);
-            Xo = Xo.rowwise() + mat_B.middleCols(3*B.shape()[1]/8, hidden);
-            Xf = Xf.rowwise() + mat_B.middleCols(5*B.shape()[1]/8, hidden);
+            Xi = Xi.rowwise() + mat_B.middleCols(4*B.shape()[1]/8, hidden);
+            Xo = Xo.rowwise() + mat_B.middleCols(5*B.shape()[1]/8, hidden);
+            Xf = Xf.rowwise() + mat_B.middleCols(6*B.shape()[1]/8, hidden);
             Xc = Xc.rowwise() + mat_B.rightCols(hidden);
+
+            // Xi = Xi.rowwise() + mat_B.leftCols(hidden);
+            // Xo = Xo.rowwise() + mat_B.middleCols(2*B.shape()[1]/8, hidden);
+            // Xf = Xf.rowwise() + mat_B.middleCols(4*B.shape()[1]/8, hidden);
+            // Xc = Xc.rowwise() + mat_B.middleCols(6*B.shape()[1]/8, hidden);
+
+            // Xi = Xi.rowwise() + mat_B.middleCols(B.shape()[1]/8, hidden);
+            // Xo = Xo.rowwise() + mat_B.middleCols(3*B.shape()[1]/8, hidden);
+            // Xf = Xf.rowwise() + mat_B.middleCols(5*B.shape()[1]/8, hidden);
+            // Xc = Xc.rowwise() + mat_B.rightCols(hidden);
           }
 
           if (initial_h != NULL_TENSOR<Ti1>) {
@@ -390,8 +400,8 @@ public:
             mat_Ht = mat_H;
 
             Xi += mat_H * mat_R.topRows(hidden).transpose();
-            Xo += mat_H * mat_R.middleRows(2*R.shape()[1]/4, hidden).transpose();
-            Xf += mat_H * mat_R.middleRows(3*R.shape()[1]/4, hidden).transpose();
+            Xo += mat_H * mat_R.middleRows(R.shape()[1]/4, hidden).transpose();
+            Xf += mat_H * mat_R.middleRows(2*R.shape()[1]/4, hidden).transpose();
             Xc += mat_H * mat_R.bottomRows(hidden).transpose();
           }
 
@@ -403,37 +413,31 @@ public:
             mat_Ct = mat_C; 
             mat_Pt = mat_P; 
 
-            Xi.array() += (mat_C.array().rowwise() * mat_P.leftCols(hidden).array());
-            Xf.array() += (mat_C.array().rowwise() * mat_P.middleCols(P.shape()[1]/3, hidden).array());
+            // Xi.array() += (mat_C.array().rowwise() * mat_P.leftCols(hidden).array());
+            // Xf.array() += (mat_C.array().rowwise() * mat_P.middleCols(P.shape()[1]/3, hidden).array());
 
           }
+
+          Xi.array() += (mat_Ct.array().rowwise() * mat_Pt.leftCols(hidden).array());
+          Xf.array() += (mat_Ct.array().rowwise() * mat_Pt.rightCols(hidden).array());
 
           Xi = Xi.unaryExpr(&sigmoid_func);
           Xf = Xf.unaryExpr(&sigmoid_func);
           Xc.array() = tanh(Xc.array());
+
           mat_Ct.array() = (mat_Ct.array() * Xf.array() + Xi.array() * Xc.array());
 
-          std::cout << mat_Ct << std::endl << std::endl;
-          std::cout << mat_Pt.rightCols(hidden) << std::endl << std::endl;
-
-          Xo += (mat_Ct.array().rowwise() * mat_Pt.rightCols(hidden).array()).matrix();
+          Xo.array() += (mat_Ct.array().rowwise() * mat_Pt.middleCols(P.shape()[1]/3, hidden).array());
 
           Xo = Xo.unaryExpr(&sigmoid_func);
           mat_Ht.array() = (Xo.array() * tanh(mat_Ct.array()));
 
-          std::cout << "Xi" << std::endl;
-          std::cout << Xi << std::endl << std::endl;
-          std::cout << "Xo" << std::endl;
-          std::cout << Xo << std::endl << std::endl;
-          std::cout << "Xf" << std::endl;
-          std::cout << Xf << std::endl << std::endl;
-          std::cout << "Xc" << std::endl;
-          std::cout << Xc << std::endl << std::endl;
+
           std::cout << "H" << std::endl;
           std::cout << mat_Ht << std::endl << std::endl;
 
-          tensor<To> ret({Y.shape()[1], Y.shape()[2]});
-          ret.load(mat_X.data());
+          tensor<To> ret({Y.shape()[1], W.shape()[1]/4});
+          ret.load(mat_Ht.data());
           retVal.push_back(ret);
         }
       }
