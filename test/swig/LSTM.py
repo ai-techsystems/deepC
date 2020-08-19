@@ -31,7 +31,7 @@ class LSTMTest(unittest.TestCase):
 
     def setUp(self):
         self.num_directions = 1
-        self.seq_length = 1
+        self.seq_length = 3
         self.batch_size = 3
         self.input_size = 4
         self.hidden_size = 3
@@ -57,8 +57,6 @@ class LSTMTest(unittest.TestCase):
         self.np_p = np.random.randn(self.num_directions * 3 * self.hidden_size).astype(np.float32)
         self.dc_p = dc.array(list(self.np_p))
 
-
-
         self.np_x = np.reshape(self.np_x, (self.seq_length, self.batch_size, self.input_size))
         self.dc_x = dc.reshape(self.dc_x, (self.seq_length, self.batch_size, self.input_size))
 
@@ -81,76 +79,48 @@ class LSTMTest(unittest.TestCase):
         self.dc_p = dc.reshape(self.dc_p, (self.num_directions, 3 * self.hidden_size))
 
     def testAll (self):
-        
-        
-        # print(drc)
-        # np.testing.assert_allclose(self.onnx_npr_su.astype(np.float32), np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
-        
-        # print(self.dc_h)
 
         model = onnx.load('./parser/unit_operators/testcases/LSTM/LSTM.onnx')
-        # rep = backend.prepare(model, device = 'CPU')
-        xTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/X_0.txt")
-        xTest = dc.array(list(xTest))
-        xTest = dc.reshape(xTest, (self.seq_length, self.batch_size, self.input_size))
 
-        wTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/W_0.txt")
-        wTest = dc.array(list(wTest))
-        wTest = dc.reshape(wTest, (self.num_directions, 4 * self.hidden_size, self.input_size))
-        print("W")
-        print(wTest[0])
-        print()
+        # xTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/X_0.txt")
+        # xTest = dc.array(list(xTest))
+        # xTest = dc.reshape(xTest, (self.seq_length, self.batch_size, self.input_size))
 
-        rTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/R_0.txt")
-        rTest = dc.array(list(rTest))
+        # wTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/W_0.txt")
+        # wTest = dc.array(list(wTest))
+        # wTest = dc.reshape(wTest, (self.num_directions, 4 * self.hidden_size, self.input_size))
 
-        rTest = dc.reshape(rTest, (self.num_directions, 4 * self.hidden_size, self.hidden_size))
-        # print("R")
-        # print(rTest[0])
-        # print()
+        # rTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/R_0.txt")
+        # rTest = dc.array(list(rTest))
 
-        bTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/B_0.txt")
-        bTest = dc.array(list(bTest))
-        bTest = dc.reshape(bTest, (self.num_directions, 8 * self.hidden_size))
-        # print("B")
-        # print(bTest[0])
-        # print()
+        # rTest = dc.reshape(rTest, (self.num_directions, 4 * self.hidden_size, self.hidden_size))
 
-        sTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/S_0.txt")
-        sTest = dc.array(list(sTest))
-        sTest = dc.reshape(sTest, (self.batch_size))
-        # print("S")
-        # print(sTest)
-        # print()
+        # bTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/B_0.txt")
+        # bTest = dc.array(list(bTest))
+        # bTest = dc.reshape(bTest, (self.num_directions, 8 * self.hidden_size))
 
-        hTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/H_0.txt")
-        hTest = dc.array(list(hTest))
-        hTest = dc.reshape(hTest, (self.num_directions, self.batch_size, self.hidden_size))
-        # print("H")
-        # print(hTest[0])
-        # print()
+        # sTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/S_0.txt")
+        # sTest = dc.array(list(sTest))
+        # sTest = dc.reshape(sTest, (self.batch_size))
 
-        cTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/C_0.txt")
-        cTest = dc.array(list(cTest))
-        cTest = dc.reshape(cTest, (self.num_directions, self.batch_size, self.hidden_size))
-        print("C")
-        print(cTest)
-        print()
+        # hTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/H_0.txt")
+        # hTest = dc.array(list(hTest))
+        # hTest = dc.reshape(hTest, (self.num_directions, self.batch_size, self.hidden_size))
 
-        pTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/P_0.txt")
-        pTest = dc.array(list(pTest))
-        pTest = dc.reshape(pTest, (self.num_directions, 3*self.hidden_size))
-        print("P")
-        print(pTest)
-        print()
+        # cTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/C_0.txt")
+        # cTest = dc.array(list(cTest))
+        # cTest = dc.reshape(cTest, (self.num_directions, self.batch_size, self.hidden_size))
 
-        outTest = np.loadtxt(fname = "swig/outputs_XWRB/outputs/Output_0.txt")
-        outTest = dc.array(list(outTest))
+        # pTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/P_0.txt")
+        # pTest = dc.array(list(pTest))
+        # pTest = dc.reshape(pTest, (self.num_directions, 3*self.hidden_size))
         
-        outTest = dc.reshape(outTest, (self.seq_length, self.num_directions, self.batch_size, self.hidden_size))
+        # outTest = np.loadtxt(fname = "swig/outputs_XWRB/outputs/Output_0.txt")
+        # outTest = dc.array(list(outTest))
+        
+        # outTest = dc.reshape(outTest, (self.seq_length, self.num_directions, self.batch_size, self.hidden_size))
 
-        dcr = dc.lstm(xTest, wTest, rTest, bTest, sTest, hTest, cTest, pTest)
-
+        # dcr = dc.lstm(xTest, wTest, rTest, bTest, sTest, hTest, cTest, pTest)
        
     def tearDown(self):
         return "test finished"
