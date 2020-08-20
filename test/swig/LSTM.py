@@ -26,16 +26,15 @@ import numpy as np
 import unittest
 import sys
 import onnx
-import caffe2.python.onnx.backend as backend
 
 class LSTMTest(unittest.TestCase):
 
     def setUp(self):
         self.num_directions = 1
-        self.seq_length = 1
-        self.input_size = 4
+        self.seq_length = 3
         self.batch_size = 3
-        self.hidden_size = 5
+        self.input_size = 4
+        self.hidden_size = 3
 
         self.np_x = np.random.randn(self.seq_length * self.batch_size * self.input_size).astype(np.float32)
         self.dc_x = dc.array(list(self.np_x))
@@ -57,10 +56,6 @@ class LSTMTest(unittest.TestCase):
 
         self.np_p = np.random.randn(self.num_directions * 3 * self.hidden_size).astype(np.float32)
         self.dc_p = dc.array(list(self.np_p))
-
-
-
-
 
         self.np_x = np.reshape(self.np_x, (self.seq_length, self.batch_size, self.input_size))
         self.dc_x = dc.reshape(self.dc_x, (self.seq_length, self.batch_size, self.input_size))
@@ -84,40 +79,49 @@ class LSTMTest(unittest.TestCase):
         self.dc_p = dc.reshape(self.dc_p, (self.num_directions, 3 * self.hidden_size))
 
     def testAll (self):
-        
-        dcr = dc.lstm(self.dc_x, self.dc_w, self.dc_r)
-        print(dcr[0])
-        # print(drc)
-        # np.testing.assert_allclose(self.onnx_npr_su.astype(np.float32), np.array(dcr.data()).astype(np.float32),rtol=1e-3, atol=1e-3)
-        
-        # print(self.dc_h)
 
         model = onnx.load('./parser/unit_operators/testcases/LSTM/LSTM.onnx')
-        rep = backend.prepare(model, device = 'CPU')
-        # output = rep.run(self.np_x)
 
-        # input = np.array([[[1., 2.], [3., 4.], [5., 6.]]]).astype(np.float32)
+        # xTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/X_0.txt")
+        # xTest = dc.array(list(xTest))
+        # xTest = dc.reshape(xTest, (self.seq_length, self.batch_size, self.input_size))
 
-        # input_size = 2
-        # hidden_size = 3
-        # weight_scale = 0.1
-        # number_of_gates = 4
+        # wTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/W_0.txt")
+        # wTest = dc.array(list(wTest))
+        # wTest = dc.reshape(wTest, (self.num_directions, 4 * self.hidden_size, self.input_size))
 
-        # node = onnx.helper.make_node(
-        # 'LSTM',
-        #     inputs=['X', 'W', 'R'],
-        #     outputs=['', 'Y'],
-        #     hidden_size=hidden_size
-        # )
+        # rTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/R_0.txt")
+        # rTest = dc.array(list(rTest))
 
-        # W = self.np_w
-        # R = self.np_r
+        # rTest = dc.reshape(rTest, (self.num_directions, 4 * self.hidden_size, self.hidden_size))
 
-        # lstm = LSTM_Helper(X=input, W=W, R=R)
-        # _, Y_h = lstm.step()
-        # expect(node, inputs=[input, W, R], outputs=[Y_h.astype(np.float32)], name='test_lstm_defaults')
-   
-   
+        # bTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/B_0.txt")
+        # bTest = dc.array(list(bTest))
+        # bTest = dc.reshape(bTest, (self.num_directions, 8 * self.hidden_size))
+
+        # sTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/S_0.txt")
+        # sTest = dc.array(list(sTest))
+        # sTest = dc.reshape(sTest, (self.batch_size))
+
+        # hTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/H_0.txt")
+        # hTest = dc.array(list(hTest))
+        # hTest = dc.reshape(hTest, (self.num_directions, self.batch_size, self.hidden_size))
+
+        # cTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/C_0.txt")
+        # cTest = dc.array(list(cTest))
+        # cTest = dc.reshape(cTest, (self.num_directions, self.batch_size, self.hidden_size))
+
+        # pTest = np.loadtxt(fname = "swig/outputs_XWRB/weights/P_0.txt")
+        # pTest = dc.array(list(pTest))
+        # pTest = dc.reshape(pTest, (self.num_directions, 3*self.hidden_size))
+        
+        # outTest = np.loadtxt(fname = "swig/outputs_XWRB/outputs/Output_0.txt")
+        # outTest = dc.array(list(outTest))
+        
+        # outTest = dc.reshape(outTest, (self.seq_length, self.num_directions, self.batch_size, self.hidden_size))
+
+        # dcr = dc.lstm(xTest, wTest, rTest, bTest, sTest, hTest, cTest, pTest)
+       
     def tearDown(self):
         return "test finished"
 

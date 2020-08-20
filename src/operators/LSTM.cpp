@@ -39,27 +39,40 @@ int main() {
                   3., 6., 3., 4., 3., 9., 6., 4.,
                   1., 2., 3., 9., 8., 5., 6., 1.};
 
-  tensor<float> X({2, 2, 3});
-  tensor<float> W({1, 8, 3});
-  tensor<float> R({1, 8, 2});
-  tensor<float> B({1, 16});
+  float t1[12] = {1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.};
+  float t2[48] = {1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+                  1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+                  1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+                  1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.};
+  float t3[36] = {1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+                  1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+                  1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.};
+  float t4[24] = {1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+                  1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.};
+
+  tensor<float> X({1, 3, 4});
+  tensor<float> W({1, 12, 4});
+  tensor<float> R({1, 12, 3});
+  tensor<float> B({1, 24});
+
+
   tensor<float> H({1, 2, 2});
   tensor<float> C({1, 2, 2});
   tensor<float> P({1, 6});
 
  
 
-  X.load(d3);
-  W.load(d3);
-  R.load(d4);
-  B.load(d4);
+  X.load(t1);
+  W.load(t2);
+  R.load(t3);
+  B.load(t4);
   H.load(d1);
   C.load(d1);
   P.load(d2);
 
   LSTM<float, float, int> m("localOpName");
 
-  auto result = m.compute(X, W, R, B, NULL_TENSOR<int>, H, C, P);
+  auto result = m.compute(X, W, R, B);
 
   // std::cout << result << std::endl;
   // ADD YOUR TEST CODE HERE
