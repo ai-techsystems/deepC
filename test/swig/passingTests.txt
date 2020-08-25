@@ -26,6 +26,8 @@ Log.py
 LogSoftmax.py
 LpNormalization.py
 LRN.py
+LSTM.py
+LSTM_detailed.py
 MatMul.py
 Mul.py
 Neg.py
