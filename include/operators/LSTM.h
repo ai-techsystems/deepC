@@ -82,7 +82,7 @@ public:
        std::string direction = "forward", int hidden_size = 0,
        int input_forget = 0)
       : baseOperator<To, Ti1, Ti2>(opLSTM, name) {
-        
+
     std::stringstream errMsg;
     std::vector<std::string> supported_activations = {"Relu", "Tanh",
                                                       "Sigmoid"};
@@ -339,73 +339,86 @@ public:
 
       } else {
 
-        int hidden = W.shape()[1]/4;
+        int hidden = W.shape()[1] / 4;
 
         Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_W(
             this->tensorMem(W), W.shape()[1], W.shape()[2]);
-        
-        DNNC_EIGEN_MATRIX_CTOR(Ti1) mat_Ht = DNNC_EIGEN_MATRIX_CTOR(Ti1)::Zero(batch, hidden);
-        DNNC_EIGEN_MATRIX_CTOR(Ti1) mat_Ct = DNNC_EIGEN_MATRIX_CTOR(Ti1)::Zero(batch, hidden);
-        DNNC_EIGEN_VECTOR_CTOR(Ti1) mat_Pt = DNNC_EIGEN_VECTOR_CTOR(Ti1)::Zero(3*hidden);
 
-        DNNC_EIGEN_MATRIX_CTOR(Ti1) Xi = mat_X * mat_W.topRows(hidden).transpose();
-        DNNC_EIGEN_MATRIX_CTOR(Ti1) Xo = mat_X * mat_W.middleRows(W.shape()[1]/4, hidden).transpose();
-        DNNC_EIGEN_MATRIX_CTOR(Ti1) Xf = mat_X * mat_W.middleRows(2*W.shape()[1]/4, hidden).transpose();
-        DNNC_EIGEN_MATRIX_CTOR(Ti1) Xc = mat_X * mat_W.bottomRows(hidden).transpose();
+        DNNC_EIGEN_MATRIX_CTOR(Ti1)
+        mat_Ht = DNNC_EIGEN_MATRIX_CTOR(Ti1)::Zero(batch, hidden);
+        DNNC_EIGEN_MATRIX_CTOR(Ti1)
+        mat_Ct = DNNC_EIGEN_MATRIX_CTOR(Ti1)::Zero(batch, hidden);
+        DNNC_EIGEN_VECTOR_CTOR(Ti1)
+        mat_Pt = DNNC_EIGEN_VECTOR_CTOR(Ti1)::Zero(3 * hidden);
+
+        DNNC_EIGEN_MATRIX_CTOR(Ti1)
+        Xi = mat_X * mat_W.topRows(hidden).transpose();
+        DNNC_EIGEN_MATRIX_CTOR(Ti1)
+        Xo = mat_X * mat_W.middleRows(W.shape()[1] / 4, hidden).transpose();
+        DNNC_EIGEN_MATRIX_CTOR(Ti1)
+        Xf = mat_X * mat_W.middleRows(2 * W.shape()[1] / 4, hidden).transpose();
+        DNNC_EIGEN_MATRIX_CTOR(Ti1)
+        Xc = mat_X * mat_W.bottomRows(hidden).transpose();
 
         if (B != NULL_TENSOR<Ti1>) {
-          DNNC_EIGEN_ARRAY_MAP(mat_B, Ti1, B);   
+          DNNC_EIGEN_ARRAY_MAP(mat_B, Ti1, B);
 
           Xi = Xi.rowwise() + mat_B.leftCols(hidden);
-          Xo = Xo.rowwise() + mat_B.middleCols(B.shape()[1]/8, hidden);
-          Xf = Xf.rowwise() + mat_B.middleCols(2*B.shape()[1]/8, hidden);
-          Xc = Xc.rowwise() + mat_B.middleCols(3*B.shape()[1]/8, hidden);
+          Xo = Xo.rowwise() + mat_B.middleCols(B.shape()[1] / 8, hidden);
+          Xf = Xf.rowwise() + mat_B.middleCols(2 * B.shape()[1] / 8, hidden);
+          Xc = Xc.rowwise() + mat_B.middleCols(3 * B.shape()[1] / 8, hidden);
 
-          Xi = Xi.rowwise() + mat_B.middleCols(4*B.shape()[1]/8, hidden);
-          Xo = Xo.rowwise() + mat_B.middleCols(5*B.shape()[1]/8, hidden);
-          Xf = Xf.rowwise() + mat_B.middleCols(6*B.shape()[1]/8, hidden);
+          Xi = Xi.rowwise() + mat_B.middleCols(4 * B.shape()[1] / 8, hidden);
+          Xo = Xo.rowwise() + mat_B.middleCols(5 * B.shape()[1] / 8, hidden);
+          Xf = Xf.rowwise() + mat_B.middleCols(6 * B.shape()[1] / 8, hidden);
           Xc = Xc.rowwise() + mat_B.rightCols(hidden);
         }
 
         if (initial_h != NULL_TENSOR<Ti1>) {
           Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_H(
-            this->tensorMem(initial_h), initial_h.shape()[1], initial_h.shape()[2]);
+              this->tensorMem(initial_h), initial_h.shape()[1],
+              initial_h.shape()[2]);
           Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_R(
-            this->tensorMem(R), R.shape()[1], R.shape()[2]);
+              this->tensorMem(R), R.shape()[1], R.shape()[2]);
 
           mat_Ht = mat_H;
 
           Xi += mat_H * mat_R.topRows(hidden).transpose();
-          Xo += mat_H * mat_R.middleRows(R.shape()[1]/4, hidden).transpose();
-          Xf += mat_H * mat_R.middleRows(2*R.shape()[1]/4, hidden).transpose();
+          Xo += mat_H * mat_R.middleRows(R.shape()[1] / 4, hidden).transpose();
+          Xf += mat_H *
+                mat_R.middleRows(2 * R.shape()[1] / 4, hidden).transpose();
           Xc += mat_H * mat_R.bottomRows(hidden).transpose();
         }
 
         if (initial_c != NULL_TENSOR<Ti1> && P != NULL_TENSOR<Ti1>) {
           Map<Matrix<Ti1, Dynamic, Dynamic, RowMajor>> mat_C(
-            this->tensorMem(initial_c), initial_c.shape()[1], initial_c.shape()[2]);
-          DNNC_EIGEN_ARRAY_MAP(mat_P, Ti1, P);  
+              this->tensorMem(initial_c), initial_c.shape()[1],
+              initial_c.shape()[2]);
+          DNNC_EIGEN_ARRAY_MAP(mat_P, Ti1, P);
 
-          mat_Ct = mat_C; 
-          mat_Pt = mat_P; 
+          mat_Ct = mat_C;
+          mat_Pt = mat_P;
         }
 
-        Xi.array() += (mat_Ct.array().rowwise() * mat_Pt.leftCols(hidden).array());
-        Xf.array() += (mat_Ct.array().rowwise() * mat_Pt.rightCols(hidden).array());
+        Xi.array() +=
+            (mat_Ct.array().rowwise() * mat_Pt.leftCols(hidden).array());
+        Xf.array() +=
+            (mat_Ct.array().rowwise() * mat_Pt.rightCols(hidden).array());
 
         Xi = Xi.unaryExpr(&sigmoid_func);
         Xf = Xf.unaryExpr(&sigmoid_func);
         Xc.array() = tanh(Xc.array());
 
-        mat_Ct.array() = (mat_Ct.array() * Xf.array() + Xi.array() * Xc.array());
+        mat_Ct.array() =
+            (mat_Ct.array() * Xf.array() + Xi.array() * Xc.array());
 
-        Xo.array() += (mat_Ct.array().rowwise() * mat_Pt.middleCols(P.shape()[1]/3, hidden).array());
+        Xo.array() += (mat_Ct.array().rowwise() *
+                       mat_Pt.middleCols(P.shape()[1] / 3, hidden).array());
 
         Xo = Xo.unaryExpr(&sigmoid_func);
         mat_Ht.array() = (Xo.array() * tanh(mat_Ct.array()));
 
-
-        tensor<To> ret({Y.shape()[1], W.shape()[1]/4});
+        tensor<To> ret({Y.shape()[1], W.shape()[1] / 4});
         ret.load(mat_Ht.data());
         retVal.push_back(ret);
       }
@@ -424,13 +437,11 @@ public:
       // Ct = ft (.) Ct-1 + it (.) ct
       // ot = f(Xt*(Wo^T) + Ht-1*(Ro^T) + Po (.) Ct + Wbo + Rbo)
       // Ht = ot (.) h(Ct)
-
     }
 
-    //TODO: bidirectional, sequence_len, nondefault activations
+    // TODO: bidirectional, sequence_len, nondefault activations
 
     return retVal;
-
   }
 
 }; // class LSTM

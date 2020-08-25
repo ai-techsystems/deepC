@@ -1,0 +1,61 @@
+:
+
+X
+W
+R
+B
+sequence_lens
+	initial_h
+	initial_c
+PY"LSTM*$
+activation_alpha=“	?=j­œ;=ÅD/> *#
+activation_beta=ºW_?=µk?=®6=? *%
+activationsJreluJsigmoidJtanh *
+clip¹Eñ@ *
+	direction"reverse *
+hidden_size *
+input_forget 
+LSTM_graphZ
+X
+
+
+
+Z
+W
+
+
+8
+Z
+R
+
+
+8
+Z
+B
+
+
+pZ
+sequence_lens
+
+
+Z
+	initial_h
+
+
+
+Z
+	initial_c
+
+
+
+Z
+P
+
+
+*b
+Y
+
+
+
+
+B
