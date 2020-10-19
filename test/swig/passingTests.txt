@@ -1,6 +1,8 @@
 Add.py
 Broadcast.py
 Conv.py
+Cos.py
+Cosh.py
 DequantizeLinear.py
 Elu.py
 Equal.py
