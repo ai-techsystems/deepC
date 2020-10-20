@@ -58,3 +58,5 @@ tensorOperators.py
 tensorOperatorsGenerated.py
 PRelu.py
 tensorSanity.py
+And.py
+Ceil.py
