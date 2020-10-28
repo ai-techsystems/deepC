@@ -1,4 +1,6 @@
 Add.py
+BitwiseAnd.py
+BitwiseOr.py
 Broadcast.py
 Conv.py
 Cos.py
