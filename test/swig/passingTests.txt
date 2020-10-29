@@ -60,3 +60,7 @@ PRelu.py
 tensorSanity.py
 And.py
 Ceil.py
+Cos.py
+Cosh.py
+GreaterEqual.py
+LessEqual.py
