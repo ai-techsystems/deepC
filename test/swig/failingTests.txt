@@ -7,3 +7,4 @@ Mean.py
 Min.py
 Mod.py
 Slice.py
+Acosh.py

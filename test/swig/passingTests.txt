@@ -1,3 +1,6 @@
+Abs.py
+Acos.py
+Acosh.py
 Add.py
 BitwiseAnd.py
 BitwiseOr.py
