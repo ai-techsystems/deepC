@@ -2,6 +2,7 @@ Div.py
 Less.py
 LpNormalization.py
 Log.py
+LSTM_detailed.py
 MatMulInteger.py
 Mean.py
 Min.py
