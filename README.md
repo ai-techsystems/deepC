@@ -1,7 +1,4 @@
 # deepC
-is a **vendor independent deep learning library, compiler and inference framework** designed for small form-factor devices including **μControllers, IoT and Edge devices**
-
-👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
 
 
 [![Build Status](https://api.travis-ci.org/ai-techsystems/deepC.svg?branch=master)](https://travis-ci.org/github/ai-techsystems/deepC)
@@ -10,6 +7,12 @@ is a **vendor independent deep learning library, compiler and inference framewor
 [![Apache2.0 License](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
 [![Contributors](https://opencollective.com/dnnc/all/badge.svg?label=financial+contributors)](https://opencollective.com/dnnc)
 [![Chat](https://img.shields.io/badge/chat-Gitter-green.svg)](https://gitter.im/ai-techsystems/community)
+
+The deepC is a **vendor independent deep learning library, compiler and inference framework** designed for small form-factor devices including **μControllers, IoT and Edge devices**
+
+## 👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
+
+
 
 ## 🏃‍♂️ Using deepC
 
