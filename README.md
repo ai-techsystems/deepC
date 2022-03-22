@@ -137,19 +137,6 @@ deepC is targeted towards devices with small formfactor like microcontrollers, w
 
 By bringing deep learning models to tiny microcontrollers, we can boost the intelligence of billions of devices that we use in our lives, without relying on expensive hardware or reliable internet connections. Imagine smart appliances that can adapt to your daily routine, intelligent industrial sensors that understand the difference between problems and normal operation, and magical toys that can help kids learn in fun and delightful ways.
 
-## Contributors
-
-### Code Contributors
-
-This project exists because of the people who [[Contribute](CONTRIBUTING.md)]. Thanks! 🙏
-<a href="https://github.com/ai-techsystems/deepC/graphs/contributors"><img src="https://opencollective.com/dnnc/contributors.svg?width=890&button=false" /></a>
-
-### Financial Contributors
-
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/dnnc/contribute)]
-
-#### Individuals
-
 <a href="https://opencollective.com/dnnc"><img src="https://opencollective.com/dnnc/individuals.svg?width=890"></a>
 
 #### Organizations
