@@ -10,7 +10,10 @@
 
 The deepC is a **vendor independent deep learning library, compiler and inference framework** designed for small form-factor devices including **μControllers, IoT and Edge devices**
 
-## 👉[click here to see it in action](http://cainvas.ai-tech.systems/)👈
+## Products
+
+1. **[No code TinyML platform](http://cainvas.ai-tech.systems/)**, build with deepC technology.
+2. **[No code TinyML Book](http://thetinymlbook.com/)**, with a chapter on deepC.
 
 
 
