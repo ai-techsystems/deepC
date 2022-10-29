@@ -139,7 +139,9 @@ By bringing deep learning models to tiny microcontrollers, we can boost the inte
 
 Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/dnnc/contribute)]
 
-## Build with deepC
+---
+
+## Built on/with deepC
 
 ### Products
 1. **[No code TinyML platform](http://cainvas.ai-tech.systems/)**, built with deepC technology.
