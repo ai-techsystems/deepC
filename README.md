@@ -18,7 +18,7 @@ The deepC is a **vendor independent deep learning library, compiler and inferenc
 
 ### Papers
 - Paper: [Deep Neural Network Operators](docs/pubs/DNNC-operators-paper.pdf), appeared in [Proceedings of AITS Summit, 2019](https://www.amazon.com/Proceedings-AITS-Summit-2019-www-ai-techsystems-com-ebook/dp/B083ZJWFGT)
-- Letter: [Gesture Recognition with deepC](docs/pubs/IJCRT%20-%20Gesture%20Recognition%20with%20deepC.pdf), appeared in [INTERNATIONAL JOURNAL OF CREATIVE RESEARCH THOUGHTS]()
+- Letter: [Gesture Recognition with deepC](docs/pubs/IJCRT%20-%20Gesture%20Recognition%20with%20deepC.pdf), appeared in [INTERNATIONAL JOURNAL OF CREATIVE RESEARCH THOUGHTS](https://ijcrt.org/papers/IJCRT2111106.pdf)
 - Poster: [Deep Neural Network Compiler and Inference Framework for microcontrollers and microcomputers](docs/pubs/AITS%20poster.pdf), appeared in [IRISS 2020
 14th Inter-Research-Institute Student Seminar in Computer Science](https://events.iitgn.ac.in/2020/IRISS/)
 
