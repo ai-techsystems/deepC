@@ -1,10 +1,10 @@
-# Papers, Poseters, Publications and books
+# Papers, Poseters, Publications, Letters and Books
 
-## Papers
-- Paper: [Deep Neural Network Operators](DNNC-operators-paper.pdf), 
-- Letter: [Gesture Recognition with deepC](IJCRT - Gesture Recognition with deepC.pdf), appeared in INTERNATIONAL JOURNAL OF CREATIVE RESEARCH THOUGHTS
-- Poster: [Deep Neural Network Compiler and Inference Framework for microcontrollers and microcomputers](AITS poster.pdf)
-
+## deepC Papers
+- Paper: [Deep Neural Network Operators](DNNC-operators-paper.pdf), appeared in [Proceedings of AITS Summit, 2019](https://www.amazon.com/Proceedings-AITS-Summit-2019-www-ai-techsystems-com-ebook/dp/B083ZJWFGT)
+- Letter: [Gesture Recognition with deepC](IJCRT%20-%20Gesture%20Recognition%20with%20deepC.pdf), appeared in [INTERNATIONAL JOURNAL OF CREATIVE RESEARCH THOUGHTS]()
+- Poster: [Deep Neural Network Compiler and Inference Framework for microcontrollers and microcomputers](AITS%20poster.pdf), appeared in [IRISS 2020
+14th Inter-Research-Institute Student Seminar in Computer Science](https://events.iitgn.ac.in/2020/IRISS/)
 
 ## deepC Citations
 
