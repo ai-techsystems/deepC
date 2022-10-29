@@ -10,4 +10,4 @@
   - [Download pdf](https://repository.lib.fit.edu/bitstream/handle/11141/3223/ELLIOTT-DISSERTATION-2020.pdf?sequence=1&isAllowed=y)
 
 ## deepC Book
-1. deepC Chapter in book [Introduction to TinyM](http://thetinymlbook.com/), available on [Amazon](https://www.amazon.com/dp/B0B662D7ZW/) and other retailers
+1. deepC Chapter in book [Introduction to TinyML](http://thetinymlbook.com/), available on [Amazon](https://www.amazon.com/dp/B0B662D7ZW/) and other retailers
