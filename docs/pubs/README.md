@@ -1,6 +1,12 @@
 # Papers, Poseters, Publications and books
 
-## deepC citations
+## Papers
+- Paper: [Deep Neural Network Operators](DNNC-operators-paper.pdf), 
+- Letter: [Gesture Recognition with deepC](IJCRT - Gesture Recognition with deepC.pdf), appeared in INTERNATIONAL JOURNAL OF CREATIVE RESEARCH THOUGHTS
+- Poster: [Deep Neural Network Compiler and Inference Framework for microcontrollers and microcomputers](AITS poster.pdf)
+
+
+## deepC Citations
 
 - Title: [Artificial Intelligence in the IoT Era: A Review of Edge AI Hardware and Software](https://ieeexplore.ieee.org/abstract/document/9770931/) 
   - [Download pdf](https://fruct.org/publications/fruct31/files/Sip.pdf)
