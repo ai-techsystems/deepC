@@ -159,5 +159,5 @@ Support this project with your organization. Your logo will show up here with a 
 - Title: [Efficient Edge Analytics: Addressing Cyber-Physical MASINT with Machine Learning on Audio at the Edge](https://repository.lib.fit.edu/handle/11141/3223)
   - [Download pdf](https://repository.lib.fit.edu/bitstream/handle/11141/3223/ELLIOTT-DISSERTATION-2020.pdf?sequence=1&isAllowed=y)
 
-### Chapter in the Book
+### Book Chapter
 1. deepC Chapter in book [Introduction to TinyML](http://thetinymlbook.com/), available on [Amazon](https://www.amazon.com/dp/B0B662D7ZW/) and other retailers
