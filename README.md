@@ -1,7 +1,7 @@
 # deepC
 
 
-[![Build Status](https://api.travis-ci.org/ai-techsystems/deepC.svg?branch=master)](https://travis-ci.org/github/ai-techsystems/deepC)
+<!-- This content will not appear in the rendered Markdown [![Build Status](https://api.travis-ci.org/ai-techsystems/deepC.svg?branch=master)](https://travis-ci.org/github/ai-techsystems/deepC) -->
 [![PyPI version](https://badge.fury.io/py/deepC.svg)](https://badge.fury.io/py/deepC)
 [![Downloads](https://pepy.tech/badge/deepc)](https://pepy.tech/project/deepc)
 [![Apache2.0 License](https://img.shields.io/github/license/ai-techsystems/dnnCompiler)](LICENSE)
@@ -154,6 +154,7 @@ Support this project with your organization. Your logo will show up here with a 
 14th Inter-Research-Institute Student Seminar in Computer Science](https://events.iitgn.ac.in/2020/IRISS/)
 
 ### Paper Citations
+- Stanford Report Title: [Model Compression for Chinese-English Neural Machine Translation ](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1214/reports/final_reports/report013.pdf)
 - Title: [Artificial Intelligence in the IoT Era: A Review of Edge AI Hardware and Software](https://ieeexplore.ieee.org/abstract/document/9770931/) 
   - [Download pdf](https://fruct.org/publications/fruct31/files/Sip.pdf)
 - Title: [Tiny transformers for environmental sound classification at the edge](https://arxiv.org/abs/2103.12157) 
